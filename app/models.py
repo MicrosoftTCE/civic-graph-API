@@ -76,7 +76,7 @@ class Entity(Base):
         return '<Entity %r>' % (self.name)
 
     def json(self):
-        return {'id': self.id,
+        return {'ID': self.id, # Make ID lowercase.
                 'name': self.name,
                 'nickname': self.nickname,
                 'location': self.location,
@@ -92,8 +92,8 @@ class Entity(Base):
                 'expenses': [expense.json() for expense in self.expenses],
                 'funding_given': [funding.json('given') for funding in self.funding_given],
                 'funding_received': [funding.json('received') for funding in self.funding_received],
-                'investments_made': [investment.json('given') for investment in self.investments_received],
-                'investments_received': [investment.json('received') for investment in self.investments_made],
+                'investments_made': [investment.json('given') for investment in self.investments_made],
+                'investments_received': [investment.json('received') for investment in self.investments_received],
                 # Why is this 'entity' and not 'name'?
                 'collaborations': [{'entity': collaboration.name} for collaboration in self.collaborations],
                 'relations': [{'entity': relation.name} for relation in self.relations],

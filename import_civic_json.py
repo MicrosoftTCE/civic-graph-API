@@ -16,7 +16,6 @@ with open('civic.json') as f:
 # You'll have to catch some manually because civic.json is broken
 # -- some IDs reference un-rendered versions of nodes.
 old_to_new = {}
-#new_to_old = {}
 
 connections = {}
 connections['collaborations'] = rawdata['collaboration_connections']
@@ -133,12 +132,14 @@ def connect_finance(connections, ftype):
                 target = Entity.query.filter_by(id=old_to_new[finance['target']]).first()
                 if ftype == 'funding':
                     funding = Funding(finance['amount'], finance['year'])
-                    source.funding_given.append(funding)
-                    target.funding_received.append(funding)
+                    # Odd civic.json convention of source/target "received"
+                    source.funding_received.append(funding)
+                    target.funding_given.append(funding)
                 elif ftype == 'investment':
                     investment = Investment(finance['amount'], finance['year'])
-                    source.investments_made.append(investment)
-                    target.investments_received.append(investment)
+                    # Odd civic.json convention of source/target "received"
+                    source.investments_received.append(investment)
+                    target.investments_made.append(investment)
             except KeyError as e:
                 # Some IDs in civic.json aren't rendered... 
                 # Point to them manually.
