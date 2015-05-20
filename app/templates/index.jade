@@ -1,0 +1,100 @@
+extends layout
+
+block content
+	nav#main-nav.main-nav
+		div#athena-left-nav
+			.filter-name-location.input-control.text
+				input#search-text(type='text', placeholder='Filter by name or location', list='data-name-location')
+			.group-items.types
+				div
+					label
+						.typestext
+							strong
+								h3 Types
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_forpro(type='checkbox', name='forprofit', data-show='for-profit', value='For-Profit', checked='checked')
+							span.check
+							h4 For-Profit
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_nonpro(type='checkbox', name='nonprofit', data-show='non-profit', value='Non-Profit', checked='checked')
+							span.check
+							h4 Non-Profit
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_gov(type='checkbox', name='government', data-show='government', value='Government', checked='checked')
+							span.check
+							h4 Government
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_individ(type='checkbox', name='individual', data-show='individual', value='Individual', checked='checked')
+							span.check
+							h4 Individual
+			.group-items.connections
+				div
+					label
+						.connectionstext
+							strong
+								h3 Connections
+							br
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_invest(type='checkbox', name='invest', data-show='investing', value='Investing', checked='checked')
+							span.check
+							h4 Investing
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_fund(type='checkbox', name='fund', data-show='funding', value='Funding', checked='checked')
+							span.check
+							h4 Funding
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_porucs(type='checkbox', name='poruc', data-show='poruc', value='Poruc', checked='checked')
+							span.check
+							h4 Collaboration
+					.input-control.checkbox(data-role='input-control')
+						label
+							input#cb_data(type='checkbox', name='data', data-show='data', value='Data', checked='checked')
+							span.check
+							h4 Data
+			.group-items.relevance
+				div
+					label
+						.sized_bytext
+							strong
+								h3 Sized By
+					.input-control.radio.default-style.sizeby(data-role='input-control')
+						label
+							input#cb_emp(type='radio', name='relevance', value='Employees', checked='checked')
+							span.check
+							h4 Employees
+					.input-control.radio.default-style.sizeby(data-role='input-control')
+						label
+							input#cb_numtwit(type='radio', name='relevance', value='Followers')
+							span.check
+							h4 Twitter Followers
+			.group-items.current-view
+				div
+					label
+						.viewstext
+							strong
+								h3 View
+					.input-control.radio.default-style.views(data-role='input-control')
+						label
+							input#cb_networkview(type='radio', name='views', value='Network Diagram', checked='checked')
+							span.check
+							h4 Network
+					.input-control.radio.default-style.views(data-role='input-control')
+						label
+							input#cb_mapview(type='radio', name='views', value='Map')
+							span.check
+							h4 Map
+	.page-wrap
+		.content
+		#edit
+		.example
+			#info
+		include ./partials/index-footer
+	script(type='text/javascript', src='/static/scripts/underscore-min.js')
+	script(type='text/javascript', src='/static/scripts/vis.js')

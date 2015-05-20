@@ -28,12 +28,21 @@ keypeople_table = Table('keypeople_table', Base.metadata,
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 
+"""
+location_table = Table('location_table', Base.metadata,
+    Column('location_id', Integer, ForeignKey('location.id')),
+    Column('entity_id', Integer, ForeignKey('entity.id'))
+)
+"""
+
 class Entity(Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     nickname = Column(String(100))
     location = Column(String(100))
+    #locations = relationship('Location', secondary=location_table,
+    #                            backref=backref('entity', lazy='dynamic'))
     entitytype = Column(String(100))
     categories = relationship('Category', secondary=category_table, 
                                 backref=backref('entity', lazy='dynamic'))
@@ -79,7 +88,7 @@ class Entity(Base):
         return {'ID': self.id, # Make ID lowercase.
                 'name': self.name,
                 'nickname': self.nickname,
-                'location': self.location,
+                'location': [{'location': self.location}],
                 # Change this so we don't conflict with language keyword type.
                 'type': self.entitytype,
                 'categories': [category.name for category in self.categories],
@@ -116,9 +125,59 @@ class Category(Base):
 
     def json(self):
         return {'name': self.name, 'entities': [entity.json() for entity in entities]}
+"""
+class Location(Base):
+    __tablename__ = 'location'
+    id = Column(Integer, primary_key=True)
+    entities = relationship('Entity', secondary=location_table,
+                               backref=backref('location', lazy='dynamic'))
+    
+    city_name = Column(String(100))
+    state_code = Column(String(10))
+    state_name = Column(String(100))
+    country_code = Column(String(10))
+    country_name = Column(String(100))
+    city_lat = Column(Float)
+    city_long = Column(Float)
 
+    def __init__(self, city_name, state_code, state_name, country_code, country_name, city_lat, city_long):
+        self.city_name = city_name
+        self.state_code = state_code
+        self.state_name = state_name
+        self.country_code = country_code
+        self.country_name = country_name
+        self.city_lat = city_lat
+        self.city_long = city_long
+
+    def __repr__(self):
+        name = ''
+        if self.city_name and self.state_code:
+            name = self.city_name +', '+ self.state_name
+        elif self.city_name and self.country_name and not self.state_code:
+            name = self.city_name +', '+ self.country_name
+        elif self.country_name and not self.city_name and not self.state_name:
+            name = self.country_name
+
+        return '<Location %r>' % name
+
+    def json(self):
+        name = ''
+        if self.city_name and self.state_code:
+            name = self.city_name +', '+ self.state_name
+        elif self.city_name and self.country_name and not self.state_code:
+            name = self.city_name +', '+ self.country_name
+        elif self.country_name and not self.city_name and not self.state_name:
+            name = self.country_name
+
+        return {'location': name}
+
+    def json_full(self):
+        return {'city_name': self.city_name, 'state_code': self.state_code, 'state_name': self.state_name,
+                'country_code': self.country_code, 'country_name': self.country_name,
+                'city_lat': self.city_lat, 'city_long': self.city_long}
+"""
 class Finance(Base):
-    __tablename__ = 'revenue'
+    __tablename__ = 'finance'
     id = Column(Integer, primary_key=True)
     entity_id = Column(Integer, ForeignKey('entity.id'))
     amount = Column(Float)

@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  //include ./partials/left-nav
+  .grid.mainbody
+    .row.about-text
+      br
+      h2.span8.offset2
+        strong Welcome to Civic Graph developers portal!
+      p.span8.offset2 Civic Graph is an open source data and visualization project initiated by Microsoft's Technology & Civic Innovation team. 
+      p.span8.offset2 The purpose of Civic Graph is to provide insights into the burgeoning civic tech community -- who it consists of, what their respective focus areas are, and how they connect to one another. 
+      p.span8.offset2 Civic Graph takes a broad definition of civic tech and includes for-profit, non-profit, government agencies, and individuals.  
+      p.span8.offset2 We see Civic Graph as an educational tool, as a platform to crowdsource up-to-date information regarding the civic tech community, and as a basis to use the data to build out new visualizations, tools, and apps. 
+      p.span8.offset2 We invite you to contribute to Civic Graph by: 
+      ol.span8.offset2(style='padding-left:50px;')
+        li 
+          a(href='/')
+            span Adding 
+          span or 
+          a(href='/')
+            span editing
+          span  our current information
+        li
+          span Use Civic Graph's data in other projects via our 
+          a(href='#API') 
+            span API 
+        li
+          span Help us to improve Civic Graph by contributing to our 
+            a(href='https://github.com/microsoftny/civic-graph')
+              span source code  
+      div.span8.offset2(style='margin-top:25px;')
+        p Sincerely, 
+      div.span8.offset2
+        p The Civic Graph team. 
+    .row.about-text
+      br
+      h2.span8.offset2#API
+        strong API 
+      div.span8.offset2 
+        | Use Civic Graph database to build your own project or to integrate with an existing project.
+      h3.span8.offset2(style='margin-top:10px;') Python 3.0
+      code.span8.offset2
+        pre 
+          | import json
+          | from urllib.request import urlopen url = "https://civicinsight.azurewebsites.net/athena"
+          | response = urlopen(url)
+          | contents = response.read()
+          | text = contents.decode('utf8')
+          | data = json.loads(text)
+          | print(json.dumps(data, indent=4))
+      h3.span8.offset2(style='margin-top:10px;') Python 2.7.8 
+      code.span8.offset2
+        pre 
+          | import json import urllib url = "https://civicinsight.azurewebsites.net/athena"
+          | response = urllib.urlopen(url)
+          | contents = response.read()
+          | text = contents.decode('utf8')
+          | data = json.loads(text)
+          | print(json.dumps(data, indent=4))
+  include ./partials/relative-footer

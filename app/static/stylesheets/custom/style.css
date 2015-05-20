@@ -1,0 +1,644 @@
+/**********NAVBAR SHADOW************/
+
+.metro .shadow {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 3px 8px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 3px 8px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.metro .navigation-bar .navigation-bar-content .element,
+.metro .navbar .navigation-bar-content .element,
+.metro .navigation-bar .navbar-content .element,
+.metro .navbar .navbar-content .element,
+.metro .navigation-bar .navigation-bar-content .element-divider,
+.metro .navbar .navigation-bar-content .element-divider,
+.metro .navigation-bar .navbar-content .element-divider,
+.metro .navbar .navbar-content .element-divider {
+  height: 65px !important;
+}
+.metro .navigation-bar .navigation-bar-content .element,
+.metro .navbar .navigation-bar-content .element,
+.metro .navigation-bar .navbar-content .element,
+.metro .navbar .navbar-content .element {
+  padding: 25px !important;
+}
+/* Clear fix */
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Document styling */
+
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 14px;
+  padding: 0px 0px 30px 0px;
+}
+#wrapper {
+  top: 65px;
+  position: relative;
+}
+.metro h1 {
+  font-size: 3.7rem;
+  line-height: 3.7rem;
+}
+.metro .example {
+  margin-top: 1%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  padding: 10px 10px 10px 10px;
+  min-height: 88%;
+}
+.metro .navigation-bar {
+  position: fixed;
+  z-index: 999;
+  /*height:6%;*/
+}
+.page-wrap {
+  position: relative;
+  left: 0%;
+}
+.navigation-bar-content.container {
+  width: 100% !important;
+}
+.navstyle {
+  /*width: 30%;*/
+
+  font-weight: 100;
+  margin: 0 auto;
+  float: left;
+  padding-top: 5px;
+  padding-left: 20px;
+}
+.navstyle div.large,
+.navstyle span.large {
+  font-size: 2.0em;
+  text-shadow: 0px 1px 0px #444;
+}
+.navstyle div.small,
+.navstyle span.small {
+  font-size: 1.0em;
+  text-shadow: 0px 1px 0px #444;
+}
+.navigation-items {
+  padding: 0px !important;
+}
+.athena-logo {
+  display: inline-block !important;
+  float: left !important;
+}
+.msft-logo {
+  display: inline-block !important;
+  float: right !important;
+}
+/*a img#logo{
+  margin-top:18px;
+  padding-top:5px;
+  /*padding-right:20px;
+}*/
+
+.current-view,
+.types,
+.connections,
+.relevance {
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 8%;
+  width: 80%;
+  margin-top: 2%;
+}
+.filter-name-location.input-control.text {
+  margin-top: 15px;
+  margin-left: 8%;
+  height: 4%;
+  width: 83%;
+}
+#logo {
+  padding-right: 20px;
+}
+footer,
+footer a {
+  color: #666;
+}
+.twitter-share-button {
+  width: 82px !important;
+}
+#social {
+  margin-bottom: 30px;
+}
+label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  *overflow: hidden;
+}
+label h3 {
+  display: inline;
+}
+#athena-left-nav label h3:hover {
+  cursor: context-menu;
+}
+.rel-icon {
+  margin: 10px;
+}
+.page-wrap {
+  float: right;
+  width: 83%;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+.main-nav-check {
+  display: none;
+}
+#info {
+  /*padding-top: 20px;*/
+
+  padding-bottom: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.main-nav {
+  position: fixed;
+  /*top: 6%;*/
+
+  top: 60px;
+  width: 17%;
+  height: 100%;
+  background: rgb(207, 208, 208);
+  z-index: 999;
+  transition: width 0.3s ease;
+  a {
+    display: block;
+    background: linear-gradient(#3E3E3E, #383838);
+    border-top: 1px solid #484848;
+    border-bottom: 1px solid #2E2E2E;
+    color: white;
+    padding: 15px;
+    &:hover, &:focus {
+      background: linear-gradient(#484848, #383838);
+    }
+  }
+  &:after {
+    content: "";
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 34px;
+    background: linear-gradient(left, rgba(black, 0), rgba(black, 0.4));
+  }
+}
+.content {
+  padding: 20px 20px 20px 20px;
+  /*  width:80%;
+  margin:0 auto;*/
+}
+input[type="checkbox"]:checked ~ .check:after {
+  position: relative;
+  top: 20%;
+  left: 100%;
+  /*margin: 17px;
+  top: -14px;*/
+}
+input[type="radio"]:checked ~ .check:after {
+  position: relative;
+  top: 0%;
+  left: 0%;
+}
+.metro .example h1 {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 3.0rem;
+}
+.metro .example h5 {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #000000;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 2px;
+  margin: 0px;
+}
+.metro .example h6 {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #8b8176;
+  font-weight: normal;
+  line-height: 2px;
+  display: inline-block;
+  margin-left: 2px;
+}
+.metro .typestext h3 {
+  font-size: 20px;
+  color: #000000;
+}
+.metro .connectionstext h3 {
+  font-size: 20px;
+  color: #000000;
+}
+.metro .viewstext h3 {
+  color: rgba(0, 0, 0, 1);
+  font-size: 20px;
+}
+.metro .sized_bytext h3 {
+  font-size: 20px;
+  color: #000000;
+}
+.metro .typestext {
+  margin-bottom: 5%;
+}
+.metro .connectionstext {
+  margin-bottom: 5%;
+}
+.metro .sized_bytext {
+  margin-bottom: 5%;
+}
+.metro .navstyle .large {
+  font-size: 24px;
+  font-family: "Segoe UI Semibold", sans-serif;
+}
+.metro .navstyle .small {
+  font-size: 16px;
+}
+.metro .input-control.checkbox,
+.metro .input-control.radio,
+.metro .input-control.switch,
+.metro .input-control.text,
+.metro .input-control.password,
+.metro .input-control.select,
+.metro .input-control.textarea {
+  margin-bottom: 5pt;
+}
+.metro .main-nav h4 {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #000000;
+  font-weight: normal;
+  display: inline-block;
+  margin-left: 20pt;
+}
+/*.metro .text.input-control input, .metro .password.input-control input, .metro .file.input-control input, .metro .email.input-control input, .metro .tel.input-control input, .metro .number.input-control input {
+    border: 0px;
+    background-color: #f2f2f2;
+    color: #8b8176; ;
+    outline: 0;
+    border-color: none;*/
+}
+li {
+  list-style: none;
+}
+#website-name {
+  color: #ffffff;
+  text-decoration: none;
+}
+.metro .example h5 {
+  line-height: 2.00rem;
+}
+.metro .example ul h5 {
+  display: inline;
+}
+#edit {
+  /*padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+  padding-left: 10px;*/
+
+  z-index: 999;
+  display: inline-block;
+  float: right;
+  width: 25%;
+  /*background-color: #f9fafa !important;*/
+
+  text-align: center;
+  margin-top: 2%;
+  margin-right: 2%;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+#edit h1 {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  /*font-weight: bold;*/
+
+  font-weight: normal;
+  line-height: 2.0rem;
+  color: #2e92cf;
+}
+#edit h1:hover {
+  cursor: pointer;
+  color: rgba(45, 173, 237, 0.8);
+}
+.metro h4 {
+  font-family: 'Segoe UI Light_', 'Open Sans Light', Verdana, Arial, Helvetica, sans-serif;
+}
+/*Webform*/
+
+#webform-head {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 1);
+}
+.webform-content {
+  text-align: left;
+}
+.form-header {
+  margin-top: 10px !important;
+}
+.webform-entities,
+.webform-categories,
+.webform-influence {
+  margin-left: 5%;
+}
+.webform-labels {
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif !important;
+  font-size: 14px !important;
+  color: #000000 !important;
+  font-weight: normal !important;
+  display: inline-block !important;
+  margin-left: 20pt !important;
+}
+input[name="name"] {
+  margin-bottom: 10px;
+}
+button#submit-A,
+button#submit-B {
+  text-align: center;
+  margin-left: 45%;
+  margin-top: 10%;
+}
+.webform-footer {
+  margin-top: 20px;
+}
+#toFormC {
+  display: inline-block;
+  /*color:#269FD9;*/
+}
+#toFormC:hover {
+  color: #269FD9;
+  cursor: pointer;
+}
+.webform-content input:focus {
+  border: #646464;
+}
+.metro .webform-content h3,
+.metro h2 {
+  font-size: 20px !important;
+}
+.metro .webform-content h4 {
+  font-size: 16px !important;
+}
+.metro .webform-content div label h4 {
+  font-size: 14px !important;
+}
+.metro .example {
+  background-color: rgb(207, 208, 208) !important;
+}
+.metro h3 {
+  color: rgba(0, 0, 0, 1);
+}
+/*Macbook Pro 13"*/
+
+@media (max-width: 1271px) and (min-width: 986px) {
+  #info > div.webform-content > div.webform-categories > div:nth-child(4) {
+    margin-top: -11px !important;
+  }
+  #info > div.webform-content > div.webform-categories > div:nth-child(3) > label > span {
+    margin-bottom: 16px;
+  }
+  #info > div.webform-content > div.webform-categories > div:nth-child(3) > label > h4 {
+    display: inline-block !important;
+    width: 70%;
+    margin-bottom: 0px;
+  }
+}
+/*Optimized for the Surface*/
+
+@media (max-height: 600px) and (max-width: 1300px) {
+  .metro .navstyle .large {
+    font-size: 24px;
+    font-family: "Segoe UI Semibold", sans-serif;
+  }
+  .metro .navstyle .small {
+    font-size: 16px;
+  }
+  .metro h1 {
+    font-size: 3.0rem;
+    line-height: 3.0rem;
+  }
+  .metro .row h3 {
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+  }
+  .metro .example h1 {
+    font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+  }
+  .metro .example h5 {
+    font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #000000;
+    font-weight: normal;
+    display: inline-block;
+  }
+  .metro .example h6 {
+    font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #8b8176;
+    font-weight: normal;
+    display: inline-block;
+  }
+  .metro .example div label {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+  /*For checkboxes*/
+  /*.metro .input-control.checkbox .check, .metro .input-control.radio .check{
+    width:15px;
+    height:15px;
+  }*/
+
+  .metro .navigation-bar {
+    position: fixed;
+    z-index: 999;
+    /*height:11%;*/
+  }
+  #wrapper {
+    position: relative;
+  }
+  .page-wrap {
+    float: right;
+    width: 82%;
+    height: 100%;
+    position: relative;
+    left: 0%;
+    transition: width 0.3s ease;
+  }
+  .navstyle {
+    width: 30%;
+    font-weight: 100;
+    margin: 0 auto;
+    float: left;
+    padding-top: 5px;
+  }
+  #info {
+    font-size: 12px;
+  }
+  /* a img#logo{
+    margin-top:10px;
+    padding-top:5px;
+    /*padding-right:20px;
+  }*/
+
+  #logo {
+    padding-right: 20px;
+  }
+  .main-nav {
+    /*top:11%; */
+
+    top: 65px;
+    position: fixed;
+    width: 18%;
+    height: 100%;
+    background: rgb(207, 208, 208);
+    z-index: 999;
+    transition: width 0.3s ease;
+    a {
+      display: block;
+      background: linear-gradient(#3E3E3E, #383838);
+      border-top: 1px solid #484848;
+      border-bottom: 1px solid #2E2E2E;
+      color: white;
+      padding: 15px;
+      &:hover, &:focus {
+        background: linear-gradient(#484848, #383838);
+      }
+    }
+    &:after {
+      content: "";
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 34px;
+      background: linear-gradient(left, rgba(black, 0), rgba(black, 0.4));
+    }
+  }
+  button#submit-A {
+    text-align: center;
+    margin-top: 0 !important;
+    margin-left: 5% !important;
+  }
+  button#submit-B {
+    text-align: center;
+    margin-left: 40%;
+    margin-top: 10%;
+  }
+  #nextPhase {
+    margin-top: 10% !important;
+    margin-left: 40% !important;
+  }
+}
+@media (max-width: 800px) {
+  .page-wrap {
+    top: 0px;
+  }
+}
+#editBox {
+  visibility: hidden;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+}
+.land {
+  fill: #ccc;
+}
+.state-boundary {
+  fill: none;
+  stroke: #000;
+}
+
+.autocomplete-suggestions {
+  border: 1px solid #999;
+  background: #FFF;
+  overflow: auto;
+  width: 350px !important;
+}
+
+.autocomplete-suggestion {
+  padding: 10px 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.autocomplete-suggestion:hover {
+  background-color: #269FD9;
+}
+.metro strong {
+  font-weight: normal;
+  font-family: 'Segoe UI_', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+}
+
+.filter-name-location {
+  position: relative;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/*.routes {
+  opacity: 1;
+}*/
+
+.pinpoint.hidden {
+  opacity: 0.1;
+}
+
+.routes.hidden {
+  opacity: 0.1;
+}
+
+.routes.funding_connections {
+  stroke: #6f5da8;
+} 
+
+.routes.investment_connections {
+  stroke: #267272;
+} 
+
+.routes.collaboration_connections {
+  stroke: #ebe826;
+}
+
+.routes.data_connections {
+  stroke: #bf4896;
+}
+
+.entities.For-Profit {
+  fill: #6f5da8;
+} 
+
+.entities.Non-Profit {
+  fill: #267272;
+} 
+
+.entities.Government {
+  fill: #ebe826;
+}
+

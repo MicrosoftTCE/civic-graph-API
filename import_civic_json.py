@@ -12,6 +12,9 @@ if os.path.exists('civic.db'):
 with open('civic.json') as f:
     rawdata = json.loads(f.read())
 
+#with open('cities.json') as f:
+#    cities = json.loads(f.read())['nodes']
+
 # Map old and new IDs to transfer connections
 # You'll have to catch some manually because civic.json is broken
 # -- some IDs reference un-rendered versions of nodes.
@@ -51,7 +54,16 @@ def categorize(entity, categories):
         for c in categories:
             category = Category.query.filter_by(name=c).first()
             entity.categories.append(category)
+"""
+def create_cities():
+    if cities:
+        for c in cities:
+            location = Location(c['city_name'], c['state_code'], c['state_name'], 
+                c['country_code'], c['country_name'], c['city_lat'], c['city_long'])
+            db.add(location)
 
+        db.commit()
+"""
 def create_key_people():
     # Create all key_people in the db.
     key_people = set()
@@ -187,6 +199,9 @@ create_key_people()
 # Create all relations in the db.
 create_relations()
 
+# Create all cities in the db.
+#create_cities()
+
 for node in nodes:
     create_entity(node)
 # Manually defining IDs broken in civic.json...
@@ -200,6 +215,7 @@ db.commit()
 
 print "Wrote %d Entity entries." % len(Entity.query.all())
 print "Wrote %d Category entries." % len(Category.query.all())
+#print "Wrote %d Location entries." % len(Location.query.all())
 print "Wrote %d Keyperson entries." % len(Keyperson.query.all())
 print "Wrote %d Revenue entries." % len(Revenue.query.all())
 print "Wrote %d Expense entries." % len(Expense.query.all())

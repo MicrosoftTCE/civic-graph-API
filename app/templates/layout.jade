@@ -1,0 +1,32 @@
+doctype html
+html
+	head
+		title= title
+
+		link(rel='shortcut icon', href='/static/images/microsoft.ico')
+		link(rel='stylesheet', href='/static/stylesheets/custom/reset.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/normalize.css')
+		link(rel='stylesheet', href='/static/stylesheets/metro/css/metro-bootstrap.css')
+		link(rel='stylesheet', href='/static/stylesheets/metro/css/metro-bootstrap-responsive.css')
+		link(rel='stylesheet', href='/static/stylesheets/metro/min/iconFont.min.css')
+		link(rel='stylesheet', href='/static/stylesheets/font-awesome/css/font-awesome.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/style.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/herograph.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/checkboxes.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/footer.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/left-nav.css')
+		link(rel='stylesheet', href='/static/stylesheets/custom/developer-style.css')
+
+		script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js')
+		script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js')
+		script(type='text/javascript', src='http://d3js.org/d3.geo.projection.v0.min.js')
+		script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js')
+		script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.7/jquery.devbridge-autocomplete.min.js')
+		script(type='text/javascript', src='http://d3js.org/queue.v1.min.js')
+		script(type='text/javascript', src='http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0')
+		script(type='text/javascript', src='http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js')
+
+	body.metro
+		include ./partials/nav-bar
+		#wrapper
+			block content
