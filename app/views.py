@@ -1,14 +1,15 @@
 from flask import jsonify, render_template
-from app import app
+from app import app, cache
 from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, data_table, collaboration_table
 from database import db
 
-
 @app.route('/')
+@cache.cached(key_prefix='index')
 def index():
     return render_template('index.jade')
 
 @app.route('/athena')
+@cache.cached(key_prefix='civic')
 def civic_json():
     return jsonify(
         nodes=nodes(),
