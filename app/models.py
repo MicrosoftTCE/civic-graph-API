@@ -85,7 +85,7 @@ class Entity(Base):
         return '<Entity %r>' % (self.name)
 
     def json(self):
-        return {'ID': self.id, # Make ID lowercase.
+        return {'ID': self.id-1, # Make ID lowercase.
                 'name': self.name,
                 'nickname': self.nickname,
                 'location': [{'location': self.location}],
