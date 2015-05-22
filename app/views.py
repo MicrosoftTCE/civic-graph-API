@@ -23,6 +23,7 @@ def nodes():
     return [entity.json() for entity in Entity.query.all()]
 
 def funding_connections():
+    # Watch out for IDs/indexes: http://stackoverflow.com/a/16824896
     return [{'source': c.giver_id-1, 'target': c.receiver_id-1} for c in Funding.query.all()]
 
 def investment_connections():
@@ -35,3 +36,7 @@ def data_connections():
 def collaboration_connections():
     collaborationconnections = db.query(collaboration_table).all()
     return [{'source': source-1, 'target': target-1} for source, target in collaborationconnections]
+
+@app.route('/save')
+def save():
+    pass
