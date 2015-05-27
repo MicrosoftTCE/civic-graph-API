@@ -1,0 +1,28 @@
+<h2>Civic Graph</h2>
+<hr>
+<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
+<h3>Types</h3>
+<div class='checkbox' ng-repeat='type in entityTypes'>
+    <label><input type='checkbox' ng-model='type.enabled'>{{type.name}}</label>
+</div>
+
+<h3>Connections</h3>
+<div class='checkbox' ng-repeat='type in connectionTypes'>
+    <label><input type='checkbox' ng-model='type.enabled'>{{type.name}}</label>
+</div>
+
+<h3>Sized By</h3>
+<div class='radio'>
+    <label><input type='radio' data-ng-model='sizeBy' value='employees'>Employees</label>
+</div>
+<div class='radio'>
+    <label><input type='radio' data-ng-model='sizeBy' value='twitter'>Twitter Followers</label>
+</div>
+
+<h3>View</h3>
+<div class='radio'>
+    <label><input type='radio' data-ng-model='view' value='network'>Network</label>
+</div>
+<div class='radio'>
+    <label><input type='radio' data-ng-model='view' value='map'>Map</label>
+</div>

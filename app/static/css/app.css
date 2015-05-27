@@ -1,0 +1,34 @@
+html, body {
+}
+
+.main-container {
+}
+
+.row {
+}
+
+.control-panel {
+}
+
+.display-panel {
+}
+
+.details-panel {
+}
+
+.edit-panel {
+}
+
+.edit-form {
+}
+
+.edit-marker {
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+    opacity: 0.6;
+}
+
+.edit-marker:hover {
+    opacity: 1;
+}

@@ -4,12 +4,11 @@ from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, I
 from database import db
 
 @app.route('/')
-@cache.cached(key_prefix='index')
 def index():
-    return render_template('index.jade')
+    return render_template('index.html')
 
-@app.route('/athena')
-@cache.cached(key_prefix='civic')
+@app.route('/entities')
+@cache.cached(key_prefix='entities', timeout=None)
 def civic_json():
     return jsonify(
         nodes=nodes(),
@@ -18,6 +17,11 @@ def civic_json():
         data_connections=data_connections(),
         collaboration_connections=collaboration_connections()
     )
+
+@app.route('/categories')
+@cache.cached(key_prefix='categories', timeout=None)
+def categories():
+    return jsonify(categories=[category.name for category in Category.query.all()])
 
 def nodes():
     return [entity.json() for entity in Entity.query.all()]

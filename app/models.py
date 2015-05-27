@@ -85,7 +85,7 @@ class Entity(Base):
         return '<Entity %r>' % (self.name)
 
     def json(self):
-        return {'ID': self.id-1, # Make ID lowercase.
+        return {'id': self.id-1,
                 'name': self.name,
                 'nickname': self.nickname,
                 'location': [{'location': self.location}],
@@ -216,7 +216,8 @@ class Financeconnection(Base):
 
     def json(self, direction):
         name = self.receiver.name if direction == 'given' else self.giver.name
-        return {'amount': self.amount, 'year': self.year, 'entity': name}
+        finance_id = self.receiver_id if direction == 'given' else self.giver_id
+        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': finance_id-1}
 
     def json_connection(self):
         # TODO: Remove connectiontype = Given/Received
