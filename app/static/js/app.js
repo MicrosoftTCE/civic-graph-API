@@ -27,6 +27,12 @@ angular.module('civic-graph', ['ui.bootstrap'])
         {'name': 'Data', 'enabled': true}
     ];
 
+    $scope.influenceTypes = [
+        {'name': 'Local Influence', 'value': 'local'},
+        {'name': 'National Influence', 'value': 'national'},
+        {'name': 'Global Influence', 'value': 'global'}
+    ]
+
     $scope.sizeBy = 'employees';
     $scope.view = 'network';
 
