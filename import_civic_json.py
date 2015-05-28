@@ -170,6 +170,8 @@ def create_entity(node):
     entity.location = node['location']
     entity.entitytype = node['type']
     entity.influence = node['influence']
+    if entity.influence:
+        entity.influence = entity.influence.capitalize()
     entity.employees = node['employees']
     entity.url = node['url']
     entity.twitter_handle = node['twitter_handle']
