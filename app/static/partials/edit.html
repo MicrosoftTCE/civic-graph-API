@@ -2,7 +2,9 @@
 <form class='edit-form' novalidate>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
-    <input ng-repeat='location in editEntity.location' type='text' class='form-control' ng-model='location.location' placeholder='City'>
+    <div>Locations:
+        <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model="location.location" typeahead='address for address in addressSearch($viewValue)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
+    </div>
     Circle of Influence:
     <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
     What type of entity?

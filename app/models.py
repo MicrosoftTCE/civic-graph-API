@@ -88,7 +88,7 @@ class Entity(Base):
         return {'id': self.id-1,
                 'name': self.name,
                 'nickname': self.nickname,
-                'location': [{'location': self.location}],
+                'locations': [{'location': self.location}],
                 # Change this so we don't conflict with language keyword type.
                 'type': self.entitytype,
                 'categories': [category.name for category in self.categories],

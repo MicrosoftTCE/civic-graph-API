@@ -75,6 +75,18 @@ angular.module('civic-graph', ['ui.bootstrap'])
     }
 })
 .controller('editCtrl', function($scope, $http) {
+    $scope.addressSearch = function(search) {
+        return $http.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {'address': search, 'sensor': false} })
+            .then(function(locations) { return _.pluck(locations.data.results, 'formatted_address'); })
+    }
+
+    $scope.addLocation = function(locations) {
+        if (!_.some(locations, {'location':''})) {
+            locations.push({'location':''});
+        }
+    }
+    $scope.addLocation($scope.editEntity.locations);
+
     $scope.editCategories = _.map($scope.categories, function(c) {
         return {'name': c, 'enabled': _.includes($scope.editEntity.categories, c)}
     });
@@ -137,6 +149,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.save = function() {
         // Clear the empty unedited new items.
         $scope.editEntity.categories = _.pluck(_.filter($scope.editCategories, 'enabled'), 'name');
+        _.remove($scope.editEntity.locations, function(l){return l.location == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
         _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
