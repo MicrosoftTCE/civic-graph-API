@@ -27,11 +27,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
         {'name': 'Data', 'enabled': true}
     ];
 
-    $scope.influenceTypes = [
-        {'name': 'Local Influence', 'value': 'local'},
-        {'name': 'National Influence', 'value': 'national'},
-        {'name': 'Global Influence', 'value': 'global'}
-    ]
+    $scope.influenceTypes = ['Local', 'National', 'Global']
 
     $scope.sizeBy = 'employees';
     $scope.view = 'network';
@@ -66,7 +62,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
         'investments_received': 5,
         'collaborations': 5,
         'data': 5,
-        'revenue': 5,
+        'revenues': 5,
         'expenses': 5
     }
     // Reset this when entity changes.
@@ -96,8 +92,9 @@ angular.module('civic-graph', ['ui.bootstrap'])
         finance.entity_id = entity.id;
         // Add this finance connection to other entity's finance connections.
         // Watch out for edge cases -- acts on any onSelect. Also, doesn't track changes to year/amount.
-        var newFinance = {'id': $scope.editEntity.id, 'entity':$scope.editEntity.name, 'year': finance.year,'amount': finance.amount};
+        var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount};
         entity[type].push(newFinance);
+        // Push connection to connections.
     }
 
     $scope.addFinanceConnection = function(finances) {
@@ -109,16 +106,48 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addFinanceConnection($scope.editEntity.funding_received);
     $scope.addFinanceConnection($scope.editEntity.investments_received);
     $scope.addFinanceConnection($scope.editEntity.funding_given);
-     $scope.addFinanceConnection($scope.editEntity.investments_made);
+    $scope.addFinanceConnection($scope.editEntity.investments_made);
+
+    $scope.setConnection = function(entity, connection, type) {
+        connection.entity_id = entity.id;
+        // Add this connection to other entity's connections.
+        var newConnection = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name};
+        entity[type].push(newConnection);
+        // Push connection to connections.
+    }
+
+    $scope.addConnection = function(connections) {
+        // Add an empty connection to edit if none exist.
+        if (!_.some(connections, {'entity':''})) {
+            connections.push({'entity':''});
+        }
+    }
+    $scope.addConnection($scope.editEntity.data);
+    $scope.addConnection($scope.editEntity.collaborations);
+
+    $scope.addFinance = function(records) {
+        // Add new finance field if all current fields are valid.
+        if (_.every(records, function(r) {return r.amount > 0 && r.year > 1750})) {
+            records.push({'amount': null, 'year': null});
+        }
+    }
+    $scope.addFinance($scope.editEntity.revenues);
+    $scope.addFinance($scope.editEntity.expenses);
 
     $scope.save = function() {
+        // Clear the empty unedited new items.
         $scope.editEntity.categories = _.pluck(_.filter($scope.editCategories, 'enabled'), 'name');
-        _.remove($scope.editEntity.key_people, function(p){return p.name=='';});
-        _.remove($scope.editEntity.funding_received, function(f){return f.entity=='';});
-        _.remove($scope.editEntity.investments_received, function(f){return f.entity=='';});
-        _.remove($scope.editEntity.funding_given, function(f){return f.entity=='';});
-        _.remove($scope.editEntity.investments_made, function(f){return f.entity=='';});
+        _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
+        _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.funding_given, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.investments_made, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.data, function(d){return d.entity == '';});
+        _.remove($scope.editEntity.collaborations, function(c){return c.entity == '';});
+        _.remove($scope.editEntity.revenues, function(r){return r.amount <= 0 || r.year < 1750;});
+        _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
         // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
         $scope.stopEdit();
     }
+
 });

@@ -54,11 +54,31 @@
         </div>
     </div>
     Circle of Influence:
-    <div class='radio' ng-repeat='influence in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influence.value}}'>{{influence.name}}</label></div>
-    <!-- Data sharing -->
-    <!-- Collaborators -->
-    <!-- Revenues -->
-    <!-- Expenses --> 
+    <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+    <div>Who provides them with data?
+        <input type='text' class='form-control' ng-repeat='data in editEntity.data' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data')" ng-change='addConnection(editEntity.data)' placeholder='Data Resource'>
+    </div>
+    <div>Collaboration
+        <input type='text' class='form-control' ng-repeat='collaboration in editEntity.collaborations' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
+    </div>
+    <div>Revenue
+        <div ng-repeat='revenue in editEntity.revenues'>
+            <div class='input-group'>
+            <span class="input-group-addon">$</span>
+            <input type='number' class='form-control' ng-model='revenue.amount' placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
+            </div>
+            <input type='number' class='form-control' ng-model='revenue.year' placeholder='Year' ng-change='addFinance(editEntity.revenues)'>
+        </div>
+    </div>
+    <div>Expenses
+        <div ng-repeat='expense in editEntity.expenses'>
+            <div class='input-group'>
+            <span class="input-group-addon">$</span>
+            <input type='number' class='form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
+            </div>
+            <input type='number' class='form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
+        </div>
+    </div>
 </form>
 
 <button class='btn btn-default' ng-click='save()'>Save</button>
