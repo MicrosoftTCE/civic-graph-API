@@ -1,8 +1,8 @@
 <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
 <h3>{{currentEntity.name}}</h3>
-Type of Entity: {{currentEntity.type}}<br />
 Locations: <ul><li ng-repeat='location in currentEntity.location'>{{location.location}}</li></ul>
 Influence: {{currentEntity.influence}}<br />
+Type of Entity: {{currentEntity.type}}<br />
 Employees: {{currentEntity.employees | number}}<br />
 Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
 Twitter Followers: {{currentEntity.followers | number}}<br />
@@ -12,46 +12,6 @@ Key Civic People:
     <ul><li ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'>{{person.name}}</li></ul>
     <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
     <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
-</div>
-<!-- FUNDING RECEIVED -->
-<div ng-if='currentEntity.funding_received.length > 0'>
-Received funding from:
-    <ul><li ng-repeat='funding in currentEntity.funding_received | limitTo:itemsShown.funding_received'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.funding_received.length > itemsShown.funding_received' class='btn btn-xs btn-default' ng-click="showMore('funding_received')">More</button>
-    <button ng-if='itemsShown.funding_received > itemsShownDefault.funding_received' class='btn btn-xs btn-default' ng-click="showLess('funding_received')">Less</button>
-</div>
-<div ng-if='currentEntity.funding_received.length == 0'>
-    No known funding received.
-</div>
-<!-- FUNDING GIVEN -->
-<div ng-if='currentEntity.funding_given.length > 0'>
-Gave funding to:
-    <ul><li ng-repeat='funding in currentEntity.funding_given | limitTo:itemsShown.funding_given'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.funding_given.length > itemsShown.funding_given' class='btn btn-xs btn-default' ng-click="showMore('funding_given')">More</button>
-    <button ng-if='itemsShown.funding_given > itemsShownDefault.funding_given' class='btn btn-xs btn-default' ng-click="showLess('funding_given')">Less</button>
-</div>
-<div ng-if='currentEntity.funding_given.length == 0'>
-    No known funding provided.
-</div>
-<!-- INVESTMENTS RECEIVED -->
-<div ng-if='currentEntity.investments_received.length > 0'>
-Received investments from:
-    <ul><li ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.investments_received.length > itemsShown.investments_received' class='btn btn-xs btn-default' ng-click="showMore('investments_received')">More</button>
-    <button ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' class='btn btn-xs btn-default' ng-click="showLess('investments_received')">Less</button>
-</div>
-<div ng-if='currentEntity.investments_received.length == 0'>
-    No known investments received.
-</div>
-<!-- INVESTMENTS MADE -->
-<div ng-if='currentEntity.investments_made.length > 0'>
-Invested in:
-    <ul><li ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.investments_made.length > itemsShown.investments_made' class='btn btn-xs btn-default' ng-click="showMore('investments_made')">More</button>
-    <button ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' class='btn btn-xs btn-default' ng-click="showLess('investments_made')">Less</button>
-</div>
-<div ng-if='currentEntity.investments_made.length == 0'>
-    No known investments made.
 </div>
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
@@ -72,6 +32,46 @@ Shared data with:
 </div>
 <div ng-if='currentEntity.data.length == 0'>
     No known external data sources.
+</div>
+<!-- FUNDING RECEIVED -->
+<div ng-if='currentEntity.funding_received.length > 0'>
+Received funding from:
+    <ul><li ng-repeat='funding in currentEntity.funding_received | limitTo:itemsShown.funding_received'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.funding_received.length > itemsShown.funding_received' class='btn btn-xs btn-default' ng-click="showMore('funding_received')">More</button>
+    <button ng-if='itemsShown.funding_received > itemsShownDefault.funding_received' class='btn btn-xs btn-default' ng-click="showLess('funding_received')">Less</button>
+</div>
+<div ng-if='currentEntity.funding_received.length == 0'>
+    No known funding received.
+</div>
+<!-- INVESTMENTS RECEIVED -->
+<div ng-if='currentEntity.investments_received.length > 0'>
+Received investments from:
+    <ul><li ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.investments_received.length > itemsShown.investments_received' class='btn btn-xs btn-default' ng-click="showMore('investments_received')">More</button>
+    <button ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' class='btn btn-xs btn-default' ng-click="showLess('investments_received')">Less</button>
+</div>
+<div ng-if='currentEntity.investments_received.length == 0'>
+    No known investments received.
+</div>
+<!-- FUNDING GIVEN -->
+<div ng-if='currentEntity.funding_given.length > 0'>
+Gave funding to:
+    <ul><li ng-repeat='funding in currentEntity.funding_given | limitTo:itemsShown.funding_given'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.funding_given.length > itemsShown.funding_given' class='btn btn-xs btn-default' ng-click="showMore('funding_given')">More</button>
+    <button ng-if='itemsShown.funding_given > itemsShownDefault.funding_given' class='btn btn-xs btn-default' ng-click="showLess('funding_given')">Less</button>
+</div>
+<div ng-if='currentEntity.funding_given.length == 0'>
+    No known funding provided.
+</div>
+<!-- INVESTMENTS MADE -->
+<div ng-if='currentEntity.investments_made.length > 0'>
+Invested in:
+    <ul><li ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.investments_made.length > itemsShown.investments_made' class='btn btn-xs btn-default' ng-click="showMore('investments_made')">More</button>
+    <button ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' class='btn btn-xs btn-default' ng-click="showLess('investments_made')">Less</button>
+</div>
+<div ng-if='currentEntity.investments_made.length == 0'>
+    No known investments made.
 </div>
 <!-- REVENUES -->
 <div ng-if='currentEntity.revenues.length > 0'>

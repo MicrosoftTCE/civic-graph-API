@@ -3,6 +3,8 @@
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
     <input ng-repeat='location in editEntity.location' type='text' class='form-control' ng-model='location.location' placeholder='City'>
+    Circle of Influence:
+    <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
     What type of entity?
     <div class='radio' ng-repeat='type in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type.name}}'>{{type.name}}</label></div>
     What kind of work do they do?
@@ -12,6 +14,12 @@
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
     <div>Key Civic People?
         <input type='text' class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
+    </div>
+    <div>Collaboration
+        <input type='text' class='form-control' ng-repeat='collaboration in editEntity.collaborations' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
+    </div>
+    <div>Who provides them with data?
+        <input type='text' class='form-control' ng-repeat='data in editEntity.data' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data')" ng-change='addConnection(editEntity.data)' placeholder='Data Resource'>
     </div>
     <div>Who funds them via grants?
         <div ng-repeat='funding in editEntity.funding_received'>
@@ -52,14 +60,6 @@
             </div>
             <input type='number' class='form-control' ng-model='investment.year' placeholder='Year'>
         </div>
-    </div>
-    Circle of Influence:
-    <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
-    <div>Who provides them with data?
-        <input type='text' class='form-control' ng-repeat='data in editEntity.data' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data')" ng-change='addConnection(editEntity.data)' placeholder='Data Resource'>
-    </div>
-    <div>Collaboration
-        <input type='text' class='form-control' ng-repeat='collaboration in editEntity.collaborations' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
     </div>
     <div>Revenue
         <div ng-repeat='revenue in editEntity.revenues'>
