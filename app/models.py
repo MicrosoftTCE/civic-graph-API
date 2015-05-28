@@ -97,7 +97,7 @@ class Entity(Base):
                 'url': self.url,
                 'twitter_handle': self.twitter_handle,
                 'followers': self.followers,
-                'revenue': [revenue.json() for revenue in self.revenues],
+                'revenues': [revenue.json() for revenue in self.revenues],
                 'expenses': [expense.json() for expense in self.expenses],
                 'funding_given': [funding.json('given') for funding in self.funding_given],
                 'funding_received': [funding.json('received') for funding in self.funding_received],
