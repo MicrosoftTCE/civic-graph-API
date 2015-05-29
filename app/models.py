@@ -57,6 +57,7 @@ class Entity(Base):
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
                         primaryjoin='(Entity.id==Investment.receiver_id)')
 
+    #collaborations = relationship('Collaboration', backref='collaborator', secondary=collaboration_table)
     collaborations = relationship('Entity', backref='collaborator', lazy='dynamic',
                         secondary=collaboration_table,
                         primaryjoin=id==collaboration_table.c.entity_id1,
@@ -97,6 +98,7 @@ class Entity(Base):
                 'funding_received': [funding.json('received') for funding in self.funding_received],
                 'investments_made': [investment.json('given') for investment in self.investments_made],
                 'investments_received': [investment.json('received') for investment in self.investments_received],
+                #'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
                 'collaborations': [{'entity': collaboration.name} for collaboration in self.collaborations],
                 # Figure out how relations work.
                 #'relations': [{'entity': relation.name} for relation in self.relations],
