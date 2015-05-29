@@ -2,6 +2,7 @@ from flask import jsonify, render_template, request
 from app import app, cache
 from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, collaboration_table
 from database import db
+from api import update
 import json
 
 @app.route('/')
@@ -41,6 +42,9 @@ def collaboration_connections():
     collaborationconnections = db.query(collaboration_table).all()
     return [{'source': source, 'target': target} for source, target in collaborationconnections]
 
-@app.route('/save')
+@app.route('/save', methods=['POST'])
 def save():
-    pass
+    data = json.loads(request.data)['entity']
+    entity = Entity.query.get(data['id'])
+    update(entity, data)
+    return 'SAVE'

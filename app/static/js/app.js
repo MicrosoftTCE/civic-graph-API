@@ -165,8 +165,16 @@ angular.module('civic-graph', ['ui.bootstrap'])
         _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
     }
 
+    $scope.savetoDB = function() {
+        $http.post('save', {'entity': $scope.editEntity})
+            .then(function(response) {
+                console.log(response);
+            });
+    }
+
     $scope.save = function() {
         $scope.removeEmpty();
+        $scope.savetoDB();
         // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
         $scope.stopEdit();
     }
