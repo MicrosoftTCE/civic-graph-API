@@ -146,7 +146,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addFinance($scope.editEntity.revenues);
     $scope.addFinance($scope.editEntity.expenses);
 
-    $scope.save = function() {
+    $scope.removeEmpty = function() {
         // Clear the empty unedited new items.
         $scope.editEntity.categories = _.pluck(_.filter($scope.editCategories, 'enabled'), 'name');
         _.remove($scope.editEntity.locations, function(l){return l.location == '';});
@@ -159,6 +159,10 @@ angular.module('civic-graph', ['ui.bootstrap'])
         _.remove($scope.editEntity.collaborations, function(c){return c.entity == '';});
         _.remove($scope.editEntity.revenues, function(r){return r.amount <= 0 || r.year < 1750;});
         _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
+    }
+
+    $scope.save = function() {
+        $scope.removeEmpty();
         // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
         $scope.stopEdit();
     }
