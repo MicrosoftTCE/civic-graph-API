@@ -17,11 +17,6 @@ relation_table = Table('relation_table', Base.metadata,
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 
-data_table = Table('data_table', Base.metadata,
-    Column('entity_id1', Integer, ForeignKey('entity.id')),
-    Column('entity_id2', Integer, ForeignKey('entity.id'))
-)
-
 # Make this a connection to entities rather than a 'Key Person'.
 keypeople_table = Table('keypeople_table', Base.metadata,
     Column('keyperson_id', Integer, ForeignKey('keyperson.id')),
@@ -29,12 +24,11 @@ keypeople_table = Table('keypeople_table', Base.metadata,
 )
 
 """
-location_table = Table('location_table', Base.metadata,
-    Column('location_id', Integer, ForeignKey('location.id')),
+collaboration_table = Table('collaboration_table', Base.metadata,
+    Column('collaboration_id', Integer, ForeignKey('collaboration.id')),
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 """
-
 class Entity(Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
@@ -67,13 +61,14 @@ class Entity(Base):
                         secondary=collaboration_table,
                         primaryjoin=id==collaboration_table.c.entity_id1,
                         secondaryjoin=id==collaboration_table.c.entity_id2)
+
+    # What even is this?
     relations = relationship('Relation', secondary=relation_table,
                             backref=backref('entity', lazy='dynamic'))
-    data = relationship('Entity', backref='dataconnection', lazy='dynamic',
-                        secondary=data_table,
-                        primaryjoin=id==data_table.c.entity_id1,
-                        secondaryjoin=id==data_table.c.entity_id2)
-
+    data_given = relationship('Dataconnection', backref='giver', lazy='dynamic',
+                        primaryjoin='(Entity.id==Dataconnection.giver_id)')
+    data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
+                        primaryjoin='(Entity.id==Dataconnection.receiver_id)')
     # Make this a connection to entities rather than a 'Key Person'.
     key_people = relationship('Keyperson', secondary=keypeople_table, 
                             backref=backref('entity', lazy='dynamic'))
@@ -85,11 +80,10 @@ class Entity(Base):
         return '<Entity %r>' % (self.name)
 
     def json(self):
-        return {'id': self.id-1,
+        return {'id': self.id,
                 'name': self.name,
                 'nickname': self.nickname,
                 'locations': [{'location': self.location}],
-                # Change this so we don't conflict with language keyword type.
                 'type': self.entitytype,
                 'categories': [category.name for category in self.categories],
                 'influence': self.influence,
@@ -103,11 +97,12 @@ class Entity(Base):
                 'funding_received': [funding.json('received') for funding in self.funding_received],
                 'investments_made': [investment.json('given') for investment in self.investments_made],
                 'investments_received': [investment.json('received') for investment in self.investments_received],
-                # Why is this 'entity' and not 'name'?
                 'collaborations': [{'entity': collaboration.name} for collaboration in self.collaborations],
-                'relations': [{'entity': relation.name} for relation in self.relations],
-                'data': [{'entity': data.name} for data in self.data],
-                'key_people': [{'name': person.name} for person in self.key_people]
+                # Figure out how relations work.
+                #'relations': [{'entity': relation.name} for relation in self.relations],
+                'data_given': [data.json('given') for data in self.data_given],
+                'data_received': [data.json('received') for data in self.data_received],
+                'key_people': [person.json() for person in self.key_people]
             }
 
 class Category(Base):
@@ -124,58 +119,11 @@ class Category(Base):
         return '<Category %r>' % self.name
 
     def json(self):
+        return {'name': self.name, 'id': self.id}
+
+    def json_all(self):
         return {'name': self.name, 'entities': [entity.json() for entity in entities]}
-"""
-class Location(Base):
-    __tablename__ = 'location'
-    id = Column(Integer, primary_key=True)
-    entities = relationship('Entity', secondary=location_table,
-                               backref=backref('location', lazy='dynamic'))
-    
-    city_name = Column(String(100))
-    state_code = Column(String(10))
-    state_name = Column(String(100))
-    country_code = Column(String(10))
-    country_name = Column(String(100))
-    city_lat = Column(Float)
-    city_long = Column(Float)
 
-    def __init__(self, city_name, state_code, state_name, country_code, country_name, city_lat, city_long):
-        self.city_name = city_name
-        self.state_code = state_code
-        self.state_name = state_name
-        self.country_code = country_code
-        self.country_name = country_name
-        self.city_lat = city_lat
-        self.city_long = city_long
-
-    def __repr__(self):
-        name = ''
-        if self.city_name and self.state_code:
-            name = self.city_name +', '+ self.state_name
-        elif self.city_name and self.country_name and not self.state_code:
-            name = self.city_name +', '+ self.country_name
-        elif self.country_name and not self.city_name and not self.state_name:
-            name = self.country_name
-
-        return '<Location %r>' % name
-
-    def json(self):
-        name = ''
-        if self.city_name and self.state_code:
-            name = self.city_name +', '+ self.state_name
-        elif self.city_name and self.country_name and not self.state_code:
-            name = self.city_name +', '+ self.country_name
-        elif self.country_name and not self.city_name and not self.state_name:
-            name = self.country_name
-
-        return {'location': name}
-
-    def json_full(self):
-        return {'city_name': self.city_name, 'state_code': self.state_code, 'state_name': self.state_name,
-                'country_code': self.country_code, 'country_name': self.country_name,
-                'city_lat': self.city_lat, 'city_long': self.city_long}
-"""
 class Finance(Base):
     __tablename__ = 'finance'
     id = Column(Integer, primary_key=True)
@@ -191,7 +139,7 @@ class Finance(Base):
         self.year = year
 
     def json(self):
-        return {'amount': self.amount, 'year': self.year}
+        return {'amount': self.amount, 'year': self.year, 'id': self.id}
 
 class Revenue(Finance):
     __mapper_args__ = {'polymorphic_identity': 'revenue'}
@@ -217,7 +165,7 @@ class Financeconnection(Base):
     def json(self, direction):
         name = self.receiver.name if direction == 'given' else self.giver.name
         finance_id = self.receiver_id if direction == 'given' else self.giver_id
-        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': finance_id-1}
+        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': finance_id, 'id': self.id}
 
     def json_connection(self):
         # TODO: Remove connectiontype = Given/Received
@@ -231,6 +179,40 @@ class Funding(Financeconnection):
 
 class Investment(Financeconnection):
     __mapper_args__ = {'polymorphic_identity': 'investment'}
+
+class Directionalconnection(Base):
+    __tablename__ = 'directionalconnection'
+    id = Column(Integer, primary_key=True)
+    details = Column(String(500))
+    giver_id = Column(Integer, ForeignKey('entity.id'))
+    receiver_id = Column(Integer, ForeignKey('entity.id'))
+
+    discriminator = Column('type', String(50))
+    __mapper_args__ = {'polymorphic_on': discriminator}
+
+    def json(self, direction):
+        name = self.receiver.name if direction == 'given' else self.giver.name
+        entity_id = self.receiver_id if direction == 'given' else self.giver_id
+        return {'details': self.details, 'entity': name, 'entity_id': entity_id, 'id': self.id}
+
+    def json_connection(self):
+        return {'details': self.details, 'source': giver_id, 'target': receiver_id}
+
+class Dataconnection(Directionalconnection):
+    __mapper_args__ = {'polymorphic_identity': 'data'}
+
+"""
+class Collaboration(Base):
+    __tablename__ = 'collaboration'
+    id = Column(Integer, primary_key=True)
+    details = Column(String(500))
+    entities = relationship('Entity', secondary=collaboration_table,
+                               backref=backref('collaboration', lazy='dynamic'))
+
+    def json(self, entityid):
+        return {'entities': [{'entity': entity.name} for entity in self.entities if entity.id is not entityid], 'details': self.details, 'id': self.id}
+"""
+
 
 # TODO: Revenue, expense, Funding, Investment should all subclass a single Finance class.
 # Possible to subclass a subclass?
@@ -246,6 +228,9 @@ class Keyperson(Base):
 
     def __init__(self, name):
         self.name = name
+
+    def json(self):
+        return {'name': self.name, 'id': self.id}
 
 class Relation(Base):
     __tablename__ = 'relation'

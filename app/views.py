@@ -1,7 +1,8 @@
-from flask import jsonify, render_template
+from flask import jsonify, render_template, request
 from app import app, cache
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, data_table, collaboration_table
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, collaboration_table
 from database import db
+import json
 
 @app.route('/')
 def index():
@@ -28,18 +29,17 @@ def nodes():
 
 def funding_connections():
     # Watch out for IDs/indexes: http://stackoverflow.com/a/16824896
-    return [{'source': c.giver_id-1, 'target': c.receiver_id-1} for c in Funding.query.all()]
+    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Funding.query.all()]
 
 def investment_connections():
-    return [{'source': c.giver_id-1, 'target': c.receiver_id-1} for c in Investment.query.all()]
+    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Investment.query.all()]
 
 def data_connections():
-    dataconnections = db.query(data_table).all()
-    return [{'source': source-1, 'target': target-1} for source, target in dataconnections]
+    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Dataconnection.query.all()]
 
 def collaboration_connections():
     collaborationconnections = db.query(collaboration_table).all()
-    return [{'source': source-1, 'target': target-1} for source, target in collaborationconnections]
+    return [{'source': source, 'target': target} for source, target in collaborationconnections]
 
 @app.route('/save')
 def save():

@@ -2,7 +2,7 @@
 import json
 import os
 from app import db
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection
 from database import init_db
 
 if os.path.exists('civic.db'):
@@ -127,7 +127,9 @@ def connect(connections, ctype):
                 if ctype == 'collaborations':
                     source.collaborations.append(target)
                 elif ctype == 'data':
-                    source.data.append(target)
+                    dataconnection = Dataconnection()
+                    source.data_received.append(dataconnection)
+                    target.data_given.append(dataconnection)
             except KeyError as e:
                 # Some IDs in civic.json aren't rendered... 
                 # Point to them manually.
@@ -221,4 +223,7 @@ print "Wrote %d Category entries." % len(Category.query.all())
 print "Wrote %d Keyperson entries." % len(Keyperson.query.all())
 print "Wrote %d Revenue entries." % len(Revenue.query.all())
 print "Wrote %d Expense entries." % len(Expense.query.all())
+print "Wrote %d Funding entries." % len(Funding.query.all())
+print "Wrote %d Investment entries." % len(Investment.query.all())
+print "Wrote %d Dataconnection entries." % len(Dataconnection.query.all())
 print "Wrote %d Relation entries." % len(Relation.query.all())
