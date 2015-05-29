@@ -24,14 +24,23 @@ Collaborated with:
     No known collaborations.
 </div>
 <!-- DATA USAGE -->
-<div ng-if='currentEntity.data.length > 0'>
-Shared data with:
-    <ul><li ng-repeat='datasource in currentEntity.data'>{{datasource.entity}}</li></ul>
-    <button ng-if='currentEntity.data.length > itemsShown.data' class='btn btn-xs btn-default' ng-click="showMore('data')">More</button>
-    <button ng-if='itemsShown.data > itemsShownDefault.data' class='btn btn-xs btn-default' ng-click="showLess('data')">Less</button>
+<div ng-if='currentEntity.data_given.length > 0'>
+Gave data to:
+    <ul><li ng-repeat='datasource in currentEntity.data_given'>{{datasource.entity}}</li></ul>
+    <button ng-if='currentEntity.data_given.length > itemsShown.data_given' class='btn btn-xs btn-default' ng-click="showMore('data_given')">More</button>
+    <button ng-if='itemsShown.data_given > itemsShownDefault.data_given' class='btn btn-xs btn-default' ng-click="showLess('data_given')">Less</button>
 </div>
-<div ng-if='currentEntity.data.length == 0'>
-    No known external data sources.
+<div ng-if='currentEntity.data_given.length == 0'>
+    No known data provided to other entities.
+</div>
+<div ng-if='currentEntity.data_received.length > 0'>
+Used data from:
+    <ul><li ng-repeat='datasource in currentEntity.data_received'>{{datasource.entity}}</li></ul>
+    <button ng-if='currentEntity.data_received.length > itemsShown.data_received' class='btn btn-xs btn-default' ng-click="showMore('data_received')">More</button>
+    <button ng-if='itemsShown.data_received > itemsShownDefault.data_received' class='btn btn-xs btn-default' ng-click="showLess('data_received')">Less</button>
+</div>
+<div ng-if='currentEntity.data_received.length == 0'>
+    No known external data used.
 </div>
 <!-- FUNDING RECEIVED -->
 <div ng-if='currentEntity.funding_received.length > 0'>

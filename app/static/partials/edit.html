@@ -21,7 +21,16 @@
         <input type='text' class='form-control' ng-repeat='collaboration in editEntity.collaborations' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
     </div>
     <div>Who provides them with data?
-        <input type='text' class='form-control' ng-repeat='data in editEntity.data' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data')" ng-change='addConnection(editEntity.data)' placeholder='Data Resource'>
+        <div ng-repeat='data in editEntity.data_received'>
+        <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data_given')" ng-change='addConnection(editEntity.data_received)' placeholder='Data Resource'>
+        <input type='text' class='form-control' ng-model='data.details' placeholder='Link to data'>
+        </div>
+    </div>
+    <div>Who do they provide with data?
+        <div ng-repeat='data in editEntity.data_given'>
+        <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, data, 'data_received')" ng-change='addConnection(editEntity.data_given)' placeholder='Data Resource'>
+        <input type='text' class='form-control' ng-model='data.details' placeholder='Link to data'>
+        </div>
     </div>
     <div>Who funds them via grants?
         <div ng-repeat='funding in editEntity.funding_received'>

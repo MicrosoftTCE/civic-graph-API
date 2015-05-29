@@ -61,7 +61,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         'investments_made': 5,
         'investments_received': 5,
         'collaborations': 5,
-        'data': 5,
+        'data_given': 5,
+        'data_received': 5,
         'revenues': 5,
         'expenses': 5
     }
@@ -88,7 +89,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addLocation($scope.editEntity.locations);
 
     $scope.editCategories = _.map($scope.categories, function(c) {
-        return {'name': c, 'enabled': _.includes($scope.editEntity.categories, c)}
+        return {'name': c, 'enabled': _.includes($scope.editEntity.categories, c), 'id': c.id}
     });
 
     $scope.addKeyPerson = function() {
@@ -104,7 +105,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
         finance.entity_id = entity.id;
         // Add this finance connection to other entity's finance connections.
         // Watch out for edge cases -- acts on any onSelect. Also, doesn't track changes to year/amount.
-        var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount};
+        var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount, 'id': null};
         entity[type].push(newFinance);
         // Push connection to connections.
     }
@@ -112,7 +113,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addFinanceConnection = function(finances) {
         if (!_.some(finances, {'entity':''})) {
             // Maybe set amount to 0 instead of null?
-            finances.push({'entity':'', 'amount': null,'year': null});
+            finances.push({'entity':'', 'amount': null,'year': null, 'id': null});
         }
     }
     $scope.addFinanceConnection($scope.editEntity.funding_received);
@@ -123,6 +124,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.setConnection = function(entity, connection, type) {
         connection.entity_id = entity.id;
         // Add this connection to other entity's connections.
+        // Not tracking data details...
         var newConnection = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name};
         entity[type].push(newConnection);
         // Push connection to connections.
@@ -134,13 +136,14 @@ angular.module('civic-graph', ['ui.bootstrap'])
             connections.push({'entity':''});
         }
     }
-    $scope.addConnection($scope.editEntity.data);
+    $scope.addConnection($scope.editEntity.data_given);
+    $scope.addConnection($scope.editEntity.data_received);
     $scope.addConnection($scope.editEntity.collaborations);
 
     $scope.addFinance = function(records) {
         // Add new finance field if all current fields are valid.
         if (_.every(records, function(r) {return r.amount > 0 && r.year > 1750})) {
-            records.push({'amount': null, 'year': null});
+            records.push({'amount': null, 'year': null, 'id': null});
         }
     }
     $scope.addFinance($scope.editEntity.revenues);
@@ -155,7 +158,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.funding_given, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_made, function(f){return f.entity == '';});
-        _.remove($scope.editEntity.data, function(d){return d.entity == '';});
+        _.remove($scope.editEntity.data_given, function(d){return d.entity == '';});
+        _.remove($scope.editEntity.data_received, function(d){return d.entity == '';});
         _.remove($scope.editEntity.collaborations, function(c){return c.entity == '';});
         _.remove($scope.editEntity.revenues, function(r){return r.amount <= 0 || r.year < 1750;});
         _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
