@@ -1,10 +1,10 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation
+from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance
 
 def update(entity, data):
     # Check if data has changed item-by-item.
     # Instead, just use IDs and send only changes on the frontend, please.
-    print data.keys()
+    print data
     if entity.name != data['name']:
         entity.name = data['name']
     if entity.nickname != data['nickname']:
@@ -22,43 +22,89 @@ def update(entity, data):
     if entity.twitter_handle != data['twitter_handle']:
         entity.twitter_handle = data['twitter_handle']
         # Pull entity.followers from Twitter API.
-    # Revenues
-    # Expenses
+
+    def update_finance(finances, ftype):
+        # Delete any finances which have been removed.
+        new_finances = [finance['id'] for finance in finances if finance['id']]
+        old_finances = entity.expenses if ftype is 'expenses' else entity.revenues
+        for finance in old_finances:
+            if finance.id not in new_finances:
+                old_finances.remove(finance)
+                print 'REMOVING ' + str(finance.year) + ': ' + str(finance.amount) + ' from ' + ftype
+
+        # Create or update.
+        for finance in finances:
+            if finance['id']:
+                # Finance exists, update data.
+                oldfinance = Finance.query.get(finance['id'])
+                if oldfinance.amount != finance['amount']:
+                    oldfinance.amount = finance['amount']
+                    print 'UPDATING ' + ftype + ' AMOUNT: ' + str(oldfinance.amount)
+                if oldfinance.year != finance['year']:
+                    oldfinance.year = finance['year']
+                    print 'UPDATING ' + ftype + ' YEAR: ' + str(oldfinance.year)
+            else:
+                # Finance doesn't exist, create it.
+                if ftype is 'revenues':
+                    revenue = Revenue(finance['amount'], finance['year'])
+                    entity.revenues.append(revenue)
+                    print 'NEW REVENUE -- ' + str(revenue.year) + ': ' + str(revenue.amount)
+                elif ftype is 'expenses':
+                    expense = Expense(finance['amount'], finance['year'])
+                    entity.expenses.append(expense)
+                    print 'NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount)
+
+    update_finance(data['revenues'], 'revenues')
+    update_finance(data['expenses'], 'expenses')
+
+    def update_key_people(key_people):
+        # Delete any key people who have been removed.
+        # Check for names too, in case you're getting an id from an old cleared form field.
+        new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
+        for key_person in entity.key_people:
+            if key_person.id not in new_keypeople:
+                entity.key_people.remove(key_person)
+                print 'REMOVING KEY PERSON ' + key_person.name
+
+        # Create or update.
+        for key_person in key_people:
+            if key_person['id']:
+                # Key person exists, update their name.
+                keyperson = Keyperson.query.get(key_person['id'])
+                if keyperson.name != key_person['name']:
+                    keyperson.name = key_person['name']
+                    print 'UPDATED KEY PERSON NAME ' + keyperson.name
+            else:
+                # Key person doesn't exist, create them.
+                keyperson = Keyperson(key_person['name'])
+                entity.key_people.append(keyperson)
+                print 'NEW KEY PERSON ' + keyperson.name
+
+        
+    update_key_people(data['key_people'])
+
+    def update_categories(categories):
+        # Add any new categories.
+        for category in categories:
+            if category['id']:
+                cat = Category.query.get(category['id'])
+                if cat not in entity.categories:
+                    print 'ADDING CATEGORY ' + cat.name
+                    entity.categories.append(cat)
+        # Delete any categories that have been removed.
+        new_categories = [category['id'] for category in categories]
+        for category in entity.categories:
+            if category.id not in new_categories:
+                print 'REMOVING CATEGORY ' + category.name
+                entity.categories.remove(category)
+                
+    update_categories(data['categories'])
+
     # Funding Given
     # Funding Received
-    # Investments Given
+    # Investments Made
     # Investments Received
-    # Data
+    # Data Given
+    # Data Received
     # Collaboration
     # Relation?
-    """
-    if data['funding_received']:
-        for funding_received in data['funding_received']:
-            #TODO: Just use IDs, then you don't have to worry about all this querying
-            # or edge cases like just updating the year on previous funding.
-            
-            # Find if this entity has given funds before.
-            funder = Entity.query.filter(Entity.name==funding_received['name']).first()
-            previously_received = funding_received.filter(Funding.giver==funder).all()
-            
-            if not previously_received:
-                # This funder has not funded this entity before.
-                newfunding = Funding(funding_received['amount'], funding_received['year'])
-                entity.funding_received.append(newfunding)
-                funder.funding_given.append(newfunding)
-            else:
-                # This funder has funded this entity before. Update by year,
-                # or create a new year/funding pair.
-                year = funding_received['year']
-                previous_funding = previously_received.filter(Funding.year==year).first()
-                if previous_funding:
-                    # Year exists, update amount for that year.
-                    # Could overwrite amount values for null years.
-                    # May cause issues with multiple fundings from same funder for null years.
-                    previous_funding.amount = funding_received['amount']
-                else:
-                    # Year does not exist, create new Funding for this year.
-                    newfunding = Funding(funding_received['amount'], funding_received['year'])
-                    entity.funding_received.append(newfunding)
-                    funder.funding_given.append(newfunding)
-    """

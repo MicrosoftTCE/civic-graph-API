@@ -89,13 +89,14 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addLocation($scope.editEntity.locations);
 
     $scope.editCategories = _.map($scope.categories, function(c) {
-        return {'name': c, 'enabled': _.includes($scope.editEntity.categories, c), 'id': c.id}
+        return {'name': c.name, 'enabled': _.some($scope.editEntity.categories, {'name': c.name}), 'id': c.id}
     });
 
     $scope.addKeyPerson = function() {
         // Add blank field to edit if there are none.
+        // WATCH OUT: If someone deletes an old person, delete their id too.
         if (!(_.some($scope.editEntity.key_people, {'name': ''}))) {
-            $scope.editEntity.key_people.push({'name':''});
+            $scope.editEntity.key_people.push({'name':'','id': null});
         }
     }
     $scope.addKeyPerson();
@@ -151,7 +152,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
 
     $scope.removeEmpty = function() {
         // Clear the empty unedited new items.
-        $scope.editEntity.categories = _.pluck(_.filter($scope.editCategories, 'enabled'), 'name');
+        $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
         _.remove($scope.editEntity.locations, function(l){return l.location == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
         _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});

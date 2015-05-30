@@ -23,7 +23,7 @@ def civic_json():
 @app.route('/categories')
 @cache.cached(key_prefix='categories', timeout=None)
 def categories():
-    return jsonify(categories=[category.name for category in Category.query.all()])
+    return jsonify(categories=[category.json() for category in Category.query.all()])
 
 def nodes():
     return [entity.json() for entity in Entity.query.all()]

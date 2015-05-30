@@ -86,7 +86,7 @@ class Entity(Base):
                 'nickname': self.nickname,
                 'locations': [{'location': self.location}],
                 'type': self.entitytype,
-                'categories': [category.name for category in self.categories],
+                'categories': [category.json() for category in self.categories],
                 'influence': self.influence,
                 'employees': self.employees, 
                 'url': self.url,
