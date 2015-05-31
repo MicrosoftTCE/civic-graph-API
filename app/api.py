@@ -157,11 +157,5 @@ def update(entity, data):
     update_dataconnections(data['data_given'], 'given')
     update_dataconnections(data['data_received'], 'received')
 
-    # Funding Given
-    # Funding Received
-    # Investments Made
-    # Investments Received
-    # Data Given
-    # Data Received
     # Collaboration
     # Relation?
