@@ -71,8 +71,7 @@ class Entity(Base):
     data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
                         primaryjoin='(Entity.id==Dataconnection.receiver_id)')
     # Make this a connection to entities rather than a 'Key Person'.
-    key_people = relationship('Keyperson', secondary=keypeople_table, 
-                            backref=backref('entity', lazy='dynamic'))
+    key_people = relationship('Keyperson', secondary=keypeople_table, backref='entity')
 
     def __init__(self, name):
         self.name = name
@@ -135,6 +134,9 @@ class Finance(Base):
 
     discriminator = Column('type', String(50))
     __mapper_args__ = {'polymorphic_on': discriminator}
+
+    def __repr__(self):
+        return '<Finance %f %d>' % (self.amount, self.year)
 
     def __init__(self, amount, year):
         self.amount = amount
@@ -215,7 +217,6 @@ class Collaboration(Base):
         return {'entities': [{'entity': entity.name} for entity in self.entities if entity.id is not entityid], 'details': self.details, 'id': self.id}
 """
 
-
 # TODO: Revenue, expense, Funding, Investment should all subclass a single Finance class.
 # Possible to subclass a subclass?
 # TODO: Connections should subclass a Connection class.
@@ -225,8 +226,10 @@ class Keyperson(Base):
     __tablename__ = 'keyperson'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
-    entities = relationship('Entity', secondary=keypeople_table,
-                               backref=backref('person', lazy='dynamic'))
+    entities = relationship('Entity', secondary=keypeople_table, backref='person')
+    
+    def __repr__(self):
+        return '<Keyperson %r>' % self.name
 
     def __init__(self, name):
         self.name = name

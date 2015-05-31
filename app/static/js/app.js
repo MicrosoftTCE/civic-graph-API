@@ -94,10 +94,12 @@ angular.module('civic-graph', ['ui.bootstrap'])
 
     $scope.addKeyPerson = function() {
         // Add blank field to edit if there are none.
-        // WATCH OUT: If someone deletes an old person, delete their id too.
-        if (!(_.some($scope.editEntity.key_people, {'name': ''}))) {
+        // WATCH OUT! TODO: If someone deletes an old person, delete their id too.
+        // i.e. make sure old/cleared form fields aren't being edited into new people.
+        if (!(_.some($scope.editEntity.key_people, {'name': '', 'id': null}))) {
             $scope.editEntity.key_people.push({'name':'','id': null});
         }
+
     }
     $scope.addKeyPerson();
 

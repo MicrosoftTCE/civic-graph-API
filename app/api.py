@@ -1,10 +1,10 @@
 # Check if Entity exists.
 from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance
+from database import db
 
 def update(entity, data):
     # Check if data has changed item-by-item.
     # Instead, just use IDs and send only changes on the frontend, please.
-    print data
     if entity.name != data['name']:
         entity.name = data['name']
     if entity.nickname != data['nickname']:
@@ -26,11 +26,13 @@ def update(entity, data):
     def update_finance(finances, ftype):
         # Delete any finances which have been removed.
         new_finances = [finance['id'] for finance in finances if finance['id']]
-        old_finances = entity.expenses if ftype is 'expenses' else entity.revenues
-        for finance in old_finances:
-            if finance.id not in new_finances:
-                old_finances.remove(finance)
-                print 'REMOVING ' + str(finance.year) + ': ' + str(finance.amount) + ' from ' + ftype
+        if ftype == 'revenues':
+            entity.revenues = [revenue for revenue in entity.revenues if revenue.id in new_finances]
+        elif ftype == 'expenses':
+            entity.expenses = [expense for expense in entity.expenses if expense.id in new_finances]
+
+        # Do this or else list comprehensions don't work as expected.
+        db.commit()
 
         # Create or update.
         for finance in finances:
@@ -59,12 +61,9 @@ def update(entity, data):
 
     def update_key_people(key_people):
         # Delete any key people who have been removed.
-        # Check for names too, in case you're getting an id from an old cleared form field.
+        # TODO: Check for names too, in case you're getting an id from an old cleared form field.
         new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
-        for key_person in entity.key_people:
-            if key_person.id not in new_keypeople:
-                entity.key_people.remove(key_person)
-                print 'REMOVING KEY PERSON ' + key_person.name
+        entity.key_people = [key_person for key_person in entity.key_people if key_person.id in new_keypeople]
 
         # Create or update.
         for key_person in key_people:
@@ -80,7 +79,6 @@ def update(entity, data):
                 entity.key_people.append(keyperson)
                 print 'NEW KEY PERSON ' + keyperson.name
 
-        
     update_key_people(data['key_people'])
 
     def update_categories(categories):
