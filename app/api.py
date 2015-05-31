@@ -1,5 +1,5 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance
+from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection
 from database import db
 
 def update(entity, data):
@@ -97,6 +97,65 @@ def update(entity, data):
                 entity.categories.remove(category)
                 
     update_categories(data['categories'])
+
+    def update_financeconnections(connections, ftype, direction):
+        # TODO: Delete old connections
+        for connection in connections:
+            if connection['id']:
+                # Connection exists, update amount and year.
+                oldconnection = Financeconnection.query.get(connection['id'])
+                if oldconnection.amount != connection['amount']:
+                    oldconnection.amount = connection['amount']
+                    print 'UPDATING ' + ftype + ' AMOUNT: ' + str(oldconnection.amount)
+                if oldconnection.year != connection['year']:
+                    oldconnection.year = connection['year']
+                    print 'UPDATING ' + ftype + ' YEAR: ' + str(oldconnection.year)
+            else:
+                # Connection doesn't exist, create it connect entities.
+                otherentity = Entity.query.get(connection['entity_id'])
+                if ftype is 'investment':
+                    newconnection = Investment(connection['amount'], connection['year'])
+                    if direction is 'given':
+                        entity.investments_made.append(newconnection)
+                        otherentity.investments_received.append(newconnection)
+                    elif direction is 'received':
+                        entity.investments_received.append(newconnection)
+                        otherentity.investments_made.append(newconnection)
+                elif ftype is 'funding':
+                    newconnection = Funding(connection['amount'], connection['year'])
+                    if direction is 'given':
+                        entity.funding_given.append(newconnection)
+                        otherentity.funding_received.append(newconnection)
+                    elif direction is 'received':
+                        entity.funding_received.append(newconnection)
+                        otherentity.funding_given.append(newconnection)
+    update_financeconnections(data['funding_given'], 'funding', 'given')
+    update_financeconnections(data['funding_received'], 'funding', 'received')
+    update_financeconnections(data['investments_made'], 'investment', 'given')
+    update_financeconnections(data['investments_received'], 'investment', 'received')
+
+    def update_dataconnections(connections, direction):
+        # TODO: Delete old connections.
+        for connection in connections:
+            if connection['id']:
+                oldconnection = Dataconnection.query.get(connection['id'])
+                if oldconnection.details != connection['details']:
+                    oldconnection.details = connection['details']
+            else:
+                otherentity = Entity.query.get(connection['entity_id'])
+                newconnection = Dataconnection()
+                if connection['details']:
+                    newconnection.details = connection['details']
+
+                if direction is 'given':
+                    entity.data_given.append(newconnection)
+                    otherentity.data_received.append(newconnection)
+                elif direction is 'received':
+                    entity.data_received.append(newconnection)
+                    otherentity.data_given.append(newconnection)
+
+    update_dataconnections(data['data_given'], 'given')
+    update_dataconnections(data['data_received'], 'received')
 
     # Funding Given
     # Funding Received
