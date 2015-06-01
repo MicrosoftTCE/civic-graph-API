@@ -93,8 +93,12 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.updating = false;
 
     $scope.addressSearch = function(search) {
-        return $http.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {'address': search, 'sensor': false} })
-            .then(function(locations) { return _.pluck(locations.data.results, 'formatted_address'); })
+        return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK'}})
+            .then(function(data) {
+                var resources = data.data.resourceSets[0].resources;
+                results = _.pluck(_.pluck(resources, 'address'), 'formattedAddress');
+                return results
+            });
     }
 
     $scope.addLocation = function(locations) {
