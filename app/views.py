@@ -1,6 +1,6 @@
 from flask import jsonify, render_template, request
 from app import app, cache
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, collaboration_table
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, Collaboration, Employment, Relation
 from database import db
 from api import update
 import json
@@ -17,7 +17,9 @@ def civic_json():
         funding_connections=funding_connections(),
         investment_connections=investment_connections(),
         data_connections=data_connections(),
-        collaboration_connections=collaboration_connections()
+        collaboration_connections=collaboration_connections(),
+        employment_connections=employment_connections(),
+        relation_connections=relation_connections()
     )
 
 @app.route('/categories')
@@ -30,17 +32,22 @@ def nodes():
 
 def funding_connections():
     # Watch out for IDs/indexes: http://stackoverflow.com/a/16824896
-    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Funding.query.all()]
+    return [{'source': f.giver_id, 'target': f.receiver_id} for f in Funding.query.all()]
 
 def investment_connections():
-    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Investment.query.all()]
+    return [{'source': i.giver_id, 'target': i.receiver_id} for i in Investment.query.all()]
 
 def data_connections():
-    return [{'source': c.giver_id, 'target': c.receiver_id} for c in Dataconnection.query.all()]
+    return [{'source': d.giver_id, 'target': d.receiver_id} for d in Dataconnection.query.all()]
 
 def collaboration_connections():
-    collaborationconnections = db.query(collaboration_table).all()
-    return [{'source': source, 'target': target} for source, target in collaborationconnections]
+    return [{'source': c.entity_id1, 'target': c.entity_id2} for c in Collaboration.query.all()]
+
+def employment_connections():
+    return [{'source': e.entity_id1, 'target': e.entity_id2} for e in Collaboration.query.all()]
+
+def relation_connections():
+    return [{'source': r.entity_id1, 'target': r.entity_id2} for r in Relation.query.all()]
 
 @app.route('/save', methods=['POST'])
 def save():

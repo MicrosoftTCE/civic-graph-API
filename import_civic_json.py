@@ -2,7 +2,7 @@
 import json
 import os
 from app import db
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, Collaboration
 from database import init_db
 
 if os.path.exists('civic.db'):
@@ -85,7 +85,9 @@ def connect_key_people(entity, keypeople):
         for person in keypeople:
             key_person = Keyperson.query.filter_by(name=person['name']).first()
             entity.key_people.append(key_person)
-
+# Do this manually because civic.json only gives names.
+# Unless you filter by name, check relations, and add if it isn't in.
+"""
 def create_relations():
     # Create relation things in the db.
     relations = set()
@@ -101,11 +103,13 @@ def create_relations():
 
     db.commit()
 
+
 def add_relations(entity, relations):
     if relations:
         for r in relations:
             relation = Relation.query.filter_by(name=r['entity']).first()
             entity.relations.append(relation)
+"""
 
 def add_finances(entity, finances, ftype):
     # Add revenues and expenses to an entity.
@@ -125,7 +129,8 @@ def connect(connections, ctype):
                 source = Entity.query.filter_by(id=old_to_new[connection['source']]).first()
                 target = Entity.query.filter_by(id=old_to_new[connection['target']]).first()
                 if ctype == 'collaborations':
-                    source.collaborations.append(target)
+                    collaboration = Collaboration(source, target)
+                    db.commit()
                 elif ctype == 'data':
                     dataconnection = Dataconnection()
                     source.data_received.append(dataconnection)
@@ -181,7 +186,7 @@ def create_entity(node):
     categorize(entity, node['categories'])
     add_finances(entity, node['revenue'], 'revenue')
     add_finances(entity, node['expenses'], 'expenses')
-    add_relations(entity, node['relations'])
+    #add_relations(entity, node['relations'])
     connect_key_people(entity, node['key_people'])
     db.add(entity)
     db.flush()
@@ -201,7 +206,7 @@ create_categories()
 create_key_people()
 
 # Create all relations in the db.
-create_relations()
+# create_relations()
 
 # Create all cities in the db.
 #create_cities()
@@ -227,3 +232,4 @@ print "Wrote %d Funding entries." % len(Funding.query.all())
 print "Wrote %d Investment entries." % len(Investment.query.all())
 print "Wrote %d Dataconnection entries." % len(Dataconnection.query.all())
 print "Wrote %d Relation entries." % len(Relation.query.all())
+print "Wrote %d Collaboration entries." % len(Collaboration.query.all())

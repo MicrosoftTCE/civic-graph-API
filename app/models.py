@@ -7,28 +7,12 @@ category_table = Table('category_table', Base.metadata,
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 
-collaboration_table = Table('collaboration_table', Base.metadata,
-    Column('entity_id1', Integer, ForeignKey('entity.id')),
-    Column('entity_id2', Integer, ForeignKey('entity.id'))
-)
-
-relation_table = Table('relation_table', Base.metadata,
-    Column('relation_id', Integer, ForeignKey('relation.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
-
 # Make this a connection to entities rather than a 'Key Person'.
 keypeople_table = Table('keypeople_table', Base.metadata,
     Column('keyperson_id', Integer, ForeignKey('keyperson.id')),
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 
-"""
-collaboration_table = Table('collaboration_table', Base.metadata,
-    Column('collaboration_id', Integer, ForeignKey('collaboration.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
-"""
 class Entity(Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
@@ -56,16 +40,18 @@ class Entity(Base):
                         primaryjoin='(Entity.id==Investment.giver_id)')
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
                         primaryjoin='(Entity.id==Investment.receiver_id)')
-
-    #collaborations = relationship('Collaboration', backref='collaborator', secondary=collaboration_table)
-    collaborations = relationship('Entity', backref='collaborator', lazy='dynamic',
-                        secondary=collaboration_table,
-                        primaryjoin=id==collaboration_table.c.entity_id1,
-                        secondaryjoin=id==collaboration_table.c.entity_id2)
-
-    # What even is this?
-    relations = relationship('Relation', secondary=relation_table,
-                            backref=backref('entity', lazy='dynamic'))
+    collaborations = relationship('Collaboration', backref='collaborators',
+                        secondary='connection',
+                        primaryjoin='(Entity.id==Collaboration.entity_id1)',
+                        secondaryjoin='(Entity.id==Collaboration.entity_id2)')
+    employments = relationship('Employment', backref='employers',
+                        secondary='connection',
+                        primaryjoin='(Entity.id==Employment.entity_id1)',
+                        secondaryjoin='(Entity.id==Employment.entity_id2)')
+    relations = relationship('Relation', backref='relationships',
+                        secondary='connection',
+                        primaryjoin='(Entity.id==Relation.entity_id1)',
+                        secondaryjoin='(Entity.id==Relation.entity_id2)')
     data_given = relationship('Dataconnection', backref='giver', lazy='dynamic',
                         primaryjoin='(Entity.id==Dataconnection.giver_id)')
     data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
@@ -97,10 +83,9 @@ class Entity(Base):
                 'funding_received': [funding.json('received') for funding in self.funding_received],
                 'investments_made': [investment.json('given') for investment in self.investments_made],
                 'investments_received': [investment.json('received') for investment in self.investments_received],
-                #'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
-                'collaborations': [{'entity': collaboration.name} for collaboration in self.collaborations],
-                # Figure out how relations work.
-                #'relations': [{'entity': relation.name} for relation in self.relations],
+                'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
+                'employment': [employment.json(self.id) for employment in self.employments],
+                'relations': [relation.json(self.id) for relation in self.relations],
                 'data_given': [data.json('given') for data in self.data_given],
                 'data_received': [data.json('received') for data in self.data_received],
                 'key_people': [person.json() for person in self.key_people]
@@ -184,6 +169,9 @@ class Funding(Financeconnection):
 class Investment(Financeconnection):
     __mapper_args__ = {'polymorphic_identity': 'investment'}
 
+# TODO: Revenue, expense, Funding, Investment should all subclass a single Finance class.
+# Possible to subclass a subclass?
+
 class Directionalconnection(Base):
     __tablename__ = 'directionalconnection'
     id = Column(Integer, primary_key=True)
@@ -205,21 +193,41 @@ class Directionalconnection(Base):
 class Dataconnection(Directionalconnection):
     __mapper_args__ = {'polymorphic_identity': 'data'}
 
-"""
-class Collaboration(Base):
-    __tablename__ = 'collaboration'
+class Connection(Base):
+    __tablename__ = 'connection'
     id = Column(Integer, primary_key=True)
+    entity_id1 = Column(Integer, ForeignKey('entity.id'))
+    entity_id2 = Column(Integer, ForeignKey('entity.id'))
+    entity_1 = relationship('Entity', backref='connection_1',
+                            primaryjoin='(Entity.id==Connection.entity_id1)')
+    entity_2 = relationship('Entity', backref='connection_2',
+                            primaryjoin='(Entity.id==Connection.entity_id2)')
+
     details = Column(String(500))
-    entities = relationship('Entity', secondary=collaboration_table,
-                               backref=backref('collaboration', lazy='dynamic'))
+
+    discriminator = Column('type', String(50))
+    __mapper_args__ = {'polymorphic_on': discriminator}
+
+    def __init__(self, entity1, entity2, details=None):
+        self.entity_1 = entity1
+        self.entity_2 = entity2
+        self.details = details
 
     def json(self, entityid):
-        return {'entities': [{'entity': entity.name} for entity in self.entities if entity.id is not entityid], 'details': self.details, 'id': self.id}
-"""
+        otherentity = self.entity_1 if entityid == self.entity_id2 else self.entity_2
+        return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id, 'id': self.id}
 
-# TODO: Revenue, expense, Funding, Investment should all subclass a single Finance class.
-# Possible to subclass a subclass?
-# TODO: Connections should subclass a Connection class.
+    def getOther(self, entityid):
+        return self.entity_1 if entityid == self.entity_id2 else self.entity_2
+
+class Collaboration(Connection):
+    __mapper_args__ = {'polymorphic_identity': 'collaboration'}
+
+class Employment(Connection):
+    __mapper_args__ = {'polymorphic_identity': 'employment'}
+
+class Relation(Connection):
+    __mapper_args__ = {'polymorphic_identity': 'relation'}
 
 # Make this a connection to entities rather than a 'Key Person'.
 class Keyperson(Base):
@@ -236,12 +244,3 @@ class Keyperson(Base):
 
     def json(self):
         return {'name': self.name, 'id': self.id}
-
-class Relation(Base):
-    __tablename__ = 'relation'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    entities = relationship('Entity', secondary=relation_table,
-                                backref=backref('relation', lazy='dynamic'))
-    def __init__(self, name):
-        self.name = name
