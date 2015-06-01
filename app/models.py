@@ -84,7 +84,7 @@ class Entity(Base):
                 'investments_made': [investment.json('given') for investment in self.investments_made],
                 'investments_received': [investment.json('received') for investment in self.investments_received],
                 'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
-                'employment': [employment.json(self.id) for employment in self.employments],
+                'employments': [employment.json(self.id) for employment in self.employments],
                 'relations': [relation.json(self.id) for relation in self.relations],
                 'data_given': [data.json('given') for data in self.data_given],
                 'data_received': [data.json('received') for data in self.data_received],

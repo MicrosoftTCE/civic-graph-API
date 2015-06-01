@@ -18,7 +18,19 @@
         <input type='text' class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
     </div>
     <div>Collaboration
-        <input type='text' class='form-control' ng-repeat='collaboration in editEntity.collaborations' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
+        <div ng-repeat='collaboration in editEntity.collaborations'>
+        <input type='text' class='form-control' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, collaboration, 'collaborations')" ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
+        <input type='text' class='form-control' ng-model='collaboration.details' placeholder='Collaboration details'>
+        </div>
+    </div>
+    <div>Employment
+        <input type='text' class='form-control' ng-repeat='employment in editEntity.employments' ng-model='employment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, employment, 'employments')" ng-change='addConnection(editEntity.employments)' placeholder='Entity'>
+    </div>
+    <div>Related to
+        <div ng-repeat='relation in editEntity.relations'>
+        <input type='text' class='form-control' ng-model='relation.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select="setConnection($item, relation, 'relations')" ng-change='addConnection(editEntity.relations)' placeholder='Related entity'>
+        <input type='text' class='form-control' ng-model='relation.details' placeholder='Relation details'>
+        </div>
     </div>
     <div>Who provides them with data?
         <div ng-repeat='data in editEntity.data_received'>

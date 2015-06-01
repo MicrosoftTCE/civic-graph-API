@@ -70,6 +70,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         'investments_made': 5,
         'investments_received': 5,
         'collaborations': 5,
+        'employments': 5,
+        'relations': 5,
         'data_given': 5,
         'data_received': 5,
         'revenues': 5,
@@ -144,13 +146,15 @@ angular.module('civic-graph', ['ui.bootstrap'])
 
     $scope.addConnection = function(connections) {
         // Add an empty connection to edit if none exist.
-        if (!_.some(connections, {'entity':''})) {
-            connections.push({'entity':''});
+        if (!_.some(connections, {'entity':'', 'id': null})) {
+            connections.push({'entity':'', 'id': null, 'details': null});
         }
     }
     $scope.addConnection($scope.editEntity.data_given);
     $scope.addConnection($scope.editEntity.data_received);
     $scope.addConnection($scope.editEntity.collaborations);
+    $scope.addConnection($scope.editEntity.employments);
+    $scope.addConnection($scope.editEntity.relations);
 
     $scope.addFinance = function(records) {
         // Add new finance field if all current fields are valid.
@@ -173,6 +177,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         _.remove($scope.editEntity.data_given, function(d){return d.entity == '';});
         _.remove($scope.editEntity.data_received, function(d){return d.entity == '';});
         _.remove($scope.editEntity.collaborations, function(c){return c.entity == '';});
+        _.remove($scope.editEntity.employments, function(c){return c.entity == '';});
+        _.remove($scope.editEntity.relations, function(c){return c.entity == '';});
         _.remove($scope.editEntity.revenues, function(r){return r.amount <= 0 || r.year < 1750;});
         _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
     }

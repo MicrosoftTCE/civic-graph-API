@@ -1,5 +1,5 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection
+from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection, Connection, Collaboration, Employment, Relation
 from database import db
 
 def update(entity, data):
@@ -64,7 +64,10 @@ def update(entity, data):
         # TODO: Check for names too, in case you're getting an id from an old cleared form field.
         new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
         entity.key_people = [key_person for key_person in entity.key_people if key_person.id in new_keypeople]
-
+        
+        # Do this or else list comprehensions don't work as expected.
+        db.commit()
+        
         # Create or update.
         for key_person in key_people:
             if key_person['id']:
@@ -157,5 +160,25 @@ def update(entity, data):
     update_dataconnections(data['data_given'], 'given')
     update_dataconnections(data['data_received'], 'received')
 
-    # Collaboration
-    # Relation?
+    def update_connections(connections, ctype):
+        # TODO: Delete old connections.
+        for connection in connections:
+            if connection['id']:
+                # Connection exists, update details.
+                oldconnection = Connection.query.get(connection['id'])
+                if oldconnection.details != connection['details']:
+                    oldconnection.details = connection['details']
+            else:
+                otherentity = Entity.query.get(connection['entity_id'])
+                if ctype is 'collaborations':
+                    collaboration = Collaboration(entity, otherentity, connection['details'])
+                elif ctype is 'employments':
+                    employment = Employment(entity, otherentity, connection['details'])
+                elif ctype is 'relations':
+                    relation = Relation(entity, otherentity, connection['details'])
+
+    update_connections(data['collaborations'], 'collaborations')
+    update_connections(data['employments'], 'employments')
+    update_connections(data['relations'], 'relations')
+
+    db.commit()

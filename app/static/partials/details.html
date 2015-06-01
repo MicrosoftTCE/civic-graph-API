@@ -23,6 +23,26 @@ Collaborated with:
 <div ng-if='currentEntity.collaborations.length == 0'>
     No known collaborations.
 </div>
+<!-- EMPLOYMENTS -->
+<div ng-if='currentEntity.employments.length > 0'>
+Employment:
+    <ul><li ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments'>{{employment.entity}}</li></ul>
+    <button ng-if='currentEntity.employments.length > itemsShown.employments' class='btn btn-xs btn-default' ng-click="showMore('employments')">More</button>
+    <button ng-if='itemsShown.employments > itemsShownDefault.employments' class='btn btn-xs btn-default' ng-click="showLess('employments')">Less</button>
+</div>
+<div ng-if='currentEntity.employments.length == 0'>
+    No known employment information.
+</div>
+<!-- Relations -->
+<div ng-if='currentEntity.relations.length > 0'>
+Related to:
+    <ul><li ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations'>{{relation.entity}}</li></ul>
+    <button ng-if='currentEntity.relations.length > itemsShown.relations' class='btn btn-xs btn-default' ng-click="showMore('relations')">More</button>
+    <button ng-if='itemsShown.relations > itemsShownDefault.relations' class='btn btn-xs btn-default' ng-click="showLess('relations')">Less</button>
+</div>
+<div ng-if='currentEntity.relations.length == 0'>
+    No known relation information.
+</div>
 <!-- DATA USAGE -->
 <div ng-if='currentEntity.data_given.length > 0'>
 Gave data to:
