@@ -1,3 +1,4 @@
+<div ng-if='!updating'>
 <h3>Add Information</h3>
 <form class='edit-form' novalidate>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
@@ -103,5 +104,6 @@
         </div>
     </div>
 </form>
-
+</div>
+<div ng-if='updating'>UPDATING</div>
 <button class='btn btn-default' ng-click='save()'>Save</button>

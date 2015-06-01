@@ -130,7 +130,6 @@ def connect(connections, ctype):
                 target = Entity.query.filter_by(id=old_to_new[connection['target']]).first()
                 if ctype == 'collaborations':
                     collaboration = Collaboration(source, target)
-                    db.commit()
                 elif ctype == 'data':
                     dataconnection = Dataconnection()
                     source.data_received.append(dataconnection)

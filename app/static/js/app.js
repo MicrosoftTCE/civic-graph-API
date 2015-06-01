@@ -47,6 +47,9 @@ angular.module('civic-graph', ['ui.bootstrap'])
             $scope.stopEdit();
         }
     }
+    $scope.setEntities = function(entities) {
+        $scope.entities = entities;
+    }
 
     $scope.startEdit = function() {
         $scope.editing = true;
@@ -86,7 +89,9 @@ angular.module('civic-graph', ['ui.bootstrap'])
         $scope.itemsShown[type] = $scope.itemsShownDefault[type];
     }
 })
-.controller('editCtrl', function($scope, $http) {
+.controller('editCtrl', function($scope, $http, $timeout) {
+    $scope.updating = false;
+
     $scope.addressSearch = function(search) {
         return $http.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {'address': search, 'sensor': false} })
             .then(function(locations) { return _.pluck(locations.data.results, 'formatted_address'); })
@@ -119,8 +124,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         finance.entity_id = entity.id;
         // Add this finance connection to other entity's finance connections.
         // Watch out for edge cases -- acts on any onSelect. Also, doesn't track changes to year/amount.
-        var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount, 'id': null};
-        entity[type].push(newFinance);
+        //var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount, 'id': null};
+        //entity[type].push(newFinance);
         // Push connection to connections.
     }
 
@@ -139,8 +144,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
         connection.entity_id = entity.id;
         // Add this connection to other entity's connections.
         // Not tracking data details...
-        var newConnection = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name};
-        entity[type].push(newConnection);
+        //var newConnection = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name};
+        //entity[type].push(newConnection);
         // Push connection to connections.
     }
 
@@ -184,17 +189,20 @@ angular.module('civic-graph', ['ui.bootstrap'])
     }
 
     $scope.savetoDB = function() {
+        $scope.updating = true;
         $http.post('save', {'entity': $scope.editEntity})
             .then(function(response) {
-                console.log(response);
+                console.log(response.data);
+                $scope.setEntities(response.data.nodes);
+                $scope.setEntity(_.find($scope.entities, {'id': $scope.editEntity.id}));
+                // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
+                $scope.updating = false;
             });
     }
 
     $scope.save = function() {
         $scope.removeEmpty();
         $scope.savetoDB();
-        // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
-        $scope.stopEdit();
     }
 
 });

@@ -67,7 +67,7 @@ def update(entity, data):
         
         # Do this or else list comprehensions don't work as expected.
         db.commit()
-        
+
         # Create or update.
         for key_person in key_people:
             if key_person['id']:
@@ -168,14 +168,19 @@ def update(entity, data):
                 oldconnection = Connection.query.get(connection['id'])
                 if oldconnection.details != connection['details']:
                     oldconnection.details = connection['details']
+                    print 'UPDATING CONNECTION DETAILS', oldconnection.details
             else:
                 otherentity = Entity.query.get(connection['entity_id'])
                 if ctype is 'collaborations':
                     collaboration = Collaboration(entity, otherentity, connection['details'])
+                    print 'CREATED NEW COLLABORATION ', collaboration.details
                 elif ctype is 'employments':
                     employment = Employment(entity, otherentity, connection['details'])
+                    print 'CREATED NEW EMPLOYMENT ', employment.details
                 elif ctype is 'relations':
                     relation = Relation(entity, otherentity, connection['details'])
+                    print 'CREATED NEW RELATION ', relation.details
+                db.commit()
 
     update_connections(data['collaborations'], 'collaborations')
     update_connections(data['employments'], 'employments')

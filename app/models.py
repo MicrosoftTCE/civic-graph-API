@@ -41,17 +41,11 @@ class Entity(Base):
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
                         primaryjoin='(Entity.id==Investment.receiver_id)')
     collaborations = relationship('Collaboration', backref='collaborators',
-                        secondary='connection',
-                        primaryjoin='(Entity.id==Collaboration.entity_id1)',
-                        secondaryjoin='(Entity.id==Collaboration.entity_id2)')
+                        primaryjoin='or_(Entity.id==Collaboration.entity_id1,Entity.id==Collaboration.entity_id2)')
     employments = relationship('Employment', backref='employers',
-                        secondary='connection',
-                        primaryjoin='(Entity.id==Employment.entity_id1)',
-                        secondaryjoin='(Entity.id==Employment.entity_id2)')
+                        primaryjoin='or_(Entity.id==Employment.entity_id1,Entity.id==Employment.entity_id2)')
     relations = relationship('Relation', backref='relationships',
-                        secondary='connection',
-                        primaryjoin='(Entity.id==Relation.entity_id1)',
-                        secondaryjoin='(Entity.id==Relation.entity_id2)')
+                        primaryjoin='or_(Entity.id==Relation.entity_id1,Entity.id==Relation.entity_id2)')
     data_given = relationship('Dataconnection', backref='giver', lazy='dynamic',
                         primaryjoin='(Entity.id==Dataconnection.giver_id)')
     data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
@@ -210,7 +204,9 @@ class Connection(Base):
 
     def __init__(self, entity1, entity2, details=None):
         self.entity_1 = entity1
+        self.entity_id1 = entity1.id
         self.entity_2 = entity2
+        self.entity_id2 = entity2.id
         self.details = details
 
     def json(self, entityid):
