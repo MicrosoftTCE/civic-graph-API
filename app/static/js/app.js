@@ -28,9 +28,18 @@ angular.module('civic-graph', ['ui.bootstrap'])
     ];
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
-
     $scope.sizeBy = 'employees';
-    $scope.view = 'network';
+
+    $scope.templates = [
+        {'name': 'network', 'url': 'static/partials/network.html'},
+        {'name': 'map', 'url': 'static/partials/map.html'}
+    ];
+
+    $scope.template = $scope.templates[0];
+    $scope.view = 'network'
+    $scope.changeView = function(view) {
+        $scope.template = _.find($scope.templates, {'name': view});
+    }
 
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;

@@ -16,7 +16,7 @@
     <div class='container-fluid main-container'>
         <div class='row'>
             <div class='col-md-2 control-panel' ng-include="'static/partials/controls.html'"></div>
-            <div class='col-md-8 display-panel' ng-include="'static/partials/display.html'"></div>
+            <div class='col-md-8 display-panel' ng-include='template.url'></div>
             <div class='col-md-2 details-panel' ng-if='!editing' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
             <div class='col-md-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
         </div>
