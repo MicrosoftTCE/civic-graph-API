@@ -100,7 +100,6 @@ angular.module('civic-graph', ['ui.bootstrap'])
     }
 
     $scope.setLocation = function(location, data) {
-        console.log(data);
         location.full_address = 'formattedAddress' in data.address ? data.address.formattedAddress : null;
         location.address_line = 'addressLine' in data.address ? data.address.addressLine : null;
         location.locality = 'locality' in data.address ? data.address.locality : null;
@@ -177,7 +176,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.removeEmpty = function() {
         // Clear the empty unedited new items.
         $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
-        _.remove($scope.editEntity.locations, function(l){return l.location == '';});
+        _.remove($scope.editEntity.locations, function(l){return l.full_address == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
         _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});

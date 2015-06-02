@@ -23,11 +23,9 @@ class Entity(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     nickname = Column(String(100))
-    locations = relationship('Location', secondary=location_table,
-                                backref=backref('entity', lazy='dynamic'))
+    locations = relationship('Location', secondary=location_table, backref='entity', lazy='dynamic', cascade='all, delete-orphan', single_parent=True)
     entitytype = Column(String(100))
-    categories = relationship('Category', secondary=category_table, 
-                                backref=backref('entity', lazy='dynamic'))
+    categories = relationship('Category', secondary=category_table, backref='entity', lazy='dynamic')
     influence = Column(String(100))
     employees = Column(Integer)
     url = Column(String(100))
@@ -37,25 +35,25 @@ class Entity(Base):
     expenses = relationship('Expense', backref='entity', lazy='dynamic')
     # Try lazy='select'
     funding_given = relationship('Funding', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Funding.giver_id)')
+                        primaryjoin='(Entity.id==Funding.giver_id)', cascade='all, delete-orphan')
     funding_received = relationship('Funding', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Funding.receiver_id)')
+                        primaryjoin='(Entity.id==Funding.receiver_id)', cascade='all, delete-orphan')
     investments_made = relationship('Investment', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Investment.giver_id)')
+                        primaryjoin='(Entity.id==Investment.giver_id)', cascade='all, delete-orphan')
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Investment.receiver_id)')
-    collaborations = relationship('Collaboration', backref='collaborators',
-                        primaryjoin='or_(Entity.id==Collaboration.entity_id1,Entity.id==Collaboration.entity_id2)')
-    employments = relationship('Employment', backref='employers',
-                        primaryjoin='or_(Entity.id==Employment.entity_id1,Entity.id==Employment.entity_id2)')
-    relations = relationship('Relation', backref='relationships',
-                        primaryjoin='or_(Entity.id==Relation.entity_id1,Entity.id==Relation.entity_id2)')
+                        primaryjoin='(Entity.id==Investment.receiver_id)', cascade='all, delete-orphan')
+    collaborations = relationship('Collaboration', backref='collaborators', lazy='dynamic',
+                        primaryjoin='or_(Entity.id==Collaboration.entity_id1,Entity.id==Collaboration.entity_id2)', cascade='all, delete-orphan')
+    employments = relationship('Employment', backref='employers', lazy='dynamic',
+                        primaryjoin='or_(Entity.id==Employment.entity_id1,Entity.id==Employment.entity_id2)', cascade='all, delete-orphan')
+    relations = relationship('Relation', backref='relationships', lazy='dynamic',
+                        primaryjoin='or_(Entity.id==Relation.entity_id1,Entity.id==Relation.entity_id2)', cascade='all, delete-orphan')
     data_given = relationship('Dataconnection', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Dataconnection.giver_id)')
+                        primaryjoin='(Entity.id==Dataconnection.giver_id)', cascade='all, delete-orphan')
     data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Dataconnection.receiver_id)')
+                        primaryjoin='(Entity.id==Dataconnection.receiver_id)', cascade='all, delete-orphan')
     # Make this a connection to entities rather than a 'Key Person'.
-    key_people = relationship('Keyperson', secondary=keypeople_table, backref='entity')
+    key_people = relationship('Keyperson', secondary=keypeople_table, backref='entity', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name

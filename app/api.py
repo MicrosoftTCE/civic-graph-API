@@ -9,8 +9,6 @@ def update(entity, data):
         entity.name = data['name']
     if entity.nickname != data['nickname']:
         entity.nickname = data['nickname']
-    #if entity.location != data['location']:
-    #    entity.location = data['location']
     if entity.entitytype != data['type']:
         entity.entitytype = data['type']
     if entity.influence != data['influence']:
@@ -55,6 +53,7 @@ def update(entity, data):
                     expense = Expense(finance['amount'], finance['year'])
                     entity.expenses.append(expense)
                     print 'NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount)
+        db.commit()
 
     update_finance(data['revenues'], 'revenues')
     update_finance(data['expenses'], 'expenses')
@@ -62,6 +61,7 @@ def update(entity, data):
     def update_key_people(key_people):
         # Delete any key people who have been removed.
         # TODO: Check for names too, in case you're getting an id from an old cleared form field.
+        # TODO: Make sure they're deleted from the db and not just removed from entity.key_people.
         new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
         entity.key_people = [key_person for key_person in entity.key_people if key_person.id in new_keypeople]
         
@@ -81,6 +81,7 @@ def update(entity, data):
                 keyperson = Keyperson(key_person['name'])
                 entity.key_people.append(keyperson)
                 print 'NEW KEY PERSON ' + keyperson.name
+        db.commit()
 
     update_key_people(data['key_people'])
 
@@ -98,11 +99,35 @@ def update(entity, data):
             if category.id not in new_categories:
                 print 'REMOVING CATEGORY ' + category.name
                 entity.categories.remove(category)
+        db.commit()
                 
     update_categories(data['categories'])
 
     def update_financeconnections(connections, ftype, direction):
-        # TODO: Delete old connections
+        # Delete and connections that have been removed.
+        new_connections = [connection['id'] for connection in connections if connection['id']]
+        # TODO: See if you can make this generic to handle any set of connections for simplicity.
+        # TODO: Maybe list comprehensions in stead depending on how cascade='delete-orphan' works.
+        if ftype is 'investment':
+            if direction is 'given':
+                for connection in entity.investments_made:
+                    if connection.id not in new_connections:
+                        db.delete(connection)
+            elif direction is 'received':
+                for connection in entity.investments_received:
+                    if connection.id not in new_connections:
+                        db.delete(connection)
+        elif ftype is 'funding':
+            if direction is 'given':
+                for connection in entity.funding_given:
+                    if connection.id not in new_connections:
+                        db.delete(connection)
+            elif direction is 'received':
+                for connection in entity.funding_received:
+                    if connection.id not in new_connections:
+                        db.delete(connection)
+        db.commit()
+
         for connection in connections:
             if connection['id']:
                 # Connection exists, update amount and year.
@@ -132,13 +157,27 @@ def update(entity, data):
                     elif direction is 'received':
                         entity.funding_received.append(newconnection)
                         otherentity.funding_given.append(newconnection)
+        db.commit()
+
     update_financeconnections(data['funding_given'], 'funding', 'given')
     update_financeconnections(data['funding_received'], 'funding', 'received')
     update_financeconnections(data['investments_made'], 'investment', 'given')
     update_financeconnections(data['investments_received'], 'investment', 'received')
 
     def update_dataconnections(connections, direction):
-        # TODO: Delete old connections.
+        # Delete any connections that have been removed.
+        new_connections = [connection['id'] for connection in connections if connection['id']]
+        # Watch out for odd behavior in list iteration while deleting.
+        if direction is 'given':
+            for connection in entity.data_given:
+                if connection.id not in new_connections:
+                    db.delete(connection)
+        elif direction is 'received':
+            for connection in entity.data_received:
+                if connection.id not in new_connections:
+                    db.delete(connection)
+        db.commit()
+        
         for connection in connections:
             if connection['id']:
                 oldconnection = Dataconnection.query.get(connection['id'])
@@ -149,19 +188,35 @@ def update(entity, data):
                 newconnection = Dataconnection()
                 if connection['details']:
                     newconnection.details = connection['details']
-
                 if direction is 'given':
                     entity.data_given.append(newconnection)
                     otherentity.data_received.append(newconnection)
                 elif direction is 'received':
                     entity.data_received.append(newconnection)
                     otherentity.data_given.append(newconnection)
+        db.commit()
 
     update_dataconnections(data['data_given'], 'given')
     update_dataconnections(data['data_received'], 'received')
 
     def update_connections(connections, ctype):
-        # TODO: Delete old connections.
+        # Delete any connections that have been removed.
+        new_connections = [connection['id'] for connection in connections if connection['id']]
+        # Watch out for odd behavior in list iteration while deleting.
+        if ctype is 'collaborations':
+            for connection in entity.collaborations:
+                if connection.id not in new_connections:
+                    db.delete(connection)
+        elif ctype is 'employments':
+            for connection in entity.employments:
+                if connection.id not in new_connections:
+                    db.delete(connection)
+        elif ctype is 'relations':
+            for connection in entity.relations:
+                if connection.id not in new_connections:
+                    db.delete(connection)
+        db.commit()
+
         for connection in connections:
             if connection['id']:
                 # Connection exists, update details.
@@ -180,14 +235,22 @@ def update(entity, data):
                 elif ctype is 'relations':
                     relation = Relation(entity, otherentity, connection['details'])
                     print 'CREATED NEW RELATION ', relation.details
-                db.commit()
+        db.commit()
 
     update_connections(data['collaborations'], 'collaborations')
     update_connections(data['employments'], 'employments')
     update_connections(data['relations'], 'relations')
 
     def update_locations(locations):
-        # TODO: Delete old locations.
+        # Delete old locations.
+        # TODO: See if this acutally deletes them from db or just removes them from entity.locations.
+        # See: cascade='delete-orphan'
+        new_locations = [location['id'] for location in locations if location['id']]
+        entity.locations = [location for location in entity.locations if location.id in new_locations]
+        
+        # Do this or else list comprehensions don't work as expected.
+        db.commit()
+
         def update_location(location, json):
             location.full_address = json['full_address']
             location.address_line = json['address_line']
@@ -212,6 +275,7 @@ def update(entity, data):
                 update_location(newlocation, location)
                 entity.locations.append(newlocation)
                 print 'ADDED NEW LOCATION', newlocation
+        db.commit()
 
     update_locations(data['locations'])
 
