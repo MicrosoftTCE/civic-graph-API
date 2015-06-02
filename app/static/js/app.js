@@ -133,14 +133,9 @@ angular.module('civic-graph', ['ui.bootstrap'])
     }
     $scope.addKeyPerson();
 
-    $scope.setFinanceConnection = function(entity, finance, type) {
+    $scope.setFinanceConnection = function(entity, finance) {
         // Add other entity's id to this finance connection.
         finance.entity_id = entity.id;
-        // Add this finance connection to other entity's finance connections.
-        // Watch out for edge cases -- acts on any onSelect. Also, doesn't track changes to year/amount.
-        //var newFinance = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name, 'year': finance.year, 'amount': finance.amount, 'id': null};
-        //entity[type].push(newFinance);
-        // Push connection to connections.
     }
 
     $scope.addFinanceConnection = function(finances) {
@@ -154,13 +149,8 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.addFinanceConnection($scope.editEntity.funding_given);
     $scope.addFinanceConnection($scope.editEntity.investments_made);
 
-    $scope.setConnection = function(entity, connection, type) {
+    $scope.setConnection = function(entity, connection) {
         connection.entity_id = entity.id;
-        // Add this connection to other entity's connections.
-        // Not tracking data details...
-        //var newConnection = {'entity_id': $scope.editEntity.id, 'entity': $scope.editEntity.name};
-        //entity[type].push(newConnection);
-        // Push connection to connections.
     }
 
     $scope.addConnection = function(connections) {
