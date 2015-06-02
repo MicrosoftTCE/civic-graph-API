@@ -13,14 +13,18 @@ keypeople_table = Table('keypeople_table', Base.metadata,
     Column('entity_id', Integer, ForeignKey('entity.id'))
 )
 
+location_table = Table('location_table', Base.metadata,
+    Column('location_id', Integer, ForeignKey('location.id')),
+    Column('entity_id', Integer, ForeignKey('entity.id'))
+)
+
 class Entity(Base):
     __tablename__ = 'entity'
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     nickname = Column(String(100))
-    location = Column(String(100))
-    #locations = relationship('Location', secondary=location_table,
-    #                            backref=backref('entity', lazy='dynamic'))
+    locations = relationship('Location', secondary=location_table,
+                                backref=backref('entity', lazy='dynamic'))
     entitytype = Column(String(100))
     categories = relationship('Category', secondary=category_table, 
                                 backref=backref('entity', lazy='dynamic'))
@@ -63,7 +67,7 @@ class Entity(Base):
         return {'id': self.id,
                 'name': self.name,
                 'nickname': self.nickname,
-                'locations': [{'location': self.location}],
+                'locations': [location.json() for location in self.locations],
                 'type': self.entitytype,
                 'categories': [category.json() for category in self.categories],
                 'influence': self.influence,
@@ -240,3 +244,27 @@ class Keyperson(Base):
 
     def json(self):
         return {'name': self.name, 'id': self.id}
+
+class Location(Base):
+    __tablename__ = 'location'
+    id = Column(Integer, primary_key=True)
+    entities = relationship('Entity', secondary=location_table,
+                               backref=backref('location', lazy='dynamic'))
+    
+    full_address = Column(String(200))
+    address_line = Column(String(100))
+    locality = Column(String(100))
+    district = Column(String(100))
+    postal_code = Column(String(20))
+    country = Column(String(100))
+    country_code = Column(String(2))
+    latitude = Column(Float)
+    longitude = Column(Float)
+
+    def __repr__(self):
+        return '<Location %r>' % self.full_address
+
+    def json(self):
+        return {'id': self.id, 'full_address': self.full_address, 'address_line': self.address_line, 
+        'locality': self.locality, 'district': self.district, 'postal_code': self.postal_code,
+        'country': self.country, 'country_code': self.country_code, 'coordinates': [self.latitude, self.longitude]}

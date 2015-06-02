@@ -1,6 +1,6 @@
 <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
 <h3>{{currentEntity.name}}</h3>
-Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.location}}</li></ul>
+Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
 Influence: {{currentEntity.influence}}<br />
 Type of Entity: {{currentEntity.type}}<br />
 Employees: {{currentEntity.employees | number}}<br />

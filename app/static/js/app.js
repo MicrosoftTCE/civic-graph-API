@@ -93,17 +93,27 @@ angular.module('civic-graph', ['ui.bootstrap'])
     $scope.updating = false;
 
     $scope.addressSearch = function(search) {
-        return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK'}})
-            .then(function(data) {
-                var resources = data.data.resourceSets[0].resources;
-                results = _.pluck(_.pluck(resources, 'address'), 'formattedAddress');
-                return results
+        return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
+            .then(function(response) {
+                return response.data.resourceSets[0].resources
             });
     }
 
+    $scope.setLocation = function(location, data) {
+        console.log(data);
+        location.full_address = 'formattedAddress' in data.address ? data.address.formattedAddress : null;
+        location.address_line = 'addressLine' in data.address ? data.address.addressLine : null;
+        location.locality = 'locality' in data.address ? data.address.locality : null;
+        location.district = 'adminDistrict' in data.address ? data.address.adminDistrict : null;
+        location.postal_code = 'postalCode' in data.address ? data.address.postalCode : null;
+        location.country = 'countryRegion' in data.address ? data.address.countryRegion : null;
+        location.country_code = 'countryRegionIso2' in data.address ? data.address.countryRegionIso2 : null;
+        location.coordinates = 'point' in data ? data.point.coordinates : null;
+    }
+
     $scope.addLocation = function(locations) {
-        if (!_.some(locations, {'location':''})) {
-            locations.push({'location':''});
+        if (!_.some(locations, {'full_address':'', 'id': null})) {
+            locations.push({'full_address':'', 'id': null});
         }
     }
     $scope.addLocation($scope.editEntity.locations);
@@ -117,7 +127,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
         // WATCH OUT! TODO: If someone deletes an old person, delete their id too.
         // i.e. make sure old/cleared form fields aren't being edited into new people.
         if (!(_.some($scope.editEntity.key_people, {'name': '', 'id': null}))) {
-            $scope.editEntity.key_people.push({'name':'','id': null});
+            $scope.editEntity.key_people.push({'name':'', 'id': null});
         }
 
     }

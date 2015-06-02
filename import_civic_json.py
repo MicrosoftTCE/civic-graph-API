@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import json
+import requests
 import os
 from app import db
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, Collaboration
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, Collaboration, Location
 from database import init_db
+import time
 
 if os.path.exists('civic.db'):
     os.remove('civic.db')
@@ -122,6 +124,53 @@ def add_finances(entity, finances, ftype):
                 expense = Expense(f['amount'], f['year'])
                 entity.expenses.append(expense)
 
+def add_location(entity, locationtext):
+
+    def query(location):
+        url = 'http://dev.virtualearth.net/REST/v1/Locations'
+        params = {'query': location, 'key': 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'incl': 'ciso2'}
+        r = requests.get(url, params=params)
+        responsedata = json.loads(r.text)
+        return responsedata['resourceSets'][0]['resources']
+    if locationtext:
+        locations = locationtext.split(';')
+        for location in locations:
+            tries = 0
+            time.sleep(0.1)
+
+            resources = query(location)
+            while len(resources) == 0 and tries < 20:
+                #print 'NO RESULTS FOR ' + location + ' TRYING AGAIN'
+                resources = query(location)
+                tries+=1
+
+            if len(resources):
+                locationdata = resources[0]
+                newlocation = Location()
+                if 'formattedAddress' in locationdata['address']:
+                    newlocation.full_address = locationdata['address']['formattedAddress']
+                if 'addressLine' in locationdata['address']:
+                    newlocation.address_line = locationdata['address']['addressLine']
+                if 'locality' in locationdata['address']:
+                    newlocation.locality = locationdata['address']['locality']
+                if 'adminDistrict' in locationdata['address']:
+                    newlocation.district = locationdata['address']['adminDistrict']
+                if 'postalCode' in locationdata['address']:
+                    newlocation.postal_code = locationdata['address']['postalCode']
+                if 'countryRegion' in locationdata['address']:
+                    newlocation.country = locationdata['address']['countryRegion']
+                if 'countryRegionIso2' in locationdata['address']:
+                    newlocation.country_code = locationdata['address']['countryRegionIso2']
+                if 'point' in locationdata:
+                    newlocation.latitude = locationdata['point']['coordinates'][0]
+                    newlocation.longitude = locationdata['point']['coordinates'][1]
+                entity.locations.append(newlocation)
+                db.flush()
+                #print 'GOT LOCATION FOR ', location
+            else:
+                print 'NO DATA FOUND FOR ' + location + ' ' + entity.name + ' ' + str(entity.id)
+                print responsedata['resourceSets']
+
 def connect(connections, ctype):
     if connections:
         for connection in connections:
@@ -173,7 +222,7 @@ def make_connections():
 def create_entity(node):
     entity = Entity(node['name'])
     entity.nickname = node['nickname']
-    entity.location = node['location']
+    
     entity.entitytype = node['type']
     entity.influence = node['influence']
     if entity.influence:
@@ -189,6 +238,7 @@ def create_entity(node):
     connect_key_people(entity, node['key_people'])
     db.add(entity)
     db.flush()
+    add_location(entity, node['location'])
     old_to_new[node['ID']] = entity.id
 
 # Remove connections and nodes that aren't rendered.
@@ -212,6 +262,7 @@ create_key_people()
 
 for node in nodes:
     create_entity(node)
+    
 # Manually defining IDs broken in civic.json...
 old_to_new[289] = old_to_new[378]
 old_to_new[541] = old_to_new[552]
@@ -223,7 +274,7 @@ db.commit()
 
 print "Wrote %d Entity entries." % len(Entity.query.all())
 print "Wrote %d Category entries." % len(Category.query.all())
-#print "Wrote %d Location entries." % len(Location.query.all())
+print "Wrote %d Location entries." % len(Location.query.all())
 print "Wrote %d Keyperson entries." % len(Keyperson.query.all())
 print "Wrote %d Revenue entries." % len(Revenue.query.all())
 print "Wrote %d Expense entries." % len(Expense.query.all())

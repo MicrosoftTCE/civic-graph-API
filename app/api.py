@@ -1,5 +1,5 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection, Connection, Collaboration, Employment, Relation
+from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location
 from database import db
 
 def update(entity, data):
@@ -185,5 +185,34 @@ def update(entity, data):
     update_connections(data['collaborations'], 'collaborations')
     update_connections(data['employments'], 'employments')
     update_connections(data['relations'], 'relations')
+
+    def update_locations(locations):
+        # TODO: Delete old locations.
+        def update_location(location, json):
+            location.full_address = json['full_address']
+            location.address_line = json['address_line']
+            location.locality = json['locality']
+            location.district = json['district']
+            location.postal_code = json['postal_code']
+            location.country = json['country']
+            location.country_code = json['country_code']
+            location.latitude = json['coordinates'][0]
+            location.longitude = json['coordinates'][1]
+
+        for location in locations:
+            if location['id']:
+                # Location exists, update.
+                oldlocation = Location.query.get(location['id'])
+                if oldlocation.full_address != location['full_address']:
+                    # If the full address has changed, everything has changed.
+                    update_location(oldlocation, location)
+            else:
+                # Create new location.
+                newlocation = Location()
+                update_location(newlocation, location)
+                entity.locations.append(newlocation)
+                print 'ADDED NEW LOCATION', newlocation
+
+    update_locations(data['locations'])
 
     db.commit()
