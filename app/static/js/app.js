@@ -5,6 +5,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.categories = [];
     $scope.currentEntity;
     $scope.editEntity;
+    $scope.connections = {};
     $scope.editing = false;
 
     $http.get('entities')
@@ -36,17 +37,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     ];
 
     $scope.template = $scope.templates[0];
-    $scope.view = 'map'
+    $scope.view = 'network'
     $scope.changeView = function(view) {
         $scope.template = _.find($scope.templates, {'name': view});
     }
-    $scope.changeView('map');
+    //$scope.changeView('map');
 
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
         if ($scope.editing) {
             $scope.stopEdit();
         }
+    }
+    $scope.setEntityID = function(id) {
+        $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
     $scope.setEntities = function(entities) {
         $scope.entities = entities;
@@ -196,9 +200,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.updating = true;
         $http.post('save', {'entity': $scope.editEntity})
             .then(function(response) {
-                console.log(response.data);
                 $scope.setEntities(response.data.nodes);
-                $scope.setEntity(_.find($scope.entities, {'id': $scope.editEntity.id}));
+                $scope.setEntityID($scope.editEntity.id);
                 // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
                 $scope.updating = false;
             });
@@ -209,14 +212,82 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.savetoDB();
     }
 
-})/*
-// Pure leaflet syntax.
-.controller('mapCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-    $timeout(function() {
-        var map = L.map('map').setView([27.00, -41.00], 3);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-    });
-}]);*/
+})
+.controller('networkCtrl', function($scope, $http) {
+    // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
+    // See http://stackoverflow.com/q/16824308
+    $http.get('connections').
+        success(function(data) {
+            _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
+            _.forEach(data.connections, function(connections, type) {
+                _.forEach(connections, function(connection) {
+                    var sourceNode = _.find($scope.entities, {'id': connection.source});
+                    var targetNode = _.find($scope.entities, {'id': connection.target});
+                    $scope.connections[type].push({'source': sourceNode, 'target': targetNode});
+                });
+            });
+            drawNetwork();
+        });
+    var employeeScale = d3.scale.sqrt().domain([10, 130000]).range([10, 50]);
+    var drawNetwork = function() {
+        var svg = d3.select('#network');
+        var bounds = svg.node().getBoundingClientRect();
+        var height = bounds.height;
+        var width = bounds.width;
+        var offsets = {
+            'Individual': {'x': 2, 'y': 2},
+            'For-Profit': {'x': 2, 'y': -2},
+            'Non-Profit': {'x': -2, 'y': 2},
+            'Government': {'x': -2, 'y': -2}
+        }
+        var links = {}
+        var force = d3.layout.force()
+            .size([height, width])
+            .nodes($scope.entities)
+            .links(_.flatten(_.values($scope.connections)))
+            .charge(function(d) {
+                return d.employees ? -6*employeeScale(d.employees) : -25;
+            })
+            .linkStrength(0)
+            .linkDistance(50);
+
+        _.forEach($scope.connections, function(connections, type) {
+            links[type] = svg.selectAll('.link .'+type+'-link')
+            .data(connections)
+            .enter().append('line')
+            .attr('class', 'link '+type+'-link');
+        });
+
+        var node = svg.selectAll('.node')
+            .data($scope.entities)
+            .enter().append('circle')
+            .attr('class', function(d) {return 'node '+d.type+'-node'})
+            .attr('r', function(d) {return d.employees ? employeeScale(d.employees) : 7;})
+            .call(force.drag);
+        
+        force.on('tick', function(e) {
+            // Cluster in four corners based on offset.
+            var k = 8*e.alpha;
+            _.forEach($scope.entities, function(entity) {
+                entity.x += offsets[entity.type].x*k
+                entity.y += offsets[entity.type].y*k
+            });
+
+            _.forEach(links, function(link, type) {
+                link
+                .attr('x1', function(d) {return d.source.x;})
+                .attr('y1', function(d) {return d.source.y;})
+                .attr('x2', function(d) {return d.target.x;})
+                .attr('y2', function(d) {return d.target.y;})
+            });
+
+            node
+            .attr('cx', function(d) {return d.x;})
+            .attr('cy', function(d) {return d.y;});
+        });
+        force.start();
+    }
+})
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
     $scope.markers = [];
     $scope.options = {
@@ -248,7 +319,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 });
             });
             $scope.$on('leafletDirectiveMarker.click', function(e, args) {
-                $scope.setEntity(_.find($scope.entities, {'id': args.model.entity_id}));
+                $scope.setEntityID(args.model.entity_id);
             });
         });
     });

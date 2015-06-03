@@ -13,15 +13,22 @@ def index():
 @app.route('/entities')
 @cache.cached(key_prefix='entities', timeout=None)
 def get_entities():
-    return jsonify(
-        nodes=nodes(),
-        funding_connections=funding_connections(),
-        investment_connections=investment_connections(),
-        data_connections=data_connections(),
-        collaboration_connections=collaboration_connections(),
-        employment_connections=employment_connections(),
-        relation_connections=relation_connections()
-    )
+    return jsonify(nodes=nodes())
+
+@app.route('/connections')
+@cache.cached(key_prefix='connections', timeout=None)
+def get_connections():
+    return jsonify(connections=connections())
+
+def connections():
+    return {
+        'funding': funding_connections(),
+        'investment': investment_connections(),
+        'data': data_connections(),
+        'collaboration': collaboration_connections(),
+        'employment': employment_connections(),
+        'relation': relation_connections()
+    }
 
 @app.route('/categories')
 @cache.cached(key_prefix='categories', timeout=None)

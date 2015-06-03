@@ -23,9 +23,16 @@ html, body, .container {
     height: 100vh;
 }
 */
+#network {
+    width: 100%;
+    height: 100%;
+}
 .main-container {
 }
 .map-container {
+    height: 100vh;
+}
+.network-container {
     height: 100vh;
 }
 .control-panel {
@@ -46,4 +53,59 @@ html, body, .container {
 }
 .edit-marker:hover {
     opacity: 1;
+}
+.investment-link {
+    stroke: purple;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.funding-link {
+    stroke: indigo;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.collaboration-link {
+    stroke: yellow;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.data-link {
+    stroke: blue;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.employment-link {
+    stroke: orange;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.relation-link {
+    stroke: red;
+    stroke-width: 1;
+    opacity: 0.2;
+    visibility: visible;
+}
+.node {
+    stroke: white;
+    stroke-width: 1;
+}
+.Individual-node {
+    fill: orange;
+}
+.For-Profit-node {
+    fill: green;
+}
+.Non-Profit-node {
+    fill: dodgerblue;
+}
+.Government-node {
+    fill: red;
+}
+.node {
+    visibility: visible;
 }
