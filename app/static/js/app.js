@@ -238,9 +238,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             logic: 'emit'
         }
     }
-    $scope.$on('leafletDirectiveMarker.click', function(e, args) {
-        $scope.setEntity(_.find($scope.entities, {'id': args.model.entity_id}));
-    });
     $timeout(function () {
         leafletData.getMap().
         then(function(map) {
@@ -249,6 +246,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 _.forEach(entity.locations, function(loc) {
                     $scope.markers.push({'group': loc.locality, 'lat': loc.coordinates[0], 'lng': loc.coordinates[1], 'message': entity.name, 'entity_id': entity.id});
                 });
+            });
+            $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+                $scope.setEntity(_.find($scope.entities, {'id': args.model.entity_id}));
             });
         });
     });
