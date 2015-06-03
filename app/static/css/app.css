@@ -1,34 +1,49 @@
-html, body {
+html, body, .container {
+    height: 100%;
+}
+.table-container {
+  display: table;
+}
+.table-container .table-row {
+    height: 100%;
+    display: table-row;
+}
+.table-container .table-row .table-col {
+    display: table-cell;
+    float: none;
+    vertical-align: top;
 }
 
+.angular-leaflet-map {
+    height:100vh;
+}
+/*
+// Pure leaflet syntax.
+#map {
+    height: 100vh;
+}
+*/
 .main-container {
 }
-
-.row {
+.map-container {
+    height: 100vh;
 }
-
 .control-panel {
 }
-
 .display-panel {
 }
-
 .details-panel {
 }
-
 .edit-panel {
 }
-
 .edit-form {
 }
-
 .edit-marker {
     cursor: pointer;
     float: right;
     margin-top: 10px;
     opacity: 0.6;
 }
-
 .edit-marker:hover {
     opacity: 1;
 }

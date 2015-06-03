@@ -1,4 +1,4 @@
-angular.module('civic-graph', ['ui.bootstrap'])
+angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .constant('_', window._)
 .controller('homeCtrl', function($scope, $http) {
     $scope.entities = [];
@@ -36,10 +36,11 @@ angular.module('civic-graph', ['ui.bootstrap'])
     ];
 
     $scope.template = $scope.templates[0];
-    $scope.view = 'network'
+    $scope.view = 'map'
     $scope.changeView = function(view) {
         $scope.template = _.find($scope.templates, {'name': view});
     }
+    $scope.changeView('map');
 
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
@@ -89,7 +90,7 @@ angular.module('civic-graph', ['ui.bootstrap'])
         $scope.itemsShown[type] = $scope.itemsShownDefault[type];
     }
 })
-.controller('editCtrl', function($scope, $http, $timeout) {
+.controller('editCtrl', function($scope, $http) {
     $scope.updating = false;
 
     $scope.addressSearch = function(search) {
@@ -208,4 +209,48 @@ angular.module('civic-graph', ['ui.bootstrap'])
         $scope.savetoDB();
     }
 
-});
+})/*
+// Pure leaflet syntax.
+.controller('mapCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+    $timeout(function() {
+        var map = L.map('map').setView([27.00, -41.00], 3);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+    });
+}]);*/
+.controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
+    $scope.markers = [];
+    $scope.options = {
+        center: {
+            lat: 20.00,
+            lng: -40.00,
+            zoom: 3
+        },
+        defaults: {
+            tileLayerOptions: {
+                detectRetina: true,
+                reuseTiles: false
+            }
+        }
+    }
+    $scope.events = {
+        marker: {
+            enable: ['click'],
+            logic: 'emit'
+        }
+    }
+    $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+        $scope.setEntity(_.find($scope.entities, {'id': args.model.entity_id}));
+    });
+    $timeout(function () {
+        leafletData.getMap().
+        then(function(map) {
+            map.invalidateSize();
+            _.forEach($scope.entities, function(entity) {
+                _.forEach(entity.locations, function(loc) {
+                    $scope.markers.push({'group': loc.locality, 'lat': loc.coordinates[0], 'lng': loc.coordinates[1], 'message': entity.name, 'entity_id': entity.id});
+                });
+            });
+        });
+    });
+
+}]);

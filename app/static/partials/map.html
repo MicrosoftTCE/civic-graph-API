@@ -1,1 +1,5 @@
-<h2>Map Goes Here</h2>
+<div class='map-container' ng-controller='mapCtrl'>
+    <!-- Pure leaflet syntax.-->
+    <!--<div id='map'></div>-->
+    <leaflet center='options.center' markers='markers' event-broadcast='events' defaults='options.defaults'></leaflet>
+</div>
