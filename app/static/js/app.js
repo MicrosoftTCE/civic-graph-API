@@ -27,7 +27,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         {'name': 'Collaboration', 'enabled': true},
         {'name': 'Data', 'enabled': true}
     ];
-
+    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShown = _.clone($scope.itemsShownDefault);
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
 
@@ -48,6 +49,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         if ($scope.editing) {
             $scope.stopEdit();
         }
+        $scope.itemsShown = _.clone($scope.itemsShownDefault);
     }
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
@@ -71,22 +73,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
 })
 .controller('detailsCtrl', function($scope, $http) {
-    $scope.itemsShownDefault = {
-        'key_people': 5,
-        'funding_given': 5,
-        'funding_received': 5,
-        'investments_made': 5,
-        'investments_received': 5,
-        'collaborations': 5,
-        'employments': 5,
-        'relations': 5,
-        'data_given': 5,
-        'data_received': 5,
-        'revenues': 5,
-        'expenses': 5
-    }
-    // Reset this when entity changes.
-    $scope.itemsShown = _.clone($scope.itemsShownDefault);
     $scope.showMore = function(type) {
         $scope.itemsShown[type] = $scope.currentEntity[type].length;
     }
@@ -240,7 +226,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'Non-Profit': {'x': -1, 'y': 1},
             'Government': {'x': -1, 'y': -1}
         }
-        var links = {}
+        var links = {};
         var force = d3.layout.force()
             .size([height, width])
             .nodes($scope.entities)
@@ -304,7 +290,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 }
             });
         }
-        speedAnimate(6);
+        speedAnimate(7);
         force.start();
 
         var clickedEntity;
@@ -328,10 +314,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Apply 'unfocused' class to all non-neighbors.
             // Apply 'focused' class to all neighbors.
             // TODO: See if it can be done with just one class and :not(.focused) CSS selectors.
-            //var transitiondelay = 150
             node
-            //.transition()
-            //.duration(transitiondelay)
             .classed('focused', function(n) {
                 return neighboring(entity, n);
             })
@@ -341,8 +324,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
             _.forEach(links, function(link, type) {
                 link
-                //.transition()
-                //.duration(transitiondelay)
                 .classed('focused', function(o) {
                     return entity.index==o.source.index | entity.index==o.target.index;
                 })
@@ -359,19 +340,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var unfocus = function(entity) {
-            // Remove unfocused class from all non-neighbors.
             //var transitiondelay = 75;
             node
             .classed('focused', false)
             .classed('unfocused', false);
-            //.transition()
-            //.duration(transitiondelay)
             _.forEach(links, function(link, type) {
                 link
                 .classed('focused', false)
                 .classed('unfocused', false);
-                //.transition()
-                //.duration(transitiondelay)
             });
             //TODO: Show generic details and not individual entity details?
         }
