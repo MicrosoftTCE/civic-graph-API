@@ -69,6 +69,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.$broadcast('changeSizeBy', sizeBy);
     }
 
+    $scope.toggleLink = function(type) {
+        $scope.$broadcast('toggleLink', type);
+    }
+
     $http.get('categories')
         .success(function(data) {
             $scope.categories = data.categories;
@@ -286,9 +290,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 .attr('x2', function(d) {return d.target.x;})
                 .attr('y2', function(d) {return d.target.y;})
             });
-
             node.attr('transform', function(d) {return 'translate('+d.x+','+d.y+')';});
-
         });
 
         var speedAnimate = function(ticks) {
@@ -403,7 +405,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         svg.on('click', backgroundclick);
 
         // Only show labels on top 5 most connected entities initially.
-
         _.forEach($scope.entityTypes, function(type) {
             // Find the top 5 most-connected entities.
             var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
@@ -418,6 +419,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .transition()
             .duration(250)
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : 7;});
+        });
+
+        $scope.$on('toggleLink', function(event, link) {
+            links[link.name]
+            .style('visibility', link.enabled ? 'visible' : 'hidden');
         });
     }
 })

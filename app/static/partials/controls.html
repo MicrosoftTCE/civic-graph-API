@@ -8,7 +8,7 @@
 
 <h3>Connections</h3>
 <div class='checkbox' ng-repeat='type in connectionTypes'>
-    <label><input type='checkbox' ng-model='type.enabled'>{{type.name}}</label>
+    <label><input type='checkbox' ng-model='type.enabled' ng-change='toggleLink(type)'>{{type.name}}</label>
 </div>
 
 <h3>Sized By</h3>

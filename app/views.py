@@ -22,12 +22,12 @@ def get_connections():
 
 def connections():
     return {
-        'funding': funding_connections(),
-        'investment': investment_connections(),
-        'data': data_connections(),
-        'collaboration': collaboration_connections(),
-        'employment': employment_connections(),
-        'relation': relation_connections()
+        'Funding': funding_connections(),
+        'Investment': investment_connections(),
+        'Data': data_connections(),
+        'Collaboration': collaboration_connections(),
+        'Employment': employment_connections(),
+        'Relation': relation_connections()
     }
 
 @app.route('/categories')

@@ -13,16 +13,9 @@ html, body, .container {
     float: none;
     vertical-align: top;
 }
-
 .angular-leaflet-map {
     height:100vh;
 }
-/*
-// Pure leaflet syntax.
-#map {
-    height: 100vh;
-}
-*/
 #network {
     width: 100%;
     height: 100%;
@@ -98,21 +91,21 @@ html, body, .container {
     fill: red;
 }
 /* CATEGORIZED LINK STYLES */
-.investment-link {
+.Investment-link {
     stroke: purple;
 }
-.funding-link {
+.Funding-link {
     stroke: red;
 }
-.collaboration-link {
+.Collaboration-link {
     stroke: yellow;
 }
-.data-link {
+.Data-link {
     stroke: blue;
 }
-.employment-link {
+.Employment-link {
     stroke: orange;
 }
-.relation-link {
+.Relation-link {
     stroke: red;
 }
