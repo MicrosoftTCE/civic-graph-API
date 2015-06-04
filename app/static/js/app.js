@@ -27,8 +27,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         {'name': 'Collaboration', 'enabled': true},
         {'name': 'Data', 'enabled': true}
     ];
-    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
-    $scope.itemsShown = _.clone($scope.itemsShownDefault);
+
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
 
@@ -49,7 +48,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         if ($scope.editing) {
             $scope.stopEdit();
         }
-        $scope.itemsShown = _.clone($scope.itemsShownDefault);
+        $scope.$broadcast('entityChange');
     }
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
@@ -73,6 +72,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
 })
 .controller('detailsCtrl', function($scope, $http) {
+    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShown = _.clone($scope.itemsShownDefault);
+
+    $scope.$on('entityChange', function(event) {
+        // Reset items shown in details list.
+        $scope.itemsShown = _.clone($scope.itemsShownDefault);
+    });
     $scope.showMore = function(type) {
         $scope.itemsShown[type] = $scope.currentEntity[type].length;
     }
@@ -215,6 +221,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             drawNetwork();
         });
     var employeeScale = d3.scale.sqrt().domain([10, 130000]).range([10, 50]);
+    var twitterScale = d3.scale.sqrt().domain([10, 1000000]).range([10, 50]);
+
     var drawNetwork = function() {
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
