@@ -106,10 +106,15 @@ html, body, .container {
 .Government-node {
     fill: red;
 }
-
 .node text {
   pointer-events: none;
   font: 10px sans-serif;
   stroke: none;
   fill: black;
+}
+.node-unfocused {
+    opacity: 0.1;
+}
+.link-unfocused {
+    opacity: 0.1;
 }

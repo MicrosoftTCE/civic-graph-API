@@ -325,12 +325,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var focusneighbors = function(entity) {
-            node.style('opacity', function(n) {
-                return neighboring(entity, n) ? 1 : 0.1;
+            //var transitiondelay = 150
+            node
+            //.transition()
+            //.duration(transitiondelay)
+            .classed('node-unfocused', function(n) {
+                return !neighboring(entity, n);
             });
+
             _.forEach(links, function(link, type) {
-                link.style('opacity', function(o) {
-                    return entity.index==o.source.index | entity.index==o.target.index ? 1 : 0.1;
+                link
+                //.transition()
+                //.duration(transitiondelay)
+                .classed('link-unfocused', function(o) {
+                    return !(entity.index==o.source.index | entity.index==o.target.index)
                 });
             });
         }
@@ -342,9 +350,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var unfocus = function(entity) {
-            node.style('opacity', 1);
+            //var transitiondelay = 75;
+            node
+            .classed('node-unfocused', false);
+            //.transition()
+            //.duration(transitiondelay)
+            //.style('opacity', 1);
+
             _.forEach(links, function(link, type) {
-                link.style('opacity', 0.4);
+                link
+                .classed('node-unfocused', false);
+                //.transition()
+                //.duration(transitiondelay)
+                //.style('opacity', 0.4);
             });
             //TODO: Show generic details and not individual entity details?
         }
