@@ -326,11 +326,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         var focusneighbors = function(entity) {
             // Apply 'unfocused' class to all non-neighbors.
+            // Apply 'focused' class to all neighbors.
+            // TODO: See if it can be done with just one class and :not(.focused) CSS selectors.
             //var transitiondelay = 150
             node
             //.transition()
             //.duration(transitiondelay)
-            .classed('node-unfocused', function(n) {
+            .classed('focused', function(n) {
+                return neighboring(entity, n);
+            })
+            .classed('unfocused', function(n) {
                 return !neighboring(entity, n);
             });
 
@@ -338,8 +343,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 link
                 //.transition()
                 //.duration(transitiondelay)
-                .classed('link-unfocused', function(o) {
-                    return !(entity.index==o.source.index | entity.index==o.target.index)
+                .classed('focused', function(o) {
+                    return entity.index==o.source.index | entity.index==o.target.index;
+                })
+                .classed('unfocused', function(o) {
+                    return !(entity.index==o.source.index | entity.index==o.target.index);
                 });
             });
         }
@@ -354,12 +362,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Remove unfocused class from all non-neighbors.
             //var transitiondelay = 75;
             node
-            .classed('node-unfocused', false);
+            .classed('focused', false)
+            .classed('unfocused', false);
             //.transition()
             //.duration(transitiondelay)
             _.forEach(links, function(link, type) {
                 link
-                .classed('link-unfocused', false);
+                .classed('focused', false)
+                .classed('unfocused', false);
                 //.transition()
                 //.duration(transitiondelay)
             });
@@ -402,6 +412,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('mouseout', unhover);
         node.on('click', click);
         svg.on('click', backgroundclick);
+
+        // Only show labels on top 5 most connected entities initially.
+
+        _.forEach($scope.entityTypes, function(type) {
+            // Find the top 5 most-connected entities.
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
+            _.forEach(top5, function(entity) {entity.wellconnected = true;});
+        });
+        node
+        .classed('wellconnected', function(d) {return d.hasOwnProperty('wellconnected');})
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {

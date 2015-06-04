@@ -57,24 +57,32 @@ html, body, .container {
 /* GENERAL NODE AND LINK STYLES */
 .node {
     stroke: white;
-    stroke-width: 1;
-}
-.node-unfocused {
-    opacity: 0.05;
+    stroke-width: 2;
 }
 .link {
     stroke-width: 1;
     opacity: 0.5;
     visibility: visible;
 }
-.link-unfocused {
-    opacity: 0.05;
-}
 .node text {
   pointer-events: none;
   font: 10px sans-serif;
   stroke: none;
   fill: black;
+  visibility: hidden;
+}
+.unfocused {
+    opacity: 0.05;
+}
+.node.wellconnected text{
+    visibility: visible;
+}
+.focused text {
+    visibility: visible;
+}
+/* Hide labels for even the wellconnected nodes if not focused. */
+.unfocused text {
+    visibility: hidden !important;
 }
 /* CATEGORIZED NODE STYLES */
 .Individual-node {
