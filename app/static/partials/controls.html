@@ -13,10 +13,10 @@
 
 <h3>Sized By</h3>
 <div class='radio'>
-    <label><input type='radio' data-ng-model='sizeBy' value='employees'>Employees</label>
+    <label><input type='radio' ng-model='sizeBy' value='employees' ng-click="changeSizeBy('employees')">Employees</label>
 </div>
 <div class='radio'>
-    <label><input type='radio' data-ng-model='sizeBy' value='twitter'>Twitter Followers</label>
+    <label><input type='radio' ng-model='sizeBy' value='followers' ng-click="changeSizeBy('followers')">Twitter Followers</label>
 </div>
 
 <h3>View</h3>

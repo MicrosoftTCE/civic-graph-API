@@ -41,7 +41,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.changeView = function(view) {
         $scope.template = _.find($scope.templates, {'name': view});
     }
-    //$scope.changeView('map');
 
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
@@ -64,6 +63,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     $scope.stopEdit = function() {
         $scope.editing = false;
+    }
+
+    $scope.changeSizeBy = function(sizeBy) {
+        $scope.$broadcast('changeSizeBy', sizeBy);
     }
 
     $http.get('categories')
@@ -220,8 +223,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             drawNetwork();
         });
-    var employeeScale = d3.scale.sqrt().domain([10, 130000]).range([10, 50]);
-    var twitterScale = d3.scale.sqrt().domain([10, 1000000]).range([10, 50]);
+    scale = {
+        'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
+        'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
+    }
 
     var drawNetwork = function() {
         var svg = d3.select('#network');
@@ -240,7 +245,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .nodes($scope.entities)
             .links(_.flatten(_.values($scope.connections)))
             .charge(function(d) {
-                return d.employees ? -6*employeeScale(d.employees) : -25;
+                return d.employees ? -6*scale.employees(d.employees) : -25;
             })
             .linkStrength(0)
             .linkDistance(50);
@@ -259,7 +264,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .call(force.drag);
 
         node.append('circle')
-            .attr('r', function(d) {return d.employees ? employeeScale(d.employees) : 7;});
+            .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : 7;});
 
         node.append('text')
             //.attr('dx', 10)
@@ -404,8 +409,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
             _.forEach(top5, function(entity) {entity.wellconnected = true;});
         });
+
         node
         .classed('wellconnected', function(d) {return d.hasOwnProperty('wellconnected');})
+
+        $scope.$on('changeSizeBy', function(event, sizeBy) {
+            svg.selectAll('circle')
+            .transition()
+            .duration(250)
+            .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : 7;});
+        });
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
