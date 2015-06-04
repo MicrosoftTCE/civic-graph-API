@@ -355,14 +355,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .classed('node-unfocused', false);
             //.transition()
             //.duration(transitiondelay)
-            //.style('opacity', 1);
-
             _.forEach(links, function(link, type) {
                 link
                 .classed('node-unfocused', false);
                 //.transition()
                 //.duration(transitiondelay)
-                //.style('opacity', 0.4);
             });
             //TODO: Show generic details and not individual entity details?
         }
