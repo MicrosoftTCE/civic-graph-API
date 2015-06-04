@@ -325,6 +325,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var focusneighbors = function(entity) {
+            // Apply 'unfocused' class to all non-neighbors.
             //var transitiondelay = 150
             node
             //.transition()
@@ -350,6 +351,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var unfocus = function(entity) {
+            // Remove unfocused class from all non-neighbors.
             //var transitiondelay = 75;
             node
             .classed('node-unfocused', false);
@@ -357,7 +359,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             //.duration(transitiondelay)
             _.forEach(links, function(link, type) {
                 link
-                .classed('node-unfocused', false);
+                .classed('link-unfocused', false);
                 //.transition()
                 //.duration(transitiondelay)
             });
