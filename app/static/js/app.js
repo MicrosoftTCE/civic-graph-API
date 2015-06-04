@@ -235,10 +235,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         var height = bounds.height;
         var width = bounds.width;
         var offsets = {
-            'Individual': {'x': 2, 'y': 2},
-            'For-Profit': {'x': 2, 'y': -2},
-            'Non-Profit': {'x': -2, 'y': 2},
-            'Government': {'x': -2, 'y': -2}
+            'Individual': {'x': 1, 'y': 1},
+            'For-Profit': {'x': 1, 'y': -1},
+            'Non-Profit': {'x': -1, 'y': 1},
+            'Government': {'x': -1, 'y': -1}
         }
         var links = {}
         var force = d3.layout.force()
@@ -260,19 +260,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         var node = svg.selectAll('.node')
             .data($scope.entities)
-            .enter().append('circle')
-            .attr('class', function(d) {return 'node '+d.type+'-node'})
-            .attr('r', function(d) {return d.employees ? employeeScale(d.employees) : 7;})
+            .enter().append('g')
+            .attr('class', function(d) {return 'node '+d.type+'-node';})
             .call(force.drag);
-        
+
+        node.append('circle')
+            .attr('r', function(d) {return d.employees ? employeeScale(d.employees) : 7;});
+
+        node.append('text')
+            //.attr('dx', 10)
+            .attr('dy', '.35em')
+            .text(function(d) {return d.name;});
+
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
-            var k = 8*e.alpha;
+            var k = 16*e.alpha;
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
-
+            
             _.forEach(links, function(link, type) {
                 link
                 .attr('x1', function(d) {return d.source.x;})
@@ -281,11 +288,103 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 .attr('y2', function(d) {return d.target.y;})
             });
 
-            node
-            .attr('cx', function(d) {return d.x;})
-            .attr('cy', function(d) {return d.y;});
+            node.attr('transform', function(d) {return 'translate('+d.x+','+d.y+')';});
+
         });
+
+        var speedAnimate = function(ticks) {
+            // Speed up the initial animation.
+            // See http://stackoverflow.com/a/26189110
+            requestAnimationFrame(function render() {
+                for (var i = 0; i < ticks; i++) {
+                    force.tick();
+                }
+                if (force.alpha() > 0) {
+                    requestAnimationFrame(render);
+                }
+            });
+        }
+        speedAnimate(6);
         force.start();
+
+        var clickedEntity;
+        // Hash linked neighbors for easy hovering effects.
+        // See http://stackoverflow.com/a/8780277
+        var linkedByIndex = {};
+        _.forEach(links, function(l, type) {
+            _.forEach(l[0], function(connection) {
+                var source = connection.__data__.source;
+                var target = connection.__data__.target;
+                linkedByIndex[source.index+','+target.index] = true;
+                linkedByIndex[target.index+','+source.index] = true;
+            });
+        });
+
+        var neighboring = function(a, b) {
+            return linkedByIndex[a.index+','+b.index] | a.index == b.index;
+        }
+
+        var focusneighbors = function(entity) {
+            node.style('opacity', function(n) {
+                return neighboring(entity, n) ? 1 : 0.1;
+            });
+            _.forEach(links, function(link, type) {
+                link.style('opacity', function(o) {
+                    return entity.index==o.source.index | entity.index==o.target.index ? 1 : 0.1;
+                });
+            });
+        }
+
+        var focus = function(entity) {
+            $scope.setEntity(entity);
+            $scope.$apply();
+            focusneighbors(entity);
+        }
+
+        var unfocus = function(entity) {
+            node.style('opacity', 1);
+            _.forEach(links, function(link, type) {
+                link.style('opacity', 0.4);
+            });
+            //TODO: Show generic details and not individual entity details?
+        }
+
+        var hover = function(entity) {
+            if (!clickedEntity) {
+                focus(entity);
+            }
+        }
+
+        var unhover = function(entity) {
+            if (!clickedEntity) {
+                unfocus(entity);
+            }
+        }
+
+        var click = function(entity) {
+            if (clickedEntity == entity) {
+                clickedEntity = null;
+            } else {
+                unfocus(entity);
+                clickedEntity = entity;
+                focus(entity);
+            }
+            // Stop event so we don't detect a click on the background.
+            // See http://stackoverflow.com/q/22941796
+            d3.event.stopPropagation();
+        }
+
+        var backgroundclick = function() {
+            if (clickedEntity) {
+                unfocus(clickedEntity);
+                clickedEntity = null;
+            }
+            //TODO: Show generic details and not individual entity details.
+        }
+        node.on('mouseover', hover);
+        node.on('mouseout', unhover);
+        node.on('click', click);
+        svg.on('click', backgroundclick);
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {

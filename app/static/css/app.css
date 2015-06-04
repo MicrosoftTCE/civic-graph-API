@@ -57,37 +57,37 @@ html, body, .container {
 .investment-link {
     stroke: purple;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .funding-link {
-    stroke: indigo;
+    stroke: red;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .collaboration-link {
     stroke: yellow;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .data-link {
     stroke: blue;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .employment-link {
     stroke: orange;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .relation-link {
     stroke: red;
     stroke-width: 1;
-    opacity: 0.2;
+    opacity: 0.4;
     visibility: visible;
 }
 .node {
@@ -106,6 +106,10 @@ html, body, .container {
 .Government-node {
     fill: red;
 }
-.node {
-    visibility: visible;
+
+.node text {
+  pointer-events: none;
+  font: 10px sans-serif;
+  stroke: none;
+  fill: black;
 }
