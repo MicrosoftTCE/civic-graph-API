@@ -3,7 +3,7 @@
 <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
 <h3>Types</h3>
 <div class='checkbox' ng-repeat='type in entityTypes'>
-    <label><input type='checkbox' ng-model='type.enabled'>{{type.name}}</label>
+    <label><input type='checkbox' ng-model='type.enabled' ng-change='toggleNode(type)'>{{type.name}}</label>
 </div>
 
 <h3>Connections</h3>

@@ -109,3 +109,9 @@ html, body, .container {
 .Relation-link {
     stroke: red;
 }
+.hidden {
+    visibility: hidden;
+}
+.visible {
+    visibility: visible;
+}

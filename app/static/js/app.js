@@ -73,6 +73,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.$broadcast('toggleLink', type);
     }
 
+    $scope.toggleNode = function(type) {
+        $scope.$broadcast('toggleNode', type);
+    }
+
     $http.get('categories')
         .success(function(data) {
             $scope.categories = data.categories;
@@ -312,17 +316,31 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
         var linkedByIndex = {};
+        //var linkedToType = {};
+        //var linkedFromType = {};
         _.forEach(links, function(l, type) {
             _.forEach(l[0], function(connection) {
                 var source = connection.__data__.source;
                 var target = connection.__data__.target;
                 linkedByIndex[source.index+','+target.index] = true;
                 linkedByIndex[target.index+','+source.index] = true;
+                /*
+                // Determine which links belong to which entity types.
+                // POTENTIALLY INEFFICIENT
+                linkedFromType[source.index] = source.type;
+                linkedFromType[target.index] = target.type;
+                linkedToType[source.index] = source.type;
+                linkedToType[target.index] = target.type;
+                */
             });
         });
 
         var neighboring = function(a, b) {
             return linkedByIndex[a.index+','+b.index] | a.index == b.index;
+        }
+
+        var linkType = function(n, type) {
+            return linkedToType[n.index] == type | linkedFromType[n.index] == type;
         }
 
         var focusneighbors = function(entity) {
@@ -423,7 +441,18 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
-            .style('visibility', link.enabled ? 'visible' : 'hidden');
+            .classed({'visible': link.enabled, 'hidden': link.enabled});
+        });
+        $scope.$on('toggleNode', function(event, type) {
+            svg
+            .selectAll('.'+type.name+'-node')
+            .classed({'visible': type.enabled, 'hidden': !type.enabled});
+            /*
+            _.forEach(links, function(link, type) {
+                link
+                .classed({'visible': function(d) {return !linkType(d.index, type)},
+                        'hidden': function(d) {return linkType(d.index, type)}});
+            });*/
         });
     }
 })
