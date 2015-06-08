@@ -441,7 +441,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
-            .classed({'visible': link.enabled, 'hidden': link.enabled});
+            .classed({'visible': link.enabled, 'hidden': !link.enabled});
         });
         $scope.$on('toggleNode', function(event, type) {
             svg
