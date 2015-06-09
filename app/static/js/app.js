@@ -1,4 +1,4 @@
-angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
+angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocation'])
 .constant('_', window._)
 .controller('homeCtrl', function($scope, $http) {
     $scope.entities = [];
@@ -456,7 +456,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     }
 })
-.controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
+.controller('mapCtrl', ['$scope', '$timeout', 'leafletData', '$geolocation', function($scope, $timeout, leafletData, $geolocation) {
     $scope.markers = [];
     $scope.options = {
         center: {
@@ -488,6 +488,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             $scope.$on('leafletDirectiveMarker.click', function(e, args) {
                 $scope.setEntityID(args.model.entity_id);
+            });
+
+            $geolocation.getCurrentPosition().then(function(position) {
+                return position.coords;
+            }, function() {
+                // Error, no location detected.
+            }).then(function(coordinates) {
+                $scope.options.center.lat = coordinates.latitude;
+                $scope.options.center.lng = coordinates.longitude;
+                $scope.options.center.zoom = 11;
             });
         });
     });
