@@ -469,9 +469,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
 
         // Focus the entity if it's in URL params.
-        if ($scope.getURLID){
+        if ($scope.getURLID()){
             focusneighbors($scope.currentEntity);
             clickedEntity = $scope.currentEntity;
+            //Clear entityID from URL if you want... Maybe don't do this here.
+            //$location.search('entityID', null);
         };
     }
 })
