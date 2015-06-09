@@ -1,6 +1,9 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .constant('_', window._)
-.controller('homeCtrl', function($scope, $http) {
+.config(function($locationProvider) {
+    $locationProvider.html5Mode(true);
+})
+.controller('homeCtrl', function($scope, $http, $location) {
     $scope.entities = [];
     $scope.categories = [];
     $scope.currentEntity;
@@ -8,10 +11,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.connections = {};
     $scope.editing = false;
 
+    $scope.getURLID = function() {
+        var entityID = $location.search().entityID;
+        if (entityID) {entityID = parseInt(entityID);};
+        return entityID
+    }
     $http.get('entities')
         .success(function(data) {
             $scope.entities = data.nodes;
-            $scope.currentEntity = $scope.entities[0];
+            if ($scope.getURLID()) {
+                // Set the entity to the ID in the URL if it exists.
+                $scope.setEntityID($scope.getURLID());
+            } else {
+                $scope.currentEntity = $scope.entities[0];
+            }
         });
     // Maybe get from database.
     $scope.entityTypes = [
@@ -454,6 +467,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                         'hidden': function(d) {return linkType(d.index, type)}});
             });*/
         });
+
+        // Focus the entity if it's in URL params.
+        if ($scope.getURLID){
+            focusneighbors($scope.currentEntity);
+            clickedEntity = $scope.currentEntity;
+        };
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
