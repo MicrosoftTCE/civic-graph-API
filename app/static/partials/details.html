@@ -13,6 +13,9 @@ Key Civic People:
     <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
     <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
 </div>
+<div ng-if='currentEntity.key_people.length == 0'>
+    No known Key Civic People.
+</div>
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
 Collaborated with:
