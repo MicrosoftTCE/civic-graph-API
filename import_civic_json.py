@@ -264,8 +264,8 @@ for node in nodes:
     create_entity(node)
     
 # Manually defining IDs broken in civic.json...
-old_to_new[289] = old_to_new[378]
-old_to_new[541] = old_to_new[552]
+old_to_new[289] = old_to_new[902] # New York Tech Meetup
+old_to_new[541] = old_to_new[552] # Open Government Partnership
 
 # Make all connections between entities.
 make_connections()
