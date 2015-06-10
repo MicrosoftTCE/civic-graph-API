@@ -62,6 +62,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
         $scope.$broadcast('entityChange');
     }
+    $scope.selectEntity = function(entity) {
+        $scope.setEntity(entity);
+        $scope.$broadcast('selectEntity');
+    };
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
@@ -468,10 +472,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });*/
         });
 
+        $scope.$on('selectEntity', function(event) {
+            click($scope.currentEntity);
+        });
         // Focus the entity if it's in URL params.
         if ($scope.getURLID()){
-            focusneighbors($scope.currentEntity);
-            clickedEntity = $scope.currentEntity;
+            click($scope.currentEntity);
             //Clear entityID from URL if you want... Maybe don't do this here.
             //$location.search('entityID', null);
         };
