@@ -266,7 +266,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
         var links = {};
         var force = d3.layout.force()
-            .size([height, width])
+            .size([width, height])
             .nodes($scope.entities)
             .links(_.flatten(_.values($scope.connections)))
             .charge(function(d) {
@@ -399,6 +399,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 .classed('focused', false)
                 .classed('unfocused', false);
             });
+            entity.fixed = false;
+            // Restart d3 animations.
+            force.start();
             //TODO: Show generic details and not individual entity details?
         }
 
@@ -418,13 +421,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (clickedEntity == entity) {
                 clickedEntity = null;
             } else {
-                unfocus(entity);
+                if (clickedEntity) unfocus(clickedEntity);
                 clickedEntity = entity;
                 focus(entity);
             }
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
             d3.event.stopPropagation();
+        }
+
+        var dblclick = function(entity) {
+            if (entity.fixed == false) {
+                entity.x = width/2;
+                entity.y = height/2;
+                entity.px = width/2;
+                entity.py = height/2;
+                entity.fixed = true;
+                clickedEntity = entity;
+            } else {
+                unfocus(entity);
+            }
         }
 
         var backgroundclick = function() {
@@ -437,6 +453,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('mouseover', hover);
         node.on('mouseout', unhover);
         node.on('click', click);
+        node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
 
         // Only show labels on top 5 most connected entities initially.
