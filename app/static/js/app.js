@@ -401,7 +401,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             entity.fixed = false;
             // Restart d3 animations.
-            force.start();
+            if (clickedEntity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
 
