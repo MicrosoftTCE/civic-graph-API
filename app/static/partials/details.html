@@ -1,6 +1,8 @@
-<div id='navbar'><br>
-   <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
-   <h5>{{currentEntity.name}}</h5>
+<div class='right_logo'>
+    
+       <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker' style="color:#E0E0E0"></i>
+       <h2>{{currentEntity.name}}</h2>
+    
 </div>
 
 <h6>Locations: </h6><ul><li ng-repeat='location in currentEntity.locations'><p>{{location.full_address}}</p></li></ul>
@@ -136,13 +138,17 @@ Revenue:
     <p>No known revenue information.</p>
 </div>
 
-<!-- EXPENSES -->
-<div ng-if='currentEntity.expenses.length > 0'>
-Expenses:
-    <ul><li ng-repeat='expense in currentEntity.expenses'>{{expense.year}}: {{expense.amount | currency}}</li></ul>
-    <button ng-if='currentEntity.expenses.length > itemsShown.expenses' class='btn btn-xs btn-default' ng-click="showMore('expenses')">More</button>
-    <button ng-if='itemsShown.expenses > itemsShownDefault.expenses' class='btn btn-xs btn-default' ng-click="showLess('expenses')">Less</button>
-</div>
-<div ng-if='currentEntity.expenses.length == 0'>
-    <p>No known expenses information.</p>
-</div>
+
+
+
+
+<!-- <div class="obj_data">
+    Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
+    Influence: {{currentEntity.influence}}<br />
+    Type of Entity: {{currentEntity.type}}<br />
+    Employees: {{currentEntity.employees | number}}<br />
+    Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
+    Twitter Followers: {{currentEntity.followers | number}}<br />
+ -->
+    <!-- KEY PEOPLE -->
+    
