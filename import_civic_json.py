@@ -3,7 +3,7 @@ import json
 import requests
 import os
 from app import db
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Dataconnection, Collaboration, Location
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Dataconnection, Collaboration, Location
 from database import init_db
 import time
 
@@ -198,10 +198,10 @@ def connect_finance(connections, ftype):
                 source = Entity.query.filter_by(id=old_to_new[finance['source']]).first()
                 target = Entity.query.filter_by(id=old_to_new[finance['target']]).first()
                 if ftype == 'funding':
-                    funding = Funding(finance['amount'], finance['year'])
+                    grant = Grant(finance['amount'], finance['year'])
                     # Odd civic.json convention of source/target "received"
-                    source.funding_received.append(funding)
-                    target.funding_given.append(funding)
+                    source.grants_received.append(grant)
+                    target.grants_given.append(grant)
                 elif ftype == 'investment':
                     investment = Investment(finance['amount'], finance['year'])
                     # Odd civic.json convention of source/target "received"
@@ -278,7 +278,7 @@ print "Wrote %d Location entries." % len(Location.query.all())
 print "Wrote %d Keyperson entries." % len(Keyperson.query.all())
 print "Wrote %d Revenue entries." % len(Revenue.query.all())
 print "Wrote %d Expense entries." % len(Expense.query.all())
-print "Wrote %d Funding entries." % len(Funding.query.all())
+print "Wrote %d Grant entries." % len(Grant.query.all())
 print "Wrote %d Investment entries." % len(Investment.query.all())
 print "Wrote %d Dataconnection entries." % len(Dataconnection.query.all())
 print "Wrote %d Relation entries." % len(Relation.query.all())

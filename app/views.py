@@ -1,6 +1,6 @@
 from flask import jsonify, render_template, request
 from app import app, cache
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Relation, Financeconnection, Dataconnection, Collaboration, Employment, Relation
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Relation, Fundingconnection, Dataconnection, Collaboration, Employment, Relation
 from database import db
 from api import update
 import json
@@ -22,7 +22,7 @@ def get_connections():
 
 def connections():
     return {
-        'Funding': finance_connections(),
+        'Funding': funding_connections(),
         'Data': data_connections(),
         'Collaboration': collaboration_connections(),
         'Employment': employment_connections(),
@@ -37,9 +37,9 @@ def categories():
 def nodes():
     return [entity.json() for entity in Entity.query.all()]
 
-def finance_connections():
+def funding_connections():
     # Watch out for IDs/indexes: http://stackoverflow.com/a/16824896
-    return [{'source': f.giver_id, 'target': f.receiver_id} for f in Financeconnection.query.all()]
+    return [{'source': f.giver_id, 'target': f.receiver_id} for f in Fundingconnection.query.all()]
 
 def data_connections():
     return [{'source': d.giver_id, 'target': d.receiver_id} for d in Dataconnection.query.all()]

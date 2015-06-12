@@ -93,14 +93,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.toggleNode = function(type) {
         $scope.$broadcast('toggleNode', {'name':type, 'enabled': $scope.entityTypes[type]});
     }
-
     $http.get('categories')
         .success(function(data) {
             $scope.categories = data.categories;
         });
+    // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+    $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {fn();} 
+        } else {this.$apply(fn);}
+    };
 })
 .controller('detailsCtrl', function($scope, $http) {
-    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShownDefault = {'key_people': 5, 'grants_given': 5, 'grants_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
     $scope.$on('entityChange', function(event) {
@@ -157,21 +163,21 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
     $scope.addKeyPerson();
 
-    $scope.setFinanceConnection = function(entity, finance) {
+    $scope.setFundingConnection = function(entity, funding) {
         // Add other entity's id to this finance connection.
-        finance.entity_id = entity.id;
+        funding.entity_id = entity.id;
     }
 
-    $scope.addFinanceConnection = function(finances) {
-        if (!_.some(finances, {'entity':''})) {
+    $scope.addFundingConnection = function(funding) {
+        if (!_.some(funding, {'entity':''})) {
             // Maybe set amount to 0 instead of null?
-            finances.push({'entity':'', 'amount': null,'year': null, 'id': null});
+            funding.push({'entity':'', 'amount': null,'year': null, 'id': null});
         }
     }
-    $scope.addFinanceConnection($scope.editEntity.funding_received);
-    $scope.addFinanceConnection($scope.editEntity.investments_received);
-    $scope.addFinanceConnection($scope.editEntity.funding_given);
-    $scope.addFinanceConnection($scope.editEntity.investments_made);
+    $scope.addFundingConnection($scope.editEntity.grants_received);
+    $scope.addFundingConnection($scope.editEntity.investments_received);
+    $scope.addFundingConnection($scope.editEntity.grants_given);
+    $scope.addFundingConnection($scope.editEntity.investments_made);
 
     $scope.setConnection = function(entity, connection) {
         connection.entity_id = entity.id;
@@ -203,9 +209,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
         _.remove($scope.editEntity.locations, function(l){return l.full_address == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
-        _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
-        _.remove($scope.editEntity.funding_given, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_given, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_made, function(f){return f.entity == '';});
         _.remove($scope.editEntity.data_given, function(d){return d.entity == '';});
         _.remove($scope.editEntity.data_received, function(d){return d.entity == '';});
@@ -370,8 +376,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var focus = function(entity) {
-            $scope.setEntity(entity);
-            $scope.$apply();
+            if ($scope.currentEntity != entity) $scope.setEntity(entity);
+            $scope.safeApply();
             focusneighbors(entity);
         }
 
@@ -413,7 +419,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             }
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
-            d3.event.stopPropagation();
+            if (d3.event) {d3.event.stopPropagation();}
         }
 
         var dblclick = function(entity) {
