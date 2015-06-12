@@ -5,39 +5,13 @@
 <form class='edit-form' novalidate>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
-    <div><h6>Locations:</h6>
+    <div>Locations:
         <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
     </div>
-    <h6>Circle of Influence:</h6>
-      <div class='radio-edit' ng-repeat='influenceType in influenceTypes'>
-        <input type='radio' data-ng-model='editEntity.influence' value='{{type}}'>
-   <label></label>
-        <span class='check'></span>
-        <span class='caption'>{{type.name}}</span>
-      </div>
-
-
-<!-- <div ng-repeat='(type, enabled) in connectionTypes'>
-    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
-    <span class='check'></span>
-    <span class='caption'>{{type}}</span>
-</div> -->
-
-
-<!-- <div ng-class='radio'>
-    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}">
-    <input type='radio' ng-model='sizeBy' value='employees' ng-click="changeSizeBy('employees')">Employees</label> -->
-
-
-    <h6>What type of entity?</h6>
-      <div class='radio-edit' ng-repeat='(type, enabled) in entityTypes'>
-     
-        <input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}
-        <span class='check'></span>
-        <span class='caption'>{{type}}</span>
-      </div>
-
+    Circle of Influence:
+    <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+    What type of entity?
+    <div class='radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
     What kind of work do they do?
     <div class='checkbox' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
