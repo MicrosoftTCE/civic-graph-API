@@ -1,13 +1,4 @@
-/*styling of left nav */
-body {
-    background-color: #D0D0D0;
-}
-
 .network-container {
-    background-color: white;
-}
-
-.col-sm-8 {
     background-color: white;
 }
 
@@ -18,7 +9,6 @@ body {
     text-align: center;
     margin-left: -15px;
 }
-
 .caption {
     padding-left: 5px;
 }
@@ -54,19 +44,6 @@ h5 {
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
-
-
-h6 {
-    font-family: Verdana;
-    color: #303030;
-    font-size: 16px;
-}
-
-.checkbox:hover .check,
-.radio:hover .check {
-  border-color: white;
-}
-
 .checkbox {
     width: 28px;
     height: 28px;
@@ -113,54 +90,6 @@ h6 {
 }
 .Data-checkbox {
     background-color: dodgerblue
-}
-
-.radio .check {
-  border-radius: 50%;
-  padding: 2;
-  margin: 2;
-}
-
-.radio {
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: white;
-}
-
-.radio-edit input {
-  display: none;
-}
-
-.radio-edit {
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: red;
-}
-
-.radio.unchecked {
-  background-color: white;
-}
-
-.Employees-radio {
-    background-color: white;
-}
-
-.Twitter-Followers-radio {
-    background-color: white;
 }
 
 .angular-leaflet-map {
