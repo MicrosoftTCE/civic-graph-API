@@ -35,8 +35,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     };
     // Get from database.
     $scope.connectionTypes = {
-        'Investment': true,
         'Funding': true,
+        'Employment': true,
         'Collaboration': true,
         'Data': true
     };
