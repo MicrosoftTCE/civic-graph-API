@@ -1,3 +1,4 @@
+<button id='minimizeButton' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div id='nav'><br>
     <center><img src="static/img/ms_logo.png" id="logo" height="24" width="124"/></center>
@@ -10,21 +11,21 @@
 <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
 
 <h3>Types</h3>
-<div ng-repeat='type in entityTypes'>
-    <label class="checkbox {{type.name+'-checkbox'}}" ng-class="{'unchecked': !type.enabled}">
-    <input type='checkbox' ng-model='type.enabled' ng-change='toggleNode(type)'></label>
+<div ng-repeat='(type, enabled) in entityTypes'>
+    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
     <span class='check'></span>
-    <span class='caption'>{{type.name}}</span>
+    <span class='caption'>{{type}}</span>
 </div>
 
 <legend></legend>
 
 <h3>Connections</h3>
-<div ng-repeat='type in connectionTypes'>
-    <label class="checkbox {{type.name+'-checkbox'}}" ng-class="{'unchecked': !type.enabled}">
-    <input type='checkbox' ng-model='type.enabled' ng-change='toggleLink(type)'></label>
+<div ng-repeat='(type, enabled) in connectionTypes'>
+    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
     <span class='check'></span>
-    <span class='caption'>{{type.name}}</span>
+    <span class='caption'>{{type}}</span>
 </div>
 
 <legend></legend>
@@ -51,8 +52,3 @@
 </div>
 
 <legend></legend>
-
-
-
-
-

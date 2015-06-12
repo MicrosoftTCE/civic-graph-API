@@ -1,5 +1,4 @@
 /*styling of left nav */
-
 body {
     background-color: #D0D0D0;
 }
@@ -98,7 +97,7 @@ h5 {
     background-color: rgb(242, 80, 34);
 }
 
-.Investment-checkbox {
+.Employment-checkbox {
     background-color: purple
 }
 .Funding-checkbox {
@@ -146,29 +145,8 @@ h5 {
     background-color: white;
 }
 
-/*styling of map/graph feature*/
-
-html, body, .container {
-    height: 100%;
-}
-.table-container {
-  display: table;
-}
-.table-container .table-row {
-    height: 100%;
-    display: table-row;
-}
-.table-container .table-row .table-col {
-    display: table-cell;
-    float: none;
-    vertical-align: top;
-}
 .angular-leaflet-map {
     height:100vh;
-}
-#network {
-    width: 100%;
-    height: 100%;
 }
 .main-container {
 }
@@ -241,7 +219,7 @@ html, body, .container {
     fill: rgb(242, 80, 34);
 }
 /* CATEGORIZED LINK STYLES */
-.Investment-link {
+.Employment-link {
     stroke: purple;
 }
 .Funding-link {
@@ -300,5 +278,124 @@ html, body, .container {
    background: #595959;
 }
 
+#settings {
+    height: 95vh;
+    overflow: scroll;
+}
+#controlsMinButton {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+}
+#entityInfo {
+    height: 100vh;
+    overflow: scroll;
+}
+#minimizeButton{
+    z-index: 1;
+    position: fixed;
+    width: 13.5%;
+    height: 25px;
+}
 
+#formRight {
+    height: 100vh;
+    overflow: scroll;
+}
 
+.network-container{
+}
+
+#network {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+}
+
+#aboutButton{
+    background-color: black;
+    padding: 0;
+    text-align: center;
+    width: 17%;
+    height: 37px;
+    position: fixed;
+    bottom: 0;
+    overflow: scroll;
+    z-index: 2;
+}
+
+.loader {
+  font-size: 90px;
+  text-indent: -9999em;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 72px auto;
+  position: relative;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load6 1.7s infinite ease;
+  animation: load6 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.087em -0.825em 0 -0.42em #474444, -0.173em -0.812em 0 -0.44em #474444, -0.256em -0.789em 0 -0.46em #474444, -0.297em -0.775em 0 -0.477em #474444;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.338em -0.758em 0 -0.42em #474444, -0.555em -0.617em 0 -0.44em #474444, -0.671em -0.488em 0 -0.46em #474444, -0.749em -0.34em 0 -0.477em #474444;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.377em -0.74em 0 -0.42em #474444, -0.645em -0.522em 0 -0.44em #474444, -0.775em -0.297em 0 -0.46em #474444, -0.82em -0.09em 0 -0.477em #474444;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+}
+@keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.087em -0.825em 0 -0.42em #474444, -0.173em -0.812em 0 -0.44em #474444, -0.256em -0.789em 0 -0.46em #474444, -0.297em -0.775em 0 -0.477em #474444;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.338em -0.758em 0 -0.42em #474444, -0.555em -0.617em 0 -0.44em #474444, -0.671em -0.488em 0 -0.46em #474444, -0.749em -0.34em 0 -0.477em #474444;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em #474444, -0.377em -0.74em 0 -0.42em #474444, -0.645em -0.522em 0 -0.44em #474444, -0.775em -0.297em 0 -0.46em #474444, -0.82em -0.09em 0 -0.477em #474444;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
+  }
+}
