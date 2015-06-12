@@ -1,3 +1,5 @@
+<i title='Edit' ng-click='cancelEdit()' ng-hide="updating" class='glyphicon glyphicon-remove edit-marker'></i>
+
 <div ng-if='!updating'>
 <h3>Add Information</h3>
 <form class='edit-form' novalidate>
@@ -105,5 +107,5 @@
     </div>
 </form>
 </div>
-<div ng-if='updating'>UPDATING</div>
-<button class='btn btn-default' ng-click='save()'>Save</button>
+<div ng-if='updating' class="loader">Loading...</div>
+<button ng-hide="updating" class='btn btn-default' ng-click='save()'>Save</button>

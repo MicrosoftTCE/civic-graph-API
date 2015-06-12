@@ -3,14 +3,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
 })
-.controller('homeCtrl', function($scope, $http, $location) {
+.controller('homeCtrl', function($scope, $http, $location, $modal) {
     $scope.entities = [];
     $scope.categories = [];
     $scope.currentEntity;
     $scope.editEntity;
     $scope.connections = {};
     $scope.editing = false;
+    $scope.mobile = $(window).width() > 500 ? true : false;
+    $scope.settingsEnabled = $scope.mobile;
 
+    $scope.toggleSettings = function() {
+        console.log($(window).width())
+        $scope.settingsEnabled = !$scope.settingsEnabled;
+    }
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
         if (entityID) {entityID = parseInt(entityID);};
@@ -93,6 +99,21 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.toggleNode = function(type) {
         $scope.$broadcast('toggleNode', {'name':type, 'enabled': $scope.entityTypes[type]});
     }
+
+    $scope.animationsEnabled = true;
+
+    $scope.showAbout = function () {
+        $modal.open({
+            animation: false,
+            templateUrl: 'static/partials/about.html',
+            controller: function($scope, $modalInstance) {
+                $scope.closeWindow = function () {
+                    $modalInstance.close();
+                }
+            }
+        });
+    }
+
     $http.get('categories')
         .success(function(data) {
             $scope.categories = data.categories;
@@ -101,7 +122,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
         if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {fn();} 
+            if (fn && (typeof(fn) === 'function')) {fn();}
         } else {this.$apply(fn);}
     };
 })
@@ -232,14 +253,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 $scope.updating = false;
             });
     }
-
+    $scope.cancelEdit = function() {
+        $scope.removeEmpty();
+        $scope.stopEdit();
+    }
     $scope.save = function() {
         $scope.removeEmpty();
         $scope.savetoDB();
     }
 
 })
-.controller('networkCtrl', function($scope, $http) {
+.controller('networkCtrl', function($scope, $http, $timeout) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
     $http.get('connections').
@@ -258,17 +282,28 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
         'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
     }
+    var resize =  function (){
+      var panZoomNetwork = svgPanZoom('#network');
+      panZoomNetwork.resize(true); // update SVG cached size and controls positions
+      panZoomNetwork.fit(true); // dropCache and fit
+      panZoomNetwork.center(true); // dropCache and center
+    };
+
+    window.onresize = resize;
 
     var drawNetwork = function() {
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
         var height = bounds.height;
         var width = bounds.width;
+        var offsetScale = 8;
+        var defaultnodesize = 7;
+
         var offsets = {
-            'Individual': {'x': 1, 'y': 1},
-            'For-Profit': {'x': 1, 'y': -1},
-            'Non-Profit': {'x': -1, 'y': 1},
-            'Government': {'x': -1, 'y': -1}
+            'Individual': {'x': 2.9, 'y': 1},
+            'For-Profit': {'x': 2.9, 'y': -1},
+            'Non-Profit': {'x': -2.9, 'y': 1},
+            'Government': {'x': -2.9, 'y': -1}
         }
         var links = {};
         var force = d3.layout.force()
@@ -276,7 +311,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .nodes($scope.entities)
             .links(_.flatten(_.values($scope.connections)))
             .charge(function(d) {
-                return d.employees ? -6*scale.employees(d.employees) : -25;
+                return d.employees ? -2*scale.employees(d.employees) : -25;
             })
             .linkStrength(0)
             .linkDistance(50);
@@ -295,7 +330,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .call(force.drag);
 
         node.append('circle')
-            .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : 7;});
+            .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : defaultnodesize;});
 
         node.append('text')
             //.attr('dx', 10)
@@ -304,12 +339,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
-            var k = 16*e.alpha;
+            var k = offsetScale*e.alpha;
+            // console.log(e.alpha)
+             if (e.alpha < 0.02) {  resize(); force.stop();  };
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
-            
+
             _.forEach(links, function(link, type) {
                 link
                 .attr('x1', function(d) {return d.source.x;})
@@ -319,7 +356,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             node.attr('transform', function(d) {return 'translate('+d.x+','+d.y+')';});
         });
-
         var speedAnimate = function(ticks) {
             // Speed up the initial animation.
             // See http://stackoverflow.com/a/26189110
@@ -462,7 +498,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             svg.selectAll('circle')
             .transition()
             .duration(250)
-            .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : 7;});
+            .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
@@ -497,6 +533,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             //Clear entityID from URL if you want... Maybe don't do this here.
             //$location.search('entityID', null);
         };
+
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
