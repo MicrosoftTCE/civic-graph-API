@@ -1,5 +1,5 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Funding, Investment, Relation, Finance, Financeconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location
+from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location
 from database import db
 
 def update(entity, data):
@@ -103,7 +103,7 @@ def update(entity, data):
                 
     update_categories(data['categories'])
 
-    def update_financeconnections(connections, ftype, direction):
+    def update_fundingconnections(connections, ftype, direction):
         # Delete and connections that have been removed.
         new_connections = [connection['id'] for connection in connections if connection['id']]
         # TODO: See if you can make this generic to handle any set of connections for simplicity.
@@ -117,13 +117,13 @@ def update(entity, data):
                 for connection in entity.investments_received:
                     if connection.id not in new_connections:
                         db.delete(connection)
-        elif ftype is 'funding':
+        elif ftype is 'grant':
             if direction is 'given':
-                for connection in entity.funding_given:
+                for connection in entity.grants_given:
                     if connection.id not in new_connections:
                         db.delete(connection)
             elif direction is 'received':
-                for connection in entity.funding_received:
+                for connection in entity.grants_received:
                     if connection.id not in new_connections:
                         db.delete(connection)
         db.commit()
@@ -131,7 +131,7 @@ def update(entity, data):
         for connection in connections:
             if connection['id']:
                 # Connection exists, update amount and year.
-                oldconnection = Financeconnection.query.get(connection['id'])
+                oldconnection = Fundingconnection.query.get(connection['id'])
                 if oldconnection.amount != connection['amount']:
                     oldconnection.amount = connection['amount']
                     print 'UPDATING ' + ftype + ' AMOUNT: ' + str(oldconnection.amount)
@@ -149,20 +149,20 @@ def update(entity, data):
                     elif direction is 'received':
                         entity.investments_received.append(newconnection)
                         otherentity.investments_made.append(newconnection)
-                elif ftype is 'funding':
-                    newconnection = Funding(connection['amount'], connection['year'])
+                elif ftype is 'grant':
+                    newconnection = Grant(connection['amount'], connection['year'])
                     if direction is 'given':
-                        entity.funding_given.append(newconnection)
-                        otherentity.funding_received.append(newconnection)
+                        entity.grants_given.append(newconnection)
+                        otherentity.grants_received.append(newconnection)
                     elif direction is 'received':
-                        entity.funding_received.append(newconnection)
-                        otherentity.funding_given.append(newconnection)
+                        entity.grants_received.append(newconnection)
+                        otherentity.grants_given.append(newconnection)
         db.commit()
 
-    update_financeconnections(data['funding_given'], 'funding', 'given')
-    update_financeconnections(data['funding_received'], 'funding', 'received')
-    update_financeconnections(data['investments_made'], 'investment', 'given')
-    update_financeconnections(data['investments_received'], 'investment', 'received')
+    update_fundingconnections(data['grants_given'], 'grant', 'given')
+    update_fundingconnections(data['grants_received'], 'grant', 'received')
+    update_fundingconnections(data['investments_made'], 'investment', 'given')
+    update_fundingconnections(data['investments_received'], 'investment', 'received')
 
     def update_dataconnections(connections, direction):
         # Delete any connections that have been removed.

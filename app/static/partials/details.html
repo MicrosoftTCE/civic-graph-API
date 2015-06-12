@@ -13,6 +13,9 @@ Key Civic People:
     <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
     <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
 </div>
+<div ng-if='currentEntity.key_people.length == 0'>
+    No known Key Civic People.
+</div>
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
 Collaborated with:
@@ -62,15 +65,15 @@ Used data from:
 <div ng-if='currentEntity.data_received.length == 0'>
     No known external data used.
 </div>
-<!-- FUNDING RECEIVED -->
-<div ng-if='currentEntity.funding_received.length > 0'>
-Received funding from:
-    <ul><li ng-repeat='funding in currentEntity.funding_received | limitTo:itemsShown.funding_received'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.funding_received.length > itemsShown.funding_received' class='btn btn-xs btn-default' ng-click="showMore('funding_received')">More</button>
-    <button ng-if='itemsShown.funding_received > itemsShownDefault.funding_received' class='btn btn-xs btn-default' ng-click="showLess('funding_received')">Less</button>
+<!-- GRANTS RECEIVED -->
+<div ng-if='currentEntity.grants_received.length > 0'>
+Received grants from:
+    <ul><li ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.grants_received.length > itemsShown.grants_received' class='btn btn-xs btn-default' ng-click="showMore('grants_received')">More</button>
+    <button ng-if='itemsShown.grants_received > itemsShownDefault.grants_received' class='btn btn-xs btn-default' ng-click="showLess('grants_received')">Less</button>
 </div>
-<div ng-if='currentEntity.funding_received.length == 0'>
-    No known funding received.
+<div ng-if='currentEntity.grants_received.length == 0'>
+    No known grants received.
 </div>
 <!-- INVESTMENTS RECEIVED -->
 <div ng-if='currentEntity.investments_received.length > 0'>
@@ -82,15 +85,15 @@ Received investments from:
 <div ng-if='currentEntity.investments_received.length == 0'>
     No known investments received.
 </div>
-<!-- FUNDING GIVEN -->
-<div ng-if='currentEntity.funding_given.length > 0'>
-Gave funding to:
-    <ul><li ng-repeat='funding in currentEntity.funding_given | limitTo:itemsShown.funding_given'>{{funding.entity}}<span ng-if='funding.amount > 0'>: {{funding.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.funding_given.length > itemsShown.funding_given' class='btn btn-xs btn-default' ng-click="showMore('funding_given')">More</button>
-    <button ng-if='itemsShown.funding_given > itemsShownDefault.funding_given' class='btn btn-xs btn-default' ng-click="showLess('funding_given')">Less</button>
+<!-- GRANTS GIVEN -->
+<div ng-if='currentEntity.grants_given.length > 0'>
+Gave grants to:
+    <ul><li ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency}}</span></li></ul>
+    <button ng-if='currentEntity.grants_given.length > itemsShown.grants_given' class='btn btn-xs btn-default' ng-click="showMore('grants_given')">More</button>
+    <button ng-if='itemsShown.grants_given > itemsShownDefault.grants_given' class='btn btn-xs btn-default' ng-click="showLess('grants_given')">Less</button>
 </div>
-<div ng-if='currentEntity.funding_given.length == 0'>
-    No known funding provided.
+<div ng-if='currentEntity.grants_given.length == 0'>
+    No known grants provided.
 </div>
 <!-- INVESTMENTS MADE -->
 <div ng-if='currentEntity.investments_made.length > 0'>

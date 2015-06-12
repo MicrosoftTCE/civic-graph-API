@@ -34,10 +34,10 @@ class Entity(Base):
     revenues = relationship('Revenue', backref='entity', lazy='dynamic')
     expenses = relationship('Expense', backref='entity', lazy='dynamic')
     # Try lazy='select'
-    funding_given = relationship('Funding', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Funding.giver_id)', cascade='all, delete-orphan')
-    funding_received = relationship('Funding', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Funding.receiver_id)', cascade='all, delete-orphan')
+    grants_given = relationship('Grant', backref='giver', lazy='dynamic',
+                        primaryjoin='(Entity.id==Grant.giver_id)', cascade='all, delete-orphan')
+    grants_received = relationship('Grant', backref='receiver', lazy='dynamic',
+                        primaryjoin='(Entity.id==Grant.receiver_id)', cascade='all, delete-orphan')
     investments_made = relationship('Investment', backref='giver', lazy='dynamic',
                         primaryjoin='(Entity.id==Investment.giver_id)', cascade='all, delete-orphan')
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
@@ -75,8 +75,8 @@ class Entity(Base):
                 'followers': self.followers,
                 'revenues': [revenue.json() for revenue in self.revenues],
                 'expenses': [expense.json() for expense in self.expenses],
-                'funding_given': [funding.json('given') for funding in self.funding_given],
-                'funding_received': [funding.json('received') for funding in self.funding_received],
+                'grants_given': [grant.json('given') for grant in self.grants_given],
+                'grants_received': [grant.json('received') for grant in self.grants_received],
                 'investments_made': [investment.json('given') for investment in self.investments_made],
                 'investments_received': [investment.json('received') for investment in self.investments_received],
                 'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
@@ -132,8 +132,8 @@ class Revenue(Finance):
 class Expense(Finance):
     __mapper_args__ = {'polymorphic_identity': 'expense'}
 
-class Financeconnection(Base):
-    __tablename__ = 'financeconnection'
+class Fundingconnection(Base):
+    __tablename__ = 'fundingconnection'
     id = Column(Integer, primary_key=True)
     amount = Column(Float)
     year = Column(Integer)
@@ -149,8 +149,8 @@ class Financeconnection(Base):
 
     def json(self, direction):
         name = self.receiver.name if direction == 'given' else self.giver.name
-        finance_id = self.receiver_id if direction == 'given' else self.giver_id
-        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': finance_id, 'id': self.id}
+        funding_id = self.receiver_id if direction == 'given' else self.giver_id
+        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': funding_id, 'id': self.id}
 
     def json_connection(self):
         # TODO: Remove connectiontype = Given/Received
@@ -159,13 +159,13 @@ class Financeconnection(Base):
         return {'amount': self.amount, 'year': self.year,
                 'source': giver_id, 'target': receiver_id, 'type': connectiontype}
 
-class Funding(Financeconnection):
-    __mapper_args__ = {'polymorphic_identity': 'funding'}
+class Grant(Fundingconnection):
+    __mapper_args__ = {'polymorphic_identity': 'grant'}
 
-class Investment(Financeconnection):
+class Investment(Fundingconnection):
     __mapper_args__ = {'polymorphic_identity': 'investment'}
 
-# TODO: Revenue, expense, Funding, Investment should all subclass a single Finance class.
+# TODO: Revenue, expense, Grant, Investment should all subclass a single Finance class.
 # Possible to subclass a subclass?
 
 class Directionalconnection(Base):

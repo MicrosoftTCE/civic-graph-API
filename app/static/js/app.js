@@ -1,32 +1,51 @@
-angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocation'])
+angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .constant('_', window._)
-.controller('homeCtrl', function($scope, $http) {
+.config(function($locationProvider) {
+    $locationProvider.html5Mode(true);
+})
+.controller('homeCtrl', function($scope, $http, $location, $modal) {
     $scope.entities = [];
     $scope.categories = [];
     $scope.currentEntity;
     $scope.editEntity;
     $scope.connections = {};
     $scope.editing = false;
+    $scope.mobile = $(window).width() > 500 ? true : false;
+    $scope.settingsEnabled = $scope.mobile;
 
+    $scope.toggleSettings = function() {
+        console.log($(window).width())
+        $scope.settingsEnabled = !$scope.settingsEnabled;
+    }
+    $scope.getURLID = function() {
+        var entityID = $location.search().entityID;
+        if (entityID) {entityID = parseInt(entityID);};
+        return entityID
+    }
     $http.get('entities')
         .success(function(data) {
             $scope.entities = data.nodes;
-            $scope.currentEntity = $scope.entities[0];
+            if ($scope.getURLID()) {
+                // Set the entity to the ID in the URL if it exists.
+                $scope.setEntityID($scope.getURLID());
+            } else {
+                $scope.currentEntity = $scope.entities[0];
+            }
         });
     // Maybe get from database.
-    $scope.entityTypes = [
-        {'name': 'For-Profit', 'enabled': true},
-        {'name': 'Non-Profit', 'enabled': true},
-        {'name': 'Individual', 'enabled': true},
-        {'name': 'Government', 'enabled': true}
-    ];
+    $scope.entityTypes = {
+        'Government': true,
+        'For-Profit': true,
+        'Non-Profit': true,
+        'Individual': true
+    };
     // Get from database.
-    $scope.connectionTypes = [
-        {'name': 'Investment', 'enabled': true},
-        {'name': 'Funding', 'enabled': true},
-        {'name': 'Collaboration', 'enabled': true},
-        {'name': 'Data', 'enabled': true}
-    ];
+    $scope.connectionTypes = {
+        'Funding': true,
+        'Data': true,
+        'Employment': true,
+        'Collaboration': true,
+    };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
@@ -49,6 +68,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         }
         $scope.$broadcast('entityChange');
     }
+    $scope.selectEntity = function(entity) {
+        $scope.setEntity(entity);
+        $scope.$broadcast('selectEntity');
+    };
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
@@ -70,20 +93,41 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
     }
 
     $scope.toggleLink = function(type) {
-        $scope.$broadcast('toggleLink', type);
+        $scope.$broadcast('toggleLink', {'name':type, 'enabled': $scope.connectionTypes[type]});
     }
 
     $scope.toggleNode = function(type) {
-        $scope.$broadcast('toggleNode', type);
+        $scope.$broadcast('toggleNode', {'name':type, 'enabled': $scope.entityTypes[type]});
+    }
+
+    $scope.animationsEnabled = true;
+
+    $scope.showAbout = function () {
+        $modal.open({
+            animation: false,
+            templateUrl: 'static/partials/about.html',
+            controller: function($scope, $modalInstance) {
+                $scope.closeWindow = function () {
+                    $modalInstance.close();
+                }
+            }
+        });
     }
 
     $http.get('categories')
         .success(function(data) {
             $scope.categories = data.categories;
         });
+    // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+    $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {fn();}
+        } else {this.$apply(fn);}
+    };
 })
 .controller('detailsCtrl', function($scope, $http) {
-    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShownDefault = {'key_people': 5, 'grants_given': 5, 'grants_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
     $scope.$on('entityChange', function(event) {
@@ -140,21 +184,21 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
     }
     $scope.addKeyPerson();
 
-    $scope.setFinanceConnection = function(entity, finance) {
+    $scope.setFundingConnection = function(entity, funding) {
         // Add other entity's id to this finance connection.
-        finance.entity_id = entity.id;
+        funding.entity_id = entity.id;
     }
 
-    $scope.addFinanceConnection = function(finances) {
-        if (!_.some(finances, {'entity':''})) {
+    $scope.addFundingConnection = function(funding) {
+        if (!_.some(funding, {'entity':''})) {
             // Maybe set amount to 0 instead of null?
-            finances.push({'entity':'', 'amount': null,'year': null, 'id': null});
+            funding.push({'entity':'', 'amount': null,'year': null, 'id': null});
         }
     }
-    $scope.addFinanceConnection($scope.editEntity.funding_received);
-    $scope.addFinanceConnection($scope.editEntity.investments_received);
-    $scope.addFinanceConnection($scope.editEntity.funding_given);
-    $scope.addFinanceConnection($scope.editEntity.investments_made);
+    $scope.addFundingConnection($scope.editEntity.grants_received);
+    $scope.addFundingConnection($scope.editEntity.investments_received);
+    $scope.addFundingConnection($scope.editEntity.grants_given);
+    $scope.addFundingConnection($scope.editEntity.investments_made);
 
     $scope.setConnection = function(entity, connection) {
         connection.entity_id = entity.id;
@@ -186,9 +230,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
         _.remove($scope.editEntity.locations, function(l){return l.full_address == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
-        _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
-        _.remove($scope.editEntity.funding_given, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_given, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_made, function(f){return f.entity == '';});
         _.remove($scope.editEntity.data_given, function(d){return d.entity == '';});
         _.remove($scope.editEntity.data_received, function(d){return d.entity == '';});
@@ -209,14 +253,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
                 $scope.updating = false;
             });
     }
-
+    $scope.cancelEdit = function() {
+        $scope.removeEmpty();
+        $scope.stopEdit();
+    }
     $scope.save = function() {
         $scope.removeEmpty();
         $scope.savetoDB();
     }
 
 })
-.controller('networkCtrl', function($scope, $http) {
+.controller('networkCtrl', function($scope, $http, $timeout) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
     $http.get('connections').
@@ -235,25 +282,36 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
         'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
     }
+    var resize =  function (){
+      var panZoomNetwork = svgPanZoom('#network');
+      panZoomNetwork.resize(true); // update SVG cached size and controls positions
+      panZoomNetwork.fit(true); // dropCache and fit
+      panZoomNetwork.center(true); // dropCache and center
+    };
+
+    window.onresize = resize;
 
     var drawNetwork = function() {
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
         var height = bounds.height;
         var width = bounds.width;
+        var offsetScale = 8;
+        var defaultnodesize = 7;
+
         var offsets = {
-            'Individual': {'x': 1, 'y': 1},
-            'For-Profit': {'x': 1, 'y': -1},
-            'Non-Profit': {'x': -1, 'y': 1},
-            'Government': {'x': -1, 'y': -1}
+            'Individual': {'x': 2.9, 'y': 1},
+            'For-Profit': {'x': 2.9, 'y': -1},
+            'Non-Profit': {'x': -2.9, 'y': 1},
+            'Government': {'x': -2.9, 'y': -1}
         }
         var links = {};
         var force = d3.layout.force()
-            .size([height, width])
+            .size([width, height])
             .nodes($scope.entities)
             .links(_.flatten(_.values($scope.connections)))
             .charge(function(d) {
-                return d.employees ? -6*scale.employees(d.employees) : -25;
+                return d.employees ? -2*scale.employees(d.employees) : -25;
             })
             .linkStrength(0)
             .linkDistance(50);
@@ -262,7 +320,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             links[type] = svg.selectAll('.link .'+type+'-link')
             .data(connections)
             .enter().append('line')
-            .attr('class', 'link '+type+'-link');
+            .attr('class', function(d) {d.type = type; return 'link '+type+'-link '+d.source.type+'-link '+d.target.type+'-link';});
         });
 
         var node = svg.selectAll('.node')
@@ -272,7 +330,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             .call(force.drag);
 
         node.append('circle')
-            .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : 7;});
+            .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : defaultnodesize;});
 
         node.append('text')
             //.attr('dx', 10)
@@ -281,12 +339,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
-            var k = 16*e.alpha;
+            var k = offsetScale*e.alpha;
+            // console.log(e.alpha)
+             if (e.alpha < 0.02) {  resize(); force.stop();  };
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
-            
+
             _.forEach(links, function(link, type) {
                 link
                 .attr('x1', function(d) {return d.source.x;})
@@ -296,7 +356,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             });
             node.attr('transform', function(d) {return 'translate('+d.x+','+d.y+')';});
         });
-
         var speedAnimate = function(ticks) {
             // Speed up the initial animation.
             // See http://stackoverflow.com/a/26189110
@@ -316,31 +375,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
         var linkedByIndex = {};
-        //var linkedToType = {};
-        //var linkedFromType = {};
         _.forEach(links, function(l, type) {
             _.forEach(l[0], function(connection) {
                 var source = connection.__data__.source;
                 var target = connection.__data__.target;
                 linkedByIndex[source.index+','+target.index] = true;
                 linkedByIndex[target.index+','+source.index] = true;
-                /*
-                // Determine which links belong to which entity types.
-                // POTENTIALLY INEFFICIENT
-                linkedFromType[source.index] = source.type;
-                linkedFromType[target.index] = target.type;
-                linkedToType[source.index] = source.type;
-                linkedToType[target.index] = target.type;
-                */
             });
         });
 
         var neighboring = function(a, b) {
             return linkedByIndex[a.index+','+b.index] | a.index == b.index;
-        }
-
-        var linkType = function(n, type) {
-            return linkedToType[n.index] == type | linkedFromType[n.index] == type;
         }
 
         var focusneighbors = function(entity) {
@@ -367,8 +412,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         }
 
         var focus = function(entity) {
-            $scope.setEntity(entity);
-            $scope.$apply();
+            if ($scope.currentEntity != entity) $scope.setEntity(entity);
+            $scope.safeApply();
             focusneighbors(entity);
         }
 
@@ -382,6 +427,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
                 .classed('focused', false)
                 .classed('unfocused', false);
             });
+            entity.fixed = false;
+            // Restart d3 animations.
+            if (clickedEntity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
 
@@ -401,13 +449,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             if (clickedEntity == entity) {
                 clickedEntity = null;
             } else {
-                unfocus(entity);
+                if (clickedEntity) unfocus(clickedEntity);
                 clickedEntity = entity;
                 focus(entity);
             }
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
-            d3.event.stopPropagation();
+            if (d3.event) {d3.event.stopPropagation();}
+        }
+
+        var dblclick = function(entity) {
+            if (entity.fixed == false) {
+                entity.x = width/2;
+                entity.y = height/2;
+                entity.px = width/2;
+                entity.py = height/2;
+                entity.fixed = true;
+                clickedEntity = entity;
+            } else {
+                unfocus(entity);
+            }
         }
 
         var backgroundclick = function() {
@@ -420,12 +481,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
         node.on('mouseover', hover);
         node.on('mouseout', unhover);
         node.on('click', click);
+        node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
 
         // Only show labels on top 5 most connected entities initially.
-        _.forEach($scope.entityTypes, function(type) {
+        _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
             _.forEach(top5, function(entity) {entity.wellconnected = true;});
         });
 
@@ -436,9 +498,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             svg.selectAll('circle')
             .transition()
             .duration(250)
-            .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : 7;});
+            .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
-
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
             .classed({'visible': link.enabled, 'hidden': !link.enabled});
@@ -447,16 +508,35 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             svg
             .selectAll('.'+type.name+'-node')
             .classed({'visible': type.enabled, 'hidden': !type.enabled});
-            /*
-            _.forEach(links, function(link, type) {
-                link
-                .classed({'visible': function(d) {return !linkType(d.index, type)},
-                        'hidden': function(d) {return linkType(d.index, type)}});
-            });*/
+
+            svg
+            .selectAll('.'+type.name+'-link')
+            .classed({
+                'visible': function(l) {
+                    // ConnectionType enabled, connection source entity type is enabled, connection target entity type is enabled.
+                    return $scope.connectionTypes[l.type] && ($scope.entityTypes[l.source.type] && $scope.entityTypes[l.target.type]);
+                },
+                'hidden': function (l) {
+                    // If any of ConnectionType, source entity type, or target entity type are disabled.
+                    return !$scope.connectionTypes[l.type] || (!$scope.entityTypes[l.source.type] || !$scope.entityTypes[l.target.type]);
+                }
+            });
+
         });
+
+        $scope.$on('selectEntity', function(event) {
+            click($scope.currentEntity);
+        });
+        // Focus the entity if it's in URL params.
+        if ($scope.getURLID()){
+            click($scope.currentEntity);
+            //Clear entityID from URL if you want... Maybe don't do this here.
+            //$location.search('entityID', null);
+        };
+
     }
 })
-.controller('mapCtrl', ['$scope', '$timeout', 'leafletData', '$geolocation', function($scope, $timeout, leafletData, $geolocation) {
+.controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
     $scope.markers = [];
     $scope.options = {
         center: {
@@ -489,16 +569,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngGeolocati
             $scope.$on('leafletDirectiveMarker.click', function(e, args) {
                 $scope.setEntityID(args.model.entity_id);
             });
-
-            $geolocation.getCurrentPosition().then(function(position) {
-                return position.coords;
-            }, function() {
-                // Error, no location detected.
-            }).then(function(coordinates) {
-                $scope.options.center.lat = coordinates.latitude;
-                $scope.options.center.lng = coordinates.longitude;
-                $scope.options.center.zoom = 11;
-            });
+            map.locate({setView: true, maxZoom: 11});
         });
     });
 
