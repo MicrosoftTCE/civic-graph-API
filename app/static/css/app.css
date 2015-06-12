@@ -5,7 +5,7 @@
 .logo {
     width: 100%;
     position: absolute;
-    background-color: black;
+    background-color: #303030;
     text-align: center;
     margin-left: -15px;
 }
@@ -44,6 +44,22 @@ h5 {
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
+
+h6 {
+  font-family: Verdana;
+  color: #303030;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p {
+  font-family: Verdana;
+  color: #505050;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+
 .checkbox {
     width: 28px;
     height: 28px;
