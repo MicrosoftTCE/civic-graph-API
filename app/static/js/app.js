@@ -28,17 +28,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     // Maybe get from database.
     $scope.entityTypes = {
+        'Government': true,
         'For-Profit': true,
         'Non-Profit': true,
-        'Individual': true,
-        'Government': true
+        'Individual': true
     };
     // Get from database.
     $scope.connectionTypes = {
         'Funding': true,
+        'Data': true,
         'Employment': true,
         'Collaboration': true,
-        'Data': true
     };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
