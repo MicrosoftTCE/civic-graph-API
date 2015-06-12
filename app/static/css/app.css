@@ -2,6 +2,7 @@
 body {
     background-color: #D0D0D0;
 }
+
 .network-container {
     background-color: white;
 }
@@ -11,10 +12,15 @@ body {
 }
 
 .logo {
-    height: 120px;
-    background-color: #303030;
-    box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
+    width: 100%;
+    position: absolute;
+    background-color: black;
+    text-align: center;
     margin-left: -15px;
+}
+
+.caption {
+    padding-left: 5px;
 }
 
 input[type='text'], TEXTAREA[disabled] {   
@@ -49,6 +55,7 @@ h5 {
     text-shadow: 1px 0px 0px #000000;
 }
 
+
 h6 {
     font-family: Verdana;
     color: #303030;
@@ -61,25 +68,27 @@ h6 {
 }
 
 .checkbox {
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  background-color: white;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
+    width: 28px;
+    height: 28px;
+    border: 6px white solid;
+    padding: 2;
+    margin: 2;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .checkbox input {
   display: none;
 }
-
-.checkbox.unchecked {
-  background-color: white;
+.radio {
+    border-radius: 50%;
+    background-color: black;
 }
-
+.unchecked {
+  background-color: white !important;
+}
 .For-Profit-checkbox {
     background-color: rgb(127, 186, 0);
 }
@@ -142,10 +151,6 @@ h6 {
   background-color: red;
 }
 
-.radio input {
-    display: none;
-}
-
 .radio.unchecked {
   background-color: white;
 }
@@ -170,12 +175,15 @@ h6 {
     height: 100vh;
 }
 .control-panel {
+    background-color: #D0D0D0;
 }
 .display-panel {
 }
 .details-panel {
+    background-color: #D0D0D0;
 }
 .edit-panel {
+    background-color: #D0D0D0;
 }
 .edit-form {
 }
@@ -243,9 +251,6 @@ h6 {
 }
 .Data-link {
     stroke: blue;
-}
-.Employment-link {
-    stroke: orange;
 }
 .Relation-link {
     stroke: red;
