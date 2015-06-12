@@ -1,11 +1,19 @@
-<i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
-<h3>{{currentEntity.name}}</h3>
+<div
+<div id='navbar'><br>
+   <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
+   <h5>{{currentEntity.name}}</h5>
+</div>
+
+
+
+
 Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
 Influence: {{currentEntity.influence}}<br />
 Type of Entity: {{currentEntity.type}}<br />
 Employees: {{currentEntity.employees | number}}<br />
 Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
 Twitter Followers: {{currentEntity.followers | number}}<br />
+
 <!-- KEY PEOPLE -->
 <div ng-if='currentEntity.key_people.length > 0'>
 Key Civic People:
@@ -13,6 +21,7 @@ Key Civic People:
     <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
     <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
 </div>
+
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
 Collaborated with:
@@ -23,6 +32,7 @@ Collaborated with:
 <div ng-if='currentEntity.collaborations.length == 0'>
     No known collaborations.
 </div>
+
 <!-- EMPLOYMENTS -->
 <div ng-if='currentEntity.employments.length > 0'>
 Employment:
@@ -33,6 +43,7 @@ Employment:
 <div ng-if='currentEntity.employments.length == 0'>
     No known employment information.
 </div>
+
 <!-- Relations -->
 <div ng-if='currentEntity.relations.length > 0'>
 Related to:
@@ -43,6 +54,7 @@ Related to:
 <div ng-if='currentEntity.relations.length == 0'>
     No known relation information.
 </div>
+
 <!-- DATA USAGE -->
 <div ng-if='currentEntity.data_given.length > 0'>
 Gave data to:
@@ -62,6 +74,7 @@ Used data from:
 <div ng-if='currentEntity.data_received.length == 0'>
     No known external data used.
 </div>
+
 <!-- FUNDING RECEIVED -->
 <div ng-if='currentEntity.funding_received.length > 0'>
 Received funding from:
@@ -72,6 +85,7 @@ Received funding from:
 <div ng-if='currentEntity.funding_received.length == 0'>
     No known funding received.
 </div>
+
 <!-- INVESTMENTS RECEIVED -->
 <div ng-if='currentEntity.investments_received.length > 0'>
 Received investments from:
@@ -82,6 +96,7 @@ Received investments from:
 <div ng-if='currentEntity.investments_received.length == 0'>
     No known investments received.
 </div>
+
 <!-- FUNDING GIVEN -->
 <div ng-if='currentEntity.funding_given.length > 0'>
 Gave funding to:
@@ -92,6 +107,7 @@ Gave funding to:
 <div ng-if='currentEntity.funding_given.length == 0'>
     No known funding provided.
 </div>
+
 <!-- INVESTMENTS MADE -->
 <div ng-if='currentEntity.investments_made.length > 0'>
 Invested in:
@@ -102,6 +118,7 @@ Invested in:
 <div ng-if='currentEntity.investments_made.length == 0'>
     No known investments made.
 </div>
+
 <!-- REVENUES -->
 <div ng-if='currentEntity.revenues.length > 0'>
 Revenue:
@@ -112,6 +129,7 @@ Revenue:
 <div ng-if='currentEntity.revenues.length == 0'>
     No known revenue information.
 </div>
+
 <!-- EXPENSES -->
 <div ng-if='currentEntity.expenses.length > 0'>
 Expenses:
