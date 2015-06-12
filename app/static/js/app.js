@@ -33,19 +33,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             }
         });
     // Maybe get from database.
-    $scope.entityTypes = [
-        {'name': 'For-Profit', 'enabled': true},
-        {'name': 'Non-Profit', 'enabled': true},
-        {'name': 'Individual', 'enabled': true},
-        {'name': 'Government', 'enabled': true}
-    ];
+    $scope.entityTypes = {
+        'For-Profit': true,
+        'Non-Profit': true,
+        'Individual': true,
+        'Government': true
+    };
     // Get from database.
-    $scope.connectionTypes = [
-        {'name': 'Investment', 'enabled': true},
-        {'name': 'Funding', 'enabled': true},
-        {'name': 'Collaboration', 'enabled': true},
-        {'name': 'Data', 'enabled': true}
-    ];
+    $scope.connectionTypes = {
+        'Funding': true,
+        'Employment': true,
+        'Collaboration': true,
+        'Data': true
+    };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
@@ -68,6 +68,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
         $scope.$broadcast('entityChange');
     }
+    $scope.selectEntity = function(entity) {
+        $scope.setEntity(entity);
+        $scope.$broadcast('selectEntity');
+    };
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
@@ -89,11 +93,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     $scope.toggleLink = function(type) {
-        $scope.$broadcast('toggleLink', type);
+        $scope.$broadcast('toggleLink', {'name':type, 'enabled': $scope.connectionTypes[type]});
     }
 
     $scope.toggleNode = function(type) {
-        $scope.$broadcast('toggleNode', type);
+        $scope.$broadcast('toggleNode', {'name':type, 'enabled': $scope.entityTypes[type]});
     }
 
     $scope.animationsEnabled = true;
@@ -114,9 +118,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         .success(function(data) {
             $scope.categories = data.categories;
         });
+    // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+    $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+            if (fn && (typeof(fn) === 'function')) {fn();}
+        } else {this.$apply(fn);}
+    };
 })
 .controller('detailsCtrl', function($scope, $http) {
-    $scope.itemsShownDefault = {'key_people': 5, 'funding_given': 5, 'funding_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShownDefault = {'key_people': 5, 'grants_given': 5, 'grants_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
     $scope.$on('entityChange', function(event) {
@@ -173,21 +184,21 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
     $scope.addKeyPerson();
 
-    $scope.setFinanceConnection = function(entity, finance) {
+    $scope.setFundingConnection = function(entity, funding) {
         // Add other entity's id to this finance connection.
-        finance.entity_id = entity.id;
+        funding.entity_id = entity.id;
     }
 
-    $scope.addFinanceConnection = function(finances) {
-        if (!_.some(finances, {'entity':''})) {
+    $scope.addFundingConnection = function(funding) {
+        if (!_.some(funding, {'entity':''})) {
             // Maybe set amount to 0 instead of null?
-            finances.push({'entity':'', 'amount': null,'year': null, 'id': null});
+            funding.push({'entity':'', 'amount': null,'year': null, 'id': null});
         }
     }
-    $scope.addFinanceConnection($scope.editEntity.funding_received);
-    $scope.addFinanceConnection($scope.editEntity.investments_received);
-    $scope.addFinanceConnection($scope.editEntity.funding_given);
-    $scope.addFinanceConnection($scope.editEntity.investments_made);
+    $scope.addFundingConnection($scope.editEntity.grants_received);
+    $scope.addFundingConnection($scope.editEntity.investments_received);
+    $scope.addFundingConnection($scope.editEntity.grants_given);
+    $scope.addFundingConnection($scope.editEntity.investments_made);
 
     $scope.setConnection = function(entity, connection) {
         connection.entity_id = entity.id;
@@ -219,9 +230,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
         _.remove($scope.editEntity.locations, function(l){return l.full_address == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
-        _.remove($scope.editEntity.funding_received, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_received, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_received, function(f){return f.entity == '';});
-        _.remove($scope.editEntity.funding_given, function(f){return f.entity == '';});
+        _.remove($scope.editEntity.grants_given, function(f){return f.entity == '';});
         _.remove($scope.editEntity.investments_made, function(f){return f.entity == '';});
         _.remove($scope.editEntity.data_given, function(d){return d.entity == '';});
         _.remove($scope.editEntity.data_received, function(d){return d.entity == '';});
@@ -309,7 +320,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             links[type] = svg.selectAll('.link .'+type+'-link')
             .data(connections)
             .enter().append('line')
-            .attr('class', 'link '+type+'-link');
+            .attr('class', function(d) {d.type = type; return 'link '+type+'-link '+d.source.type+'-link '+d.target.type+'-link';});
         });
 
         var node = svg.selectAll('.node')
@@ -364,31 +375,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
         var linkedByIndex = {};
-        //var linkedToType = {};
-        //var linkedFromType = {};
         _.forEach(links, function(l, type) {
             _.forEach(l[0], function(connection) {
                 var source = connection.__data__.source;
                 var target = connection.__data__.target;
                 linkedByIndex[source.index+','+target.index] = true;
                 linkedByIndex[target.index+','+source.index] = true;
-                /*
-                // Determine which links belong to which entity types.
-                // POTENTIALLY INEFFICIENT
-                linkedFromType[source.index] = source.type;
-                linkedFromType[target.index] = target.type;
-                linkedToType[source.index] = source.type;
-                linkedToType[target.index] = target.type;
-                */
             });
         });
 
         var neighboring = function(a, b) {
             return linkedByIndex[a.index+','+b.index] | a.index == b.index;
-        }
-
-        var linkType = function(n, type) {
-            return linkedToType[n.index] == type | linkedFromType[n.index] == type;
         }
 
         var focusneighbors = function(entity) {
@@ -415,8 +412,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var focus = function(entity) {
-            $scope.setEntity(entity);
-            $scope.$apply();
+            if ($scope.currentEntity != entity) $scope.setEntity(entity);
+            $scope.safeApply();
             focusneighbors(entity);
         }
 
@@ -430,6 +427,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 .classed('focused', false)
                 .classed('unfocused', false);
             });
+            entity.fixed = false;
+            // Restart d3 animations.
+            if (clickedEntity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
 
@@ -449,13 +449,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (clickedEntity == entity) {
                 clickedEntity = null;
             } else {
-                unfocus(entity);
+                if (clickedEntity) unfocus(clickedEntity);
                 clickedEntity = entity;
                 focus(entity);
             }
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
-            d3.event.stopPropagation();
+            if (d3.event) {d3.event.stopPropagation();}
+        }
+
+        var dblclick = function(entity) {
+            if (entity.fixed == false) {
+                entity.x = width/2;
+                entity.y = height/2;
+                entity.px = width/2;
+                entity.py = height/2;
+                entity.fixed = true;
+                clickedEntity = entity;
+            } else {
+                unfocus(entity);
+            }
         }
 
         var backgroundclick = function() {
@@ -468,12 +481,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('mouseover', hover);
         node.on('mouseout', unhover);
         node.on('click', click);
+        node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
 
         // Only show labels on top 5 most connected entities initially.
-        _.forEach($scope.entityTypes, function(type) {
+        _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
             _.forEach(top5, function(entity) {entity.wellconnected = true;});
         });
 
@@ -486,7 +500,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .duration(250)
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
-
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
             .classed({'visible': link.enabled, 'hidden': !link.enabled});
@@ -495,18 +508,28 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             svg
             .selectAll('.'+type.name+'-node')
             .classed({'visible': type.enabled, 'hidden': !type.enabled});
-            /*
-            _.forEach(links, function(link, type) {
-                link
-                .classed({'visible': function(d) {return !linkType(d.index, type)},
-                        'hidden': function(d) {return linkType(d.index, type)}});
-            });*/
+
+            svg
+            .selectAll('.'+type.name+'-link')
+            .classed({
+                'visible': function(l) {
+                    // ConnectionType enabled, connection source entity type is enabled, connection target entity type is enabled.
+                    return $scope.connectionTypes[l.type] && ($scope.entityTypes[l.source.type] && $scope.entityTypes[l.target.type]);
+                },
+                'hidden': function (l) {
+                    // If any of ConnectionType, source entity type, or target entity type are disabled.
+                    return !$scope.connectionTypes[l.type] || (!$scope.entityTypes[l.source.type] || !$scope.entityTypes[l.target.type]);
+                }
+            });
+
         });
 
+        $scope.$on('selectEntity', function(event) {
+            click($scope.currentEntity);
+        });
         // Focus the entity if it's in URL params.
         if ($scope.getURLID()){
-            focusneighbors($scope.currentEntity);
-            clickedEntity = $scope.currentEntity;
+            click($scope.currentEntity);
             //Clear entityID from URL if you want... Maybe don't do this here.
             //$location.search('entityID', null);
         };

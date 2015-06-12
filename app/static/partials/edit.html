@@ -11,7 +11,7 @@
     Circle of Influence:
     <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
     What type of entity?
-    <div class='radio' ng-repeat='type in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type.name}}'>{{type.name}}</label></div>
+    <div class='radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
     What kind of work do they do?
     <div class='checkbox' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
@@ -48,18 +48,18 @@
         </div>
     </div>
     <div>Who funds them via grants?
-        <div ng-repeat='funding in editEntity.funding_received'>
-            <input type='text' ng-model='funding.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFinanceConnection($item, funding)' ng-change='addFinanceConnection(editEntity.funding_received)' typeahead-editable='false' placeholder='Funder'>
+        <div ng-repeat='grant in editEntity.grants_received'>
+            <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false' placeholder='Funder'>
             <div class='input-group'>
             <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='funding.amount' placeholder='Amount'>
+            <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
             </div>
-            <input type='number' class='form-control' ng-model='funding.year' placeholder='Year'>
+            <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
         </div>
     </div>
     <div>Who invests in them via equity stakes (stock)?
         <div ng-repeat='investment in editEntity.investments_received'>
-            <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFinanceConnection($item, investment)' ng-change='addFinanceConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor'>
+            <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor'>
             <div class='input-group'>
             <span class='input-group-addon'>$</span>
             <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
@@ -68,18 +68,18 @@
         </div>
     </div>
     <div>Who do they fund via grants?
-        <div ng-repeat='funding in editEntity.funding_given'>
-            <input type='text' ng-model='funding.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFinanceConnection($item, funding)' ng-change='addFinanceConnection(editEntity.funding_given)' typeahead-editable='false' placeholder='Fundee'>
+        <div ng-repeat='grant in editEntity.grants_given'>
+            <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_given)' typeahead-editable='false' placeholder='Fundee'>
             <div class='input-group'>
             <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='funding.amount' placeholder='Amount'>
+            <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
             </div>
-            <input type='number' class='form-control' ng-model='funding.year' placeholder='Year'>
+            <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
         </div>
     </div>
     <div>Who do they invest in via equity stakes (stock)?
         <div ng-repeat='investment in editEntity.investments_made'>
-            <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFinanceConnection($item, investment)' ng-change='addFinanceConnection(editEntity.investments_made)' typeahead-editable='false' placeholder='Investee'>
+            <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_made)' typeahead-editable='false' placeholder='Investee'>
             <div class='input-group'>
             <span class='input-group-addon'>$</span>
             <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
