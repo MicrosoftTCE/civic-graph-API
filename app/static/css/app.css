@@ -1,6 +1,16 @@
+/*styling of left nav */
+body {
+    background-color: #D0D0D0;
+}
+
 .network-container {
     background-color: white;
 }
+
+.col-sm-8 {
+    background-color: white;
+}
+
 .logo {
     width: 100%;
     position: absolute;
@@ -8,6 +18,11 @@
     text-align: center;
     margin-left: -15px;
 }
+
+.caption {
+    padding-left: 5px;
+}
+
 input[type='text'], TEXTAREA[disabled] {
     background-color: #FFFFFF ;
     -moz-box-shadow:    inset 0 0 10px #808080;
@@ -41,26 +56,39 @@ h5 {
 }
 
 
+h6 {
+    font-family: Verdana;
+    color: #303030;
+    font-size: 16px;
+}
+
+.checkbox:hover .check,
+.radio:hover .check {
+  border-color: white;
+}
+
 .checkbox {
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  background-color: white;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
+    width: 28px;
+    height: 28px;
+    border: 6px white solid;
+    padding: 2;
+    margin: 2;
+    background-color: white;
+    /*position: relative;*/
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
 }
 
 .checkbox input {
   display: none;
 }
-
-.checkbox.unchecked {
-  background-color: white;
+.radio {
+    border-radius: 50%;
+    background-color: black;
 }
-
+.unchecked {
+  background-color: white !important;
+}
 .For-Profit-checkbox {
     background-color: rgb(127, 186, 0);
 }
@@ -86,6 +114,13 @@ h5 {
 .Data-checkbox {
     background-color: dodgerblue
 }
+
+.radio .check {
+  border-radius: 50%;
+  padding: 2;
+  margin: 2;
+}
+
 .radio {
   border-radius: 50%;
   width: 28px;
@@ -93,15 +128,33 @@ h5 {
   border: 6px white solid;
   padding: 2;
   margin: 2;
-  background-color: black;
-}
-.radio.unchecked {
-    background-color: white !important;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: white;
 }
 
-.radio input {
-    display: none;
+.radio-edit input {
+  display: none;
 }
+
+.radio-edit {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border: 6px white solid;
+  padding: 2;
+  margin: 2;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: red;
+}
+
+.radio.unchecked {
+  background-color: white;
+}
+
 .Employees-radio {
     background-color: white;
 }
@@ -198,9 +251,6 @@ h5 {
 }
 .Data-link {
     stroke: blue;
-}
-.Employment-link {
-    stroke: orange;
 }
 .Relation-link {
     stroke: red;
@@ -400,11 +450,3 @@ h5 {
     overflow:hidden
 }*/
 
-.checkbox.inline.no_indent,
-.checkbox.inline.no_indent+.checkbox.inline.no_indent {
-  margin-left: 0;
-  margin-right: 10px;
-}
-.checkbox.inline.no_indent:last-child {
-  margin-right: 0;
-}

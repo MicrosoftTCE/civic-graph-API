@@ -4,13 +4,22 @@
 </div>
 
 <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
-
 <h3>Types</h3>
+
+<div>
+<label for="aaa">aaa</label>
+<input type="checkbox" name="aaa" id="aaa">
+<label for="bbb">bbb</label>
+<input type="checkbox" name="bbb" id="">
+<label for="ccc">ccc</label>
+<input type="checkbox" name="ccc" id="">
+</div>
+
+
 <div ng-repeat='(type, enabled) in entityTypes'>
-    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
-    <span class='check'></span>
-    <span class='caption'>{{type}}</span>
+    <label></label>
+    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'>
+    <!-- <span>{{type}}</span> -->
 </div>
 
 <legend></legend>
