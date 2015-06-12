@@ -289,7 +289,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             panZoomNetwork.resize(true);
             panZoomNetwork.fit(true);
             panZoomNetwork.center(true);
-            panZoomNetwork.disableDblClickZoom();
+            panZoomNetwork.disableDblClickZoom(true)
         }
     };
 

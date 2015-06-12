@@ -1,0 +1,45 @@
+<button id='minimizeButton' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
+<div class='logo'>
+<h1>Civic Graph</h1>
+</div>
+
+<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
+
+<h3>Types</h3>
+<div ng-repeat='(type, enabled) in entityTypes'>
+    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
+    <span class='check'></span>
+    <span class='caption'>{{type}}</span>
+</div>
+
+<legend></legend>
+
+<h3>Connections</h3>
+<div ng-repeat='(type, enabled) in connectionTypes'>
+    <label class="checkbox {{type+'-checkbox'}} checkbox inline no_indent" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
+    <span class='check'></span>
+    <span class='caption'>{{type}}</span>
+</div>
+
+<legend></legend>
+
+<h3>Sized By</h3>
+<div>
+    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}">
+    <input type='radio' ng-model='sizeBy' value='employees' ng-click="changeSizeBy('employees')">Employees</label>
+</div>
+<div>
+    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}"><input type='radio' ng-model='sizeBy' value='followers' ng-click="changeSizeBy('followers')">Twitter Followers</label>
+</div>
+
+<legend></legend>
+
+<h3>View</h3>
+<div>
+    <label class='radio' ng-class="{'unchecked': template!=view}" ng-repeat='view in views'>
+    <input type='radio' ng-model='template' ng-value='view' ng-click='changeView(view.name)'><span class='caption'>{{view.name}}</span>
+    </label>
+</div>
+<legend></legend>

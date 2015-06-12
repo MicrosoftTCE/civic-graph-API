@@ -8,7 +8,7 @@
     text-align: center;
     margin-left: -15px;
 }
-input[type='text'], TEXTAREA[disabled] {   
+input[type='text'], TEXTAREA[disabled] {
     background-color: #FFFFFF ;
     -moz-box-shadow:    inset 0 0 10px #808080;
     -webkit-box-shadow: inset 0 0 10px #808080;
@@ -300,6 +300,9 @@ h5 {
     z-index: 2;
 }
 
+/*Animation spinner for form submission*/
+/*source: http://projects.lukehaas.me/css-loaders/*/
+
 .loader {
   font-size: 90px;
   text-indent: -9999em;
@@ -366,4 +369,42 @@ h5 {
     transform: rotate(360deg);
     box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
   }
+}
+
+/*End of animation spinner*/
+
+#license {
+    position:absolute;
+    bottom:0;
+    color: grey;
+}
+
+#settingsmobile input{
+    /*background-color: red;*/
+/*    position: relative;
+    float: left;
+    display: inline;*/
+
+}
+
+/*#settingsmobile label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+#settingsmobile input {
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    display:inline-block;
+    overflow:hidden
+}*/
+
+.checkbox.inline.no_indent,
+.checkbox.inline.no_indent+.checkbox.inline.no_indent {
+  margin-left: 0;
+  margin-right: 10px;
+}
+.checkbox.inline.no_indent:last-child {
+  margin-right: 0;
 }
