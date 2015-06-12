@@ -1,7 +1,6 @@
 .network-container {
     background-color: white;
 }
-<<<<<<< HEAD
 
 .col-sm-8 {
     background-color: white;
@@ -21,7 +20,7 @@
     height: 120px;
     background-color: #303030;
     box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
-
+}
 .logo {
     width: 100%;
     position: absolute;
@@ -29,6 +28,7 @@
     text-align: center;
     margin-left: -15px;
 }
+
 input[type='text'], TEXTAREA[disabled] {   
     background-color: #FFFFFF ;
     -moz-box-shadow:    inset 0 0 10px #808080;
