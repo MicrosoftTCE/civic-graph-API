@@ -100,7 +100,7 @@
     height: 95vh;
     overflow: scroll;
 }
-#setB {
+#controlsMinButton {
     position: fixed;
     left: 0px;
     top: 0px;
