@@ -9,7 +9,6 @@
 <div ng-repeat='(type, enabled) in entityTypes'>
     <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
     <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
-    <span class='check'></span>
     <span class='caption'>{{type}}</span>
 </div>
 
@@ -19,27 +18,22 @@
 <div ng-repeat='(type, enabled) in connectionTypes'>
     <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
     <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
-    <span class='check'></span>
     <span class='caption'>{{type}}</span>
 </div>
 
 <legend></legend>
 
 <h3>Sized By</h3>
-<div>
-    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}">
-    <input type='radio' ng-model='sizeBy' value='employees' ng-click="changeSizeBy('employees')">Employees</label>
-</div>
-<div>
-    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}"><input type='radio' ng-model='sizeBy' value='followers' ng-click="changeSizeBy('followers')">Twitter Followers</label>
+<div ng-repeat='sizeBy in sizeBys'>
+    <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
+    <span class='caption'>{{sizeBy.name}}</span>
 </div>
 
 <legend></legend>
 
 <h3>View</h3>
-<div>
-    <label class='radio' ng-class="{'unchecked': template!=view}" ng-repeat='view in views'>
-    <input type='radio' ng-model='template' ng-value='view' ng-click='changeView(view.name)'><span class='caption'>{{view.name}}</span>
-    </label>
+<div ng-repeat='view in views'>
+    <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
+    <span class='caption'>{{view.name}}</span>
 </div>
 <legend></legend>

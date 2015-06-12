@@ -14,7 +14,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.settingsEnabled = $scope.mobile;
 
     $scope.toggleSettings = function() {
-        console.log($(window).width())
         $scope.settingsEnabled = !$scope.settingsEnabled;
     }
     $scope.getURLID = function() {
@@ -48,20 +47,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
+    $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'},{'name': 'Twitter Followers', 'value': 'followers'}];
     $scope.sizeBy = 'employees';
 
     $scope.views = [
         {'name': 'Network', 'url': 'static/partials/network.html'},
         {'name': 'Map', 'url': 'static/partials/map.html'}
     ];
-
-    $scope.template;
-
-    $scope.changeView = function(view) {
-        $scope.template = _.find($scope.views, {'name': view});
-    }
-    $scope.changeView('Network');
-
+    $scope.template = $scope.views[0];
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
         if ($scope.editing) {
@@ -89,8 +82,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.editing = false;
     }
 
-    $scope.changeSizeBy = function(sizeBy) {
-        $scope.$broadcast('changeSizeBy', sizeBy);
+    $scope.changeSizeBy = function() {
+        $scope.$broadcast('changeSizeBy', $scope.sizeBy);
     }
 
     $scope.toggleLink = function(type) {
@@ -345,7 +338,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Cluster in four corners based on offset.
             var k = offsetScale*e.alpha;
             // console.log(e.alpha)
-             if (e.alpha < 0.02) { resize();};
+            //if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k

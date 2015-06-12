@@ -39,28 +39,28 @@ h5 {
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
-
-
 .checkbox {
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  background-color: white;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
+    width: 28px;
+    height: 28px;
+    border: 6px white solid;
+    padding: 2;
+    margin: 2;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .checkbox input {
   display: none;
 }
-
-.checkbox.unchecked {
-  background-color: white;
+.radio {
+    border-radius: 50%;
+    background-color: black;
 }
-
+.unchecked {
+  background-color: white !important;
+}
 .For-Profit-checkbox {
     background-color: rgb(127, 186, 0);
 }
@@ -85,29 +85,6 @@ h5 {
 }
 .Data-checkbox {
     background-color: dodgerblue
-}
-.radio {
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  border: 6px white solid;
-  padding: 2;
-  margin: 2;
-  background-color: black;
-}
-.radio.unchecked {
-    background-color: white !important;
-}
-
-.radio input {
-    display: none;
-}
-.Employees-radio {
-    background-color: white;
-}
-
-.Twitter-Followers-radio {
-    background-color: white;
 }
 
 .angular-leaflet-map {
@@ -198,9 +175,6 @@ h5 {
 }
 .Data-link {
     stroke: blue;
-}
-.Employment-link {
-    stroke: orange;
 }
 .Relation-link {
     stroke: red;
