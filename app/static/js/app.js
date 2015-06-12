@@ -27,19 +27,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             }
         });
     // Maybe get from database.
-    $scope.entityTypes = [
-        {'name': 'For-Profit', 'enabled': true},
-        {'name': 'Non-Profit', 'enabled': true},
-        {'name': 'Individual', 'enabled': true},
-        {'name': 'Government', 'enabled': true}
-    ];
+    $scope.entityTypes = {
+        'For-Profit': true,
+        'Non-Profit': true,
+        'Individual': true,
+        'Government': true
+    };
     // Get from database.
-    $scope.connectionTypes = [
-        {'name': 'Investment', 'enabled': true},
-        {'name': 'Funding', 'enabled': true},
-        {'name': 'Collaboration', 'enabled': true},
-        {'name': 'Data', 'enabled': true}
-    ];
+    $scope.connectionTypes = {
+        'Investment': true,
+        'Funding': true,
+        'Collaboration': true,
+        'Data': true
+    };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
@@ -87,11 +87,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     $scope.toggleLink = function(type) {
-        $scope.$broadcast('toggleLink', type);
+        $scope.$broadcast('toggleLink', {'name':type, 'enabled': $scope.connectionTypes[type]});
     }
 
     $scope.toggleNode = function(type) {
-        $scope.$broadcast('toggleNode', type);
+        $scope.$broadcast('toggleNode', {'name':type, 'enabled': $scope.entityTypes[type]});
     }
 
     $http.get('categories')
@@ -279,7 +279,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             links[type] = svg.selectAll('.link .'+type+'-link')
             .data(connections)
             .enter().append('line')
-            .attr('class', 'link '+type+'-link');
+            .attr('class', function(d) {d.type = type; return 'link '+type+'-link '+d.source.type+'-link '+d.target.type+'-link';});
         });
 
         var node = svg.selectAll('.node')
@@ -333,31 +333,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
         var linkedByIndex = {};
-        //var linkedToType = {};
-        //var linkedFromType = {};
         _.forEach(links, function(l, type) {
             _.forEach(l[0], function(connection) {
                 var source = connection.__data__.source;
                 var target = connection.__data__.target;
                 linkedByIndex[source.index+','+target.index] = true;
                 linkedByIndex[target.index+','+source.index] = true;
-                /*
-                // Determine which links belong to which entity types.
-                // POTENTIALLY INEFFICIENT
-                linkedFromType[source.index] = source.type;
-                linkedFromType[target.index] = target.type;
-                linkedToType[source.index] = source.type;
-                linkedToType[target.index] = target.type;
-                */
             });
         });
 
         var neighboring = function(a, b) {
             return linkedByIndex[a.index+','+b.index] | a.index == b.index;
-        }
-
-        var linkType = function(n, type) {
-            return linkedToType[n.index] == type | linkedFromType[n.index] == type;
         }
 
         var focusneighbors = function(entity) {
@@ -457,9 +443,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         svg.on('click', backgroundclick);
 
         // Only show labels on top 5 most connected entities initially.
-        _.forEach($scope.entityTypes, function(type) {
+        _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type.name}), 'weight'), 5);
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
             _.forEach(top5, function(entity) {entity.wellconnected = true;});
         });
 
@@ -472,7 +458,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .duration(250)
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : 7;});
         });
-
         $scope.$on('toggleLink', function(event, link) {
             links[link.name]
             .classed({'visible': link.enabled, 'hidden': !link.enabled});
@@ -481,12 +466,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             svg
             .selectAll('.'+type.name+'-node')
             .classed({'visible': type.enabled, 'hidden': !type.enabled});
-            /*
-            _.forEach(links, function(link, type) {
-                link
-                .classed({'visible': function(d) {return !linkType(d.index, type)},
-                        'hidden': function(d) {return linkType(d.index, type)}});
-            });*/
+
+            svg
+            .selectAll('.'+type.name+'-link')
+            .classed({
+                'visible': function(l) {
+                    // ConnectionType enabled, connection source entity type is enabled, connection target entity type is enabled.
+                    return $scope.connectionTypes[l.type] && ($scope.entityTypes[l.source.type] && $scope.entityTypes[l.target.type]);
+                },
+                'hidden': function (l) {
+                    // If any of ConnectionType, source entity type, or target entity type are disabled.
+                    return !$scope.connectionTypes[l.type] || (!$scope.entityTypes[l.source.type] || !$scope.entityTypes[l.target.type]);
+                }
+            });
+
         });
 
         $scope.$on('selectEntity', function(event) {

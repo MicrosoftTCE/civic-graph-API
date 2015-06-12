@@ -2,13 +2,13 @@
 <hr>
 <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectEntity($item)' typeahead-editable='false' class='form-control'>
 <h3>Types</h3>
-<div class='checkbox' ng-repeat='type in entityTypes'>
-    <label><input type='checkbox' ng-model='type.enabled' ng-change='toggleNode(type)'>{{type.name}}</label>
+<div class='checkbox' ng-repeat='(type, enabled) in entityTypes'>
+    <label><input type='checkbox' ng-model="entityTypes[type]" ng-change='toggleNode(type)'>{{type}}</label>
 </div>
 
 <h3>Connections</h3>
-<div class='checkbox' ng-repeat='type in connectionTypes'>
-    <label><input type='checkbox' ng-model='type.enabled' ng-change='toggleLink(type)'>{{type.name}}</label>
+<div class='checkbox' ng-repeat='(type, enabled) in connectionTypes'>
+    <label><input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'>{{type}}</label>
 </div>
 
 <h3>Sized By</h3>
