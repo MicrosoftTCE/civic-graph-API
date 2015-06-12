@@ -2,7 +2,6 @@
 body {
     background-color: #D0D0D0;
 }
-
 .network-container {
     background-color: white;
 }
@@ -11,20 +10,11 @@ body {
     background-color: white;
 }
 
-.navbar {
-    display: inline;
-    width: 277px;
+.logo {
     height: 120px;
     background-color: #303030;
     box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
-}
-
-#navbar {
-    display: inline;
-    width: 277px;
-    height: 120px;
-    background-color: #303030;
-    box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
+    margin-left: -15px;
 }
 
 input[type='text'], TEXTAREA[disabled] {   
@@ -57,6 +47,12 @@ h5 {
     color: #303030;
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
+}
+
+h6 {
+    font-family: Verdana;
+    color: #303030;
+    font-size: 16px;
 }
 
 .checkbox:hover .check,
@@ -127,6 +123,23 @@ h5 {
   display: inline-block;
   vertical-align: middle;
   background-color: white;
+}
+
+.radio-edit input {
+  display: none;
+}
+
+.radio-edit {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border: 6px white solid;
+  padding: 2;
+  margin: 2;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: red;
 }
 
 .radio input {
