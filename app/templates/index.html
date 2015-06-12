@@ -12,20 +12,36 @@
     <script src='static/js/lib/leaflet.markercluster.js'></script>
     <script src='static/js/lib/angular-leaflet-directive.min.js'></script>
     <script src='static/js/app.js'></script>
+    <script src='http://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script>
+
 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
     <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css'>
     <link rel='stylesheet' href='static/css/MarkerCluster.Default.css'>
     <link rel='stylesheet' href='static/css/MarkerCluster.css'>
     <link rel='stylesheet' href='static/css/app.css'>
+
 </head>
 <body ng-controller='homeCtrl'>
-    <div class='container-fluid main-container table-container'>
-        <div class='row table-row'>
-            <div class='col-sm-2 control-panel table-col' ng-include="'static/partials/controls.html'"></div>
-            <div class='col-sm-8 display-panel table-col' ng-include='template.url'></div>
-            <div class='col-sm-2 details-panel table-col' ng-if='!editing' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
-            <div class='col-sm-2 edit-panel table-col' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
+    <div class='container-fluid main-container'>
+        <div class='row'>
+            <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel' ng-include="'static/partials/controls.html'"></div>
+
+            <div  id="aboutButton">
+            <a href="http://www.facebook.com">
+            <img border="0" alt="W3Schools" src="static/img/fb3-icon.png" width="35" height="35">
+            </a>
+            <a href="http://www.twitter.com">
+            <img border="0" alt="W3Schools" src="static/img/tweet2-icon.png" width="35" height="35">
+            </a>
+            <a ng-click='showAbout()' href="">
+            Learm more
+            </a>
+            </div>
+
+            <div class='display-panel' ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
+            <div id='entityInfo' class='col-sm-2 details-panel' ng-if='!editing' ng-show='mobile' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
+            <div id='formRight' class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
         </div>
     </div>
 </body>

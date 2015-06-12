@@ -1,3 +1,5 @@
+<button id='minimizeButton' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
+<br>
 <h2>Civic Graph</h2>
 <hr>
 <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
