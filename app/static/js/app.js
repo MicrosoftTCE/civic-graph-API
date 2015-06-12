@@ -50,16 +50,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.influenceTypes = ['Local', 'National', 'Global']
     $scope.sizeBy = 'employees';
 
-    $scope.templates = [
-        {'name': 'network', 'url': 'static/partials/network.html'},
-        {'name': 'map', 'url': 'static/partials/map.html'}
+    $scope.views = [
+        {'name': 'Network', 'url': 'static/partials/network.html'},
+        {'name': 'Map', 'url': 'static/partials/map.html'}
     ];
 
-    $scope.template = $scope.templates[0];
-    $scope.view = 'network'
+    $scope.template;
+
     $scope.changeView = function(view) {
-        $scope.template = _.find($scope.templates, {'name': view});
+        $scope.template = _.find($scope.views, {'name': view});
     }
+    $scope.changeView('Network');
 
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
@@ -283,10 +284,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
     }
     var resize =  function (){
-      var panZoomNetwork = svgPanZoom('#network');
-      panZoomNetwork.resize(true); // update SVG cached size and controls positions
-      panZoomNetwork.fit(true); // dropCache and fit
-      panZoomNetwork.center(true); // dropCache and center
+        if ($scope.template.name == 'Network') {
+            var panZoomNetwork = svgPanZoom('#network', {zoomScaleSensitivity:0.01});
+            panZoomNetwork.resize(true);
+            panZoomNetwork.fit(true);
+            panZoomNetwork.center(true);
+            panZoomNetwork.disableDblClickZoom();
+        }
     };
 
     window.onresize = resize;
@@ -341,7 +345,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Cluster in four corners based on offset.
             var k = offsetScale*e.alpha;
             // console.log(e.alpha)
-             if (e.alpha < 0.02) {  resize(); force.stop();  };
+             if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
