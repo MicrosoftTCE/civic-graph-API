@@ -1,11 +1,7 @@
-/*styling of left nav */
-body {
-    background-color: #D0D0D0;
-}
-
 .network-container {
     background-color: white;
 }
+<<<<<<< HEAD
 
 .col-sm-8 {
     background-color: white;
@@ -25,8 +21,14 @@ body {
     height: 120px;
     background-color: #303030;
     box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
-}
 
+.logo {
+    width: 100%;
+    position: absolute;
+    background-color: black;
+    text-align: center;
+    margin-left: -15px;
+}
 input[type='text'], TEXTAREA[disabled] {   
     background-color: #FFFFFF ;
     -moz-box-shadow:    inset 0 0 10px #808080;
@@ -64,10 +66,6 @@ h5 {
     text-shadow: 1px 0px 0px #000000;
 }
 
-.checkbox:hover .check,
-.radio:hover .check {
-  border-color: white;
-}
 
 .checkbox {
   width: 28px;
@@ -114,13 +112,6 @@ h5 {
 .Data-checkbox {
     background-color: dodgerblue
 }
-
-.radio .check {
-  border-radius: 50%;
-  padding: 2;
-  margin: 2;
-}
-
 .radio {
   border-radius: 50%;
   width: 28px;
@@ -128,20 +119,15 @@ h5 {
   border: 6px white solid;
   padding: 2;
   margin: 2;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: white;
+  background-color: black;
+}
+.radio.unchecked {
+    background-color: white !important;
 }
 
 .radio input {
     display: none;
 }
-
-.radio.unchecked {
-  background-color: white;
-}
-
 .Employees-radio {
     background-color: white;
 }
@@ -162,12 +148,15 @@ h5 {
     height: 100vh;
 }
 .control-panel {
+    background-color: #D0D0D0;
 }
 .display-panel {
 }
 .details-panel {
+    background-color: #D0D0D0;
 }
 .edit-panel {
+    background-color: #D0D0D0;
 }
 .edit-form {
 }
