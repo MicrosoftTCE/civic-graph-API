@@ -13,7 +13,7 @@ body {
 
 .navbar {
     display: inline;
-    width: 277px;
+    width: 265px;
     height: 120px;
     background-color: #303030;
     box-shadow:  0 5px 10px rgba(112, 112, 112, 0.8);
@@ -33,6 +33,11 @@ input[type='text'], TEXTAREA[disabled] {
     -webkit-box-shadow: inset 0 0 10px #808080;
     box-shadow:         inset 0 0 10px #808080;
 }
+/*input[type='number'], TEXTAREA[disabled] {          
+    float: right;
+    width: 80px;
+}*/
+
 
 h1 {
     font-family: Verdana;

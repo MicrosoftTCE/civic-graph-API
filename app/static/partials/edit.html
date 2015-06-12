@@ -50,11 +50,16 @@
     <div>Who funds them via grants?
         <div ng-repeat='grant in editEntity.grants_received'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false' placeholder='Funder'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+            <br>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                <span class='input-group-addon'>$</span>
+                <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
+            <div class="col-sm-6">
+                <input size='4' type='number' class='form-control' ng-model='grant.year' maxlength='4' placeholder='Year'>
+            </div>
         </div>
     </div>
     <div>Who invests in them via equity stakes (stock)?
