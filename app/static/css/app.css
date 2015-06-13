@@ -10,7 +10,8 @@
     margin-left: -15px;
 }
 .obj_data {
-  height: 100%;
+  /*hack should fix to make dynamic*/
+  padding-top: 40px;
 
 }
 
