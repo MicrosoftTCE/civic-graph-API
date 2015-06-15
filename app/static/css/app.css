@@ -1,3 +1,12 @@
+#shtuff {
+  background: white url(/static/img/mini_grey_head.png) left no-repeat;
+  padding-left: 5px;
+  text-align: center;
+
+
+}
+
+
 .network-container {
     background-color: white;
 }
@@ -98,14 +107,30 @@ h2 {
 .checkbox input {
   display: none;
 }
+
 .r-radio {
   border-radius: 50%;
   background-color: black
+}
+
+.z-radio {
+  border-radius: 50%;
+  background-color: rgb(242, 80, 34);
+}
+
+.a-radio {
+  border-radius: 50%;
+  background-color: #FFCC66;
+}
+.x-radio {
+  border: 3px #99CCFF solid;
+  padding: 2;
 }
 .radio {
     border-radius: 50%;
     background-color: black;
 }
+
 .unchecked {
   background-color: white !important;
 }
