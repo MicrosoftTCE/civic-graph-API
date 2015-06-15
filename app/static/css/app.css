@@ -2,10 +2,23 @@
     background-color: white;
 }
 
+.right_logo {
+    width: 100%;
+    position: absolute;
+    background-color: #303030;
+    text-align: center;
+    margin-left: -15px;
+}
+.obj_data {
+  /*hack should fix to make dynamic*/
+  padding-top: 40px;
+
+}
+
 .logo {
     width: 100%;
     position: absolute;
-    background-color: black;
+    background-color: #303030;
     text-align: center;
     margin-left: -15px;
 }
@@ -44,6 +57,32 @@ h5 {
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
+
+h6 {
+  font-family: Verdana;
+  color: #303030;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p {
+  font-family: Verdana;
+  color: #505050;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.glyphicon {
+  padding-right: 5px;
+}
+
+h2 {
+    font-family: Verdana;
+    color: #E0E0E0;
+    font-size: 30px;
+    text-shadow: 2px 2px 4px #000000;
+}
+
 .checkbox {
     width: 28px;
     height: 28px;
