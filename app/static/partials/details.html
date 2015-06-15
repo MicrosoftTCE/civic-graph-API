@@ -2,6 +2,13 @@
         
            <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker' style="color:#E0E0E0"></i>
            <h2>{{currentEntity.name}}</h2>
+           <div ng-if="currentEntity.twitter_handle">
+               <img src= {{renderTwitterImage(currentEntity.twitter_handle)}}
+               width="30"
+               height="30"
+               /> 
+           </div>
+        
         
     </div>
 <div id="entityInfo">
