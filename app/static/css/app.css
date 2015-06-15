@@ -3,24 +3,24 @@
 }
 
 .right_logo {
-    width: 100%;
-    position: absolute;
+    position: relative;
     background-color: #303030;
     text-align: center;
-    margin-left: -15px;
+    margin-left: -8.3%;
+    margin-right: -8.3%;
+    margin-top: -8%;
 }
 .obj_data {
-  /*hack should fix to make dynamic*/
-  padding-top: 75%;
+  position: absolute;
 
 }
 
 .logo {
     width: 100%;
-    position: absolute;
+    position: relative;
     background-color: #303030;
     text-align: center;
-    margin-left: -15px;
+    /*margin-left: -15px;*/
 }
 .caption {
     padding-left: 5px;

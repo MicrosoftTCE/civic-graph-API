@@ -18,8 +18,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     $scope.renderTwitterImage = function(twitter_handle){
-    var path = "https://twitter.com/"+ twitter_handle +"/profile_image" //dont need the '#'
-    // debugger
+    var path = "https://twitter.com/"+ twitter_handle +"/profile_image"
     return path;      
 }
     $scope.getURLID = function() {
