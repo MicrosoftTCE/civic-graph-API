@@ -98,9 +98,12 @@ h2 {
 .checkbox input {
   display: none;
 }
+.r-radio {
+  border-radius: 50%;
+}
 .radio {
     border-radius: 50%;
-    
+    background-color: black;
 }
 .unchecked {
   background-color: white !important;
