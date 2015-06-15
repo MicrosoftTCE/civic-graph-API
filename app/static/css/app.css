@@ -4,14 +4,19 @@
 
 .right_logo {
     width: 100%;
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
     background-color: #303030;
     text-align: center;
-    margin-left: -15px;
+    /*margin-left: -9%;*/
+    margin-right: -10%;
+    padding-right: 10%;
+    /*margin: 0px auto;*/
 }
 .obj_data {
   /*hack should fix to make dynamic*/
-  padding-top: 75%;
+  /*padding-top: 75%;*/
+  position: absolute;
 
 }
 
