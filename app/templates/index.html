@@ -26,10 +26,12 @@
 <body ng-controller='homeCtrl'>
     <div class='container-fluid main-container'>
         <div class='row'>
-            <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel visible-md-block visible-lg-block' ng-include="'static/partials/controls.html'"></div>
-            <div id='settingsmobile' ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block visible-sm-block' ng-include="'static/partials/controlsmobile.html'"></div>
+            <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel hidden-xs' ng-include="'static/partials/controls.html'"></div>
+            <div id='settingsmobile' ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block' ng-include="'static/partials/controlsmobile.html'"></div>
+            <button id="addInfoMobile" class="visible-xs-block"  ng-click='startEdit(null)'>+ ADD INFO</button>
 
-            <div  id="aboutButton">
+
+     <!--        <div  id="aboutButton">
             <a href="http://www.facebook.com/plugins/like.php?href=http://civicgraph.io&width&layout=button_count&action=like&show_faces=false&share=false&height=35&appId=">
             <img border="0" alt="W3Schools" src="static/img/fb3-icon.png" width="35" height="35">
             </a>
@@ -40,8 +42,9 @@
             Learm more
             </a>
             </div>
-            <div class='display-panel' ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
-            <div id='entityInfo' class='col-sm-2 details-panel' ng-if='!editing' ng-show='mobile' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
+ -->
+            <div class='display-panel' ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-style="{height: mobile && clickedEntity.entity ? '50vh' : '100vh'}" ng-include='template.url'></div>
+            <div ng-class="mobile ? 'col-sm-2 details-panelMb' : 'details-panel'" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
             <div id='formRight' class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
         </div>
     </div>

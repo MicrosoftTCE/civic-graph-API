@@ -1,54 +1,41 @@
-<button id='minimizeButton' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
-<div class='logo'>
-<h1>Civic Graph</h1>
+<button id='minimizeButtonMobile' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
+<!-- <div class='logo'> -->
+<!-- <h1>Civic Graph</h1> -->
 </div>
-
-<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
-<h3>Types</h3>
-
+<br>
 <div>
-<label for="aaa">aaa</label>
-<input type="checkbox" name="aaa" id="aaa">
-<label for="bbb">bbb</label>
-<input type="checkbox" name="bbb" id="">
-<label for="ccc">ccc</label>
-<input type="checkbox" name="ccc" id="">
+<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control inputMobile'><span class="glyphicon glyphicon-search"></span>
 </div>
-
-
-<div ng-repeat='(type, enabled) in entityTypes'>
-    <label></label>
-    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'>
-    <!-- <span>{{type}}</span> -->
-</div>
+<h4 class="mobileTitle">Types</h4>
+<span ng-repeat='(type, enabled) in entityTypes'>
+    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
+    <span class='captionMobile'>{{type}}</span>
+</span>
 
 <legend></legend>
 
-<h3>Connections</h3>
-<div ng-repeat='(type, enabled) in connectionTypes'>
+<h4 class="mobileTitle">Connections</h4>
+<span ng-repeat='(type, enabled) in connectionTypes'>
     <label class="checkbox {{type+'-checkbox'}} checkbox inline no_indent" ng-class="{'unchecked': !enabled}">
-    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
+    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)' ></label>
     <span class='check'></span>
-    <span class='caption'>{{type}}</span>
-</div>
+    <span class='captionMobile'>{{type}}</span>
+</span>
 
 <legend></legend>
 
-<h3>Sized By</h3>
-<div>
-    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}">
-    <input type='radio' ng-model='sizeBy' value='employees' ng-click="changeSizeBy('employees')">Employees</label>
-</div>
-<div>
-    <label class="radio" ng-class"{'unchecked': !sizeBy.enabled}"><input type='radio' ng-model='sizeBy' value='followers' ng-click="changeSizeBy('followers')">Twitter Followers</label>
-</div>
+<h4 class="mobileTitle">Sized By</h4>
+<span ng-repeat='sizeBy in sizeBys'>
+    <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
+    <span class='caption'>{{sizeBy.name}}</span>
+</span>
 
 <legend></legend>
 
-<h3>View</h3>
-<div>
-    <label class='radio' ng-class="{'unchecked': template!=view}" ng-repeat='view in views'>
-    <input type='radio' ng-model='template' ng-value='view' ng-click='changeView(view.name)'><span class='caption'>{{view.name}}</span>
-    </label>
-</div>
+<h4 class="mobileTitle">View</h4>
+<span ng-repeat='view in views'>
+    <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
+    <span class='caption'>{{view.name}}</span>
+</span>
 <legend></legend>
