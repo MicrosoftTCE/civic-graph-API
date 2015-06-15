@@ -9,14 +9,26 @@
         <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
     </div>
     Circle of Influence:
-    <div class='r-radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+    <div ng-repeat='influenceType in influenceTypes'>
+      <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
+      <span class='caption'>{{influenceType}}</span>
+    </div>
 
     What type of entity?
     <br>
-    <div class='r-radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
+    <div ng-repeat='(type, enabled) in entityTypes'>
+      <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.type != type}" ng-model='$parent.$parent.type' btn-radio='type' ng-change='changetype()'></label>
+      <span class='caption'>{{type}}</span>
+    </div>
+
     What kind of work do they do?
     <br>
-    <div class='r-radio' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
+    <div ng-repeat='category in editCategories'>
+    <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
+    <span class='caption'>{{category.name}}</label></div>
+
+
+
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
