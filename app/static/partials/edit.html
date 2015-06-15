@@ -37,7 +37,7 @@
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
     <div class="input-group">
       <div>Key Civic People?
-        <input type='text' id="shtuff" class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
+        <input type='text' id="key-civic-people-img" class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
         <span class="input-group-addon">
           <i class="fa fa-search"></i>
         </span>
