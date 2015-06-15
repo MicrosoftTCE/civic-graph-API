@@ -16,6 +16,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.toggleSettings = function() {
         $scope.settingsEnabled = !$scope.settingsEnabled;
     }
+
+    $scope.renderTwitterImage = function(twitter_handle){
+    var path = "https://twitter.com/"+ twitter_handle +"/profile_image" //dont need the '#'
+    // debugger
+    return path;      
+}
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
         if (entityID) {entityID = parseInt(entityID);};
