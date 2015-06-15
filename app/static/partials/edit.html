@@ -27,7 +27,7 @@
     What kind of work do they do?
     <br>
     <div ng-repeat='category in editCategories'>
-    <label class='x-radio checkbox z-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
+    <label class='x-radio checkbox a-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
     <span class='caption'>{{category.name}}</label></div><br>
 
 
@@ -35,9 +35,16 @@
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
-    <div>Key Civic People?
-        <input type='text' class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
+    <div class="input-group">
+      <div>Key Civic People?
+        <input type='text' id="shtuff" class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
     </div>
+
+
     <div>Collaboration
         <div ng-repeat='collaboration in editEntity.collaborations'>
         <input type='text' class='form-control' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, collaboration)' ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
@@ -84,7 +91,7 @@
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor'>
             <div class="col-sm-6">
                 <div class='input-group'>
-                <!-- <span class='input-group-addon'>$</span> -->
+               <!--  <span class='input-group-addon'>$</span> -->
                 <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
                 </div>
             </div>
