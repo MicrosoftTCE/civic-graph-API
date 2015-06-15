@@ -17,7 +17,7 @@
     text-align: center;
     margin-left: -8.3%;
     margin-right: -8.3%;
-    margin-top: -8%;
+    margin-top: -9.6%;
 }
 .obj_data {
   position: absolute;
@@ -90,6 +90,8 @@ h2 {
     color: #E0E0E0;
     font-size: 30px;
     text-shadow: 2px 2px 4px #000000;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .checkbox {
@@ -339,7 +341,7 @@ h2 {
     background-color: black;
     padding: 0;
     text-align: center;
-    width: 17%;
+    width: 16.69%;
     height: 37px;
     position: fixed;
     bottom: 0;
