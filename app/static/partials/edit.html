@@ -10,7 +10,9 @@
     </div>
     Circle of Influence:
     <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+
     What type of entity?
+    <br>
     <div class='radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
     What kind of work do they do?
     <div class='checkbox' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
@@ -130,7 +132,11 @@
             </div>
         </div>
     </div>
+
 </form>
 </div>
 <div ng-if='updating' class="loader">Loading...</div>
+<br>
+<br>
+<br>
 <button ng-hide="updating" class='btn btn-default' ng-click='save()'>Save</button>
