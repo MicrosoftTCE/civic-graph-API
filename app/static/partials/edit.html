@@ -13,21 +13,21 @@
     </div>
     Circle of Influence:
     <div ng-repeat='influenceType in influenceTypes'>
-      <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
+      <label class='x-radio checkbox a-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
       <span class='caption'>{{influenceType}}</span>
     </div><br>
 
     What type of entity?
     <br>
     <div ng-repeat='(type, enabled) in entityTypes'>
-      <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.type != type}" ng-model='$parent.$parent.type' btn-radio='type' ng-change='changetype()'></label>
+      <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.type != type}" ng-model='$parent.$parent.type' btn-radio='type' ng-change='changetype()'></label>
       <span class='caption'>{{type}}</span>
     </div><br>
 
     What kind of work do they do?
     <br>
     <div ng-repeat='category in editCategories'>
-    <label class='checkbox r-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
+    <label class='x-radio checkbox z-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
     <span class='caption'>{{category.name}}</label></div><br>
 
 
