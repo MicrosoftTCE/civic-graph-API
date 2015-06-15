@@ -15,7 +15,8 @@
     <br>
     <div class='radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
     What kind of work do they do?
-    <div class='checkbox' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
+    <br>
+    <div class='radio' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
