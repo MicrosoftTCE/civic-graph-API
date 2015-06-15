@@ -85,7 +85,7 @@ p {
 #twitter-pic-position {
   height: 100%;
   width: 100%;
-  padding-bottom: 10px;
+  padding-top: 30px;
 }
 
 #twitter-pic {
@@ -98,7 +98,7 @@ h2 {
     font-size: 30px;
     text-shadow: 2px 2px 4px #000000;
     padding-bottom: 10px;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
 }
 
 .checkbox {
