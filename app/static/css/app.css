@@ -4,8 +4,10 @@
 
 .right_logo {
     position: relative;
-    background-color: #303030;
+    /*background-color: #303030;*/
     text-align: center;
+    padding-left: 10%;
+    padding-right: 10%;
     margin-left: -8.3%;
     margin-right: -8.3%;
     margin-top: -9.6%;
@@ -81,7 +83,9 @@ p {
 }
 
 .glyphicon {
-  padding-right: 5px;
+  padding-right: 10px;
+  padding-bottom: 10px
+  background-color: dodgerblue;
 }
 
 .twitter-pic-position {
@@ -96,9 +100,9 @@ p {
 
 h2 {
     font-family: Verdana;
-    color: #E0E0E0;
+    color: #474747;
     font-size: 30px;
-    text-shadow: 2px 2px 4px #000000;
+    /*text-shadow: 2px 2px 4px #000000;*/
     padding-bottom: 10px;
     /*padding-top: 10px;*/
 }
@@ -496,8 +500,21 @@ h2 {
     width: 75%;
 }
 .details-panel{
-    height: 100vh;
+    height: 85vh;
     overflow: scroll;
+    background-color: #F8F8F8;
+    bottom: 0;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    position: absolute;
+    right: 0;
+    width: 20%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ccc;
+
+
+
 }
 
 .details-panelMb {
