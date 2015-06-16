@@ -11,9 +11,9 @@
     margin-top: -9.6%;
 }
 .obj_data {
-  position: absolute;
-  overflow: scroll;
-  height: 100%;
+  /*position: absolute;*/
+  /*overflow: scroll;*/
+  /*height: 100%;*/
 
 }
 
@@ -452,7 +452,7 @@ h2 {
 
 .settingsmobile {
     resize:vertical;
-    overflow: scroll;
+    /*overflow: scroll;*/
     height: 50vh;
 }
 .captionMobile {
