@@ -2,7 +2,7 @@
     <div ng-if='currentEntity.twitter_handle' class='twitter-pic-position'>
       <img class='twitter-pic' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
     </div>
-    <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
+    <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
     <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}'><h2>{{currentEntity.name}}</h2></a>
     <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}'><h2>{{currentEntity.name}}</h2></a>
 </div>
