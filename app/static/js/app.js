@@ -534,7 +534,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
-    $scope.markers = [];
     $scope.options = {
         center: {
             lat: 20.00,
@@ -548,25 +547,61 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             }
         }
     }
-    $scope.events = {
-        marker: {
-            enable: ['click'],
-            logic: 'emit'
-        }
-    }
     $timeout(function () {
+        var createPieChart = function(options) {
+            var data = options.data;
+            var pie = d3.layout.pie().sort(null).value(function(d) {return d.value});
+            var arc = d3.svg.arc().outerRadius(options.r).innerRadius(options.r-10);
+            var center = options.r + options.strokeWidth;
+            var w = center*2;
+            var h = w;
+            var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
+            var vis = d3.select(svg)
+                        .data(data)
+                        .attr('class', 'piechart')
+                        .attr('width', w)
+                        .attr('height', h);
+
+            var arcs = vis.selectAll('.arc')
+                        .data(pie(data))
+                        .enter().append('g')
+                        .attr('class', 'arc')
+                        .attr('transform', 'translate(' + center + ',' + center + ')');
+
+            arcs.append('path')
+                .attr('d', arc)
+                .attr('class', function(d) {return d.data.type+'-arc'});
+
+            return window.XMLSerializer ? (new window.XMLSerializer()).serializeToString(svg) : svg.xml ? svg.xml : '';
+        }
+
         leafletData.getMap().
         then(function(map) {
             map.invalidateSize();
+
+            var clusterIcon = function(cluster) {
+                var children = cluster.getAllChildMarkers();
+                var total = children.length;
+                var clusterMarkers = _.pluck(children, 'options');
+                var counts = _.map(_.countBy(clusterMarkers,'type'), function(count, type) {return {'type': type,'value': count}});
+                var r = 28;
+                var strokeWidth = 1;
+                var iconDim = (r+strokeWidth)*2;
+                var html = createPieChart({data: counts, r: r, strokeWidth: strokeWidth});
+                return new L.DivIcon({html: html, className: 'marker-cluster', iconSize: new L.point(iconDim, iconDim)});
+            }
+            var markers = L.markerClusterGroup({spiderfyOnMaxZoom: false, showCoverageOnHover: false, iconCreateFunction: clusterIcon});
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
-                    $scope.markers.push({'group': loc.locality, 'lat': loc.coordinates[0], 'lng': loc.coordinates[1], 'message': entity.name, 'entity_id': entity.id});
+                    var m = L.marker(loc.coordinates, {'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
+                    markers.addLayer(m);
                 });
             });
-            $scope.$on('leafletDirectiveMarker.click', function(e, args) {
-                $scope.setEntityID(args.model.entity_id);
-            });
+            map.addLayer(markers);
             map.locate({setView: true, maxZoom: 11});
+            markers.on('mouseover', function(marker) {
+                $scope.setEntityID(marker.layer.options.entity_id);
+            });
         });
     });
 
