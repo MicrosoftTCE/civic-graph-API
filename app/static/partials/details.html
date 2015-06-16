@@ -1,12 +1,10 @@
 <div class='right_logo'>
         
-  <div ng-if="currentEntity.twitter_handle">
-    <div id="twitter-pic-position">
-      <img id ="twitter-pic" src= {{renderTwitterImage(currentEntity.twitter_handle)}}
+    <div ng-if='currentEntity.twitter_handle' class='twitter-pic-position'>
+      <img class='twitter-pic' src='{{renderTwitterImage(currentEntity.twitter_handle)}}'
         width="30"
         height="30">
     </div> 
-  </div>
   <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker' style="color:#E0E0E0"></i>
   <h2>{{currentEntity.name}}</h2>
 </div>

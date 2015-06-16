@@ -82,13 +82,13 @@ p {
   padding-right: 5px;
 }
 
-#twitter-pic-position {
+.twitter-pic-position {
   height: 100%;
   width: 100%;
   padding-top: 30px;
 }
 
-#twitter-pic {
+.twitter-pic {
   border-radius: 50%;
 }
 
