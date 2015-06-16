@@ -452,7 +452,7 @@ h2 {
 
 .settingsmobile {
     resize:vertical;
-    overflow: scroll;
+    /*overflow: scroll;*/
     height: 50vh;
 }
 .captionMobile {
