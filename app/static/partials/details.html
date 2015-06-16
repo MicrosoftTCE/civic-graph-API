@@ -160,7 +160,11 @@ Revenue:
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
 <h6>Collaborated with:</h6>
-<ul ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'><p>{{collaboration.entity}}</p></ul>
+<ul ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'><p>{{collaboration.entity}}</p>
+    <!-- <div ng-if='collaboration.entity'>
+        {{collaboration.entity}}
+    </div> -->
+</ul>
 <button ng-if='currentEntity.collaborations.length > itemsShown.collaborations' class='btn btn-xs btn-default' ng-click="showMore('collaborations')">More</button><br><br>
 <button ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' class='btn btn-xs btn-default' ng-click="showLess('collaborations')">Less</button>
 </div>
@@ -177,4 +181,3 @@ Revenue:
 <div ng-if='currentEntity.revenues.length == 0'>
 <p>No known revenue information.</p>
 </div>
->>>>>>> 08157d20561dce3daa1a62cd4350d8ad2c24bb7c
