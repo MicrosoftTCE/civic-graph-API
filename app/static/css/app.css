@@ -1,3 +1,7 @@
+#details-name {
+  padding-top: 0%;
+}
+
 #facebook-link {
   padding-left: 1;
   margin-top: 20px;
@@ -15,6 +19,7 @@
     position: relative;
     /*background-color: #303030;*/
     text-align: center;
+    padding-top: 6%;
     padding-left: 10%;
     padding-right: 10%;
     margin-left: -8.3%;
@@ -92,6 +97,12 @@ p {
   background-color: dodgerblue;
 }
 
+.pencil-glyph {
+  padding-top: 5%;
+  padding-right: 10px;
+  padding-bottom: 10px
+  background-color: dodgerblue;
+}
 .twitter-pic-position {
   height: 100%;
   width: 100%;
@@ -140,13 +151,15 @@ h2 {
 }
 
 .a-radio {
+  padding: 0;
+  margin: 0.5 ;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background-color: #FFCC66;
+  background-color: black;
+
 }
-.x-radio {
-  border: 3px #99CCFF solid;
-  padding: 2;
-}
+
 .radio {
     width: 36px;
     height: 36px;

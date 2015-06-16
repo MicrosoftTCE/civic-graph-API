@@ -13,7 +13,7 @@
     </div>
     Circle of Influence:
     <div ng-repeat='influenceType in influenceTypes'>
-      <label class='x-radio checkbox a-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
+      <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
       <span class='caption'>{{influenceType}}</span>
     </div><br>
 
@@ -27,7 +27,7 @@
     What kind of work do they do?
     <br>
     <div ng-repeat='category in editCategories'>
-    <label class='x-radio checkbox a-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
+    <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
     <span class='caption'>{{category.name}}</label></div><br>
 
 
