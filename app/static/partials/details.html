@@ -1,10 +1,12 @@
+<button ng-if='!mobile' class='btn btn-default add-button' style='width:100%' ng-click='startEdit()'><h3>Add New Information</h3></button>
+<hr />
 <div class='right_logo'>
     <div ng-if='currentEntity.twitter_handle' class='twitter-pic-position'>
       <img class='twitter-pic' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
     </div>
     <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
-    <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}'><h2>{{currentEntity.name}}</h2></a>
-    <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}'><h2>{{currentEntity.name}}</h2></a>
+    <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+    <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
 </div>
 <h6>Locations: </h6>
 <p ng-repeat='location in currentEntity.locations'>{{location.full_address}}</p>
@@ -22,10 +24,10 @@
 <!-- KEY PEOPLE -->
 <div ng-if='currentEntity.key_people.length > 0'>
 <h6>Key Civic People:</h6>
-    <ul><li ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><p><a ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}'>{{person.name}}</a></p></li></ul>
+    <p ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><a ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}' target='_blank'>{{person.name}}</a></p>
 
-    <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
-    <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
+    <a ng-if='currentEntity.key_people.length > itemsShown.key_people' ng-click="showMore('key_people')" href=''>More...</a>
+    <a ng-if='itemsShown.key_people > itemsShownDefault.key_people' ng-click="showLess('key_people')">Less...</a>
 </div>
 <div ng-if='currentEntity.key_people.length == 0'>
     <h6>No known Key Civic People.</h6>

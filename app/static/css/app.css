@@ -1,6 +1,9 @@
 #details-name {
   padding-top: 0%;
 }
+.add-button {
+  border-color: blue;
+}
 
 #facebook-link {
   padding-left: 1;
@@ -108,8 +111,6 @@ p {
 
 .twitter-pic {
     border-radius: 50%;
-    width: 30;
-    height: 30;
 }
 
 h2 {
@@ -518,7 +519,7 @@ h2 {
     padding: 10px;
     height: 100vh;
     overflow: scroll;
-    background-color: #F0F0F0  ;
+    background-color: white  ;
 
 
     /*height: 85vh;
