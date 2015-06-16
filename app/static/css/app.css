@@ -306,7 +306,7 @@ h2 {
 }
 
 #settings {
-    height: 95vh;
+    height: 100vh;
     overflow: scroll;
 }
 #controlsMinButton {
@@ -350,7 +350,7 @@ h2 {
 }
 
 #aboutButton{
-    background-color: black;
+/*    background-color: black;
     padding: 0;
     text-align: center;
     width: 16.69%;
@@ -358,7 +358,7 @@ h2 {
     position: fixed;
     bottom: 0;
     overflow: scroll;
-    z-index: 2;
+    z-index: 2;*/
 }
 
 /*Animation spinner for form submission*/
