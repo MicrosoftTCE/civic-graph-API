@@ -13,7 +13,6 @@
 
 .right_logo {
     position: relative;
-    /*background-color: #303030;*/
     text-align: center;
     padding-left: 10%;
     padding-right: 10%;
@@ -28,9 +27,7 @@
     margin-left: -8.3%;
     margin-right: -8.3%;
     margin-top: 10.6%;
-    /*margin-left: -15px;*/
-  }
-
+}
 
 .caption {
     padding-left: 5px;
@@ -99,7 +96,9 @@ p {
 }
 
 .twitter-pic {
-  border-radius: 50%;
+    border-radius: 50%;
+    width: 30;
+    height: 30;
 }
 
 h2 {
@@ -367,18 +366,6 @@ h2 {
     top: 0;
     left: 0;
     display: block;
-}
-
-#aboutButton{
- /*   background-color: black;
-    padding: 0;
-    text-align: center;
-    width: 16.69%;
-    height: 37px;
-    position: fixed;
-    bottom: 0;
-    overflow: scroll;
-    z-index: 2;*/
 }
 
 /*Animation spinner for form submission*/

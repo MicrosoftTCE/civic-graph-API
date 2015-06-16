@@ -19,22 +19,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         console.log($(window).width())
         $scope.settingsEnabled = !$scope.settingsEnabled;
     }
-
-    $scope.renderTwitterImage = function(twitter_handle){
-        return 'https://twitter.com/'+ twitter_handle +'/profile_image';
-    }
-    $scope.renderBingOrg = function(name){
-        // debugger
-        var searchString = name.replace(" ", "%20")
-        var url = 'http://www.bing.com/search?q='+ searchString +'&go=Submit'
-        return url;
-    }
-    $scope.renderBingGroup = function(name, org){
-        var searchName = name.replace(" ", "%20");
-        var searchOrg = org.replace(" ", "%20");
-        var url = 'http://www.bing.com/search?q='+ searchName + '%20' + searchOrg +'&go=Submit';
-        return url;
-    }
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
         if (entityID) {entityID = parseInt(entityID);};
