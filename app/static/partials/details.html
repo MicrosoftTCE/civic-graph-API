@@ -139,3 +139,11 @@ Expenses:
 <div ng-if='currentEntity.expenses.length == 0'>
     No known expenses information.
 </div>
+
+    Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
+    Influence: {{currentEntity.influence}}<br />
+    Type of Entity: {{currentEntity.type}}<br />
+    Employees: {{currentEntity.employees | number}}<br />
+    Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
+    Twitter Followers: {{currentEntity.followers | number}}<br />
+

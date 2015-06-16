@@ -1,7 +1,7 @@
 <i title='Edit' ng-click='cancelEdit()' ng-hide="updating" class='glyphicon glyphicon-remove edit-marker'></i>
 
 <div ng-if='!updating'>
-<h3>Add Information</h3>
+<center><h3>Add Information for {{editEntity.name}}</h3></center>
 <form class='edit-form' novalidate>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
@@ -9,11 +9,14 @@
         <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
     </div>
     Circle of Influence:
-    <div class='radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+    <div class='r-radio' ng-repeat='influenceType in influenceTypes'><label><input type='radio' data-ng-model='editEntity.influence' value='{{influenceType}}'>{{influenceType}}</label></div>
+
     What type of entity?
-    <div class='radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
+    <br>
+    <div class='r-radio' ng-repeat='(type, enabled) in entityTypes'><label><input type='radio' data-ng-model='editEntity.type' value='{{type}}'>{{type}}</label></div>
     What kind of work do they do?
-    <div class='checkbox' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
+    <br>
+    <div class='r-radio' ng-repeat='category in editCategories'><label><input type='checkbox' ng-model='category.enabled'>{{category.name}}</label></div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
     <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
@@ -50,62 +53,91 @@
     <div>Who funds them via grants?
         <div ng-repeat='grant in editEntity.grants_received'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false' placeholder='Funder'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                    <!-- <span class='input-group-addon'>$</span> -->
+                    <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
+            </div>
         </div>
     </div>
     <div>Who invests in them via equity stakes (stock)?
         <div ng-repeat='investment in editEntity.investments_received'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                <!-- <span class='input-group-addon'>$</span> -->
+                <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='investment.year' placeholder='Year'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='investment.year' placeholder='Year'>
+            </div>
         </div>
     </div>
     <div>Who do they fund via grants?
         <div ng-repeat='grant in editEntity.grants_given'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_given)' typeahead-editable='false' placeholder='Fundee'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                <!-- <span class='input-group-addon'>$</span> -->
+                <input type='number' class='form-control' ng-model='grant.amount' placeholder='Amount'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='grant.year' placeholder='Year'>
+            </div>
         </div>
     </div>
     <div>Who do they invest in via equity stakes (stock)?
         <div ng-repeat='investment in editEntity.investments_made'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_made)' typeahead-editable='false' placeholder='Investee'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                <!-- <span class='input-group-addon'>$</span> -->
+                <input type='number' class='form-control' ng-model='investment.amount' placeholder='Amount'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='investment.year' placeholder='Year'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='investment.year' placeholder='Year'>
+            </div>
         </div>
     </div>
     <div>Revenue
         <div ng-repeat='revenue in editEntity.revenues'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='revenue.amount' placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
+            <div class="col-sm-6">
+                <div class='input-group'>
+                <!-- <span class='input-group-addon'>$</span> -->
+                <input type='number' class='form-control' ng-model='revenue.amount' placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='revenue.year' placeholder='Year' ng-change='addFinance(editEntity.revenues)'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='revenue.year' placeholder='Year' ng-change='addFinance(editEntity.revenues)'>
+            </div>
         </div>
     </div>
     <div>Expenses
         <div ng-repeat='expense in editEntity.expenses'>
-            <div class='input-group'>
-            <span class='input-group-addon'>$</span>
-            <input type='number' class='form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
+            <div class="col-sm-6">
+
+                <div class='input-group'>
+                <!-- <span class='input-group-addon'>$</span> -->
+                <input type='number' class='form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
+                </div>
             </div>
-            <input type='number' class='form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
+            <div class="col-sm-6">
+                <input type='number' class='form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
+            </div>
         </div>
     </div>
+
 </form>
 </div>
 <div ng-if='updating' class="loader">Loading...</div>
+<br>
+<br>
+<br>
 <button ng-hide="updating" class='btn btn-default' ng-click='save()'>Save</button>
