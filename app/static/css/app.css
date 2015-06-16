@@ -178,6 +178,8 @@ h2 {
 }
 .map-container {
     height: 100vh;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 .network-container {
     height:100%;
@@ -272,7 +274,19 @@ h2 {
 .visible {
     visibility: visible;
 }
-
+/* Arc styles*/
+.Individual-arc {
+    fill: orange;
+}
+.For-Profit-arc {
+    fill: rgb(127, 186, 0);
+}
+.Non-Profit-arc {
+    fill: dodgerblue;
+}
+.Government-arc {
+    fill: rgb(242, 80, 34);
+}
 /*styling of right nav*/
 
 .more {
@@ -445,6 +459,7 @@ h2 {
     color: grey;
     position:fixed;
     bottom: 0;
+    pointer-events: none;
     font-size: 1.3em;
 }
 

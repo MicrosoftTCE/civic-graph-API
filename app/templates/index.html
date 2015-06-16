@@ -27,7 +27,7 @@
     <div class='container-fluid main-container'>
         <div class='row'>
             <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel hidden-xs' ng-include="'static/partials/controls.html'"></div>
-            <div ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-include="'static/partials/controlsmobile.html'"></div>
+            <div ng-show='settingsEnabled && !clickedEntity.entity' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-include="'static/partials/controlsmobile.html'"></div>
             <button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'>+ ADD INFO</button>
             <div class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
             <div ng-class="mobile ? 'col-sm-2 details-panelMb' : 'details-panel'" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
