@@ -1,5 +1,6 @@
 <div class='map-container' ng-controller='mapCtrl'>
     <!-- Pure leaflet syntax.-->
     <!--<div id='map'></div>-->
+    <button id='controlsMinButton' ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify' ></button>
     <leaflet center='options.center' markers='markers' event-broadcast='events' defaults='options.defaults'></leaflet>
 </div>
