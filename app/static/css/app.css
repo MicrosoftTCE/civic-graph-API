@@ -322,8 +322,8 @@ h2 {
     z-index: 1;
 }
 #entityInfo {
-    height: 100vh;
-    overflow: scroll;
+    height: 100%;
+    /*overflow: scroll;*/
     background-color: #F0F0F0  ;
 }
 #minimizeButton{
@@ -452,7 +452,7 @@ h2 {
 
 .settingsmobile {
     resize:vertical;
-    /*overflow: scroll;*/
+    overflow: scroll;
     height: 50vh;
 }
 .captionMobile {
@@ -496,18 +496,22 @@ h2 {
     width: 75%;
 }
 .details-panel{
+    /*text-align: center;*/
+    padding: 10px;
     height: 100vh;
     overflow: scroll;
+    background-color: #F0F0F0  ;
 }
 
 .details-panelMb {
+    padding-top: 5%;
     height: 50vh;
     width: 100%;
     overflow: scroll;
     position: absolute;
     left: 0;
     bottom: 0;
-    background-color: white;
+    background-color: #F0F0F0;
     padding-bottom: 35px;
     margin-top: 40px;
 }
