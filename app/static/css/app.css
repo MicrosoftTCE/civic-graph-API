@@ -1,74 +1,77 @@
+#facebook-link {
+  padding-left: 1;
+  margin-top: 20px;
+}
+
+.popup-color {
+  background-color: #E8E8E8;
+}
+
 .network-container {
     background-color: white;
 }
 
 .right_logo {
     position: relative;
-    background-color: #303030;
     text-align: center;
+    padding-left: 10%;
+    padding-right: 10%;
     margin-left: -8.3%;
     margin-right: -8.3%;
     margin-top: -9.6%;
 }
-.obj_data {
-  /*position: absolute;*/
-  /*overflow: scroll;*/
-  /*height: 100%;*/
-
-}
-
 .logo {
-    width: 100%;
     position: relative;
     background-color: #303030;
     text-align: center;
-    /*margin-left: -15px;*/
-}
-.caption {
-    padding-left: 5px;
+    margin-left: -8.3%;
+    margin-right: -8.3%;
+    margin-top: 10.6%;
 }
 
-input[type='text'], TEXTAREA[disabled] {
-    background-color: #FFFFFF ;
-    -moz-box-shadow:    inset 0 0 10px #808080;
-    -webkit-box-shadow: inset 0 0 10px #808080;
-    box-shadow:         inset 0 0 10px #808080;
+.caption {
+    padding-left: 5px;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: black;
+    font-size: 16px
+
 }
 
 h1 {
-    font-family: Verdana;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #E0E0E0;
     font-size: 40px;
     text-shadow: 2px 2px 4px #000000;
 }
 
 h3 {
-    font-family: Verdana;
-    color: #303030;
+    margin-top: 0;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: #505050 ;
 }
 
 h4 {
-    font-family: Verdana;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #303030;
     font-size: 24px;
 }
 
 h5 {
-    font-family: Verdana;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #303030;
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
 
 h6 {
-  font-family: Verdana;
+  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #303030;
   font-size: 14px;
   font-weight: bold;
 }
 
 p {
-  font-family: Verdana;
+  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #505050;
   font-size: 14px;
   font-weight: normal;
@@ -81,7 +84,9 @@ p {
 }
 
 .glyphicon {
-  padding-right: 5px;
+  padding-right: 10px;
+  padding-bottom: 10px
+  background-color: dodgerblue;
 }
 
 .twitter-pic-position {
@@ -91,14 +96,17 @@ p {
 }
 
 .twitter-pic {
-  border-radius: 50%;
+    border-radius: 50%;
+    width: 30;
+    height: 30;
 }
 
 h2 {
     font-family: Verdana;
-    color: #E0E0E0;
+    color: #474747;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     font-size: 30px;
-    text-shadow: 2px 2px 4px #000000;
+    /*text-shadow: 2px 2px 4px #000000;*/
     padding-bottom: 10px;
     /*padding-top: 10px;*/
 }
@@ -106,13 +114,14 @@ h2 {
 .checkbox {
     width: 28px;
     height: 28px;
-    border: 6px white solid;
-    padding: 2;
-    margin: 2;
+    border: 7px white solid;
+    padding: 0;
+    margin: 0.5 ;
     background-color: white;
     position: relative;
     display: inline-block;
     vertical-align: middle;
+    padding-left: 15px;
 }
 
 .checkbox input {
@@ -138,36 +147,55 @@ h2 {
   padding: 2;
 }
 .radio {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: black;
+    border: 7px white solid;
 }
 
 .unchecked {
   background-color: white !important;
 }
 .For-Profit-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: rgb(127, 186, 0);
 }
 .Non-Profit-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: dodgerblue;
 }
 .Individual-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: orange;
 }
 .Government-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: rgb(242, 80, 34);
 }
 
 .Employment-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: purple
 }
 .Funding-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: rgb(242, 80, 34)
 }
 .Collaboration-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: orange
 }
 .Data-checkbox {
+    width: 34px;
+    height: 34px;
     background-color: dodgerblue
 }
 
@@ -183,11 +211,12 @@ h2 {
 }
 .network-container {
     height:100%;
-    overflow:hidden
+    overflow:hidden;
     background-color: white;
 }
 .control-panel {
     background-color: #D0D0D0;
+    width: 14.66666667%;
 }
 .display-panel {
 }
@@ -289,28 +318,6 @@ h2 {
 }
 /*styling of right nav*/
 
-.more {
-   border-top: 1px solid #52595e;
-   background: #353c40;
-   background: -webkit-gradient(linear, left top, left bottom, from(#393c3d), to(#353c40));
-   background: -webkit-linear-gradient(top, #393c3d, #353c40);
-   background: -moz-linear-gradient(top, #393c3d, #353c40);
-   background: -ms-linear-gradient(top, #393c3d, #353c40);
-   background: -o-linear-gradient(top, #393c3d, #353c40);
-   padding: 8px 16px;
-   -webkit-border-radius: 0px;
-   -moz-border-radius: 0px;
-   border-radius: 0px;
-   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   box-shadow: rgba(0,0,0,1) 0 1px 0;
-   text-shadow: rgba(0,0,0,.4) 0 1px 0;
-   color: #bfbbbf;
-   font-size: 13px;
-   font-family: Georgia, serif;
-   text-decoration: none;
-   vertical-align: middle;
-   }
 .button:hover {
    border-top-color: #242b30;
    background: #242b30;
@@ -335,11 +342,7 @@ h2 {
     padding: 0;
     z-index: 1;
 }
-#entityInfo {
-    height: 100%;
-    /*overflow: scroll;*/
-    background-color: #F0F0F0  ;
-}
+
 #minimizeButton{
     z-index: 1;
     position: fixed;
@@ -363,18 +366,6 @@ h2 {
     top: 0;
     left: 0;
     display: block;
-}
-
-#aboutButton{
-/*    background-color: black;
-    padding: 0;
-    text-align: center;
-    width: 16.69%;
-    height: 37px;
-    position: fixed;
-    bottom: 0;
-    overflow: scroll;
-    z-index: 2;*/
 }
 
 /*Animation spinner for form submission*/
@@ -466,6 +457,7 @@ h2 {
 
 
 .settingsmobile {
+    width: 100%;
     resize:vertical;
     overflow: scroll;
     height: 50vh;
@@ -473,8 +465,6 @@ h2 {
 .captionMobile {
     font-weight: 800;
     margin: 0;
-
-
 }
 .checkbox {
     margin-bottom: 3;
@@ -516,8 +506,21 @@ h2 {
     height: 100vh;
     overflow: scroll;
     background-color: #F0F0F0  ;
-}
 
+
+    /*height: 85vh;
+    overflow: scroll;
+    bottom: 0;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    position: absolute;
+    right: 0;
+    width: 20%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ccc;
+    background-color: #F0F0F0;*/
+}
 .details-panelMb {
     padding-top: 5%;
     height: 50vh;

@@ -4,7 +4,7 @@
 <h1>Civic Graph</h1>
 </div>
 
-<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
+<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'><br>
 
 <h3>Types</h3>
 <div ng-repeat='(type, enabled) in entityTypes'>
@@ -13,8 +13,6 @@
     <span class='caption'>{{type}}</span>
 </div>
 
-<legend></legend>
-
 <h3>Connections</h3>
 <div ng-repeat='(type, enabled) in connectionTypes'>
     <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
@@ -22,25 +20,21 @@
     <span class='caption'>{{type}}</span>
 </div>
 
-<legend></legend>
-
 <h3>Sized By</h3>
 <div ng-repeat='sizeBy in sizeBys'>
     <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
     <span class='caption'>{{sizeBy.name}}</span>
 </div>
 
-<legend></legend>
-
 <h3>View</h3>
 <div ng-repeat='view in views'>
     <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
     <span class='caption'>{{view.name}}</span>
 </div>
+
 <legend></legend>
 
 <div  id="aboutButton">
-  <a ng-click='showAbout()' href="">
-  Learm more
-  </a>
+    <a ng-click='showAbout()' href="">Learn more</a>
 </div>
+

@@ -19,15 +19,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         console.log($(window).width())
         $scope.settingsEnabled = !$scope.settingsEnabled;
     }
-
-    $scope.renderTwitterImage = function(twitter_handle){
-        return 'https://twitter.com/'+ twitter_handle +'/profile_image';
-    }
-    $scope.renderBingOrg = function(name){
-        var searchString = name.replace(" ", "%20")
-        var url = 'http://www.bing.com/search?q='+ searchString +'&go=Submit'
-        return url;
-    }
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
         if (entityID) {entityID = parseInt(entityID);};
@@ -304,7 +295,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     scale = {
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
-        'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
+        'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
     }
     var resize =  function (){
         if ($scope.template.name == 'Network') {
