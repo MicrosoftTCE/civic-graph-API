@@ -54,6 +54,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     };
 
     $scope.influenceTypes = ['Local', 'National', 'Global']
+    $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'},{'name': 'Twitter Followers', 'value': 'followers'}];
     $scope.sizeBy = 'employees';
 
     $scope.views = [
@@ -61,7 +62,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         {'name': 'Map', 'url': 'static/partials/map.html'}
     ];
 
-    $scope.template;
+    $scope.template = $scope.views[0];
 
     $scope.changeView = function(view) {
         $scope.template = _.find($scope.views, {'name': view});
@@ -105,7 +106,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     $scope.changeSizeBy = function(sizeBy) {
-        $scope.$broadcast('changeSizeBy', sizeBy);
+        $scope.$broadcast('changeSizeBy', $scope.sizeBy);
     }
 
     $scope.toggleLink = function(type) {
