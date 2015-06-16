@@ -30,18 +30,7 @@
             <div ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-include="'static/partials/controlsmobile.html'"></div>
             <button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'>+ ADD INFO</button>
 
-     <!--        <div  id="aboutButton">
-            <a href="http://www.facebook.com/plugins/like.php?href=http://civicgraph.io&width&layout=button_count&action=like&show_faces=false&share=false&height=35&appId=">
-            <img border="0" alt="W3Schools" src="static/img/fb3-icon.png" width="35" height="35">
-            </a>
-            <a href="https://twitter.com/intent/tweet?original_referer">
-            <img border="0" alt="W3Schools" src="static/img/tweet2-icon.png" width="35" height="35">
-            </a>
-            <a ng-click='showAbout()' href="">
-            Learn more
-            </a>
-            </div>
- -->
+
 
             <div class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
             <div ng-class="mobile ? 'col-sm-2 details-panelMb' : 'details-panel'" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
