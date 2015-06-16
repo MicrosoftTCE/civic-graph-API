@@ -12,7 +12,7 @@
                 height="30">
             </div> 
           <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker' style="color:#E0E0E0"></i>
-          <h2>{{currentEntity.name}}</h2>
+          <a ng-href='{{renderBingOrg(currentEntity.name)}}'><h2>{{currentEntity.name}}</h2></a>
         </div>
         <h6>Locations: </h6><ul>
         <li ng-repeat='location in currentEntity.locations'><p>{{location.full_address}}</p></li></ul>
