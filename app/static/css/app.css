@@ -12,6 +12,8 @@
 }
 .obj_data {
   position: absolute;
+  overflow: scroll;
+  height: 100%;
 
 }
 
