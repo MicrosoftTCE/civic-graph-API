@@ -3,30 +3,32 @@
 }
 
 .right_logo {
-    width: 100%;
-    position: absolute;
+    position: relative;
     background-color: #303030;
     text-align: center;
-    margin-left: -15px;
+    margin-left: -8.3%;
+    margin-right: -8.3%;
+    margin-top: -9.6%;
 }
 .obj_data {
-  /*hack should fix to make dynamic*/
-  padding-top: 40px;
+  /*position: absolute;*/
+  /*overflow: scroll;*/
+  /*height: 100%;*/
 
 }
 
 .logo {
     width: 100%;
-    position: absolute;
+    position: relative;
     background-color: #303030;
     text-align: center;
-    margin-left: -15px;
+    /*margin-left: -15px;*/
 }
 .caption {
     padding-left: 5px;
 }
 
-input[type='text'], TEXTAREA[disabled] {   
+input[type='text'], TEXTAREA[disabled] {
     background-color: #FFFFFF ;
     -moz-box-shadow:    inset 0 0 10px #808080;
     -webkit-box-shadow: inset 0 0 10px #808080;
@@ -72,8 +74,24 @@ p {
   font-weight: normal;
 }
 
+#key-civic-people-img {
+  background: white url(/static/img/mini_grey_head.png) left no-repeat;
+  padding-left: 5px;
+  text-align: center;
+}
+
 .glyphicon {
   padding-right: 5px;
+}
+
+.twitter-pic-position {
+  height: 100%;
+  width: 100%;
+  padding-top: 30px;
+}
+
+.twitter-pic {
+  border-radius: 50%;
 }
 
 h2 {
@@ -81,6 +99,8 @@ h2 {
     color: #E0E0E0;
     font-size: 30px;
     text-shadow: 2px 2px 4px #000000;
+    padding-bottom: 10px;
+    /*padding-top: 10px;*/
 }
 
 .checkbox {
@@ -98,13 +118,30 @@ h2 {
 .checkbox input {
   display: none;
 }
+
 .r-radio {
   border-radius: 50%;
+  background-color: black
+}
+
+.z-radio {
+  border-radius: 50%;
+  background-color: rgb(242, 80, 34);
+}
+
+.a-radio {
+  border-radius: 50%;
+  background-color: #FFCC66;
+}
+.x-radio {
+  border: 3px #99CCFF solid;
+  padding: 2;
 }
 .radio {
     border-radius: 50%;
     background-color: black;
 }
+
 .unchecked {
   background-color: white !important;
 }
@@ -145,7 +182,9 @@ h2 {
     margin-right: -15px;
 }
 .network-container {
-    height: 100vh;
+    height:100%;
+    overflow:hidden
+    background-color: white;
 }
 .control-panel {
     background-color: #D0D0D0;
@@ -154,6 +193,7 @@ h2 {
 }
 .details-panel {
     background-color: #D0D0D0;
+    z-index: 2;
 }
 .edit-panel {
     background-color: #D0D0D0;
@@ -298,6 +338,7 @@ h2 {
 #entityInfo {
     height: 100vh;
     overflow: scroll;
+    background-color: #F0F0F0  ;
 }
 #minimizeButton{
     z-index: 1;
@@ -312,11 +353,12 @@ h2 {
 }
 
 .network-container{
+    text-align: center;
 }
 
 #network {
+    text-align: center;
     width: 100%;
-    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
@@ -327,13 +369,16 @@ h2 {
     background-color: black;
     padding: 0;
     text-align: center;
-    width: 17%;
+    width: 16.69%;
     height: 37px;
     position: fixed;
     bottom: 0;
     overflow: scroll;
     z-index: 2;
 }
+
+/*Animation spinner for form submission*/
+/*source: http://projects.lukehaas.me/css-loaders/*/
 
 .loader {
   font-size: 90px;
@@ -401,4 +446,88 @@ h2 {
     transform: rotate(360deg);
     box-shadow: 0 -0.83em 0 -0.4em #474444, 0 -0.83em 0 -0.42em #474444, 0 -0.83em 0 -0.44em #474444, 0 -0.83em 0 -0.46em #474444, 0 -0.83em 0 -0.477em #474444;
   }
+}
+
+/*End of animation spinner*/
+
+.license {
+    position:fixed;
+    bottom:0;
+    color: grey;
+}
+.licenseMob {
+    color: grey;
+    position:fixed;
+    bottom: 0;
+    font-size: 1.3em;
+}
+
+
+
+.settingsmobile {
+    resize:vertical;
+    /*overflow: scroll;*/
+    height: 50vh;
+}
+.captionMobile {
+    font-weight: 800;
+    margin: 0;
+
+
+}
+.checkbox {
+    margin-bottom: 3;
+    margin-top: 0;
+
+}
+.mobileTitle{
+    font-size: 1.3em;
+
+}
+#minimizeButtonMobile{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    position: fixed;
+    width: 13.5%;
+    height: 25px;
+}
+
+.addInfoMobile {
+    font-family: Verdana;
+    font-weight: 800;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    z-index: 3;
+    border: 2px solid lightgrey;
+}
+.inputMobile {
+    display: inline;
+    margin-left: 10%;
+    margin-right: 2%;
+    width: 75%;
+}
+.details-panel{
+    height: 100vh;
+    overflow: scroll;
+}
+
+.details-panelMb {
+    height: 50vh;
+    width: 100%;
+    overflow: scroll;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    padding-bottom: 35px;
+    margin-top: 40px;
+}
+
+.checkboxCont{
+    width: 45%;
+    float: left;
+    display: inline-block;
 }

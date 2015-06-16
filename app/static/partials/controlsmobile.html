@@ -1,0 +1,44 @@
+<button id='minimizeButtonMobile' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up' ></button>
+<!-- <div class='logo'> -->
+<!-- <h1>Civic Graph</h1> -->
+</div>
+<br>
+<div>
+<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control inputMobile'><span class="glyphicon glyphicon-search"></span>
+</div>
+<div class="checkboxCont">
+<h4 class="mobileTitle">Types</h4>
+<div ng-repeat='(type, enabled) in entityTypes'>
+    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
+    <span class='captionMobile'>{{type}}</span>
+</div>
+</div>
+<!-- <legend></legend> -->
+
+<div class="checkboxCont">
+<h4 class="mobileTitle">Connections</h4>
+<div ng-repeat='(type, enabled) in connectionTypes'>
+    <label class="checkbox {{type+'-checkbox'}} checkbox inline no_indent" ng-class="{'unchecked': !enabled}">
+    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)' ></label>
+    <span class='check'></span>
+    <span class='captionMobile'>{{type}}</span>
+</div>
+</div>
+
+<legend></legend>
+
+<h4 class="mobileTitle">Sized By</h4>
+<span ng-repeat='sizeBy in sizeBys'>
+    <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
+    <span class='caption'>{{sizeBy.name}}</span>
+</span>
+
+<legend></legend>
+
+<h4 class="mobileTitle">View</h4>
+<span ng-repeat='view in views'>
+    <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
+    <span class='caption'>{{view.name}}</span>
+</span>
+<legend></legend>

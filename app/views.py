@@ -56,7 +56,11 @@ def relation_connections():
 @app.route('/save', methods=['POST'])
 def save():
     data = json.loads(request.data)['entity']
-    entity = Entity.query.get(data['id'])
+    if data['id']:
+        entity = Entity.query.get(data['id'])
+    elif data['name']:
+        entity = Entity(data['name'])
+        db.commit()
     update(entity, data)
     cache.clear()
     return get_entities()

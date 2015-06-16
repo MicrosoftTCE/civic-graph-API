@@ -7,14 +7,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.entities = [];
     $scope.categories = [];
     $scope.currentEntity;
+    $scope.clickedEntity = {};
+    $scope.clickedEntity.entity = null;
     $scope.editEntity;
     $scope.connections = {};
     $scope.editing = false;
-    $scope.mobile = $(window).width() > 500 ? true : false;
-    $scope.settingsEnabled = $scope.mobile;
+    $scope.mobile = $(window).width() < 768;
+    $scope.settingsEnabled = !$scope.mobile;
 
     $scope.toggleSettings = function() {
+        console.log($(window).width())
         $scope.settingsEnabled = !$scope.settingsEnabled;
+    }
+
+    $scope.renderTwitterImage = function(twitter_handle){
+        return 'https://twitter.com/'+ twitter_handle +'/profile_image';
+    }
+    $scope.renderBingOrg = function(name){
+        var searchString = name.replace(" ", "%20")
+        var url = 'http://www.bing.com/search?q='+ searchString +'&go=Submit'
+        return url;
     }
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
@@ -54,12 +66,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         {'name': 'Network', 'url': 'static/partials/network.html'},
         {'name': 'Map', 'url': 'static/partials/map.html'}
     ];
+
     $scope.template = $scope.views[0];
+
+    $scope.changeView = function(view) {
+        $scope.template = _.find($scope.views, {'name': view});
+    }
+    $scope.changeView('Network');
+
     $scope.setEntity = function(entity) {
         $scope.currentEntity = entity;
         if ($scope.editing) {
             $scope.stopEdit();
         }
+        console.log($scope.clickedEntity.entity);
         $scope.$broadcast('entityChange');
     }
     $scope.selectEntity = function(entity) {
@@ -73,16 +93,24 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.entities = entities;
     }
 
-    $scope.startEdit = function() {
+    $scope.startEdit = function(entity) {
+        if (entity) {
+            $scope.editEntity = entity;
+        } else {
+            newEntity = {};
+            _.forEach($scope.entities[0], function(value, key) {
+                newEntity[key] = _.isArray(value) ? [] : null;
+            });
+            $scope.editEntity = newEntity;
+        }
         $scope.editing = true;
-        $scope.editEntity = $scope.currentEntity;
     }
 
     $scope.stopEdit = function() {
         $scope.editing = false;
     }
 
-    $scope.changeSizeBy = function() {
+    $scope.changeSizeBy = function(sizeBy) {
         $scope.$broadcast('changeSizeBy', $scope.sizeBy);
     }
 
@@ -260,6 +288,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .controller('networkCtrl', function($scope, $http, $timeout) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
+    $scope.showLicense =  true;
+
     $http.get('connections').
         success(function(data) {
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
@@ -282,7 +312,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             panZoomNetwork.resize(true);
             panZoomNetwork.fit(true);
             panZoomNetwork.center(true);
-            panZoomNetwork.disableDblClickZoom();
+            panZoomNetwork.disableDblClickZoom(true)
         }
     };
 
@@ -338,7 +368,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Cluster in four corners based on offset.
             var k = offsetScale*e.alpha;
             // console.log(e.alpha)
-            //if (e.alpha < 0.02) { resize();};
+             if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
@@ -368,7 +398,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         speedAnimate(7);
         force.start();
 
-        var clickedEntity;
+
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
         var linkedByIndex = {};
@@ -426,30 +456,33 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             entity.fixed = false;
             // Restart d3 animations.
-            if (clickedEntity) force.resume();
+            if ($scope.clickedEntity.entity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
 
         var hover = function(entity) {
-            if (!clickedEntity) {
+            if (!$scope.clickedEntity.entity) {
                 focus(entity);
             }
         }
 
         var unhover = function(entity) {
-            if (!clickedEntity) {
+            if (!$scope.clickedEntity.entity) {
                 unfocus(entity);
             }
         }
 
         var click = function(entity) {
-            if (clickedEntity == entity) {
-                clickedEntity = null;
+            console.log('click');
+            $scope.showLicense = false;
+            if ($scope.clickedEntity.entity == entity) {
+                $scope.clickedEntity.entity = null;
             } else {
-                if (clickedEntity) unfocus(clickedEntity);
-                clickedEntity = entity;
+                if ($scope.clickedEntity.entity) unfocus($scope.clickedEntity.entity);
+                $scope.clickedEntity.entity = entity;
                 focus(entity);
             }
+
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
             if (d3.event) {d3.event.stopPropagation();}
@@ -462,17 +495,18 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 entity.px = width/2;
                 entity.py = height/2;
                 entity.fixed = true;
-                clickedEntity = entity;
+                $scope.clickedEntity.entity = entity;
             } else {
                 unfocus(entity);
             }
         }
 
         var backgroundclick = function() {
-            if (clickedEntity) {
-                unfocus(clickedEntity);
-                clickedEntity = null;
+            if ($scope.clickedEntity.entity) {
+                unfocus($scope.clickedEntity.entity);
+                $scope.clickedEntity.entity = null;
             }
+            $scope.safeApply();
             //TODO: Show generic details and not individual entity details.
         }
         node.on('mouseover', hover);
