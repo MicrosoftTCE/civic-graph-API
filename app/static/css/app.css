@@ -1,3 +1,12 @@
+#facebook-link {
+  padding-left: 1;
+  margin-top: 20px;
+}
+
+.popup-color {
+  background-color: #E8E8E8;
+}
+
 .network-container {
     background-color: white;
 }
