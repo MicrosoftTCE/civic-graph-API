@@ -1,5 +1,3 @@
-
-
 <div id="entityInfo">
 
     <div class="obj_data">
@@ -160,13 +158,34 @@
     </div>
 </div> 
 
+    <div ng-if='currentEntity.key_people.length > 0'>
+    <h6>Key Civic People:</h6>
+        <ul><li ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><p>{{person.name}}</p></li></ul>
+        <button ng-if='currentEntity.key_people.length > itemsShown.key_people' class='btn btn-xs btn-default' ng-click="showMore('key_people')">More</button>
+        <button ng-if='itemsShown.key_people > itemsShownDefault.key_people' class='btn btn-xs btn-default' ng-click="showLess('key_people')">Less</button>
+    </div>
+    <div ng-if='currentEntity.key_people.length == 0'>
+        <h6>No known Key Civic People.</h6>
+    </div>
 
-
-<!-- <div class="obj_data">
-    Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
-    Influence: {{currentEntity.influence}}<br />
-    Type of Entity: {{currentEntity.type}}<br />
-    Employees: {{currentEntity.employees | number}}<br />
-    Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
-    Twitter Followers: {{currentEntity.followers | number}}<br />
-
+    <!-- COLLABORATIONS -->
+    <div ng-if='currentEntity.collaborations.length > 0'>
+    <h6>Collaborated with:</h6>
+        <ul><li ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'><p>{{collaboration.entity}}</p></li></ul>
+        <button ng-if='currentEntity.collaborations.length > itemsShown.collaborations' class='btn btn-xs btn-default' ng-click="showMore('collaborations')">More</button><br><br>
+        <button ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' class='btn btn-xs btn-default' ng-click="showLess('collaborations')">Less</button>
+    </div>
+    <div ng-if='currentEntity.collaborations.length == 0'><br>
+        <h6>No known collaborations.</h6>
+    </div>
+    <!-- REVENUES -->
+    <div ng-if='currentEntity.revenues.length > 0'>
+    Revenue:
+        <ul><li ng-repeat='revenue in currentEntity.revenues'>{{revenue.year}}: {{revenue.amount | currency}}</li></ul>
+        <button ng-if='currentEntity.revenues.length > itemsShown.revenues' class='btn btn-xs btn-default' ng-click="showMore('revenues')">More</button><br><br>
+        <button ng-if='itemsShown.revenues > itemsShownDefault.revenues' class='btn btn-xs btn-default' ng-click="showLess('revenues')">Less</button>
+    </div>
+    <div ng-if='currentEntity.revenues.length == 0'>
+        <p>No known revenue information.</p>
+    </div>
+</div> 
