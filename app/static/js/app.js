@@ -295,7 +295,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     scale = {
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
-        'followers': d3.scale.sqrt().domain([10, 1000000]).range([10, 50])
+        'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
     }
     var resize =  function (){
         if ($scope.template.name == 'Network') {
