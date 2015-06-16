@@ -398,43 +398,32 @@ h2 {
 
 /*End of animation spinner*/
 
-#license {
-    position:absolute;
+.license {
+    position:fixed;
     bottom:0;
     color: grey;
 }
-#licenseMob {
+.licenseMob {
     color: grey;
-    position:absolute;
+    position:fixed;
     bottom: 0;
-    /*left:5%;*/
     font-size: 1.3em;
-    /*margin-left:5%;*/
 }
 
 
 
-#settingsmobile {
-    /*background-color: red;*/
-/*    position: relative;
-    float: left;
-    display: inline;*/
-    /*text-align: justify;*/
+.settingsmobile {
     resize:vertical;
     overflow: scroll;
     height: 50vh;
 }
 .captionMobile {
-    /*padding: 2px;*/
     font-weight: 800;
     margin: 0;
-    /*color: red;*/
-    /*font-family: Verdana;*/
+
 
 }
 .checkbox {
-    /*margin-left: 25px;*/
-    /*margin-right: 30px;*/
     margin-bottom: 3;
     margin-top: 0;
 
@@ -445,7 +434,6 @@ h2 {
 }
 #minimizeButtonMobile{
     position: fixed;
-    /*width: 100%;*/
     left: 0px;
     top: 0px;
     z-index: 1;
@@ -454,20 +442,7 @@ h2 {
     height: 25px;
 }
 
-/*#settingsmobile label {
-    display: block;
-    padding-left: 15px;
-    text-indent: -15px;
-}
-#settingsmobile input {
-    float: left;
-    margin: 10px;
-    padding: 10px;
-    display:inline-block;
-    overflow:hidden
-}*/
-
-#addInfoMobile {
+.addInfoMobile {
     font-family: Verdana;
     font-weight: 800;
     width: 100%;
@@ -492,13 +467,11 @@ h2 {
     width: 100%;
     overflow: scroll;
     position: absolute;
-    /*height: 50vh;*/
     left: 0;
     bottom: 0;
     background-color: white;
     padding-bottom: 35px;
     margin-top: 40px;
-    /*background-color: lightgrey;*/
 }
 
 .checkboxCont{
