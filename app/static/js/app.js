@@ -16,7 +16,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.settingsEnabled = !$scope.mobile;
 
     $scope.toggleSettings = function() {
-        console.log($(window).width())
         $scope.settingsEnabled = !$scope.settingsEnabled;
     }
     $scope.getURLID = function() {
@@ -70,7 +69,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         if ($scope.editing) {
             $scope.stopEdit();
         }
-        console.log($scope.clickedEntity.entity);
         $scope.$broadcast('entityChange');
     }
     $scope.selectEntity = function(entity) {
@@ -464,7 +462,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var click = function(entity) {
-            console.log('click');
             $scope.showLicense = false;
             if ($scope.clickedEntity.entity == entity) {
                 $scope.clickedEntity.entity = null;
