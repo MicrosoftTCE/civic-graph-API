@@ -2,7 +2,11 @@
 </div>
 <br>
 <div>
-<input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control inputMobile'><span class="glyphicon glyphicon-search"></span>
+<div class="form-group has-feedback testing">
+    <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setEntity($item)' typeahead-editable='false' class='form-control'>
+    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+</div>
+
 </div>
 <div class="checkboxCont">
 <h4 class="mobileTitle">Types</h4>
