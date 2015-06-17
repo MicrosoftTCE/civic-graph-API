@@ -504,7 +504,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('click', click);
         node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
-
+        $scope.$on('entityChange', function() {
+            click($scope.currentEntity);
+        })
         // Only show labels on top 5 most connected entities initially.
         _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
@@ -631,7 +633,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
-            })
+            });
+            $scope.$on('entityChange', function() {
+                var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
+                if (coordinates.length > 0) {
+                    var coords = coordinates[0];
+                    $scope.options.center.lat = coords[0];
+                    $scope.options.center.lng = coords[1];
+                    $scope.options.center.zoom = 11;
+                }
+                 
+            });
         });
     });
 
