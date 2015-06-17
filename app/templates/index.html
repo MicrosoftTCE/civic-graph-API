@@ -25,8 +25,8 @@
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" class="navLogoMobile">
-<button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify hambDesktop' ></button>
-<img  src="static/img/civicgraphdark.png" width="50%">
+<button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify navButtonMob' ></button><button ng-show='settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up navButtonMob' ></button>
+<img  class="logoMob" src="static/img/civicgraphdark.png" width="50%">
 </div>
     <div class='container-fluid main-container'>
         <div class='row'>
