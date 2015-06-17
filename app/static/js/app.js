@@ -138,7 +138,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     };
 })
 .controller('detailsCtrl', function($scope, $http) {
-    $scope.itemsShownDefault = {'key_people': 5, 'grants_given': 5, 'grants_received': 5, 'investments_made': 5, 'investments_received': 5, 'collaborations': 5, 'employments': 5, 'relations': 5, 'data_given': 5, 'data_received': 5, 'revenues': 5, 'expenses': 5}
+    $scope.itemsShownDefault = {'key_people': 3, 'grants_given': 3, 'grants_received': 3, 'investments_made': 3, 'investments_received': 3, 'collaborations': 3, 'employments': 3, 'relations': 3, 'data_given': 3, 'data_received': 3, 'revenues': 3, 'expenses': 3}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
     $scope.$on('entityChange', function(event) {
@@ -351,7 +351,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.append('text')
             //.attr('dx', 10)
             .attr('dy', '.35em')
-            .text(function(d) {return d.name;});
+            .text(function(d) {return d.nickname ? d.nickname : d.name;});
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
