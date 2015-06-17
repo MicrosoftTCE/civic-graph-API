@@ -507,6 +507,33 @@ h2 {
     z-index: 3;
     border: 2px solid lightgrey;
 }
+.addInfoDesktop {
+  background  : none;
+  border: 2px solid #000080;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+
+}
+
+.addInfoDesktop:hover {
+    background: #00CCFF;
+}
+
+.addInfoDesktop p{
+  margin-top: 10px;
+  vertical-align: middle;
+  color: #000080;
+  font-size: 13pt;
+  font-weight: 600;
+}
+
+.addInfoDesktop span {
+  color: #000080;
+  vertical-align: middle;
+
+  font-size: 20pt;
+}
 .inputMobile {
     display: inline;
     margin-left: 10%;
@@ -514,7 +541,6 @@ h2 {
     width: 75%;
 }
 .details-panel{
-    /*text-align: center;*/
     padding: 10px;
     height: 100vh;
     overflow: scroll;
