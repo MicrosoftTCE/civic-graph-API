@@ -634,10 +634,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.$on('entityChange', function() {
                 var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
                 if (coordinates.length > 0) {
-                    var coords = coordinates[0];
-                    $scope.options.center.lat = coords[0];
-                    $scope.options.center.lng = coords[1];
-                    $scope.options.center.zoom = 11;
+                    map.setView(coordinates[0], 11);
                 }
                  
             });
