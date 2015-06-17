@@ -30,7 +30,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
             } else {
-                $scope.currentEntity = $scope.entities[0];
+                //$scope.currentEntity = $scope.entities[0];
             }
         });
     // Maybe get from database.
@@ -296,12 +296,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
     }
     var resize =  function (){
-        if ($scope.template.name == 'Network') {
+        if ($scope.template.name == 'Network' && $scope.mobile) {
             var panZoomNetwork = svgPanZoom('#network', {zoomScaleSensitivity:0.01});
             panZoomNetwork.resize(true);
             panZoomNetwork.fit(true);
             panZoomNetwork.center(true);
-            panZoomNetwork.disableDblClickZoom(true)
+            panZoomNetwork.disableDblClickZoom(true);
         }
     };
 
@@ -360,7 +360,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // console.log(e.alpha)
              if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
-                var scale = $scope.mobile ? 1 : rectangularScale;
+                var scale = $scope.mobile ? 1 : 1;
                 entity.x += scale*offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });

@@ -468,7 +468,7 @@ h2 {
 }
 
 .licenseMob {
-    margin-top: 50vh;
+    margin-top: 55vh;
     color: #9E9E9E;
     font-weight: 400;
     pointer-events: none;
@@ -483,6 +483,11 @@ h2 {
     resize:vertical;
     overflow: scroll;
     height: 50vh;
+
+}
+.centerInput {
+  width: 66%;
+  margin-left: 18%;
 }
 .captionMobile {
     font-weight: 800;
