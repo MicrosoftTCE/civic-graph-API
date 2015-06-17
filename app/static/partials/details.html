@@ -1,159 +1,141 @@
-<button ng-if='!mobile' class='btn btn-default add-button' style='width:100%' ng-click='startEdit()'><h3>Add New Information</h3></button>
-<hr />
-<div class='right_logo'> 
-    <div ng-if='currentEntity.twitter_handle' class='twitter-pic-position'>
-      <img class='twitter-pic' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
-    </div>
-    <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
-    <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
-    <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+<div id='navbar'><br>
+   <i title='Edit' ng-click='startEdit()' class='glyphicon glyphicon-pencil edit-marker'></i>
+   <h5>{{currentEntity.name}}</h5>
 </div>
-<h6>Locations: </h6>
-<p ng-repeat='location in currentEntity.locations'>{{location.full_address}}</p>
 
-<h6>Influence: </h6><p>{{currentEntity.influence}}</p>
-
-<h6>Type of Entity: </h6><p>{{currentEntity.type}}</p>
-
-<h6>Employees: </h6><p>{{currentEntity.employees | number}}</p>
-<div ng-if='currentEntity.twitter_handle'>
-<h6>Twitter: </h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
-<h6>Twitter Followers: </h6><p>{{currentEntity.followers | number}}</p>
-</div>
+Locations: <ul><li ng-repeat='location in currentEntity.locations'>{{location.full_address}}</li></ul>
+Influence: {{currentEntity.influence}}<br />
+Type of Entity: {{currentEntity.type}}<br />
+Employees: {{currentEntity.employees | number}}<br />
+Twitter: <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a><br />
+Twitter Followers: {{currentEntity.followers | number}}<br />
 
 <!-- KEY PEOPLE -->
 <div ng-if='currentEntity.key_people.length > 0'>
-<h6>Key Civic People:</h6>
-    <p ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><a ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}' target='_blank'>{{person.name}}</a></p>
-
-    <a ng-if='currentEntity.key_people.length > itemsShown.key_people' ng-click="showMore('key_people')" href=''>More...</a>
+Key Civic People:
+    <ul><li ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'>{{person.name}}</li></ul>
+    <a ng-if='currentEntity.key_people.length > itemsShown.key_people' ng-click="showMore('key_people')">More...</a>
     <a ng-if='itemsShown.key_people > itemsShownDefault.key_people' ng-click="showLess('key_people')">Less...</a>
 </div>
 <div ng-if='currentEntity.key_people.length == 0'>
-    <h6>No known Key Civic People.</h6>
+    No known Key Civic People.
 </div>
 
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length > 0'>
-<h6>Collaborated with:</h6>
-    <ul><li ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'><p>{{collaboration.entity}}</p></li></ul>
-
-    <button ng-if='currentEntity.collaborations.length > itemsShown.collaborations' class='btn btn-xs btn-default' ng-click="showMore('collaborations')">More</button><br><br>
-    <button ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' class='btn btn-xs btn-default' ng-click="showLess('collaborations')">Less</button>
+Collaborated with:
+    <ul><li ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'>{{collaboration.entity}}</li></ul>
+    <a ng-if='currentEntity.collaborations.length > itemsShown.collaborations' ng-click="showMore('collaborations')">More...</a>
+    <a ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' ng-click="showLess('collaborations')">Less...</a>
 </div>
-<div ng-if='currentEntity.collaborations.length == 0'><br>
-    <h6>No known collaborations.</h6>
+<div ng-if='currentEntity.collaborations.length == 0'>
+    No known collaborations.
 </div>
 
 <!-- EMPLOYMENTS -->
 <div ng-if='currentEntity.employments.length > 0'>
-<h6>Employment:</h6>
+Employment:
     <ul><li ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments'>{{employment.entity}}</li></ul>
-
-    <button ng-if='currentEntity.employments.length > itemsShown.employments' class='btn btn-xs btn-default' ng-click="showMore('employments')">More</button><br><br>
-    <button ng-if='itemsShown.employments > itemsShownDefault.employments' class='btn btn-xs btn-default' ng-click="showLess('employments')">Less</button>
+    <a ng-if='currentEntity.employments.length > itemsShown.employments' ng-click="showMore('employments')">More...</a>
+    <a ng-if='itemsShown.employments > itemsShownDefault.employments' ng-click="showLess('employments')">Less...</a>
 </div>
-
 <div ng-if='currentEntity.employments.length == 0'>
-    <p>No known employment information.</p>
+    No known employment information.
 </div>
 
-<!-- RELATIONS -->
+<!-- Relations -->
 <div ng-if='currentEntity.relations.length > 0'>
-<h6>Related to:</h6>
+Related to:
     <ul><li ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations'>{{relation.entity}}</li></ul>
-
-    <button ng-if='currentEntity.relations.length > itemsShown.relations' class='btn btn-xs btn-default' ng-click="showMore('relations')">More</button><br><br>
-    <button ng-if='itemsShown.relations > itemsShownDefault.relations' class='btn btn-xs btn-default' ng-click="showLess('relations')">Less</button>
+    <a ng-if='currentEntity.relations.length > itemsShown.relations' ng-click="showMore('relations')">More...</a>
+    <a ng-if='itemsShown.relations > itemsShownDefault.relations' ng-click="showLess('relations')">Less...</a>
 </div>
-
 <div ng-if='currentEntity.relations.length == 0'>
-    <p>No known relation information.</p>
+    No known relation information.
 </div>
 
 <!-- DATA USAGE -->
 <div ng-if='currentEntity.data_given.length > 0'>
-<h6>Gave data to:</h6>
+Gave data to:
     <ul><li ng-repeat='datasource in currentEntity.data_given'>{{datasource.entity}}</li></ul>
-    <button ng-if='currentEntity.data_given.length > itemsShown.data_given' class='btn btn-xs btn-default' ng-click="showMore('data_given')">More</button><br><br>
-    <button ng-if='itemsShown.data_given > itemsShownDefault.data_given' class='btn btn-xs btn-default' ng-click="showLess('data_given')">Less</button>
+    <a ng-if='currentEntity.data_given.length > itemsShown.data_given' ng-click="showMore('data_given')">More...</a>
+    <a ng-if='itemsShown.data_given > itemsShownDefault.data_given' ng-click="showLess('data_given')">Less...</a>
 </div>
 <div ng-if='currentEntity.data_given.length == 0'>
-    <p>No known data provided to other entities.</p>
+    No known data provided to other entities.
 </div>
 <div ng-if='currentEntity.data_received.length > 0'>
 Used data from:
     <ul><li ng-repeat='datasource in currentEntity.data_received'>{{datasource.entity}}</li></ul>
-    <button ng-if='currentEntity.data_received.length > itemsShown.data_received' class='btn btn-xs btn-default' ng-click="showMore('data_received')">More</button><br><br>
-    <button ng-if='itemsShown.data_received > itemsShownDefault.data_received' class='btn btn-xs btn-default' ng-click="showLess('data_received')">Less</button>
+    <a ng-if='currentEntity.data_received.length > itemsShown.data_received' ng-click="showMore('data_received')">More...</a>
+    <a ng-if='itemsShown.data_received > itemsShownDefault.data_received' ng-click="showLess('data_received')">Less...</a>
 </div>
 <div ng-if='currentEntity.data_received.length == 0'>
-    <p>No known external data used.</p>
+    No known external data used.
 </div>
 
 <!-- GRANTS RECEIVED -->
 <div ng-if='currentEntity.grants_received.length > 0'>
 Received grants from:
     <ul><li ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency}}</span></li></ul>
-
-    <button ng-if='currentEntity.grants_received.length > itemsShown.grants_received' class='btn btn-xs btn-default' ng-click="showMore('grants_received')">More</button><br><br>
-    <button ng-if='itemsShown.grants_received > itemsShownDefault.grants_received' class='btn btn-xs btn-default' ng-click="showLess('grants_received')">Less</button>
+    <a ng-if='currentEntity.grants_received.length > itemsShown.grants_received' ng-click="showMore('grants_received')">More...</a>
+    <a ng-if='itemsShown.grants_received > itemsShownDefault.grants_received' ng-click="showLess('grants_received')">Less...</a>
 </div>
 <div ng-if='currentEntity.grants_received.length == 0'>
-    <p>No known grants received.</p>
+    No known grants received.
 </div>
 
 <!-- INVESTMENTS RECEIVED -->
 <div ng-if='currentEntity.investments_received.length > 0'>
 Received investments from:
     <ul><li ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.investments_received.length > itemsShown.investments_received' class='btn btn-xs btn-default' ng-click="showMore('investments_received')">More</button><br><br>
-    <button ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' class='btn btn-xs btn-default' ng-click="showLess('investments_received')">Less</button>
+    <a ng-if='currentEntity.investments_received.length > itemsShown.investments_received' ng-click="showMore('investments_received')">More</a>
+    <a ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' ng-click="showLess('investments_received')">Less</a>
 </div>
 <div ng-if='currentEntity.investments_received.length == 0'>
-    <p>No known investments received.</p>
+    No known investments received.
 </div>
 
 <!-- GRANTS GIVEN -->
 <div ng-if='currentEntity.grants_given.length > 0'>
 Gave grants to:
     <ul><li ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.grants_given.length > itemsShown.grants_given' class='btn btn-xs btn-default' ng-click="showMore('grants_given')">More</button><br><br>
-    <button ng-if='itemsShown.grants_given > itemsShownDefault.grants_given' class='btn btn-xs btn-default' ng-click="showLess('grants_given')">Less</button>
+    <a ng-if='currentEntity.grants_given.length > itemsShown.grants_given' ng-click="showMore('grants_given')">More...</a>
+    <a ng-if='itemsShown.grants_given > itemsShownDefault.grants_given' ng-click="showLess('grants_given')">Less...</a>
 </div>
 <div ng-if='currentEntity.grants_given.length == 0'>
-    <p>No known grants provided.
+    No known grants provided.
 </div>
 
 <!-- INVESTMENTS MADE -->
 <div ng-if='currentEntity.investments_made.length > 0'>
 Invested in:
     <ul><li ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></li></ul>
-    <button ng-if='currentEntity.investments_made.length > itemsShown.investments_made' class='btn btn-xs btn-default' ng-click="showMore('investments_made')">More</button><br><br>
-    <button ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' class='btn btn-xs btn-default' ng-click="showLess('investments_made')">Less</button>
+    <a ng-if='currentEntity.investments_made.length > itemsShown.investments_made' ng-click="showMore('investments_made')">More...</a>
+    <a ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' ng-click="showLess('investments_made')">Less...</a>
 </div>
 <div ng-if='currentEntity.investments_made.length == 0'>
-    <p>No known investments made.</p>
+    No known investments made.
 </div>
 
 <!-- REVENUES -->
 <div ng-if='currentEntity.revenues.length > 0'>
 Revenue:
-<ul><li ng-repeat='revenue in currentEntity.revenues'>{{revenue.year}}: {{revenue.amount | currency}}</li></ul>
-<button ng-if='currentEntity.revenues.length > itemsShown.revenues' class='btn btn-xs btn-default' ng-click="showMore('revenues')">More</button><br><br>
-<button ng-if='itemsShown.revenues > itemsShownDefault.revenues' class='btn btn-xs btn-default' ng-click="showLess('revenues')">Less</button>
+    <ul><li ng-repeat='revenue in currentEntity.revenues'>{{revenue.year}}: {{revenue.amount | currency}}</li></ul>
+    <a ng-if='currentEntity.revenues.length > itemsShown.revenues' ng-click="showMore('revenues')">More...</a>
+    <a ng-if='itemsShown.revenues > itemsShownDefault.revenues' ng-click="showLess('revenues')">Less...</a>
 </div>
 <div ng-if='currentEntity.revenues.length == 0'>
-<p>No known revenue information.</p>
+    No known revenue information.
 </div>
 
 <!-- EXPENSES -->
 <div ng-if='currentEntity.expenses.length > 0'>
-Expense:
-<ul><li ng-repeat='expense in currentEntity.expenses'>{{expense.year}}: {{expense.amount | currency}}</li></ul>
-<button ng-if='currentEntity.expenses.length > itemsShown.expenses' class='btn btn-xs btn-default' ng-click="showMore('expenses')">More</button><br><br>
-<button ng-if='itemsShown.expenses > itemsShownDefault.expenses' class='btn btn-xs btn-default' ng-click="showLess('expenses')">Less</button>
+Expenses:
+    <ul><li ng-repeat='expense in currentEntity.expenses'>{{expense.year}}: {{expense.amount | currency}}</li></ul>
+    <a ng-if='currentEntity.expenses.length > itemsShown.expenses' ng-click="showMore('expenses')">More...</a>
+    <a ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">Less...</a>
 </div>
 <div ng-if='currentEntity.expenses.length == 0'>
-<p>No known expense information.</p>
+    No known expenses information.
 </div>
