@@ -294,6 +294,11 @@ h2 {
 .Government-node {
     fill: rgb(242, 80, 34);
 }
+.node text {
+    fill: darkslategray;
+    font-size: 14px;
+    pointer-events: none;
+}
 /* CATEGORIZED LINK STYLES */
 .Employment-link {
     stroke: purple;

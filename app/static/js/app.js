@@ -349,9 +349,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : defaultnodesize;});
 
         node.append('text')
-            //.attr('dx', 10)
-            .attr('dy', '.35em')
-            .text(function(d) {return d.nickname ? d.nickname : d.name;});
+            .text(function(d) {return d.nickname ? d.nickname : d.name;})
+            .attr('dx', function(d) {return (-0.065*this.getComputedTextLength()/2)+'em';})
+            .attr('dy', function(d) {return (0.08*this.parentNode.getBBox().height/2 + 0.5)+'em';})
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
