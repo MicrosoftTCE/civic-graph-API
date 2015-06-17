@@ -314,12 +314,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         var width = bounds.width;
         var offsetScale = 8;
         var defaultnodesize = 7;
+        var rectangularScale = 2.9;
 
         var offsets = {
-            'Individual': {'x': 2.9, 'y': 1},
-            'For-Profit': {'x': 2.9, 'y': -1},
-            'Non-Profit': {'x': -2.9, 'y': 1},
-            'Government': {'x': -2.9, 'y': -1}
+            'Individual': {'x': 1, 'y': 1},
+            'For-Profit': {'x': 1, 'y': -1},
+            'Non-Profit': {'x': -1, 'y': 1},
+            'Government': {'x': -1, 'y': -1}
         }
         var links = {};
         var force = d3.layout.force()
@@ -349,9 +350,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .attr('r', function(d) {return d.employees ? scale['employees'](d.employees) : defaultnodesize;});
 
         node.append('text')
-            //.attr('dx', 10)
-            .attr('dy', '.35em')
-            .text(function(d) {return d.nickname ? d.nickname : d.name;});
+            .text(function(d) {return d.nickname ? d.nickname : d.name;})
+            .attr('dx', function(d) {return (-0.065*this.getComputedTextLength()/2)+'em';})
+            .attr('dy', function(d) {return (0.08*this.parentNode.getBBox().height/2 + 0.5)+'em';})
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
@@ -359,7 +360,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // console.log(e.alpha)
              if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
-                entity.x += offsets[entity.type].x*k
+                var scale = $scope.mobile ? 1 : rectangularScale;
+                entity.x += scale*offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
 
