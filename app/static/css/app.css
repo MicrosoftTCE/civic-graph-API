@@ -346,7 +346,7 @@ h2 {
     height: 100vh;
     overflow: scroll;
 }
-#controlsMinButton {
+.hambDesktop {
     position: fixed;
     left: 0px;
     top: 0px;
@@ -552,4 +552,8 @@ h2 {
     width: 45%;
     float: left;
     display: inline-block;
+}
+
+.navLogoMobile{
+  margin-left: 10%;
 }
