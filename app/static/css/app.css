@@ -455,14 +455,17 @@ h2 {
 /*End of animation spinner*/
 
 .license {
+    bottom: 0;
     position:fixed;
-    bottom:0;
+    padding-left: 12%;
+    padding-right: 30%;
     color: grey;
 }
+
 .licenseMob {
     color: grey;
     position:fixed;
-    bottom: 0;
+    bottom: 0%;
     pointer-events: none;
     font-size: 1.3em;
 }
