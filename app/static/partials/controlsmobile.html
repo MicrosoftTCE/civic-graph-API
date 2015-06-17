@@ -25,19 +25,21 @@
 
 <legend></legend>
 
-<h4 class="mobileTitle">Sized By</h4>
+<h4 class="mobileTitle">Sized By
 <span ng-repeat='sizeBy in sizeBys'>
     <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
     <span class='caption'>{{sizeBy.name}}</span>
 </span>
+</h4>
 
 <legend></legend>
 
-<h4 class="mobileTitle">View</h4>
+<h4 class="mobileTitle">View
 <span ng-repeat='view in views'>
     <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
     <span class='caption'>{{view.name}}</span>
 </span>
+</h4>
 <legend></legend>
 
 <div  id="aboutButton">
