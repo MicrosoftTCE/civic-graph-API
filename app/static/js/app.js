@@ -314,12 +314,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         var width = bounds.width;
         var offsetScale = 8;
         var defaultnodesize = 7;
+        var rectangularScale = 2.9;
 
         var offsets = {
-            'Individual': {'x': 2.9, 'y': 1},
-            'For-Profit': {'x': 2.9, 'y': -1},
-            'Non-Profit': {'x': -2.9, 'y': 1},
-            'Government': {'x': -2.9, 'y': -1}
+            'Individual': {'x': 1, 'y': 1},
+            'For-Profit': {'x': 1, 'y': -1},
+            'Non-Profit': {'x': -1, 'y': 1},
+            'Government': {'x': -1, 'y': -1}
         }
         var links = {};
         var force = d3.layout.force()
@@ -359,7 +360,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // console.log(e.alpha)
              if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
-                entity.x += offsets[entity.type].x*k
+                var scale = $scope.mobile ? 1 : rectangularScale;
+                entity.x += scale*offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
 
