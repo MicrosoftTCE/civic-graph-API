@@ -14,31 +14,31 @@
     </div>
     Circle of Influence:
     <div ng-repeat='influenceType in influenceTypes'>
-      <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.influenceType != influenceType}" ng-model='$parent.$parent.influenceType' btn-radio='influenceType' ng-change='changeinfluenceType()'></label >
+      <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.editEntity.influence != influenceType}" ng-model='$parent.$parent.editEntity.influence' btn-radio='influenceType'></label >
       <span class='caption'>{{influenceType}}</span>
     </div>
 
     What type of entity?
     
     <div ng-repeat='(type, enabled) in entityTypes'>
-      <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.type != type}" ng-model='$parent.$parent.type' btn-radio='type' ng-change='changetype()'></label>
+      <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.editEntity.type != type}" ng-model='$parent.$parent.editEntity.type' btn-radio='type' ng-change='changetype()'></label>
       <span class='caption'>{{type}}</span>
     </div>
 
     What kind of work do they do?
     
     <div ng-repeat='category in editCategories'>
-    <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.category != category}" ng-model='$parent.$parent.category' btn-radio='category' ng-change='changecategory()'></label>
-    <span class='caption'>{{category.name}}</label></div>
+    <label class='checkbox' ng-class="{'unchecked': !category.enabled}"><input type='checkbox' ng-model='category.enabled'></label>
+    <span class='caption'>{{category.name}}</label>
+    </div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
-    <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees'></div>
+    <div>Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees' placeholder='Employees'></div>
     <div class="input-group">
       <div>Key Civic People?
         <input type='text'class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
       </div>
     </div>
-
 
     <div>Collaboration
         <div ng-repeat='collaboration in editEntity.collaborations'>
