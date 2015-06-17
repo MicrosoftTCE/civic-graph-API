@@ -314,8 +314,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         var width = bounds.width;
         var offsetScale = 8;
         var defaultnodesize = 7;
-        var rectangularScale = 2.9;
-
         var offsets = {
             'Individual': {'x': 1, 'y': 1},
             'For-Profit': {'x': 1, 'y': -1},
@@ -360,8 +358,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // console.log(e.alpha)
              if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
-                var scale = $scope.mobile ? 1 : 1;
-                entity.x += scale*offsets[entity.type].x*k
+                entity.x += offsets[entity.type].x*k
                 entity.y += offsets[entity.type].y*k
             });
 
