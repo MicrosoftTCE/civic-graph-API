@@ -115,7 +115,6 @@ p {
 
 h2 {
     font-family: Verdana;
-    color: #474747;
     font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     font-size: 30px;
     /*text-shadow: 2px 2px 4px #000000;*/
@@ -239,7 +238,7 @@ h2 {
     z-index: 2;
 }
 .edit-panel {
-    background-color: #D0D0D0;
+    background-color: #ececec;
 }
 .edit-form {
 }
@@ -456,16 +455,17 @@ h2 {
 /*End of animation spinner*/
 
 .license {
+    bottom: 0;
     position:fixed;
-    bottom:0;
+    padding-left: 12%;
+    padding-right: 30%;
     color: grey;
 }
+
 .licenseMob {
-  margin-top: 50vh;
+    margin-top: 50vh;
     color: #9E9E9E;
     font-weight: 400;
-    /*position:absolute;*/
-    bottom: 0;
     pointer-events: none;
     font-size: 1.3em;
     z-index: 12;
@@ -490,8 +490,17 @@ h2 {
 }
 .mobileTitle{
     font-size: 1.3em;
-
 }
+.mobileTitle span{
+    margin-left: 2px;
+    color: rgb(51, 51, 51);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    height: auto;
+    line-height: 20px;
+}
+
 #minimizeButtonMobile{
     position: fixed;
     left: 0px;
