@@ -471,7 +471,6 @@ p {
     margin-top: 55vh;
     color: #9E9E9E;
     font-weight: 400;
-    pointer-events: none;
     font-size: 1.3em;
     z-index: 12;
 }
