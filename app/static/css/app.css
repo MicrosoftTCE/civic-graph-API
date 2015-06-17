@@ -235,6 +235,8 @@ h2 {
 .edit-panel {
     background-color: #F9FAFA;
     float: right;
+    height: 100vh;
+    overflow: scroll;
 }
 .edit-form {
 }
@@ -363,11 +365,6 @@ h2 {
     width: 13.5%;
     height: 25px;
     float: left;
-}
-
-#formRight {
-    height: 100vh;
-    overflow: scroll;
 }
 
 .network-container{
