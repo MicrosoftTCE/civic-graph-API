@@ -245,7 +245,7 @@ h2 {
     z-index: 2;
 }
 .edit-panel {
-    background-color: #D0D0D0;
+    background-color: #ececec;
 }
 .edit-form {
 }
@@ -300,6 +300,11 @@ h2 {
 }
 .Government-node {
     fill: rgb(242, 80, 34);
+}
+.node text {
+    fill: darkslategray;
+    font-size: 14px;
+    pointer-events: none;
 }
 /* CATEGORIZED LINK STYLES */
 .Employment-link {
@@ -471,11 +476,12 @@ h2 {
 }
 
 .licenseMob {
-    color: grey;
-    position:fixed;
-    bottom: 0%;
+    margin-top: 50vh;
+    color: #9E9E9E;
+    font-weight: 400;
     pointer-events: none;
     font-size: 1.3em;
+    z-index: 12;
 }
 
 
@@ -497,8 +503,17 @@ h2 {
 }
 .mobileTitle{
     font-size: 1.3em;
-
 }
+.mobileTitle span{
+    margin-left: 2px;
+    color: rgb(51, 51, 51);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    height: auto;
+    line-height: 20px;
+}
+
 #minimizeButtonMobile{
     position: fixed;
     left: 0px;
