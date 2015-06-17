@@ -91,21 +91,9 @@ p {
   text-align: center;
 }
 
-.glyphicon {
-  padding-right: 10px;
-  padding-bottom: 10px;
-/*  background-color: dodgerblue;
-*/}
-
-.glyphicon2 {
-  padding-right: 5px;
-  padding-bottom: 30px;
-/*  background-color: dodgerblue;
-*/}
-
-.pencil-glyph {
+.edit-marker {
   padding-top: 5%;
-  padding-right: 10px;
+  padding-right: 15px;
   padding-bottom: 10px;
   /*background-color: dodgerblue;*/
 }
