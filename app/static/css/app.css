@@ -461,11 +461,14 @@ h2 {
     color: grey;
 }
 .licenseMob {
-    color: grey;
-    position:fixed;
+  margin-top: 50vh;
+    color: #9E9E9E;
+    font-weight: 400;
+    /*position:absolute;*/
     bottom: 0;
     pointer-events: none;
     font-size: 1.3em;
+    z-index: 12;
 }
 
 
