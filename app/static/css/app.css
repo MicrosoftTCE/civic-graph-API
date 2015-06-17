@@ -161,7 +161,12 @@ p {
     background-color: black;
     border: 7px white solid;
 }
-
+.finance-amount {
+    width: 60% !important;
+}
+.finance-year {
+    width: 40% !important;
+}
 .unchecked {
   background-color: white !important;
 }
