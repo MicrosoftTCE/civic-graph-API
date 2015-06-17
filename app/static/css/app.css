@@ -236,6 +236,9 @@ p {
 }
 .edit-form {
 }
+.details-field {
+    padding-left: 15%;
+}
 .edit-marker {
     cursor: pointer;
     float: right;
