@@ -351,7 +351,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.append('text')
             //.attr('dx', 10)
             .attr('dy', '.35em')
-            .text(function(d) {return d.name;});
+            .text(function(d) {return d.nickname ? d.nickname : d.name;});
 
         force.on('tick', function(e) {
             // Cluster in four corners based on offset.
