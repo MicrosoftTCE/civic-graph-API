@@ -501,7 +501,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('click', click);
         node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
-        $scope.$on('entityChange', function() {
+        $scope.$on('selectEntity', function() {
             click($scope.currentEntity);
         })
         // Only show labels on top 5 most connected entities initially.
@@ -631,7 +631,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
             });
-            $scope.$on('entityChange', function() {
+            $scope.$on('selectEntity', function() {
                 var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
                 if (coordinates.length > 0) {
                     map.setView(coordinates[0], 11);
