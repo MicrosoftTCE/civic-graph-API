@@ -52,6 +52,16 @@ h1 {
     text-shadow: 2px 2px 4px #000000;
 }
 
+h2 {
+    font-family: Verdana;
+    color: #474747;
+    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 30px;
+    /*text-shadow: 2px 2px 4px #000000;*/
+    padding-bottom: 10px;
+    /*padding-top: 10px;*/
+}
+
 h3 {
     margin-top: 0;
     font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -105,16 +115,6 @@ p {
 
 .twitter-pic {
     border-radius: 50%;
-}
-
-h2 {
-    font-family: Verdana;
-    color: #474747;
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 30px;
-    /*text-shadow: 2px 2px 4px #000000;*/
-    padding-bottom: 10px;
-    /*padding-top: 10px;*/
 }
 
 .checkbox {
@@ -227,10 +227,6 @@ h2 {
     width: 14.66666667%;
 }
 .display-panel {
-}
-.details-panel {
-    background-color: #D0D0D0;
-    z-index: 2;
 }
 .edit-panel {
     background-color: #F9FAFA;
@@ -560,7 +556,15 @@ h2 {
     padding: 10px;
     height: 100vh;
     overflow: scroll;
-    background-color: white  ;
+    background-color: white;
+    z-index: 2;
+}
+.details-panel p, h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+.details-panel a {
+  text-align: center;
+  display: block;
 }
 .details-panelMb {
     padding-top: 5%;
