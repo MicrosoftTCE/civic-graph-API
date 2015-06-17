@@ -238,7 +238,8 @@ h2 {
     z-index: 2;
 }
 .edit-panel {
-    background-color: #ececec;
+    background-color: #F9FAFA;
+    float: right;
 }
 .edit-form {
 }
