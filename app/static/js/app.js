@@ -29,8 +29,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if ($scope.getURLID()) {
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
-            } else {
-                //$scope.currentEntity = $scope.entities[0];
             }
         });
     // Maybe get from database.
@@ -249,7 +247,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             } catch (err) {
                 // Can't replace on numbers, only on strings.
             }
-            
         });
     }
     $scope.removeEmpty = function() {
