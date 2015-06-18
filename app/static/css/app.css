@@ -58,13 +58,13 @@ h2 {
 }
 
 h3 {
-    margin-top: 0;
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 18%;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #505050 ;
 }
 
 h4 {
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 
     font-size: 24px;
 }
@@ -80,7 +80,7 @@ h6 {
 }
 
 p {
-  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #505050;
   font-size: 14px;
   font-weight: normal;
@@ -88,6 +88,7 @@ p {
 .entity-name {
     padding-bottom: 10px;
 }
+
 .twitter-pic {
     border-radius: 50%;
 }
@@ -191,19 +192,30 @@ p {
     overflow: scroll;
     padding-top: 10px;
 }
+.edit-panel h6{
+    text-align: left;
+    margin-bottom: 0%
+}
 .edit-form {
+
 }
 .details-field {
     padding-left: 15%;
 }
+
 .edit-marker {
     position: absolute;
     padding-left: 40%;
+}
+
+/*.edit-marker {
+>>>>>>> f6f7176945ad663cae55dd991e6723bfe76b373a
     cursor: pointer;
     opacity: 0.6;
-}
+}*/
 .edit-marker:hover {
     opacity: 1;
+    padding-bottom: 10px;
 }
 .cancel-edit-marker {
     float: right;
@@ -522,6 +534,7 @@ p {
 }
 .details-panel p, h1, h2, h3, h4, h5, h6 {
   text-align: center;
+  margin-bottom: 0%
 }
 .details-panel a {
   text-align: center;
