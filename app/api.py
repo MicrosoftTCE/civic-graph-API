@@ -261,6 +261,8 @@ def update(entity, data):
             location.country_code = json['country_code']
             location.latitude = json['coordinates'][0]
             location.longitude = json['coordinates'][1]
+            if entity.entitytype is 'Individual':
+                location.full_address = location.locality + ', ' + location.district if location.locality and location.district else location.locality if location.locality else location.country
 
         for location in locations:
             if location['id']:

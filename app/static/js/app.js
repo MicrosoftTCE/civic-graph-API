@@ -163,14 +163,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     $scope.setLocation = function(location, data) {
-        location.full_address = 'formattedAddress' in data.address ? data.address.formattedAddress : null;
-        location.address_line = 'addressLine' in data.address ? data.address.addressLine : null;
+        location.full_address = 'formattedAddress' in data.address && $scope.editEntity.type != 'Individual' ? data.address.formattedAddress : null;
+        location.address_line = 'addressLine' in data.address && $scope.editEntity.type != 'Individual' ? data.address.addressLine : null;
         location.locality = 'locality' in data.address ? data.address.locality : null;
         location.district = 'adminDistrict' in data.address ? data.address.adminDistrict : null;
         location.postal_code = 'postalCode' in data.address ? data.address.postalCode : null;
         location.country = 'countryRegion' in data.address ? data.address.countryRegion : null;
         location.country_code = 'countryRegionIso2' in data.address ? data.address.countryRegionIso2 : null;
         location.coordinates = 'point' in data ? data.point.coordinates : null;
+        if ($scope.editEntity.type == 'Individual') {
+            location.full_address = location.locality ? location.district ? location.locality + ', ' + location.district : location.locality : location.country;
+        }
     }
 
     $scope.addLocation = function(locations) {
