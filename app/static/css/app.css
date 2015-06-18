@@ -88,11 +88,6 @@ p {
 .entity-name {
     padding-bottom: 10px;
 }
-.edit-marker {
-  position: absolute;
-  padding-left: 40%;
-}
-
 .twitter-pic {
     border-radius: 50%;
 }
@@ -194,6 +189,7 @@ p {
     background-color: #F9FAFA;
     height: 100vh;
     overflow: scroll;
+    padding-top: 10px;
 }
 .edit-form {
 }
@@ -201,12 +197,21 @@ p {
     padding-left: 15%;
 }
 .edit-marker {
+    position: absolute;
+    padding-left: 40%;
     cursor: pointer;
-    float: right;
-    margin-top: 10px;
     opacity: 0.6;
 }
 .edit-marker:hover {
+    opacity: 1;
+}
+.cancel-edit-marker {
+    float: right;
+    cursor: pointer;
+    padding-top: 5px;
+    opacity: 0.6;
+}
+.cancel-edit-marker:hover {
     opacity: 1;
 }
 /* GENERAL NODE AND LINK STYLES */
@@ -509,7 +514,8 @@ p {
 .details-panel{
     padding: 10px;
     height: 100vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     background-color: white;
     z-index: 2;
 }
