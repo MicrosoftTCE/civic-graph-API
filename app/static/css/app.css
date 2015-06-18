@@ -437,8 +437,12 @@ p {
     resize:vertical;
     overflow: scroll;
     height: 50vh;
-
 }
+
+.settingsmobile.mapView {
+    height: 25vh;
+}
+
 .centerInput {
   width: 66%;
   margin-left: 18%;
