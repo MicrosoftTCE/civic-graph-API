@@ -166,7 +166,7 @@ p {
 .main-container {
 }
 .map-container {
-    height: 100vh;
+    height: 100%;
     margin-left: -15px;
     margin-right: -15px;
 }
@@ -530,7 +530,7 @@ p {
 .details-panelMb {
     height: 50vh;
     width: 100%;
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
     padding-bottom: 35px;
