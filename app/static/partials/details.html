@@ -14,23 +14,21 @@
 <h6>Influence: </h6><p>{{currentEntity.influence}}</p>
 
 <h6>Type of Entity: </h6><p>{{currentEntity.type}}</p>
-
+<div ng-hide="currentEntity.type=='Individual'">
 <h6>Employees: </h6><p>{{currentEntity.employees | number}}</p>
+</div>
 <div ng-if='currentEntity.twitter_handle'>
 <h6>Twitter: </h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
 <h6>Twitter Followers: </h6><p>{{currentEntity.followers | number}}</p>
 </div>
 
 <!-- KEY PEOPLE -->
-<div ng-if='currentEntity.key_people.length > 0'>
+<div ng-if='currentEntity.key_people.length > 0' ng-hide="currentEntity.type=='Individual'">
 <h6>Key Civic People:</h6>
     <p ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><a ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}' target='_blank'>{{person.name}}</a></p>
 
     <a ng-if='currentEntity.key_people.length > itemsShown.key_people' ng-click="showMore('key_people')">More...</a>
     <a ng-if='itemsShown.key_people > itemsShownDefault.key_people' ng-click="showLess('key_people')">Less...</a>
-</div>
-<div ng-if='currentEntity.key_people.length == 0'>
-    <h6>No known Key Civic People.</h6>
 </div>
 
 <!-- COLLABORATIONS -->
@@ -40,9 +38,6 @@
 
     <a ng-if='currentEntity.collaborations.length > itemsShown.collaborations'ng-click="showMore('collaborations')">More...</a>
     <a ng-if='itemsShown.collaborations > itemsShownDefault.collaborations'ng-click="showLess('collaborations')">Less...</a>
-</div>
-<div ng-if='currentEntity.collaborations.length == 0'>
-    <h6>No known collaborations.</h6>
 </div>
 
 <!-- EMPLOYMENTS -->
@@ -54,10 +49,6 @@
     <a ng-if='itemsShown.employments > itemsShownDefault.employments'ng-click="showLess('employments')">Less...</a>
 </div>
 
-<div ng-if='currentEntity.employments.length == 0'>
-    <p>No known employment information.</p>
-</div>
-
 <!-- RELATIONS -->
 <div ng-if='currentEntity.relations.length > 0'>
 <h6>Related to:</h6>
@@ -65,10 +56,6 @@
 
     <a ng-if='currentEntity.relations.length > itemsShown.relations'ng-click="showMore('relations')">More...</a>
     <a ng-if='itemsShown.relations > itemsShownDefault.relations'ng-click="showLess('relations')">Less...</a>
-</div>
-
-<div ng-if='currentEntity.relations.length == 0'>
-    <p>No known relation information.</p>
 </div>
 
 <!-- DATA USAGE -->
@@ -79,18 +66,13 @@
     <a ng-if='currentEntity.data_given.length > itemsShown.data_given'ng-click="showMore('data_given')">More...</a>
     <a ng-if='itemsShown.data_given > itemsShownDefault.data_given'ng-click="showLess('data_given')">Less...</a>
 </div>
-<div ng-if='currentEntity.data_given.length == 0'>
-    <p>No known data provided to other entities.</p>
-</div>
+
 <div ng-if='currentEntity.data_received.length > 0'>
 <h6>Used data from:</h6>
     <p ng-repeat='datasource in currentEntity.data_received'>{{datasource.entity}}</p>
 
     <a ng-if='currentEntity.data_received.length > itemsShown.data_received'ng-click="showMore('data_received')">More...</a>
     <a ng-if='itemsShown.data_received > itemsShownDefault.data_received'ng-click="showLess('data_received')">Less...</a>
-</div>
-<div ng-if='currentEntity.data_received.length == 0'>
-    <p>No known external data used.</p>
 </div>
 
 <!-- GRANTS RECEIVED -->
@@ -101,45 +83,32 @@
     <a ng-if='currentEntity.grants_received.length > itemsShown.grants_received'ng-click="showMore('grants_received')">More...</a>
     <a ng-if='itemsShown.grants_received > itemsShownDefault.grants_received'ng-click="showLess('grants_received')">Less...</a>
 </div>
-<div ng-if='currentEntity.grants_received.length == 0'>
-    <p>No known grants received.</p>
-</div>
 
 <!-- INVESTMENTS RECEIVED -->
-<div ng-if='currentEntity.investments_received.length > 0'>
+<div ng-if='currentEntity.investments_received.length > 0' ng-hide="currentEntity.type=='Individual'">
 <h6>Received investments from:</h6>
     <p ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></p>
     
     <a ng-if='currentEntity.investments_received.length > itemsShown.investments_received'ng-click="showMore('investments_received')">More...</a>
     <a ng-if='itemsShown.investments_received > itemsShownDefault.investments_received'ng-click="showLess('investments_received')">Less...</a>
 </div>
-<div ng-if='currentEntity.investments_received.length == 0'>
-    <p>No known investments received.</p>
-</div>
 
 <!-- GRANTS GIVEN -->
-<div ng-if='currentEntity.grants_given.length > 0'>
+<div ng-if='currentEntity.grants_given.length > 0' ng-hide="currentEntity.type=='Individual'">
 <h6>Gave grants to:</h6>
     <p ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency}}</span></p>
 
     <a ng-if='currentEntity.grants_given.length > itemsShown.grants_given'ng-click="showMore('grants_given')">More...</a>
     <a ng-if='itemsShown.grants_given > itemsShownDefault.grants_given'ng-click="showLess('grants_given')">Less...</a>
 </div>
-<div ng-if='currentEntity.grants_given.length == 0'>
-    <p>No known grants provided.
-</div>
 
 <!-- INVESTMENTS MADE -->
-<div ng-if='currentEntity.investments_made.length > 0'>
+<div ng-if='currentEntity.investments_made.length > 0' ng-hide="currentEntity.type=='Individual'">
 <h6>Invested in:</h6>
     <p ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'>{{investment.entity}}<span ng-if='investment.amount > 0'>: {{investment.amount | currency}}</span></p>
     <a ng-if='currentEntity.investments_made.length > itemsShown.investments_made'ng-click="showMore('investments_made')">More...</a>
     <a ng-if='itemsShown.investments_made > itemsShownDefault.investments_made'ng-click="showLess('investments_made')">Less...</a>
 </div>
-<div ng-if='currentEntity.investments_made.length == 0'>
-    <p>No known investments made.</p>
-</div>
-
 <!-- REVENUES -->
 <div ng-if='currentEntity.revenues.length > 0'>
 <h6>Revenue:</h6>
@@ -148,17 +117,48 @@
     <a ng-if='currentEntity.revenues.length > itemsShown.revenues'ng-click="showMore('revenues')">More...</a>
     <a ng-if='itemsShown.revenues > itemsShownDefault.revenues'ng-click="showLess('revenues')">Less...</a>
 </div>
-<div ng-if='currentEntity.revenues.length == 0'>
-    <p>No known revenue information.</p>
-</div>
 
 <!-- EXPENSES -->
-<div ng-if='currentEntity.expenses.length > 0'>
+<div ng-if='currentEntity.expenses.length > 0' ng-hide="currentEntity.type=='Individual'">
 <h6>Expense:</h6>
 <p ng-repeat='expense in currentEntity.expenses'>{{expense.year}}: {{expense.amount | currency}}</p>
     <a ng-if='currentEntity.expenses.length > itemsShown.expenses' ng-click="showMore('expenses')">More...</a>
     <a ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">Less...</a>
 </div>
-<div ng-if='currentEntity.expenses.length == 0'>
+<hr >
+<div ng-if='currentEntity.key_people.length == 0' ng-hide="currentEntity.type=='Individual'">
+    <p>No known Key Civic People.</p>
+</div>
+<div ng-if='currentEntity.collaborations.length == 0'>
+    <p>No known collaborations.</p>
+</div>
+<div ng-if='currentEntity.employments.length == 0'>
+    <p>No known employment information.</p>
+</div>
+<div ng-if='currentEntity.relations.length == 0'>
+    <p>No known relation information.</p>
+</div>
+<div ng-if='currentEntity.data_given.length == 0'>
+    <p>No known data provided to other entities.</p>
+</div>
+<div ng-if='currentEntity.data_received.length == 0'>
+    <p>No known external data used.</p>
+</div>
+<div ng-if='currentEntity.grants_received.length == 0'>
+    <p>No known grants received.</p>
+</div>
+<div ng-if='currentEntity.investments_received.length == 0' ng-hide="currentEntity.type=='Individual'">
+    <p>No known investments received.</p>
+</div>
+<div ng-if='currentEntity.grants_given.length == 0' ng-hide="currentEntity.type=='Individual'">
+    <p>No known grants provided.
+</div>
+<div ng-if='currentEntity.investments_made.length == 0'>
+    <p>No known investments made.</p>
+</div>
+<div ng-if='currentEntity.revenues.length == 0' ng-hide="currentEntity.type=='Individual'">
+    <p>No known revenue information.</p>
+</div>
+<div ng-if='currentEntity.expenses.length == 0' ng-hide="currentEntity.type=='Individual'">
     <p>No known expense information.</p>
 </div>
