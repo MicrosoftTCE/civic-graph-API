@@ -105,8 +105,8 @@ p {
     padding-left: 15px;
 }
 .checkbox-big {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
 }
 .checkbox input {
   display: none;
@@ -121,8 +121,8 @@ p {
 .radio-big {
     padding: 0;
     margin: 0.5;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
 }
 .finance-amount {
     width: 60% !important;
