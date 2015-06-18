@@ -113,7 +113,6 @@
     </div>
     <div ng-hide="editEntity.type=='Individual'"><h6>Expenses</h6>
         <div ng-repeat='expense in editEntity.expenses'>
-            {{expense}}
             <div class='input-group'>
                 <input class='finance-amount form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
                 <input class='finance-year form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
