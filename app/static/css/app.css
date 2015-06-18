@@ -89,9 +89,8 @@ p {
     padding-bottom: 10px;
 }
 .edit-marker {
-  padding-top: 5%;
-  padding-right: 15px;
-  padding-bottom: 10px;
+  position: absolute;
+  padding-left: 40%;
 }
 
 .twitter-pic {
