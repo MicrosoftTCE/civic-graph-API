@@ -1,10 +1,12 @@
-<button ng-if='!mobile' class='addInfoDesktop' style='width:100%' ng-click='startEdit()'><p><span class="glyphicon glyphicon-plus-sign"></span> Add New Information</p></button>
+<div ng-if='!mobile'>
+<button class='addInfoDesktop' style='width:100%' ng-click='startEdit()'><p><span class="glyphicon glyphicon-plus-sign"></span> Add New Information</p></button>
 <hr />
+</div>
 <div class='right_logo'> 
     <img ng-if='currentEntity.twitter_handle' class='twitter-pic' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
     <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
-    <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
-    <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+    <a ng-if='currentEntity.url' class='entity-name' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+    <a ng-if='!currentEntity.url' class='entity-name' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
 </div>
 <h6>Locations: </h6>
 <p ng-repeat='location in currentEntity.locations'>{{location.full_address}}</p>

@@ -1,5 +1,4 @@
 <div class='network-container' ng-controller='networkCtrl'>
-    <!-- <button id='controlsMinButton' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify visible-sm-block visible-xs-block' ></button> -->
     <button ng-show='!settingsEnabled && !mobile' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify hambDesktop' ></button>
 
     <svg id="network" ng-style="{height: mobile && (clickedEntity.entity || showLicense) ? '50vh' : '100vh' }"></svg>
