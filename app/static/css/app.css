@@ -123,7 +123,7 @@ p {
     border: 7px white solid;
     padding: 0;
     margin: 0.5 ;
-    background-color: white;
+    background-color: black;
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -161,7 +161,12 @@ p {
     background-color: black;
     border: 7px white solid;
 }
-
+.finance-amount {
+    width: 60% !important;
+}
+.finance-year {
+    width: 40% !important;
+}
 .unchecked {
   background-color: white !important;
 }
@@ -495,7 +500,6 @@ p {
 .checkbox {
     margin-bottom: 3;
     margin-top: 0;
-
 }
 .mobileTitle{
     font-size: 1.3em;
