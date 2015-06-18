@@ -34,8 +34,8 @@
             <div ng-show='settingsEnabled && !clickedEntity.entity' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-include="'static/partials/controlsmobile.html'"></div>
             <button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'>+ ADD INFO</button>
             <div class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
-            <div ng-class="mobile ? 'col-sm-2 details-panelMb' : 'details-panel'" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
-            <div ng-class="mobile ? 'col-sm-2' : 'col-sm-2 edit-panel'" ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
+            <div id='details-panel' class='col-sm-2 details-panel' ng-class="{'details-panelMb': mobile}" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
+            <div class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
         </div>
     </div>
 </body>

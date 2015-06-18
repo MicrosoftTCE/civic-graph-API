@@ -39,27 +39,22 @@
 
 .caption {
     padding-left: 5px;
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: black;
     font-size: 16px
-
 }
-
+h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: #303030;
+}
 h1 {
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #E0E0E0;
     font-size: 40px;
     text-shadow: 2px 2px 4px #000000;
 }
 
 h2 {
-    font-family: Verdana;
     color: #474747;
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     font-size: 30px;
-    /*text-shadow: 2px 2px 4px #000000;*/
-    padding-bottom: 10px;
-    /*padding-top: 10px;*/
 }
 
 h3 {
@@ -70,20 +65,16 @@ h3 {
 
 h4 {
     font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: #303030;
+    
     font-size: 24px;
 }
 
 h5 {
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: #303030;
     font-size: 22px;
     text-shadow: 1px 0px 0px #000000;
 }
 
 h6 {
-  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-  color: #303030;
   font-size: 14px;
   font-weight: bold;
 }
@@ -94,16 +85,12 @@ p {
   font-size: 14px;
   font-weight: normal;
 }
-
-.edit-marker {
-  padding-top: 5%;
-  padding-right: 15px;
-  padding-bottom: 10px;
+.entity-name {
+    padding-bottom: 10px;
 }
-
-.twitter-pic-position {
-  height: 100%;
-  width: 100%;
+.edit-marker {
+  position: absolute;
+  padding-left: 40%;
 }
 
 .twitter-pic {
@@ -122,22 +109,25 @@ p {
     vertical-align: middle;
     padding-left: 15px;
 }
-
+.checkbox-big {
+    width: 34px;
+    height: 34px;
+}
 .checkbox input {
   display: none;
 }
 .radio {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background-color: black;
     border: 7px white solid;
 }
-.radio-small {
-  padding: 0;
-  margin: 0.5 ;
-  width: 24px;
-  height: 24px;
+.radio-big {
+    padding: 0;
+    margin: 0.5;
+    width: 36px;
+    height: 36px;
 }
 .finance-amount {
     width: 60% !important;
@@ -148,45 +138,30 @@ p {
 .unchecked {
   background-color: white !important;
 }
+
 .For-Profit-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: rgb(127, 186, 0);
 }
 .Non-Profit-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: dodgerblue;
 }
 .Individual-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: orange;
 }
 .Government-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: rgb(242, 80, 34);
 }
 
 .Employment-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: purple
 }
 .Funding-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: rgb(242, 80, 34)
 }
 .Collaboration-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: orange
 }
 .Data-checkbox {
-    width: 34px;
-    height: 34px;
     background-color: dodgerblue
 }
 
@@ -206,14 +181,17 @@ p {
     background-color: white;
 }
 .control-panel {
+    height: 100vh;
+    overflow: scroll;
     background-color: #D0D0D0;
-    width: 14.66666667%;
+}
+.control-panel h3 {
+    text-align: left;
 }
 .display-panel {
 }
 .edit-panel {
     background-color: #F9FAFA;
-    float: right;
     height: 100vh;
     overflow: scroll;
 }
@@ -326,11 +304,6 @@ p {
    background: #595959;
 }
 
-#settings {
-    height: 100vh;
-    overflow: scroll;
-}
-
 .navLogoMobile .logoMob{
   margin-left: 15%;
 }
@@ -344,17 +317,9 @@ p {
     background: none;
     border-radius: 2px;
     border: none;
-}
-
-.glyphicon.glyphicon-align-justify {
     font-size: 15pt;
     color: #757171;
 }
-.glyphicon.glyphicon-chevron-up {
-    font-size: 15pt;
-    color: #757171;
-}
-
 
 .network-container{
     text-align: center;
@@ -537,12 +502,7 @@ p {
 
   font-size: 20pt;
 }
-.inputMobile {
-    display: inline;
-    margin-left: 10%;
-    margin-right: 2%;
-    width: 75%;
-}
+
 .details-panel{
     padding: 10px;
     height: 100vh;
@@ -558,16 +518,12 @@ p {
   display: block;
 }
 .details-panelMb {
-    padding-top: 5%;
     height: 50vh;
     width: 100%;
-    overflow: scroll;
     position: absolute;
     left: 0;
     bottom: 0;
-    background-color: #F0F0F0;
     padding-bottom: 35px;
-    margin-top: 40px;
 }
 
 .checkboxCont{
@@ -578,4 +534,21 @@ p {
 
 .navLogoMobile{
   margin-left: 10%;
+}
+.save {
+    text-align: center;
+    padding-top:8px;
+    padding-bottom: 8px;
+}
+.save button {
+    font-size: 20px;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+.shareButton {
+    width: 50px;
+    height: 50px;
+}
+
+.shareButtonContainer{
+    text-align: center;
 }
