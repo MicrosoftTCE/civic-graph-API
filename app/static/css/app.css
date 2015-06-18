@@ -58,13 +58,13 @@ h2 {
 }
 
 h3 {
-    margin-top: 0;
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 18%;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #505050 ;
 }
 
 h4 {
-    font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 
     font-size: 24px;
 }
@@ -80,7 +80,7 @@ h6 {
 }
 
 p {
-  font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #505050;
   font-size: 14px;
   font-weight: normal;
@@ -91,6 +91,11 @@ p {
 .edit-marker {
   position: absolute;
   padding-left: 40%;
+  padding-top: 3.3%;
+}
+
+.edit-spacing {
+  padding-bottom: 10%;
 }
 
 .twitter-pic {
@@ -195,19 +200,25 @@ p {
     height: 100vh;
     overflow: scroll;
 }
+.edit-panel h6{
+    text-align: left;
+    margin-bottom: 0%
+}
 .edit-form {
+
 }
 .details-field {
     padding-left: 15%;
 }
-.edit-marker {
+/*.edit-marker {
     cursor: pointer;
     float: right;
     margin-top: 10px;
     opacity: 0.6;
-}
+}*/
 .edit-marker:hover {
     opacity: 1;
+    padding-bottom: 10px;
 }
 /* GENERAL NODE AND LINK STYLES */
 .node {
@@ -516,6 +527,7 @@ p {
 }
 .details-panel p, h1, h2, h3, h4, h5, h6 {
   text-align: center;
+  margin-bottom: 0%
 }
 .details-panel a {
   text-align: center;
