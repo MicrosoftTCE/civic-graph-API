@@ -14,7 +14,7 @@
     </div>
     Circle of Influence:
     <div ng-repeat='influenceType in influenceTypes'>
-      <label class='checkbox a-radio' ng-class="{'unchecked': $parent.$parent.editEntity.influence != influenceType}" ng-model='$parent.$parent.editEntity.influence' btn-radio='influenceType'></label >
+      <label class='checkbox radio radio-small' ng-class="{'unchecked': $parent.$parent.editEntity.influence != influenceType}" ng-model='$parent.$parent.editEntity.influence' btn-radio='influenceType'></label >
       <span class='caption'>{{influenceType}}</span>
     </div>
 

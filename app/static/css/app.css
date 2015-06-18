@@ -95,22 +95,15 @@ p {
   font-weight: normal;
 }
 
-#key-civic-people-img {
-  background: white url(/static/img/mini_grey_head.png) left no-repeat;
-  padding-left: 5px;
-  text-align: center;
-}
-
 .edit-marker {
   padding-top: 5%;
   padding-right: 15px;
   padding-bottom: 10px;
-  /*background-color: dodgerblue;*/
 }
+
 .twitter-pic-position {
   height: 100%;
   width: 100%;
-  padding-top: 30px;
 }
 
 .twitter-pic {
@@ -133,33 +126,18 @@ p {
 .checkbox input {
   display: none;
 }
-
-.r-radio {
-  border-radius: 50%;
-  background-color: black
-}
-
-.z-radio {
-  border-radius: 50%;
-  background-color: rgb(242, 80, 34);
-}
-
-.a-radio {
-  padding: 0;
-  margin: 0.5 ;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: black;
-
-}
-
 .radio {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     background-color: black;
     border: 7px white solid;
+}
+.radio-small {
+  padding: 0;
+  margin: 0.5 ;
+  width: 24px;
+  height: 24px;
 }
 .finance-amount {
     width: 60% !important;
@@ -470,6 +448,11 @@ p {
     padding-left: 12%;
     padding-right: 30%;
     color: grey;
+    pointer-events: none;
+}
+
+.license a {
+    pointer-events: auto;
 }
 
 .licenseMob {
@@ -478,9 +461,11 @@ p {
     font-weight: 400;
     font-size: 1.3em;
     z-index: 12;
+    pointer-events: none;
 }
-
-
+.licenseMob a {
+    pointer-events: auto;
+}
 
 .settingsmobile {
     width: 100%;
