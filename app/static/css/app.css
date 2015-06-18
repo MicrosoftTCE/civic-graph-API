@@ -1,3 +1,6 @@
+body {
+    overflow:hidden;
+}
 #details-name {
   padding-top: 0%;
 }
@@ -162,7 +165,7 @@ p {
 }
 
 .angular-leaflet-map {
-    height:100vh;
+    height: 87vh;
 }
 .main-container {
 }
@@ -487,6 +490,7 @@ p {
     background: white;
     bottom: 0;
     position: fixed;
+    height: 7vh;
     z-index: 3;
     border: 2px solid #757171;
     color: #757171;
@@ -545,7 +549,8 @@ p {
 }
 
 .navLogoMobile{
-  text-align: center;
+    text-align: center;
+    height: 6vh;
 }
 .navLogoMobileBackground{
   text-align: center;
@@ -586,3 +591,4 @@ p {
 .error-symbol {
     font-size: 32pt;
 }
+
