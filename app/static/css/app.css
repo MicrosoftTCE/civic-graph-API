@@ -544,3 +544,11 @@ p {
     font-size: 20px;
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 }
+.shareButton {
+    width: 50px;
+    height: 50px;
+}
+
+.shareButtonContainer{
+    text-align: center;
+}
