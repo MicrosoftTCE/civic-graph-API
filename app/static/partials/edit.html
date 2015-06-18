@@ -1,11 +1,9 @@
+<i title='Edit' ng-click='cancelEdit()' ng-hide="updating && !error" class='glyphicon glyphicon-remove cancel-edit-marker'></i>
 <div ng-if='!updating'>
-<div class="container">
-<i title='Edit' ng-click='cancelEdit()' ng-hide="updating" class='glyphicon glyphicon-remove cancel-marker'></i>
-</div>
-<center><h3>Add Information for {{editEntity.name}}</h3></center>
+<h3>Add Information for {{editEntity.name}}</h3>
 <form class='edit-form' novalidate>
   <div><h6>Company Name:</h6>
-    <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name'>
+    <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name' required>
     <h6>Nickname:</h6>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
   </div>
@@ -29,13 +27,16 @@
     <h6>What kind of work do they do?</h6>
     
     <div ng-repeat='category in editCategories'>
-    <label class='checkbox' ng-class="{'unchecked': !category.enabled}"><input type='checkbox' ng-model='category.enabled'></label>
-    <span class='caption'>{{category.name}}</label>
+        <label class='checkbox' ng-class="{'unchecked': !category.enabled}"><input type='checkbox' ng-model='category.enabled'></label>
+        <span class='caption'>{{category.name}}</label>
     </div>
     <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
-    <div ng-hide="editEntity.type=='Individual'">Number of Employees <input type='number' class='form-control' ng-model='editEntity.employees' placeholder='Employees'></div>
-    <div ng-hide="editEntity.type=='Individual'">Key Civic People?
+    <div ng-hide="editEntity.type=='Individual'">
+        <h6>Number of Employees</h6>
+        <input class='form-control' ng-model='editEntity.employees' placeholder='Employees'></div>
+    <div ng-hide="editEntity.type=='Individual'">
+        <h6>Key Civic People?</h6>
         <input type='text'class='form-control' ng-repeat='person in editEntity.key_people' ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
     </div>
 
@@ -70,8 +71,8 @@
         <div ng-repeat='grant in editEntity.grants_received'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false' placeholder='Funder' class='form-control'>
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='grant.amount' placeholder='Amount'>
-                <input type='number' class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
+                <input class='finance-amount form-control' ng-model='grant.amount' placeholder='Amount'>
+                <input class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
             </div>
         </div>
     </div>
@@ -79,8 +80,8 @@
         <div ng-repeat='investment in editEntity.investments_received'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor' class='form-control'>
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='investment.amount' placeholder='Amount'>
-                <input type='number' class='finance-year form-control' ng-model='investment.year' placeholder='Year'>
+                <input class='finance-amount form-control' ng-model='investment.amount' placeholder='Amount'>
+                <input class='finance-year form-control' ng-model='investment.year' placeholder='Year'>
             </div>
         </div>
     </div>
@@ -88,8 +89,8 @@
         <div ng-repeat='grant in editEntity.grants_given'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_given)' typeahead-editable='false' placeholder='Fundee' class='form-control'>
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='grant.amount' placeholder='Amount'>
-                <input type='number' class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
+                <input class='finance-amount form-control' ng-model='grant.amount' placeholder='Amount'>
+                <input class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
             </div>
         </div>
     </div>
@@ -97,30 +98,40 @@
         <div ng-repeat='investment in editEntity.investments_made'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_made)' typeahead-editable='false' placeholder='Investee' class='form-control'>
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='investment.amount' placeholder='Amount'>
-                <input type='number' class='finance-year form-control' ng-model='investment.year' placeholder='Year'>
+                <input class='finance-amount form-control' ng-model='investment.amount' placeholder='Amount'>
+                <input class='finance-year form-control' ng-model='investment.year' placeholder='Year'>
             </div>
         </div>
     </div>
     <div ng-hide="editEntity.type=='Individual'"><h6>Revenue</h6>
         <div ng-repeat='revenue in editEntity.revenues'>
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='revenue.amount' placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
-                <input type='number' class='finance-year form-control' ng-model='revenue.year' placeholder='Year' ng-change='addFinance(editEntity.revenues)'>
+                <input class='finance-amount form-control' ng-model='revenue.amount' placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
+                <input class='finance-year form-control' ng-model='revenue.year' placeholder='Year' ng-change='addFinance(editEntity.revenues)'>
             </div>
         </div>
     </div>
     <div ng-hide="editEntity.type=='Individual'"><h6>Expenses</h6>
         <div ng-repeat='expense in editEntity.expenses'>
+            {{expense}}
             <div class='input-group'>
-                <input type='number' class='finance-amount form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
-                <input type='number' class='finance-year form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
+                <input class='finance-amount form-control' ng-model='expense.amount' placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
+                <input class='finance-year form-control' ng-model='expense.year' placeholder='Year' ng-change='addFinance(editEntity.expenses)'>
             </div>
         </div>
     </div>
 </form>
 </div>
-<div ng-if='updating'><h2>Saving...</h2><div class='loader'></div></div>
+<div ng-if='updating && !error'>
+    <h2>Saving...</h2><br>
+    <h3>Thank you for submitting data to Civic Graph!</h3>
+    <div class='loader'></div>
+</div>
+<div class='error' ng-if='error'>
+    <i class='glyphicon glyphicon-remove-sign error-symbol'></i>
+    <h3>Something went wrong.</h3>
+    <h6>Please check your submission and try again.</h6>
+</div>
 <div class='save'>
 <button ng-hide='updating' class='btn btn-default' ng-click='save()'>Save</button>
 </div>

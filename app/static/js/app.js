@@ -152,8 +152,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.itemsShown[type] = $scope.itemsShownDefault[type];
     }
 })
-.controller('editCtrl', function($scope, $http) {
+.controller('editCtrl', function($scope, $http, $timeout) {
     $scope.updating = false;
+    $scope.error = false;
 
     $scope.addressSearch = function(search) {
         return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
@@ -181,7 +182,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             locations.push({'full_address':'', 'id': null});
         }
     }
-    $scope.addLocation($scope.editEntity.locations);
 
     $scope.editCategories = _.map($scope.categories, function(c) {
         return {'name': c.name, 'enabled': _.some($scope.editEntity.categories, {'name': c.name}), 'id': c.id}
@@ -196,7 +196,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
     }
-    $scope.addKeyPerson();
 
     $scope.setFundingConnection = function(entity, funding) {
         // Add other entity's id to this finance connection.
@@ -209,10 +208,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             funding.push({'entity':'', 'amount': null,'year': null, 'id': null});
         }
     }
-    $scope.addFundingConnection($scope.editEntity.grants_received);
-    $scope.addFundingConnection($scope.editEntity.investments_received);
-    $scope.addFundingConnection($scope.editEntity.grants_given);
-    $scope.addFundingConnection($scope.editEntity.investments_made);
 
     $scope.setConnection = function(entity, connection) {
         connection.entity_id = entity.id;
@@ -224,11 +219,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             connections.push({'entity':'', 'id': null, 'details': null});
         }
     }
-    $scope.addConnection($scope.editEntity.data_given);
-    $scope.addConnection($scope.editEntity.data_received);
-    $scope.addConnection($scope.editEntity.collaborations);
-    $scope.addConnection($scope.editEntity.employments);
-    $scope.addConnection($scope.editEntity.relations);
 
     $scope.addFinance = function(records) {
         // Add new finance field if all current fields are valid.
@@ -236,11 +226,37 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             records.push({'amount': null, 'year': null, 'id': null});
         }
     }
-    $scope.addFinance($scope.editEntity.revenues);
-    $scope.addFinance($scope.editEntity.expenses);
-
+    $scope.addBlankFields = function() {
+        $scope.addLocation($scope.editEntity.locations);
+        $scope.addKeyPerson();
+        $scope.addFundingConnection($scope.editEntity.grants_received);
+        $scope.addFundingConnection($scope.editEntity.investments_received);
+        $scope.addFundingConnection($scope.editEntity.grants_given);
+        $scope.addFundingConnection($scope.editEntity.investments_made);
+        $scope.addConnection($scope.editEntity.data_given);
+        $scope.addConnection($scope.editEntity.data_received);
+        $scope.addConnection($scope.editEntity.collaborations);
+        $scope.addConnection($scope.editEntity.employments);
+        $scope.addConnection($scope.editEntity.relations);
+        $scope.addFinance($scope.editEntity.revenues);
+        $scope.addFinance($scope.editEntity.expenses);
+    }
+    $scope.addBlankFields();
+    var removeCommas = function(finances) {
+        _.forEach(finances, function(f) {
+            try {
+                f.amount = Number(f.amount.replace(',',''));
+            } catch (err) {
+                // Can't replace on numbers, only on strings.
+            }
+            
+        });
+    }
     $scope.removeEmpty = function() {
         // Clear the empty unedited new items.
+        _.forEach(['grants_received', 'investments_received', 'grants_given', 'investments_made','revenues', 'expenses'], function(financetype) {
+            removeCommas($scope.editEntity[financetype]);
+        });
         $scope.editEntity.categories = _.filter($scope.editCategories, 'enabled');
         _.remove($scope.editEntity.locations, function(l){return l.full_address == '';});
         _.remove($scope.editEntity.key_people, function(p){return p.name == '';});
@@ -255,16 +271,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         _.remove($scope.editEntity.relations, function(c){return c.entity == '';});
         _.remove($scope.editEntity.revenues, function(r){return r.amount <= 0 || r.year < 1750;});
         _.remove($scope.editEntity.expenses, function(e){return e.amount <= 0 || e.year < 1750;;});
+
     }
 
     $scope.savetoDB = function() {
         $scope.updating = true;
         $http.post('save', {'entity': $scope.editEntity})
-            .then(function(response) {
-                $scope.setEntities(response.data.nodes);
+            .success(function(response) {
+                $scope.setEntities(response.nodes);
                 $scope.setEntityID($scope.editEntity.id);
                 // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
                 $scope.updating = false;
+            })
+            .error(function(data, status, headers, config){
+                console.log('ERROR');
+                $scope.error = true;
+                $timeout(function() {
+                    $scope.error = false;
+                    $scope.updating = false;
+                    $scope.addBlankFields();
+                }, 5000);
             });
     }
     $scope.cancelEdit = function() {

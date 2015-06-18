@@ -1,5 +1,5 @@
 <div ng-if='!mobile'>
-<button class='addInfoDesktop' style='width:100%' ng-click='startEdit()'><p><span class="glyphicon glyphicon-plus-sign"></span> Add New Information</p></button>
+<button class='addInfoDesktop' ng-click='startEdit()'><p><span class="glyphicon glyphicon-plus-sign"></span> Add New Information</p></button>
 <hr />
 </div>
 <div class='right_logo'> 
@@ -16,7 +16,7 @@
 <h6>Influence: </h6><p>{{currentEntity.influence}}</p>
 
 <h6>Type of Entity: </h6><p>{{currentEntity.type}}</p>
-<div ng-hide="currentEntity.type=='Individual'">
+<div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees">
 <h6>Employees: </h6><p>{{currentEntity.employees | number}}</p>
 </div>
 <div ng-if='currentEntity.twitter_handle'>
