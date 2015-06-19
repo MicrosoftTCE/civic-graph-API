@@ -562,3 +562,7 @@ p {
     font-size: 32pt;
 }
 
+.glyphicon.glyphicon-pencil.edit-marker{
+  margin-top: 15px;
+}
+
