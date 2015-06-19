@@ -401,10 +401,10 @@ p {
     margin-bottom: 10px;
 }
 .licenseMob {
-    margin-top: 55vh;
+    margin-top: 70vh;
     color: #9E9E9E;
     font-weight: 400;
-    font-size: 1.3em;
+    font-size: 1.1em;
     z-index: 12;
     pointer-events: none;
 }
@@ -445,17 +445,21 @@ p {
 }
 
 .addInfoMobile {
-    font-family: Verdana;
-    font-weight: 600;
-    border-radius: 5px;
-    width: 100%;
-    background: white;
-    bottom: 0;
+    border: none;
+    color: white;
+    background: blue;
+    right: 0;
+    top: 0;
+    height: 35px;
+    width: 35px;
     position: fixed;
-    height: 7vh;
     z-index: 3;
-    border: 2px solid #757171;
-    color: #757171;
+}
+
+.addInfoMobile p{
+  color: white;
+  font-size: 15pt;
+
 }
 
 .addInfoDesktop {
@@ -514,7 +518,8 @@ p {
 
 .navLogoMobile{
     text-align: center;
-    height: 6vh;
+    height: 7vh;
+    z-index: 3;
 }
 .navLogoMobileBackground{
   text-align: center;

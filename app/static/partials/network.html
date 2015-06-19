@@ -1,11 +1,11 @@
 <div class='network-container' ng-controller='networkCtrl'>
     <button ng-show='!settingsEnabled && !mobile' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify hambDesktop' ></button>
 
-    <svg id="network" ng-style="{height: mobile && (clickedEntity.entity || showLicense) ? '50vh' : '100vh' }"></svg>
+    <svg id="network" ng-style="{height: mobile && (clickedEntity.entity || showLicense) ? '75vh' : '100vh' }"></svg>
 
     <p ng-show='mobile && showLicense' class="licenseMob">This work by<br>
     <a href="https://www.microsoft.com/" target='_blank'>
-    <img alt="Microsoft" src="static/img/msftlogogrey.png" width="150" height="60">
+    <img alt="Microsoft" src="static/img/msftlogogrey.png" width="120" height="30">
     </a>
     <br>is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target='_blank'>CC BY-SA 4.0.</a><br>
     Based on a work found <a href="https://github.com/microsoftny/civic-graph" target='_blank'>here.</a><br><br><br><br></p>

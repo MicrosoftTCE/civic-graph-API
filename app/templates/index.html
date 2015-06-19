@@ -22,17 +22,19 @@
     <link rel='stylesheet' href='static/css/app.css'>
     <link rel='icon' type='image/png' href='static/img/microsoft.ico' />
 
+
+
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" ng-class=" settingsEnabled ? 'navLogoMobileBackground' : 'navLogoMobile' ">
 <button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify navButtonMob' ></button><button ng-show='settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up navButtonMob' ></button>
 <img  class="logoMob" src="static/img/civicgraphdark.png" width="50%">
+<button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'><p>+</p></button>
 </div>
     <div class='container-fluid main-container'>
         <div class='row'>
             <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel hidden-xs' ng-include="'static/partials/controls.html'"></div>
             <div ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-class="{'mapView': template.name =='Map'}" ng-include="'static/partials/controlsmobile.html'"></div>
-            <button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</button>
             <div class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
             <div id='details-panel' class='col-sm-2 details-panel' ng-class="{'details-panelMb': mobile}" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
             <div class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
