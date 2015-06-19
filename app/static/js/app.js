@@ -418,7 +418,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 }
             });
         }
-        speedAnimate(7);
+        var speedAnimateComplete = function() {
+            requestAnimationFrame(function render() {
+                force.tick();
+                while (force.alpha()> 0.01) {
+                    force.tick();
+                }
+            });
+        }
+        if ($scope.mobile) {speedAnimateComplete();} else {speedAnimate(7);}
         force.start();
 
 
