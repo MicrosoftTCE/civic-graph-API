@@ -1,6 +1,9 @@
 <i title='Edit' ng-click='cancelEdit()' ng-hide="updating && !error" class='glyphicon glyphicon-remove cancel-edit-marker'></i>
 <div ng-if='!updating'>
-<h3>Add Information for {{editEntity.name}}</h3>
+<div class='edit-title'>
+    <h3 ng-if='entity.id'>Edit Information</h3>
+    <h3 ng-if='!entity.id'>Add Information</h3>
+</div>
 <form class='edit-form' novalidate>
   <div><h6>Company Name:</h6>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name' required>
@@ -55,19 +58,19 @@
             <input type='text' class='form-control details-field' ng-model='relation.details' placeholder='Relation details'>
         </div>
     </div>
-    <div><h6>Who provides them with data?</h6>
+    <div><h6>From whom do they receive data?</h6>
         <div ng-repeat='data in editEntity.data_received'>
             <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_received)' placeholder='Data Resource'>
             <input type='text' class='form-control details-field' ng-model='data.details' placeholder='Link to data'>
         </div>
     </div>
-    <div><h6>Who do they provide with data?</h6>
+    <div><h6>To whom do they provide data?</h6>
         <div ng-repeat='data in editEntity.data_given'>
             <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_given)' placeholder='Data Resource'>
             <input type='text' class='form-control details-field' ng-model='data.details' placeholder='Link to data'>
         </div>
     </div>
-    <div><h6>Who funds them via grants?</h6>
+    <div><h6>From whom do they receive grants?</h6>
         <div ng-repeat='grant in editEntity.grants_received'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false' placeholder='Funder' class='form-control'>
             <div class='input-group'>
@@ -76,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div ng-hide="editEntity.type=='Individual'"><h6>Who invests in them via equity stakes (stock)?</h6>
+    <div ng-hide="editEntity.type=='Individual'"><h6>From whom do they receive investments?</h6>
         <div ng-repeat='investment in editEntity.investments_received'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false' placeholder='Investor' class='form-control'>
             <div class='input-group'>
@@ -85,7 +88,7 @@
             </div>
         </div>
     </div>
-    <div ng-hide="editEntity.type=='Individual'"><h6>Who do they fund via grants?</h6>
+    <div ng-hide="editEntity.type=='Individual'"><h6>To whom do they provide grants?</h6>
         <div ng-repeat='grant in editEntity.grants_given'>
             <input type='text' ng-model='grant.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, grant)' ng-change='addFundingConnection(editEntity.grants_given)' typeahead-editable='false' placeholder='Fundee' class='form-control'>
             <div class='input-group'>
@@ -94,7 +97,7 @@
             </div>
         </div>
     </div>
-    <div><h6>Who do they invest in via equity stakes (stock)?</h6>
+    <div><h6>To whom do they provide investments?</h6>
         <div ng-repeat='investment in editEntity.investments_made'>
             <input type='text' ng-model='investment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setFundingConnection($item, investment)' ng-change='addFundingConnection(editEntity.investments_made)' typeahead-editable='false' placeholder='Investee' class='form-control'>
             <div class='input-group'>

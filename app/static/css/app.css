@@ -7,6 +7,9 @@ body {
 .add-button {
   border-color: blue;
 }
+.edit-title {
+    padding-bottom:6px;
+}
 
 #facebook-link {
   padding-left: 1;
@@ -20,7 +23,6 @@ body {
 .network-container {
     background-color: white;
 }
-
 .right_logo {
     position: relative;
     text-align: center;
@@ -47,80 +49,51 @@ body {
 }
 h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: #303030;
 }
-h1 {
-    color: #E0E0E0;
-    font-size: 40px;
-    text-shadow: 2px 2px 4px #000000;
-}
-
-h2 {
-    color: #474747;
-    font-size: 30px;
-}
-
-h3 {
-    margin-top: 0;
-    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: #505050 ;
-}
-
-h4 {
-    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-
-    font-size: 24px;
-}
-
-h5 {
-    font-size: 22px;
-    text-shadow: 1px 0px 0px #000000;
-}
-
-h6 {
-  font-size: 14px;
-  font-weight: bold;
-}
-
 p {
   font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
   color: #505050;
   font-size: 14px;
   font-weight: normal;
 }
+.details-panel h6 {
+  font-size: 14px;
+  font-weight: bold;
+}
+.control-panel h3 {
+    margin-top: 10px;
+    padding-bottom: 5px;
+    font-size: 14pt;
+    text-transform: uppercase;
+}
+.control-input {
+    padding-left: 2px;
+}
 .entity-name {
     padding-bottom: 10px;
 }
 
-.twitter-pic {
-    border-radius: 50%;
-}
-
 .checkbox {
-    width: 28px;
-    height: 28px;
-    border: 7px white solid;
+    width: 26px;
+    height: 26px;
+    border: 5px white solid;
     padding: 0;
-    margin: 0.5 ;
     background-color: black;
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    padding-left: 15px;
-}
-.checkbox-big {
-    width: 32px;
-    height: 32px;
+    margin-top: 2px;
+    margin-bottom: 6px;
 }
 .checkbox input {
   display: none;
 }
 .radio {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background-color: black;
-    border: 7px white solid;
+    border: 5px white solid;
 }
 .radio-big {
     padding: 0;
@@ -165,7 +138,7 @@ p {
 }
 
 .angular-leaflet-map {
-    height: 87vh;
+    height: 100vh;
 }
 .main-container {
 }
@@ -177,7 +150,6 @@ p {
 .network-container {
     height:100%;
     overflow:hidden;
-    /*background-color: white;*/
 }
 .control-panel {
     height: 100vh;
@@ -197,11 +169,11 @@ p {
 }
 .edit-panel h6{
     text-align: left;
-    margin-bottom: 0%
+    margin-bottom: 3px;
 }
 .edit-form {
-
 }
+/* Metadata field padding.*/
 .details-field {
     padding-left: 15%;
 }
@@ -423,17 +395,11 @@ p {
 /*End of animation spinner*/
 
 .license {
-    bottom: 0;
-    position:fixed;
-    padding-left: 12%;
-    color: grey;
-    pointer-events: none;
 }
-
-.license a {
-    pointer-events: auto;
+.license-divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
-
 .licenseMob {
     margin-top: 55vh;
     color: #9E9E9E;
@@ -465,10 +431,6 @@ p {
     font-weight: 800;
     margin: 0;
 }
-.checkbox {
-    margin-bottom: 3;
-    margin-top: 0;
-}
 .mobileTitle{
     font-size: 1.3em;
 }
@@ -497,24 +459,26 @@ p {
 }
 
 .addInfoDesktop {
-  background : none;
-  border: 2px solid #000080;
-  border-radius: 10px;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
+    transition: opacity 0.1s linear;
+    margin-top: 3px;
+    background-color: #1ea4eb;
+    border: 2px solid white;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .addInfoDesktop:hover {
-    background: #00CCFF;
+    opacity: 0.8;
 }
 
 .addInfoDesktop p{
-  margin-top: 10px;
-  vertical-align: middle;
-  color: #000080;
-  font-size: 13pt;
-  font-weight: 600;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+    color: white;
+    font-size: 13pt;
+    font-weight: 600;
 }
 
 .details-panel{

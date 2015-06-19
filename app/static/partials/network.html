@@ -2,17 +2,11 @@
     <button ng-show='!settingsEnabled && !mobile' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify hambDesktop' ></button>
 
     <svg id="network" ng-style="{height: mobile && (clickedEntity.entity || showLicense) ? '50vh' : '100vh' }"></svg>
-    <h6 ng-hide='mobile' class="license">This work by
-    <a href="http://www.microsoft.com/">
-    <img alt="Microsoft" src="static/img/msftlogogrey.png" width="100" height="40">
-    </a>
-    is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0.</a>
-    Based on a work found <a href="https://github.com/microsoftny/civic-graph">here.</a></h6>
 
     <p ng-show='mobile && showLicense' class="licenseMob">This work by<br>
-    <a href="http://www.microsoft.com/">
+    <a href="https://www.microsoft.com/" target='_blank'>
     <img alt="Microsoft" src="static/img/msftlogogrey.png" width="150" height="60">
     </a>
-    <br>is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0.</a><br>
-    Based on a work found <a href="https://github.com/microsoftny/civic-graph">here.</a><br><br><br><br></p>
+    <br>is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target='_blank'>CC BY-SA 4.0.</a><br>
+    Based on a work found <a href="https://github.com/microsoftny/civic-graph" target='_blank'>here.</a><br><br><br><br></p>
 </div>

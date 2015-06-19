@@ -503,6 +503,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         var dblclick = function(entity) {
             if (entity.fixed == false) {
+                console.log(this);
                 entity.x = width/2;
                 entity.y = height/2;
                 entity.px = width/2;
@@ -528,7 +529,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
         $scope.$on('selectEntity', function() {
-            click($scope.currentEntity);
+            dblclick($scope.currentEntity);
         })
         // Only show labels on top 5 most connected entities initially.
         _.forEach(_.keys($scope.entityTypes), function(type) {
@@ -649,7 +650,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 });
             });
             map.addLayer(markers);
-            map.locate({setView: true, maxZoom: 11});
+            map.locate({setView: true, maxZoom: 18});
             markers.on('click', function(marker) {
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
