@@ -43,7 +43,7 @@ def create_categories():
         if node['categories']:
             categories.update(node['categories'])
 
-    categories = list(categories)
+    categories = [category for category in categories if len(category) > 2]
     for name in categories:
         category = Category(name)
         db.add(category)
@@ -55,7 +55,8 @@ def categorize(entity, categories):
     if categories:
         for c in categories:
             category = Category.query.filter_by(name=c).first()
-            entity.categories.append(category)
+            if category:
+                entity.categories.append(category)
 """
 def create_cities():
     if cities:
@@ -118,11 +119,27 @@ def add_finances(entity, finances, ftype):
     if finances:
         for f in finances:
             if ftype == 'revenue':
-                revenue = Revenue(f['amount'], f['year'])
-                entity.revenues.append(revenue)
+                years = [r.year for r in entity.revenues]
+                if f['year'] not in years:
+                    # Add only if year doesn't exist to avoid duplicates.
+                    revenue = Revenue(f['amount'], f['year'])
+                    entity.revenues.append(revenue)
+                    db.flush()
+                else:
+                    # Update amount if year exists.
+                    oldrevenue = entity.revenues.filter_by(year=f['year']).first()
+                    if oldrevenue: oldrevenue.amount = f['amount']
             elif ftype == 'expenses':
-                expense = Expense(f['amount'], f['year'])
-                entity.expenses.append(expense)
+                years = [e.year for e in entity.expenses]
+                if f['year'] not in years:
+                    # Add only if year doesn't exist to avoid duplicates.
+                    expense = Expense(f['amount'], f['year'])
+                    entity.expenses.append(expense)
+                    db.flush()
+                else:
+                    # Update amount if year exists.
+                    oldexpense = entity.expenses.filter_by(year=f['year']).first()
+                    if oldexpense: oldexpense.amount = f['amount']
 
 def add_location(entity, locationtext):
 
