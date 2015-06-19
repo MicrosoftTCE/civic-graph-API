@@ -30,6 +30,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
             }
+            $scope.$broadcast('entitiesLoaded');
         });
     // Maybe get from database.
     $scope.entityTypes = {
@@ -304,8 +305,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
     $scope.showLicense =  true;
-
-    $http.get('connections').
+    $scope.$on('entitiesLoaded', function() {
+        $http.get('connections').
         success(function(data) {
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {
@@ -317,6 +318,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             drawNetwork();
         });
+    });
+
     scale = {
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
         'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
