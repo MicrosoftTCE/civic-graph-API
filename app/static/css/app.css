@@ -160,6 +160,7 @@ p {
     text-align: left;
 }
 .display-panel {
+  margin-top: 1vh;
 }
 .edit-panel {
     background-color: #F9FAFA;
@@ -521,6 +522,8 @@ p {
     text-align: center;
     height: 7vh;
     z-index: 3;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .navLogoMobileBackground{
   text-align: center;
