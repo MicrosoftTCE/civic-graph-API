@@ -520,7 +520,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         var dblclick = function(entity) {
             if (entity.fixed == false) {
-                console.log(this);
                 entity.x = width/2;
                 entity.y = height/2;
                 entity.px = width/2;
@@ -612,7 +611,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 detectRetina: true,
                 reuseTiles: false
             },
-            zoomControl: false
+            zoomControl: false,
+            attributionControl: false
         }
     }
 
@@ -648,6 +648,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         then(function(map) {
             map.invalidateSize();
             new L.Control.Zoom({position: 'topright'}).addTo(map);
+            L.control.locate({position: 'topright', showPopup: false, icon:'fa fa-location-arrow'}).addTo(map);
             var clusterIcon = function(cluster) {
                 var children = cluster.getAllChildMarkers();
                 var total = children.length;
