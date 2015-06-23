@@ -81,6 +81,9 @@ goto :EOF
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
 :: ----------
+echo Backing up current database.
+copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP-%DATE%"
+copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP"
 
 :Deployment
 echo Handling python deployment.
@@ -151,6 +154,8 @@ popd
 
 :postPython
 
+echo Restoring backed up database.
+copy /y "%DEPLOYMENT_TARGET%\civic.db.BACKUP" "%DEPLOYMENT_TARGET%\civic.db"
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Post deployment stub
