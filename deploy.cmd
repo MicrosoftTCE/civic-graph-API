@@ -84,7 +84,7 @@ goto :EOF
 
 :Deployment
 echo Handling python deployment.
-
+set DATE=`date +%y%m%d%H%M%S`
 echo Backing up current database.
 copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP-%DATE%"
 copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP"
