@@ -331,7 +331,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
     }
     var resize =  function (){
-        if ($scope.template.name == 'Network' && !$scope.mobile) {
+        if ($scope.template.name == 'Network' && false) {// Don't call this for now while we figure out mobile.
             var panZoomNetwork = svgPanZoom('#network', {zoomScaleSensitivity:0.01});
             panZoomNetwork.resize(true);
             panZoomNetwork.fit(true);
