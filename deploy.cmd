@@ -81,12 +81,13 @@ goto :EOF
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
 :: ----------
-echo Backing up current database.
-copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP-%DATE%"
-copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP"
 
 :Deployment
 echo Handling python deployment.
+
+echo Backing up current database.
+copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP-%DATE%"
+copy /y "%DEPLOYMENT_TARGET%\civic.db" "%DEPLOYMENT_TARGET%\civic.db.BACKUP"
 
 :: 1. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
