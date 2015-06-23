@@ -252,15 +252,15 @@ def update(entity, data):
         db.commit()
 
         def update_location(location, json):
-            location.full_address = json['full_address']
-            location.address_line = json['address_line']
-            location.locality = json['locality']
-            location.district = json['district']
-            location.postal_code = json['postal_code']
-            location.country = json['country']
-            location.country_code = json['country_code']
-            location.latitude = json['coordinates'][0]
-            location.longitude = json['coordinates'][1]
+            location.full_address = json['full_address'] if 'full_address' in json else None
+            location.address_line = json['address_line'] if 'address_line' in json else None
+            location.locality = json['locality'] if 'locality' in json else None
+            location.district = json['district'] if 'district' in json else None
+            location.postal_code = json['postal_code'] if 'postal_code' in json else None
+            location.country = json['country'] if 'country' in json else None
+            location.country_code = json['country_code'] if 'country_code' in json else None
+            location.latitude = json['coordinates'][0] if 'coordinates' in json else None
+            location.longitude = json['coordinates'][1] if 'coordinates' in json else None
             if entity.entitytype is 'Individual':
                 location.full_address = location.locality + ', ' + location.district if location.locality and location.district else location.locality if location.locality else location.country
 
