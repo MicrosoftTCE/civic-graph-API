@@ -12,6 +12,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.editEntity;
     $scope.connections = {};
     $scope.editing = false;
+    $scope.actions = {'interacted':false};
 
     window.mobilecheck = function() {
         var check = false;
@@ -560,12 +561,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (!$scope.clickedEntity.entity) {
                 focus(entity);
             }
+            $scope.actions.interacted = true;
+            $scope.safeApply();
         }
 
         var unhover = function(entity) {
             if (!$scope.clickedEntity.entity) {
                 unfocus(entity);
             }
+            $scope.actions.interacted = true;
+            $scope.safeApply();
         }
 
         var click = function(entity) {
@@ -581,6 +586,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Stop event so we don't detect a click on the background.
             // See http://stackoverflow.com/q/22941796
             if (d3.event) {d3.event.stopPropagation();}
+            $scope.actions.interacted = true
+            $scope.safeApply();
         }
 
         var dblclick = function(entity) {
@@ -594,6 +601,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             } else {
                 unfocus(entity);
             }
+            $scope.actions.interacted = true;
+            $scope.safeApply();
         }
 
         var backgroundclick = function() {
