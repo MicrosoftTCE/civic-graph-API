@@ -64,8 +64,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     $scope.template = $scope.views[0];
 
-    $scope.changeView = function(view) {
-        $scope.template = _.find($scope.views, {'name': view});
+    $scope.changeView = function() {
+        $scope.$broadcast('viewChange');
+        console.log('VIEW CHANGE BROADCAST');
     }
     $scope.changeView('Network');
 
@@ -305,7 +306,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.removeEmpty();
         $scope.savetoDB();
     }
-
 })
 .controller('networkCtrl', function($scope, $http, $timeout) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
@@ -350,7 +350,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'Government': 'rgb(242, 80, 34)',
             'Non-Profit': 'dodgerblue',
             'For-Profit': 'rgb(127, 186, 0)',
-            'Individual': 'orange'
+            'Individual': 'orange',
+            'Funding': '#FF7460',
+            'Data': '#84C2FF',
+            'Employment': '#EE73FF',
+            'Collaboration': '#FFD955'
         };
 
         var offsets = {
@@ -367,6 +371,40 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .attr("width", width)
             .attr("height", height);
 
+        var context = canvas.node().getContext("2d");
+        var tick = function() {
+            console.log("tick");
+            context.clearRect(0, 0, width, height);
+
+            // draw links
+            context.strokeStyle = "#ccc";
+            _.forEach($scope.connections, function(connections, type) {
+                connections.forEach(function(d) {
+                    if ($scope.connectionTypes[type]) {    
+                        context.beginPath()
+                        context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
+                        context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
+                        context.strokeStyle = colors[type]
+                        context.stroke()
+                        context.closePath();
+                    }
+                });
+            });
+            data.nodes.forEach(function(d) {
+                if ($scope.entityTypes[d.type]) {
+                    var k = ((d.employees/200000) * 5 )+1.5;
+                    context.beginPath();
+                    context.fillStyle = colors[d.type];
+                    //context.moveTo(d.x+offsets[d.type][0], d.y+offsets[d.type][1]);
+                    context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
+                    context.fill()
+                    context.lineWidth = 1;
+                    context.strokeStyle = 'white';
+                    context.stroke();
+                    context.closePath();
+                }
+            });
+        }
         var force = d3.layout.force()
             .size([width, height])
             .nodes(data.nodes)
@@ -376,36 +414,16 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .linkStrength(0.1)
             .linkDistance(50)
             .start();
-
-        var context = canvas.node().getContext("2d");
-        function tick() {
-            context.clearRect(0, 0, width, height);
-
-            // draw links
-            context.strokeStyle = "#ccc";
-            data.links.forEach(function(d) {
-              context.beginPath()
-              context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
-              context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
-              context.strokeStyle = colors[d.target.type]
-                      context.stroke()
-
-              context.closePath();
-
-            });
-            data.nodes.forEach(function(d) {
-                var k = ((d.employees/200000) * 5 )+1.5;
-                context.beginPath();
-                context.fillStyle = colors[d.type];
-                //context.moveTo(d.x+offsets[d.type][0], d.y+offsets[d.type][1]);
-                context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
-                context.fill()
-                context.lineWidth = 1;
-                context.strokeStyle = 'white';
-                context.stroke();
-                context.closePath();
-            });
-        }
+        $scope.$on('toggleNode', function(event, type) {
+            tick();
+        });
+        $scope.$on('toggleLink', function(event, link) {
+            tick();
+            console.log("Link");  
+        });
+        $scope.$on('viewChange', function(event) {
+            console.log('VIEW CHANGE RECEIVED');
+        });
     }
     var drawNetwork = function() {
         var svg = d3.select('#network');
@@ -483,17 +501,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 }
             });
         }
-        var speedAnimateComplete = function() {
-            requestAnimationFrame(function render() {
-                force.tick();
-                while (force.alpha()> 0.01) {
-                    force.tick();
-                }
-            });
-        }
-        if ($scope.mobile) {speedAnimateComplete();} else {speedAnimate(7);}
+        if (!$scope.mobile) {speedAnimate(7);}
         force.start();
-
 
         // Hash linked neighbors for easy hovering effects.
         // See http://stackoverflow.com/a/8780277
@@ -629,10 +638,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
         $scope.$on('toggleLink', function(event, link) {
+            console.log("ToggleLink");  
             links[link.name]
             .classed({'visible': link.enabled, 'hidden': !link.enabled});
         });
         $scope.$on('toggleNode', function(event, type) {
+            console.log("ToggleNode");  
             svg
             .selectAll('.'+type.name+'-node')
             .classed({'visible': type.enabled, 'hidden': !type.enabled});
@@ -661,7 +672,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             //Clear entityID from URL if you want... Maybe don't do this here.
             //$location.search('entityID', null);
         };
-
     }
 })
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
