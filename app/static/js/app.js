@@ -206,7 +206,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         if (!(_.some($scope.editEntity.key_people, {'name': '', 'id': null}))) {
             $scope.editEntity.key_people.push({'name':'', 'id': null});
         }
-
     }
 
     $scope.setFundingConnection = function(entity, funding) {
@@ -254,6 +253,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.addFinance($scope.editEntity.expenses);
     }
     $scope.addBlankFields();
+
+    $scope.isValid = function() {
+        return $scope.editEntity.type != null && $scope.editEntity.name && $scope.editEntity.name.length > 0;
+    }
     var removeCommas = function(finances) {
         _.forEach(finances, function(f) {
             try {
@@ -482,8 +485,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // console.log(e.alpha)
              if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
-                entity.x += offsets[entity.type].x*k
-                entity.y += offsets[entity.type].y*k
+                entity.x += offsets[entity.type].x*k;
+                entity.y += offsets[entity.type].y*k;
             });
 
             _.forEach(links, function(link, type) {

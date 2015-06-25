@@ -5,7 +5,7 @@
     <h3 ng-if='!entity.id'>Add Information</h3>
 </div>
 <form class='edit-form' novalidate>
-  <div><h6>Company Name:</h6>
+  <div><h6>Entity Name<span ng-if='!($parent.$parent.editEntity.name.length > 0)'> (Required)</span>:</h6>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name' required>
     <h6>Nickname:</h6>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
@@ -20,8 +20,8 @@
       <span class='caption'>{{influenceType}}</span>
     </div>
 
-    <h6>What type of entity?</h6>
-    
+    <h6>What type of entity?<span ng-if='!$parent.$parent.editEntity.type'> (Required)</span></h6>
+
     <div ng-repeat='(type, enabled) in entityTypes'>
       <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.editEntity.type != type}" ng-model='$parent.$parent.editEntity.type' btn-radio='type' ng-change='changetype()'></label>
       <span class='caption'>{{type}}</span>
@@ -135,5 +135,5 @@
     <h6>Please check your submission and try again.</h6>
 </div>
 <div class='save'>
-<button ng-hide='updating' class='btn btn-default' ng-click='save()'>Save</button>
+<button ng-disabled='!isValid()' ng-hide='updating' class='btn btn-default' ng-click='save()'>Save</button>
 </div>
