@@ -1,7 +1,9 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
-.run(['$templateCache', function ($templateCache) {
-    $templateCache.removeAll();
-}])
+.run(['$rootScope','$templateCache', function($rootScope, $templateCache) {
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        if (typeof(current) !== 'undefined'){$templateCache.remove(current.templateUrl);}
+    });
+})
 .constant('_', window._)
 .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
