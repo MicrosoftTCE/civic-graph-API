@@ -33,7 +33,7 @@
         <label class='checkbox' ng-class="{'unchecked': !category.enabled}"><input type='checkbox' ng-model='category.enabled'></label>
         <span class='caption'>{{category.name}}</label>
     </div>
-    <input type='url' class='form-control' ng-model='editEntity.url' placeholder='Website'>
+    <input type='text' class='form-control' ng-model='editEntity.url' placeholder='Website'>
     <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
     <div ng-hide="editEntity.type=='Individual'">
         <h6>Number of Employees</h6>
