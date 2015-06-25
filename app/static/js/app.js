@@ -396,7 +396,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             data.nodes.forEach(function(d) {
                 if ($scope.entityTypes[d.type]) {
+                    if ($scope.sizeBy == "employees") {
                     var k = ((d.employees/200000) * 5 )+1.5;
+                    } else {
+                    var k = ((d.followers/11000000) * 5 )+1.5;;
+                    }
                     context.beginPath();
                     context.fillStyle = colors[d.type];
                     //context.moveTo(d.x+offsets[d.type][0], d.y+offsets[d.type][1]);
@@ -423,8 +427,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
         $scope.$on('toggleLink', function(event, link) {
             tick();
-            console.log("Link");  
         });
+        $scope.$on('changeSizeBy', function(event, link) {
+            tick();
+        });
+
         $scope.$on('viewChange', function(event) {
             console.log('VIEW CHANGE RECEIVED');
         });
