@@ -1,4 +1,7 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
+.run(['$templateCache', function ($templateCache) {
+    $templateCache.removeAll();
+}])
 .constant('_', window._)
 .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
@@ -770,7 +773,4 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     });
 
-}])
-.run(['$templateCache', function ($templateCache) {
-    $templateCache.removeAll();
 }]);
