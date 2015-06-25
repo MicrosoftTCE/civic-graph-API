@@ -16,6 +16,8 @@ def update(entity, data):
     if entity.employees != data['employees']:
         entity.employees = data['employees']
     if entity.url != data['url']:
+        if 'http' not in data['url']:
+            data['url'] = 'http://'+data['url']
         entity.url = data['url']
     if entity.twitter_handle != data['twitter_handle']:
         entity.twitter_handle = data['twitter_handle']
