@@ -770,4 +770,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     });
 
+}])
+.run(['$templateCache', function ($templateCache) {
+    $templateCache.removeAll();
 }]);
