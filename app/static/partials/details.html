@@ -2,6 +2,9 @@
 <button class='addInfoDesktop' ng-click='startEdit()'><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</p></button>
 <hr />
 </div>
+<div ng-if='!actions.interacted' class='overview' ng-include="'static/partials/overview.html'">
+</div>
+<div ng-if='actions.interacted'>
 <div class='right_logo'> 
     <img ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
     <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
@@ -153,7 +156,7 @@
     <p>No known investments received.</p>
 </div>
 <div ng-if='currentEntity.grants_given.length == 0' ng-hide="currentEntity.type=='Individual'">
-    <p>No known grants provided.
+    <p>No known grants provided.</p>
 </div>
 <div ng-if='currentEntity.investments_made.length == 0'>
     <p>No known investments made.</p>
@@ -163,4 +166,5 @@
 </div>
 <div ng-if='currentEntity.expenses.length == 0' ng-hide="currentEntity.type=='Individual'">
     <p>No known expense information.</p>
+</div>
 </div>
