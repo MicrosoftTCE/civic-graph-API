@@ -575,7 +575,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
 
         var hover = function(entity) {
-            if (!$scope.clickedEntity.entity) {
+            if (!$scope.clickedEntity.entity && !$scope.editing) {
                 focus(entity);
             }
             $scope.actions.interacted = true;
