@@ -397,8 +397,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             height = $("#canvas-force").height();
 
         var canvas = d3.select("div#canvas-force").append("canvas")
-            .attr("width", "200px")
-            .attr("height", "200px");
+            .attr("width", "1000px")
+            .attr("height", "1000px");
 
         var isInsideCircle = function (x, y, cx, cy, radius) {
             var dx = x-cx
