@@ -319,6 +319,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .controller('networkCtrl', function($scope, $http, $timeout) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
+
+    var nodes = [];
+
+    $scope.testClick = function(e) {
+      // $scope.msg = 'clicked';
+      console.log(e);
+      console.log(nodes);
+    }
+
+
+
     $scope.showLicense =  true;
     $scope.$on('entitiesLoaded', function() {
         $http.get('connections').
@@ -351,6 +362,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     window.onresize = resize;
     var drawNetworkMobile = function() {
+
+        // Only show labels on top 5 most connected entities initially.
+        _.forEach(_.keys($scope.entityTypes), function(type) {
+            // Find the top 5 most-connected entities.
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
+            _.forEach(top5, function(entity) {entity.wellconnected = true;});
+        });
+
+
         var data = {
             nodes: $scope.entities,
             links: _.flatten(_.values($scope.connections))
@@ -377,12 +397,32 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             height = $("#canvas-force").height();
 
         var canvas = d3.select("div#canvas-force").append("canvas")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("width", "1000px")
+            .attr("height", "1000px");
+
+        var isInsideCircle = function (x, y, cx, cy, radius) {
+            var dx = x-cx
+            var dy = y-cy
+            return dx*dx+dy*dy <= radius*radius
+        }
+
+        $("#canvas-force").click(function (e) {
+            var oX = e.offsetX,
+                oY = e.offsetY;
+                data.nodes.forEach(function(d) {
+                    if ($scope.sizeBy == "employees") {
+                        var k = ((d.employees/200000) * 5 )+1.5;
+                    } else {
+                        var k = ((d.followers/11000000) * 5 )+1.5;;
+                    }
+                    if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+
+                    }
+                })
+        })
 
         var context = canvas.node().getContext("2d");
         var tick = function() {
-            console.log("tick");
             context.clearRect(0, 0, width, height);
 
             // draw links
@@ -399,13 +439,22 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     }
                 });
             });
+            nodes = [];
+            var entityNames = [];
             data.nodes.forEach(function(d) {
                 if ($scope.entityTypes[d.type]) {
+                    if ($scope.sizeBy == "employees") {
                     var k = ((d.employees/200000) * 5 )+1.5;
+                    } else {
+                    var k = ((d.followers/11000000) * 5 )+1.5;;
+                    }
                     context.beginPath();
                     context.fillStyle = colors[d.type];
-                    //context.moveTo(d.x+offsets[d.type][0], d.y+offsets[d.type][1]);
                     context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
+                    nodes.push([d.name,d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI])
+                    if (d.wellconnected) {
+                    entityNames.push(d);
+                    }
                     context.fill()
                     context.lineWidth = 1;
                     context.strokeStyle = 'white';
@@ -413,13 +462,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     context.closePath();
                 }
             });
+            _.forEach(entityNames, function(d){
+                context.strokeStyle = 'black';
+                context.strokeText(d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
+            })
         }
         var force = d3.layout.force()
             .size([width, height])
             .nodes(data.nodes)
             .links(data.links)
             .on("tick", tick)
-            .charge(-2)
+            .charge(-5)
             .linkStrength(0.1)
             .linkDistance(50)
             .start();
@@ -428,10 +481,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
         $scope.$on('toggleLink', function(event, link) {
             tick();
-            console.log("Link");  
         });
+        $scope.$on('changeSizeBy', function(event, link) {
+            tick();
+        });
+
         $scope.$on('viewChange', function(event) {
-            console.log('VIEW CHANGE RECEIVED');
         });
     }
     var drawNetwork = function() {
