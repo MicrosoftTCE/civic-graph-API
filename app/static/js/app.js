@@ -400,8 +400,25 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .attr("width", width)
             .attr("height", height);
 
+        var isInsideCircle = function (x, y, cx, cy, radius) {
+            var dx = x-cx
+            var dy = y-cy
+            return dx*dx+dy*dy <= radius*radius
+        }
+
         $("#canvas-force").click(function (e) {
-            console.log(e)
+            var oX = e.offsetX,
+                oY = e.offsetY;
+                data.nodes.forEach(function(d) {
+                    if ($scope.sizeBy == "employees") {
+                        var k = ((d.employees/200000) * 5 )+1.5;
+                    } else {
+                        var k = ((d.followers/11000000) * 5 )+1.5;;
+                    }
+                    if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+
+                    }
+                })
         })
 
         var context = canvas.node().getContext("2d");
@@ -423,8 +440,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 });
             });
             nodes = [];
+            var entityNames = [];
             data.nodes.forEach(function(d) {
-                if (d.name == "Google") {
                 if ($scope.entityTypes[d.type]) {
                     if ($scope.sizeBy == "employees") {
                     var k = ((d.employees/200000) * 5 )+1.5;
@@ -433,12 +450,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     }
                     context.beginPath();
                     context.fillStyle = colors[d.type];
-                    //context.moveTo(d.x+offsets[d.type][0], d.y+offsets[d.type][1]);
                     context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
                     nodes.push([d.name,d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI])
                     if (d.wellconnected) {
-                    context.strokeStyle = 'black';
-                    context.strokeText(d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
+                    entityNames.push(d);
                     }
                     context.fill()
                     context.lineWidth = 1;
@@ -446,15 +461,18 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     context.stroke();
                     context.closePath();
                 }
-            }
             });
+            _.forEach(entityNames, function(d){
+                context.strokeStyle = 'black';
+                context.strokeText(d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
+            })
         }
         var force = d3.layout.force()
             .size([width, height])
             .nodes(data.nodes)
             .links(data.links)
             .on("tick", tick)
-            .charge(-4)
+            .charge(-5)
             .linkStrength(0.1)
             .linkDistance(50)
             .start();
@@ -469,7 +487,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
 
         $scope.$on('viewChange', function(event) {
-            console.log('VIEW CHANGE RECEIVED');
         });
     }
     var drawNetwork = function() {
