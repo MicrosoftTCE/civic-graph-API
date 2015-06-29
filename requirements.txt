@@ -1,3 +1,4 @@
 Flask==0.10.1
 Flask-Cache==0.13.1
 SQLAlchemy==0.9.9
+uWSGI==2.0.10
