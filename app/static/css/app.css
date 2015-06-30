@@ -497,6 +497,7 @@ p {
 
 .details-panel{
     padding: 10px;
+    padding-bottom: 30px;
     height: 100vh;
     overflow-y: scroll;
     overflow-x: hidden;
