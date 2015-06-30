@@ -5,17 +5,12 @@ from database import db
 from api import update
 import json
 
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/entities')
+@app.route('/api/entities')
 @cache.cached(key_prefix='entities', timeout=None)
 def get_entities():
     return jsonify(nodes=nodes())
 
-@app.route('/connections')
+@app.route('/api/connections')
 @cache.cached(key_prefix='connections', timeout=None)
 def get_connections():
     return jsonify(connections=connections())
@@ -29,7 +24,7 @@ def connections():
         'Relation': relation_connections()
     }
 
-@app.route('/categories')
+@app.route('/api/categories')
 @cache.cached(key_prefix='categories', timeout=None)
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
@@ -53,7 +48,7 @@ def employment_connections():
 def relation_connections():
     return [{'source': r.entity_id1, 'target': r.entity_id2} for r in Relation.query.all()]
 
-@app.route('/save', methods=['POST'])
+@app.route('/api/save', methods=['POST'])
 def save():
     entity = None
     data = json.loads(request.data)['entity']

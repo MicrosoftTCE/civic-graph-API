@@ -35,7 +35,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         if (entityID) {entityID = parseInt(entityID);};
         return entityID
     }
-    $http.get('entities')
+    $http.get('api/entities')
         .success(function(data) {
             $scope.entities = data.nodes;
             if ($scope.getURLID()) {
@@ -64,8 +64,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.sizeBy = 'employees';
 
     $scope.views = [
-        {'name': 'Network', 'url': 'static/partials/network.html'},
-        {'name': 'Map', 'url': 'static/partials/map.html'}
+        {'name': 'Network', 'url': 'partials/network.html'},
+        {'name': 'Map', 'url': 'partials/map.html'}
     ];
 
     $scope.template = $scope.views[0];
@@ -128,7 +128,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.showAbout = function () {
         $modal.open({
             animation: false,
-            templateUrl: 'static/partials/about.html',
+            templateUrl: 'partials/about.html',
             controller: function($scope, $modalInstance) {
                 $scope.closeWindow = function () {
                     $modalInstance.close();
@@ -137,7 +137,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     }
 
-    $http.get('categories')
+    $http.get('api/categories')
         .success(function(data) {
             $scope.categories = data.categories;
         });
@@ -290,7 +290,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     $scope.savetoDB = function() {
         $scope.updating = true;
-        $http.post('save', {'entity': $scope.editEntity})
+        $http.post('api/save', {'entity': $scope.editEntity})
             .success(function(response) {
                 $scope.setEntities(response.nodes);
                 $scope.setEntityID($scope.editEntity.id);
@@ -332,7 +332,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     $scope.showLicense =  true;
     $scope.$on('entitiesLoaded', function() {
-        $http.get('connections').
+        $http.get('api/connections').
         success(function(data) {
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {

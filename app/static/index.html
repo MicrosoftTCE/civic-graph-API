@@ -13,8 +13,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
-    <script src='static/js/lib/angular-leaflet-directive.min.js'></script>
-    <script src='static/js/app.js'></script>
+    <script src='js/lib/angular-leaflet-directive.min.js'></script>
+    <script src='js/app.js'></script>
     <script src='http://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js'></script>
 
 
@@ -24,8 +24,8 @@
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'>
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.mapbox.css'>
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css'>
-    <link rel='stylesheet' href='static/css/app.css'>
-    <link rel='icon' type='image/png' href='static/img/microsoft.ico'>
+    <link rel='stylesheet' href='css/app.css'>
+    <link rel='icon' type='image/png' href='img/microsoft.ico'>
 
 
 
@@ -33,16 +33,16 @@
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" ng-class=" settingsEnabled ? 'navLogoMobileBackground' : 'navLogoMobile' ">
 <button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify navButtonMob' ></button><button ng-show='settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up navButtonMob' ></button>
-<img  class="logoMob" src="static/img/civicgraphdark.png" width="50%">
+<img  class="logoMob" src="img/civicgraphdark.png" width="50%">
 <button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'><p>+</p></button>
 </div>
     <div class='container-fluid main-container'>
         <div class='row'>
-            <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel hidden-xs' ng-include="'static/partials/controls.html'"></div>
-            <div ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-class="{'mapView': template.name =='Map'}" ng-include="'static/partials/controlsmobile.html'"></div>
+            <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel hidden-xs' ng-include="'partials/controls.html'"></div>
+            <div ng-show='settingsEnabled' class='col-sm-2 control-panel visible-xs-block settingsmobile' ng-class="{'mapView': template.name =='Map'}" ng-include="'partials/controlsmobile.html'"></div>
             <div class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include='template.url'></div>
-            <div id='details-panel' class='col-sm-2 details-panel' ng-class="{'details-panelMb': mobile}" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'static/partials/details.html'"></div>
-            <div class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'static/partials/edit.html'"></div>
+            <div id='details-panel' class='col-sm-2 details-panel' ng-class="{'details-panelMb': mobile}" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html'"></div>
+            <div class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html'"></div>
         </div>
     </div>
 </body>
