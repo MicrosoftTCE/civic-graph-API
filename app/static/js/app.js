@@ -469,6 +469,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     var focus;
                     if (d === $scope.currentEntity || !$scope.currentEntity || showEntities.indexOf(d) >= 0){
                         focus = "focused";
+                        entityNames.push(d);
                      } else {
                         focus = "unfocused";
                      }
