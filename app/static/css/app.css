@@ -166,14 +166,12 @@ p {
 .control-panel h3 {
     text-align: left;
 }
-.display-panel {
-  margin-top: 1vh;
-}
 .edit-panel {
     background-color: #F9FAFA;
     height: 100vh;
     overflow: scroll;
     padding-top: 10px;
+    padding-bottom: 50px;
 }
 .edit-panel h6{
     text-align: left;
@@ -409,7 +407,7 @@ p {
     margin-bottom: 10px;
 }
 .licenseMob {
-    margin-top: 70vh;
+/*    margin-top: 70vh;*/
     color: #9E9E9E;
     font-weight: 400;
     font-size: 1.1em;
@@ -540,6 +538,10 @@ p {
   background-color: #D0D0D0;
 
 }
+.logoMob{
+  height: 35px;
+  width: 200px;
+}
 
 .save {
     text-align: center;
@@ -577,5 +579,8 @@ p {
 
 .glyphicon.glyphicon-pencil.edit-marker{
   margin-top: 15px;
+}
+#canvas-force {
+  overflow: auto;
 }
 
