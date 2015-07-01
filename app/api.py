@@ -1,6 +1,7 @@
 # Check if Entity exists.
 from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location
 from database import db
+from app import app
 
 def update(entity, data):
     # Check if data has changed item-by-item.
@@ -41,20 +42,20 @@ def update(entity, data):
                 oldfinance = Finance.query.get(finance['id'])
                 if oldfinance.amount != finance['amount']:
                     oldfinance.amount = finance['amount']
-                    print 'UPDATING ' + ftype + ' AMOUNT: ' + str(oldfinance.amount)
+                    app.logger.debug('UPDATING ' + ftype + ' AMOUNT: ' + str(oldfinance.amount))
                 if oldfinance.year != finance['year']:
                     oldfinance.year = finance['year']
-                    print 'UPDATING ' + ftype + ' YEAR: ' + str(oldfinance.year)
+                    app.logger.debug('UPDATING ' + ftype + ' YEAR: ' + str(oldfinance.year))
             else:
                 # Finance doesn't exist, create it.
                 if ftype is 'revenues':
                     revenue = Revenue(finance['amount'], finance['year'])
                     entity.revenues.append(revenue)
-                    print 'NEW REVENUE -- ' + str(revenue.year) + ': ' + str(revenue.amount)
+                    app.logger.debug('NEW REVENUE -- ' + str(revenue.year) + ': ' + str(revenue.amount))
                 elif ftype is 'expenses':
                     expense = Expense(finance['amount'], finance['year'])
                     entity.expenses.append(expense)
-                    print 'NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount)
+                    app.logger.debug('NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount))
         db.commit()
 
     update_finance(data['revenues'], 'revenues')
@@ -77,12 +78,12 @@ def update(entity, data):
                 keyperson = Keyperson.query.get(key_person['id'])
                 if keyperson.name != key_person['name']:
                     keyperson.name = key_person['name']
-                    print 'UPDATED KEY PERSON NAME ' + keyperson.name
+                    app.logger.debug('UPDATED KEY PERSON NAME ' + keyperson.name)
             else:
                 # Key person doesn't exist, create them.
                 keyperson = Keyperson(key_person['name'])
                 entity.key_people.append(keyperson)
-                print 'NEW KEY PERSON ' + keyperson.name
+                app.logger.debug('NEW KEY PERSON ' + keyperson.name)
         db.commit()
 
     update_key_people(data['key_people'])
@@ -93,13 +94,13 @@ def update(entity, data):
             if category['id']:
                 cat = Category.query.get(category['id'])
                 if cat not in entity.categories:
-                    print 'ADDING CATEGORY ' + cat.name
+                    app.logger.debug('ADDING CATEGORY ' + cat.name)
                     entity.categories.append(cat)
         # Delete any categories that have been removed.
         new_categories = [category['id'] for category in categories]
         for category in entity.categories:
             if category.id not in new_categories:
-                print 'REMOVING CATEGORY ' + category.name
+                app.logger.debug('REMOVING CATEGORY ' + category.name)
                 entity.categories.remove(category)
         db.commit()
                 
@@ -136,10 +137,10 @@ def update(entity, data):
                 oldconnection = Fundingconnection.query.get(connection['id'])
                 if oldconnection.amount != connection['amount']:
                     oldconnection.amount = connection['amount']
-                    print 'UPDATING ' + ftype + ' AMOUNT: ' + str(oldconnection.amount)
+                    app.logger.debug('UPDATING ' + ftype + ' AMOUNT: ' + str(oldconnection.amount))
                 if oldconnection.year != connection['year']:
                     oldconnection.year = connection['year']
-                    print 'UPDATING ' + ftype + ' YEAR: ' + str(oldconnection.year)
+                    app.logger.debug('UPDATING ' + ftype + ' YEAR: ' + str(oldconnection.year))
             else:
                 # Connection doesn't exist, create it connect entities.
                 otherentity = Entity.query.get(connection['entity_id'])
@@ -225,18 +226,18 @@ def update(entity, data):
                 oldconnection = Connection.query.get(connection['id'])
                 if oldconnection.details != connection['details']:
                     oldconnection.details = connection['details']
-                    print 'UPDATING CONNECTION DETAILS', oldconnection.details
+                    app.logger.debug('UPDATING CONNECTION DETAILS', oldconnection.details)
             else:
                 otherentity = Entity.query.get(connection['entity_id'])
                 if ctype is 'collaborations':
                     collaboration = Collaboration(entity, otherentity, connection['details'])
-                    print 'CREATED NEW COLLABORATION ', collaboration.details
+                    app.logger.debug('CREATED NEW COLLABORATION ', collaboration.details)
                 elif ctype is 'employments':
                     employment = Employment(entity, otherentity, connection['details'])
-                    print 'CREATED NEW EMPLOYMENT ', employment.details
+                    app.logger.debug('CREATED NEW EMPLOYMENT ', employment.details)
                 elif ctype is 'relations':
                     relation = Relation(entity, otherentity, connection['details'])
-                    print 'CREATED NEW RELATION ', relation.details
+                    app.logger.debug('CREATED NEW RELATION ', relation.details)
         db.commit()
 
     update_connections(data['collaborations'], 'collaborations')
@@ -278,7 +279,7 @@ def update(entity, data):
                 newlocation = Location()
                 update_location(newlocation, location)
                 entity.locations.append(newlocation)
-                print 'ADDED NEW LOCATION', newlocation
+                app.logger.debug('ADDED NEW LOCATION', newlocation)
         db.commit()
 
     update_locations(data['locations'])

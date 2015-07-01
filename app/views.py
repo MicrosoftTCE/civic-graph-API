@@ -62,5 +62,5 @@ def save():
         update(entity, data)
         cache.clear()
     else:
-        print 'NO UPDATE'
+        app.logger.debug('NO UPDATE')
     return get_entities()
