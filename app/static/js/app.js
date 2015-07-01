@@ -481,8 +481,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     context.fillStyle = colors[d.type][focus];
                     context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
                     nodes.push([d.name,d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI])
-                    if (d.wellconnected) {
-                    entityNames.push(d);
+                    if (d.wellconnected && !$scope.currentEntity) {
+                        entityNames.push(d);
                     }
                     context.fill()
                     context.lineWidth = 1;
@@ -493,7 +493,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
             _.forEach(entityNames, function(d){
                 context.strokeStyle = 'black';
-                context.strokeText(d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
+                var name = d.nickname ? d.nickname : d.name;
+                context.strokeText(name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
             })
         }
         var force = d3.layout.force()
