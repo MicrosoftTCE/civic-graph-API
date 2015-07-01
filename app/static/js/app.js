@@ -843,7 +843,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 });
             });
             map.addLayer(markers);
-            map.locate({setView: true, maxZoom: 18});
+            map.locate({setView: true, maxZoom: 11});
             markers.on('click', function(marker) {
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
