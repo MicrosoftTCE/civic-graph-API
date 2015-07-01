@@ -446,16 +446,17 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             context.strokeStyle = "#ccc";
             _.forEach($scope.connections, function(connections, type) {
                 connections.forEach(function(d) {
-                    if ($scope.connectionTypes[type] && ($scope.entityTypes[d.target.type] && $scope.entityTypes[d.source.type]) && d.source == $scope.currentEntity || d.target == $scope.currentEntity || !$scope.currentEntity) {
-                        context.beginPath()
-                        context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
-                        context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
-                        context.strokeStyle = colors[type]['focused']
-                        context.stroke()
-                        context.closePath();
-                        showEntities.push(d.source);
-                        showEntities.push(d.target);
-
+                    if ($scope.connectionTypes[type] && ($scope.entityTypes[d.target.type] && $scope.entityTypes[d.source.type])) {
+                        if (d.source == $scope.currentEntity || d.target == $scope.currentEntity || !$scope.currentEntity) {
+                            context.beginPath()
+                            context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
+                            context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
+                            context.strokeStyle = colors[type]['focused']
+                            context.stroke()
+                            context.closePath();
+                            showEntities.push(d.source);
+                            showEntities.push(d.target);
+                        }
                     }
                 });
             });
