@@ -6,12 +6,12 @@ from api import update
 import json
 
 @app.route('/api/entities')
-@cache.cached(key_prefix='entities', timeout=None)
+@cache.memoize(timeout=None)
 def get_entities():
     return jsonify(nodes=nodes())
 
 @app.route('/api/connections')
-@cache.cached(key_prefix='connections', timeout=None)
+@cache.memoize(timeout=None)
 def get_connections():
     return jsonify(connections=connections())
 
@@ -25,7 +25,7 @@ def connections():
     }
 
 @app.route('/api/categories')
-@cache.cached(key_prefix='categories', timeout=None)
+@cache.memoize(timeout=None)
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
 
