@@ -1,8 +1,3 @@
 *.pyc
-.ipynb_checkpoints
 .DS_Store
-*.xlsx
-Excel.ipynb
-app/static_old
-app/templates_old
 civicenv
