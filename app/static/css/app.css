@@ -2,22 +2,22 @@ body {
     overflow:hidden;
 }
 #details-name {
-  padding-top: 0%;
+    padding-top: 0%;
 }
 .add-button {
-  border-color: blue;
+    border-color: blue;
 }
 .edit-title {
     padding-bottom:6px;
 }
 
 #facebook-link {
-  padding-left: 1;
-  margin-top: 20px;
+    padding-left: 1;
+    margin-top: 20px;
 }
 
 .popup-color {
-  background-color: #E8E8E8;
+    background-color: #E8E8E8;
 }
 
 .network-container {
@@ -51,21 +51,21 @@ h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 p {
-  font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-  color: #505050;
-  font-size: 14px;
-  font-weight: normal;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: #505050;
+    font-size: 14px;
+    font-weight: normal;
 }
 .details-panel h6 {
-  font-size: 14px;
-  font-weight: bold;
+    font-size: 14px;
+    font-weight: bold;
 }
 .details-panel a {
-  color: #2e92cf;
-  text-decoration: none;
+    color: #2e92cf;
+    text-decoration: none;
 }
 .details-panel a:hover {
-  opacity: 0.7;
+    opacity: 0.7;
 }
 .control-panel h3 {
     margin-top: 10px;
@@ -93,7 +93,7 @@ p {
     margin-bottom: 6px;
 }
 .checkbox input {
-  display: none;
+    display: none;
 }
 .radio {
     width: 26px;
@@ -115,7 +115,19 @@ p {
     width: 40% !important;
 }
 .unchecked {
-  background-color: white !important;
+    background-color: white !important;
+}
+.For-Profit {
+    color: rgb(127, 186, 0);
+}
+.Non-Profit {
+    color: dodgerblue;
+}
+.Individual {
+    color: orange;
+}
+.Government {
+    color: rgb(242, 80, 34);
 }
 
 .For-Profit-checkbox {
@@ -212,11 +224,11 @@ p {
     visibility: visible;
 }
 .node text {
-  pointer-events: none;
-  font: 15px sans-serif;
-  stroke: none;
-  fill: black;
-  visibility: hidden;
+    pointer-events: none;
+    font: 15px sans-serif;
+    stroke: none;
+    fill: black;
+    visibility: hidden;
 }
 .unfocused {
     opacity: 0.05;
@@ -287,13 +299,13 @@ p {
 /*styling of right nav*/
 
 .button:hover {
-   border-top-color: #242b30;
-   background: #242b30;
-   color: #4f4b4f;
-   }
+ border-top-color: #242b30;
+ background: #242b30;
+ color: #4f4b4f;
+}
 .button:active {
-   border-top-color: #595959;
-   background: #595959;
+ border-top-color: #595959;
+ background: #595959;
 }
 
 .navButtonMob {
@@ -310,8 +322,8 @@ p {
 }
 
 .navButtonMob.glyphicon-chevron-up {
-  color: white;
-  background-color: grey;
+    color: white;
+    background-color: grey;
 }
 
 .network-container{
@@ -331,71 +343,71 @@ p {
 /*source: http://projects.lukehaas.me/css-loaders/*/
 
 .loader {
-  font-size: 90px;
-  text-indent: -9999em;
-  overflow: hidden;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  margin: 72px auto;
-  position: relative;
+    font-size: 90px;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    margin: 72px auto;
+    position: relative;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
-  transform: translateZ(0);
+    transform: translateZ(0);
   -webkit-animation: load6 1.7s infinite ease;
-  animation: load6 1.7s infinite ease;
+    animation: load6 1.7s infinite ease;
 }
 @-webkit-keyframes load6 {
-  0% {
+    0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
     box-shadow: 0 -0.83em 0 -0.4em green, 0 -0.83em 0 -0.42em green, 0 -0.83em 0 -0.44em green, 0 -0.83em 0 -0.46em green, 0 -0.83em 0 -0.477em green;
-  }
-  5%,
-  95% {
+}
+5%,
+95% {
     box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-  }
-  10%,
-  59% {
+}
+10%,
+59% {
     box-shadow: 0 -0.83em 0 -0.4em blue, -0.087em -0.825em 0 -0.42em blue, -0.173em -0.812em 0 -0.44em blue, -0.256em -0.789em 0 -0.46em blue, -0.297em -0.775em 0 -0.477em blue;
-  }
-  20% {
+}
+20% {
     box-shadow: 0 -0.83em 0 -0.4em #31D446, -0.338em -0.758em 0 -0.42em #31D446, -0.555em -0.617em 0 -0.44em #31D446, -0.671em -0.488em 0 -0.46em #31D446, -0.749em -0.34em 0 -0.477em #31D446;
-  }
-  38% {
+}
+38% {
     box-shadow: 0 -0.83em 0 -0.4em #FFFB21, -0.377em -0.74em 0 -0.42em #FFFB21, -0.645em -0.522em 0 -0.44em #FFFB21, -0.775em -0.297em 0 -0.46em #FFFB21, -0.82em -0.09em 0 -0.477em #FFFB21;
-  }
-  100% {
+}
+100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
     box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-  }
+}
 }
 @keyframes load6 {
-  0% {
+    0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
     box-shadow: 0 -0.83em 0 -0.4em green, 0 -0.83em 0 -0.42em green, 0 -0.83em 0 -0.44em green, 0 -0.83em 0 -0.46em green, 0 -0.83em 0 -0.477em green;
-  }
-  5%,
-  95% {
+}
+5%,
+95% {
     box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-  }
-  10%,
-  59% {
+}
+10%,
+59% {
     box-shadow: 0 -0.83em 0 -0.4em blue, -0.087em -0.825em 0 -0.42em blue, -0.173em -0.812em 0 -0.44em blue, -0.256em -0.789em 0 -0.46em blue, -0.297em -0.775em 0 -0.477em blue;
-  }
-  20% {
+}
+20% {
     box-shadow: 0 -0.83em 0 -0.4em #31D446, -0.338em -0.758em 0 -0.42em #31D446, -0.555em -0.617em 0 -0.44em #31D446, -0.671em -0.488em 0 -0.46em #31D446, -0.749em -0.34em 0 -0.477em #31D446;
-  }
-  38% {
+}
+38% {
     box-shadow: 0 -0.83em 0 -0.4em #FFFB21, -0.377em -0.74em 0 -0.42em #FFFB21, -0.645em -0.522em 0 -0.44em #FFFB21, -0.775em -0.297em 0 -0.46em #FFFB21, -0.82em -0.09em 0 -0.477em #FFFB21;
-  }
-  100% {
+}
+100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
     box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-  }
+}
 }
 
 /*End of animation spinner*/
@@ -407,7 +419,7 @@ p {
     margin-bottom: 10px;
 }
 .licenseMob {
-/*    margin-top: 70vh;*/
+    /*    margin-top: 70vh;*/
     color: #9E9E9E;
     font-weight: 400;
     font-size: 1.1em;
@@ -430,8 +442,8 @@ p {
 }
 
 .centerInput {
-  width: 66%;
-  margin-left: 18%;
+    width: 66%;
+    margin-left: 18%;
 }
 .captionMobile {
     padding: 5px;
@@ -465,8 +477,8 @@ p {
 }
 
 .addInfoMobile p{
-  color: white;
-  font-size: 15pt;
+    color: white;
+    font-size: 15pt;
 
 }
 
@@ -503,12 +515,12 @@ p {
     z-index: 2;
 }
 .details-panel p, h1, h2, h3, h5, h6 {
-  text-align: center;
-  margin-bottom: 0%
+    text-align: center;
+    margin-bottom: 0%
 }
 .details-panel a {
-  text-align: center;
-  display: block;
+    text-align: center;
+    display: block;
 }
 .details-panelMb {
     height: 50vh;
@@ -518,7 +530,13 @@ p {
     bottom: 0;
     padding-bottom: 35px;
 }
-
+.overview-type {
+    text-align: center;
+}
+.overview a {
+    display: inline;
+    cursor: pointer;
+}
 .checkboxCont{
     width: 45%;
     float: left;
@@ -533,14 +551,14 @@ p {
     padding-bottom: 5px;
 }
 .navLogoMobileBackground{
-  padding-top: 5px;
-  text-align: center;
-  background-color: #D0D0D0;
+    padding-top: 5px;
+    text-align: center;
+    background-color: #D0D0D0;
 
 }
 .logoMob{
-  height: 35px;
-  width: 200px;
+    height: 35px;
+    width: 200px;
 }
 
 .save {
@@ -565,7 +583,7 @@ p {
     padding-bottom: 10px;
 }
 .participate {
-  padding: 5%;
+    padding: 5%;
 }
 .error {
     text-align: center;
@@ -578,9 +596,9 @@ p {
 }
 
 .glyphicon.glyphicon-pencil.edit-marker{
-  margin-top: 15px;
+    margin-top: 15px;
 }
 #canvas-force {
-  overflow: auto;
+    overflow: auto;
 }
 

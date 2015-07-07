@@ -145,6 +145,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         } else {this.$apply(fn);}
     };
 })
+.controller('overviewCtrl', function($scope) {
+    $scope.categorizedEntities = {};
+    _.forEach(_.keys($scope.entityTypes), function(type) {
+        $scope.categorizedEntities[type] = _.filter($scope.entities, {'type': type});
+    });
+})
 .controller('detailsCtrl', function($scope, $http) {
     $scope.itemsShownDefault = {'key_people': 3, 'grants_given': 3, 'grants_received': 3, 'investments_made': 3, 'investments_received': 3, 'collaborations': 3, 'employments': 3, 'relations': 3, 'data_given': 3, 'data_received': 3, 'revenues': 3, 'expenses': 3}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
