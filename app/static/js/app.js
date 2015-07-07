@@ -469,10 +469,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     var focus;
                     if (d === $scope.currentEntity || !$scope.currentEntity || showEntities.indexOf(d) >= 0){
                         focus = "focused";
+                        context.strokeStyle = 'white';
                         if ($scope.currentEntity) {
                             entityNames.push(d);
                         }
                      } else {
+                        context.strokeStyle = "rgba(255, 255, 255, 0.1)";
                         focus = "unfocused";
                      }
                     if ($scope.sizeBy == "employees") {
@@ -489,7 +491,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     }
                     context.fill()
                     context.lineWidth = 1;
-                    context.strokeStyle = 'white';
                     context.stroke();
                     context.closePath();
                 }
