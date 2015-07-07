@@ -1,14 +1,10 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
-.run(['$rootScope','$templateCache', function($rootScope, $templateCache) {
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
-        if (typeof(current) !== 'undefined'){$templateCache.remove(current.templateUrl);}
-    });
-}])
 .constant('_', window._)
 .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
 })
 .controller('homeCtrl', function($scope, $http, $location, $modal) {
+    $scope.random = new Date().getTime();
     $scope.entities = [];
     $scope.categories = [];
     $scope.currentEntity;
@@ -64,8 +60,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.sizeBy = 'employees';
 
     $scope.views = [
-        {'name': 'Network', 'url': 'partials/network.html'},
-        {'name': 'Map', 'url': 'partials/map.html'}
+        {'name': 'Network', 'url': 'partials/network.html?i='+$scope.random},
+        {'name': 'Map', 'url': 'partials/map.html?i='+$scope.random}
     ];
 
     $scope.template = $scope.views[0];
@@ -128,7 +124,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.showAbout = function () {
         $modal.open({
             animation: false,
-            templateUrl: 'partials/about.html',
+            templateUrl: 'partials/about.html?i='+$scope.random,
             controller: function($scope, $modalInstance) {
                 $scope.closeWindow = function () {
                     $modalInstance.close();
@@ -350,17 +346,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
         'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
     }
-    var resize =  function (){
-        if ($scope.template.name == 'Network' && false) {// Don't call this for now while we figure out mobile.
-            var panZoomNetwork = svgPanZoom('#network', {zoomScaleSensitivity:0.01});
-            panZoomNetwork.resize(true);
-            panZoomNetwork.fit(true);
-            panZoomNetwork.center(true);
-            panZoomNetwork.disableDblClickZoom(true);
-        }
-    };
 
-    window.onresize = resize;
     var drawNetworkMobile = function() {
 
         // Only show labels on top 5 most connected entities initially.
@@ -572,7 +558,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             // Cluster in four corners based on offset.
             var k = offsetScale*e.alpha;
             // console.log(e.alpha)
-             if (e.alpha < 0.02) { resize();};
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k;
                 entity.y += offsets[entity.type].y*k;

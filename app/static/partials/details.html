@@ -2,7 +2,7 @@
 <button class='addInfoDesktop' ng-click='startEdit()'><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</p></button>
 <hr />
 </div>
-<div ng-if='!actions.interacted' class='overview' ng-include="'partials/overview.html'">
+<div ng-if='!actions.interacted' class='overview' ng-include="'partials/overview.html?i='+random">
 </div>
 <div ng-if='actions.interacted'>
 <div class='right_logo'> 
