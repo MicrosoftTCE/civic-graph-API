@@ -348,7 +348,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     }
 
     var drawNetworkMobile = function() {
-
         // Only show labels on top 5 most connected entities initially.
         _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
@@ -381,10 +380,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         var width = $("#canvas-force").width(),
             height = $("#canvas-force").height();
-
-        var canvas = d3.select("div#canvas-force").append("canvas")
-            .attr("width", width)
-            .attr("height", height);
 
         var isInsideCircle = function (x, y, cx, cy, radius) {
             var dx = x-cx
@@ -422,7 +417,31 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.safeApply();
         })
 
+
+        var canvas = d3.select("div#canvas-force").append("canvas");
+
         var context = canvas.node().getContext("2d");
+
+        var devicePixelRatio = window.devicePixelRatio || 1,
+        backingStoreRatio = context.webkitBackingStorePixelRatio ||
+                            context.mozBackingStorePixelRatio ||
+                            context.msBackingStorePixelRatio ||
+                            context.oBackingStorePixelRatio ||
+                            context.backingStorePixelRatio || 1,
+
+        ratio = devicePixelRatio / backingStoreRatio;
+
+        canvas.attr("width", width*ratio)
+        .attr("height", height*ratio)
+        .attr("id", "networkCanvas");
+
+
+        var canvasEl = document.getElementById("networkCanvas");
+
+        canvasEl.style.width = width + "px";
+        canvasEl.style.height = height + "px";
+        context.scale(ratio, ratio);
+
         var tick = function() {
             var showEntities = [];
 
@@ -446,7 +465,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     }
                 });
             });
-            // console.log(showEntities);
             nodes = [];
             var entityNames = [];
             data.nodes.forEach(function(d) {
@@ -484,6 +502,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             _.forEach(entityNames, function(d){
                 context.strokeStyle = 'black';
                 var name = d.nickname ? d.nickname : d.name;
+                context.font="11px Helvetica Neue";
                 context.strokeText(name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
             })
         }
