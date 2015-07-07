@@ -14,21 +14,21 @@
     </div>
 </div>
 <div ng-if='currentEntity.locations.length'>
-<h6>Locations: </h6>
+<h6>Locations:</h6>
 <p ng-repeat='location in currentEntity.locations'>{{location.full_address}}</p>
 </div>
 
 <div ng-if='currentEntity.influence'>
-<h6>Influence: </h6><p>{{currentEntity.influence}}</p>
+<h6>Influence:</h6><p>{{currentEntity.influence}}</p>
 </div>
 
-<h6>Type of Entity: </h6><p>{{currentEntity.type}}</p>
+<h6>Type of Entity:</h6><p>{{currentEntity.type}}</p>
 <div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees">
-<h6>Employees: </h6><p>{{currentEntity.employees | number}}</p>
+<h6>Employees:</h6><p>{{currentEntity.employees | number}}</p>
 </div>
 <div ng-if='currentEntity.twitter_handle'>
-<h6>Twitter: </h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
-<h6>Twitter Followers: </h6><p>{{currentEntity.followers | number}}</p>
+<h6>Twitter:</h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
+<h6>Twitter Followers:</h6><p>{{currentEntity.followers | number}}</p>
 </div>
 
 <!-- KEY PEOPLE -->
