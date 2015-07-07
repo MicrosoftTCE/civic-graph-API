@@ -135,6 +135,9 @@
     <a ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">Less...</a>
 </div>
 <hr >
+<div ng-if='!currentEntity.locations.length'>
+<p>No known location information.</p>
+</div>
 <div ng-if='!currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
     <p>No known Key Civic People.</p>
 </div>
