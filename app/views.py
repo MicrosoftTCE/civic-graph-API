@@ -50,15 +50,19 @@ def relation_connections():
 
 @app.route('/api/save', methods=['POST'])
 def save():
+    app.logger.debug('SAVING')
+    app.logger.debug(request.data)
     entity = None
     data = json.loads(request.data)['entity']
     if data['id']:
         entity = Entity.query.get(data['id'])
     elif data['name']:
-        entity = Entity(data['name'])
+        app.logger.debug('ADDING NEW ENTITY ' + str(data['name']))
+        entity = Entity(str(data['name']))
         db.add(entity)
         db.commit()
     if entity:
+        app.logger.debug('UPDATING ENTITY ' + entity.name)
         update(entity, data)
         cache.clear()
     else:
