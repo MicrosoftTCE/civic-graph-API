@@ -341,6 +341,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     var drawNetworkMobile = function() {
         // Only show labels on top 5 most connected entities initially.
+    $( "#details-panel" ).scroll(function() {
+        $( this ).css(  "height", "50vh" );
+    });
+
         _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
             var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
