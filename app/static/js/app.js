@@ -502,7 +502,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             tick();
         });
         $( "#details-panel" ).scroll(function() {
-            $( this ).animate({height:'50vh'}, 500);
+            $( this ).animate({height:'50vh'}, 250);
         });
     }
     var drawNetwork = function() {
