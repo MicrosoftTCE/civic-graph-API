@@ -464,22 +464,17 @@ p {
 }
 
 .addInfoMobile {
-    border: none;
-    color: white;
-    background: blue;
     right: 0;
     top: 0;
-    border: 4px solid;
-    height: 40px;
-    width: 40px;
     position: fixed;
-    z-index: 3;
-}
-
-.addInfoMobile p{
+    background-color: blue;
+    height:5vh;
+    width:9%;
     color: white;
-    font-size: 15pt;
-
+    border-style: none;
+    border: 2px solid white;
+    cursor:pointer;
+    font-size: 18px;
 }
 
 .addInfoDesktop {
