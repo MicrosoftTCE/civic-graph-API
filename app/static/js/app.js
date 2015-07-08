@@ -83,7 +83,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.selectEntity = function(entity) {
         $scope.setEntity(entity);
         $scope.$broadcast('selectEntity');
-        if ($scope.mobile) {$scope.settingsEnabled = false;};
     };
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
