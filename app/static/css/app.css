@@ -458,13 +458,13 @@ p {
     height: auto;
     line-height: 20px;
 }
-
 .addInfoMobile {
-    border: 2px solid white;
+    line-height: 20pt;
+    border: 2px solid;
     float: right;
     height:100%;
     width: 12%;
-    font-size:100%;
+    font-size: 20pt;
     color: white;
     background-color: blue;
 }
