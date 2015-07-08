@@ -323,16 +323,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
 
-    var nodes = [];
-
-    $scope.testClick = function(e) {
-      // $scope.msg = 'clicked';
-      console.log(e);
-      console.log(nodes);
-    }
-
-
-
     $scope.showLicense =  true;
     $scope.$on('entitiesLoaded', function() {
         $http.get('api/connections').
@@ -349,11 +339,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
     });
 
-    scale = {
-        'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
-        'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
-    }
-
     var drawNetworkMobile = function() {
         // Only show labels on top 5 most connected entities initially.
         _.forEach(_.keys($scope.entityTypes), function(type) {
@@ -368,48 +353,43 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             links: _.flatten(_.values($scope.connections))
         }
         var colors = {
-            'Government': {'focused' : "rgba(242, 80, 34, 1)", "unfocused" : "rgba(242, 80, 34, 0.1)"},
-            'Non-Profit': {'focused' : "rgba(30, 144, 255, 1)", "unfocused" : "rgba(30, 144, 255, 0.1)"},
-            'For-Profit': {'focused' : "rgba(127, 186, 0, 1)", "unfocused" : "rgba(127, 186, 0, 0.1)"},
-            'Individual': {'focused' : "rgba(255, 175, 44, 1)", "unfocused" : "rgba(255, 175, 44, 0.1)"},
-            'Funding': {'focused' : '#FF7460', "unfocused" : '#E3DFE4'},
-            'Data': {'focused' : '#84C2FF', "unfocused" : '#E3DFE4'},
-            'Employment': {'focused' : '#EE73FF', "unfocused" : '#E3DFE4'},
-            'Collaboration': {'focused' : '#FFD955', "unfocused" : '#E3DFE4'}
+            'Government': {'focused' : 'rgba(242, 80, 34, 1)', 'unfocused' : 'rgba(242, 80, 34, 0.1)'},
+            'Non-Profit': {'focused' : 'rgba(30, 144, 255, 1)', 'unfocused' : 'rgba(30, 144, 255, 0.1)'},
+            'For-Profit': {'focused' : 'rgba(127, 186, 0, 1)', 'unfocused' : 'rgba(127, 186, 0, 0.1)'},
+            'Individual': {'focused' : 'rgba(255, 175, 44, 1)', 'unfocused' : 'rgba(255, 175, 44, 0.1)'},
+            'Funding': {'focused' : '#FF7460', 'unfocused' : '#E3DFE4'},
+            'Data': {'focused' : '#84C2FF', 'unfocused' : '#E3DFE4'},
+            'Employment': {'focused' : '#EE73FF', 'unfocused' : '#E3DFE4'},
+            'Collaboration': {'focused' : '#FFD955', 'unfocused' : '#E3DFE4'}
         };
-
         var offsets = {
             'Government': [-75,-100],
             'Non-Profit': [-75,100],
             'For-Profit': [75,-100],
             'Individual': [75,100]
         }
-
-        var width = $("#canvas-force").width(),
-            height = $("#canvas-force").height();
+        var width = $('#canvas-force').width(),
+            height = $('#canvas-force').height();
 
         var isInsideCircle = function (x, y, cx, cy, radius) {
             var dx = x-cx
             var dy = y-cy
             return dx*dx+dy*dy <= radius*radius
         }
-
-        $("#canvas-force").click(function (e) {
+        var scale = {
+            'employees': function(e) { return ((e/200000) * 5 )+1.5;},
+            'followers': function(f) { return ((f/11000000) * 5 )+1.5;}
+        }
+        $('#canvas-force').click(function (e) {
             var oX = e.offsetX,
                 oY = e.offsetY;
             $scope.showLicense = false;
             $scope.clickedEntity.entity = null;
-            console.log($scope.showLicense)
             var entityFound = false;
                 data.nodes.forEach(function(d) {
-                    if ($scope.sizeBy == "employees") {
-                        var k = ((d.employees/200000) * 5 )+1.5;
-                    } else {
-                        var k = ((d.followers/11000000) * 5 )+1.5;;
-                    }
+                    var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
                     if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
                         $scope.currentEntity = d;
-                        console.log(d.name)
                         entityFound = true;
                         $scope.setEntity(d);
                         $scope.clickedEntity.entity = d;
@@ -419,43 +399,37 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (!entityFound) {
                 $scope.currentEntity = null;
             }
-                tick();
+            tick();
             $scope.actions.interacted = true
             $scope.safeApply();
-        })
+        });
 
-
-        var canvas = d3.select("div#canvas-force").append("canvas");
-
-        var context = canvas.node().getContext("2d");
-
+        var canvas = d3.select('div#canvas-force').append('canvas');
+        var context = canvas.node().getContext('2d');
         var devicePixelRatio = window.devicePixelRatio || 1,
         backingStoreRatio = context.webkitBackingStorePixelRatio ||
                             context.mozBackingStorePixelRatio ||
                             context.msBackingStorePixelRatio ||
                             context.oBackingStorePixelRatio ||
                             context.backingStorePixelRatio || 1,
-
         ratio = devicePixelRatio / backingStoreRatio;
 
-        canvas.attr("width", width*ratio)
-        .attr("height", height*ratio)
-        .attr("id", "networkCanvas");
+        canvas
+            .attr('width', width*ratio)
+            .attr('height', height*ratio)
+            .attr('id', 'networkCanvas');
 
+        var canvasEl = document.getElementById('networkCanvas');
 
-        var canvasEl = document.getElementById("networkCanvas");
-
-        canvasEl.style.width = width + "px";
-        canvasEl.style.height = height + "px";
+        canvasEl.style.width = width + 'px';
+        canvasEl.style.height = height + 'px';
         context.scale(ratio, ratio);
 
         var tick = function() {
-            var showEntities = [];
-
             context.clearRect(0, 0, width, height);
-
-            // draw links
-            context.strokeStyle = "#ccc";
+            var showEntities = {};
+            // Draw links.
+            context.strokeStyle = '#ccc';
             _.forEach($scope.connections, function(connections, type) {
                 connections.forEach(function(d) {
                     if ($scope.connectionTypes[type] && ($scope.entityTypes[d.target.type] && $scope.entityTypes[d.source.type])) {
@@ -466,37 +440,30 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                             context.strokeStyle = colors[type]['focused']
                             context.stroke()
                             context.closePath();
-                            showEntities.push(d.source);
-                            showEntities.push(d.target);
+                            showEntities[d.source.id] = true;
+                            showEntities[d.target.id] = true;
                         }
                     }
                 });
             });
-            nodes = [];
             var entityNames = [];
             data.nodes.forEach(function(d) {
                 if ($scope.entityTypes[d.type]) {
-                    // if ($scope.currentEntity){ debugger;};
                     var focus;
-                    if (d === $scope.currentEntity || !$scope.currentEntity || showEntities.indexOf(d) >= 0){
-                        focus = "focused";
+                    if (!$scope.currentEntity || showEntities[d.id] || d === $scope.currentEntity){
+                        focus = 'focused';
                         context.strokeStyle = 'white';
                         if ($scope.currentEntity) {
                             entityNames.push(d);
                         }
-                     } else {
-                        context.strokeStyle = "rgba(255, 255, 255, 0.1)";
-                        focus = "unfocused";
-                     }
-                    if ($scope.sizeBy == "employees") {
-                    var k = ((d.employees/200000) * 5 )+1.5;
                     } else {
-                    var k = ((d.followers/11000000) * 5 )+1.5;;
+                        context.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                        focus = 'unfocused';
                     }
+                    var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
                     context.beginPath();
                     context.fillStyle = colors[d.type][focus];
                     context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
-                    nodes.push([d.name,d.name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI])
                     if (d.wellconnected && !$scope.currentEntity) {
                         entityNames.push(d);
                     }
@@ -509,9 +476,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             _.forEach(entityNames, function(d){
                 context.strokeStyle = 'black';
                 var name = d.nickname ? d.nickname : d.name;
-                context.font="11px Helvetica Neue";
+                context.font="lighter 11px sans-serif";
                 context.strokeText(name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
-            })
+            });
         }
         var force = d3.layout.force()
             .size([width, height])
@@ -522,6 +489,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             .linkStrength(0.1)
             .linkDistance(50)
             .start();
+
         $scope.$on('toggleNode', function(event, type) {
             tick();
         });
@@ -530,9 +498,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
         $scope.$on('changeSizeBy', function(event, link) {
             tick();
-        });
-
-        $scope.$on('viewChange', function(event) {
         });
     }
     var drawNetwork = function() {
@@ -547,6 +512,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'For-Profit': {'x': 1, 'y': -1},
             'Non-Profit': {'x': -1, 'y': 1},
             'Government': {'x': -1, 'y': -1}
+        }
+        var scale = {
+            'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
+            'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
         }
         var links = {};
         var force = d3.layout.force()
