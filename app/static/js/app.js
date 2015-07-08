@@ -839,7 +839,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
                 $scope.actions.interacted = true;
-                $scope.$safeApply();
+                $scope.safeApply();
             });
             $scope.$on('selectEntity', function() {
                 var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
@@ -847,7 +847,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                     map.setView(coordinates[0], 11);
                 }
                 $scope.actions.interacted = true;
-                $scope.$safeApply();
+                $scope.safeApply();
             });
         });
     });
