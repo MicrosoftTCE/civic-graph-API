@@ -501,6 +501,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.$on('changeSizeBy', function(event, link) {
             tick();
         });
+        $scope.$on('selectEntity', function() {
+            $scope.safeApply();
+            tick();
+        }
         $('#details-panel').scroll(function() {
             $(this).css('height','50vh');
         });
