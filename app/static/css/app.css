@@ -1,37 +1,17 @@
 body {
     overflow:hidden;
 }
-#details-name {
-    padding-top: 0%;
-}
-.add-button {
-    border-color: blue;
-}
 .edit-title {
     padding-bottom:6px;
 }
-
-#facebook-link {
-    padding-left: 1;
-    margin-top: 20px;
-}
-
-.popup-color {
+.popup {
     background-color: #E8E8E8;
 }
-
 .network-container {
     background-color: white;
 }
 .right_logo {
-    position: relative;
     text-align: center;
-    padding-top: 6%;
-    padding-left: 10%;
-    padding-right: 10%;
-    margin-left: -8.3%;
-    margin-right: -8.3%;
-    margin-top: -3.6%;
 }
 .logo {
     position: relative;
@@ -41,7 +21,6 @@ body {
     margin-right: 1%;
     margin-top: 5%;
 }
-
 .caption {
     padding-left: 5px;
     color: black;
@@ -79,7 +58,6 @@ p {
 .entity-name {
     padding-bottom: 10px;
 }
-
 .checkbox {
     width: 26px;
     height: 26px;
@@ -198,21 +176,11 @@ p {
     padding-left: 15%;
 }
 .edit-marker {
-    position: absolute;
-    padding-left: 30%;
+    float: right;
     cursor: pointer;
     opacity: 0.6;
 }
 .edit-marker:hover {
-    opacity: 1;
-}
-.cancel-edit-marker {
-    float: right;
-    cursor: pointer;
-    padding-top: 5px;
-    opacity: 0.6;
-}
-.cancel-edit-marker:hover {
     opacity: 1;
 }
 /* GENERAL NODE AND LINK STYLES */
@@ -537,7 +505,6 @@ p {
     z-index: 30;
     min-height: 30px;
     text-align: center;
-
 }
 .navLogoMobileBackground{
     border-bottom: 1px solid grey;
@@ -546,8 +513,6 @@ p {
     z-index: 30;
     min-height: 30px;
     background-color: #D0D0D0;
-
-
 }
 .logoMob{
     padding-top: 1%;
