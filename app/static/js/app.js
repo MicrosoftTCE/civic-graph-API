@@ -503,6 +503,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
         $scope.$on('selectEntity', function() {
             $scope.clickedEntity.entity = $scope.currentEntity;
+            $scope.actions.interacted = true;
             $scope.safeApply();
             tick();
         });
