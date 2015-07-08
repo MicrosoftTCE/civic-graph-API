@@ -363,10 +363,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'Collaboration': {'focused' : '#FFD955', 'unfocused' : '#E3DFE4'}
         };
         var offsets = {
-            'Government': [-75,-100],
-            'Non-Profit': [-75,100],
-            'For-Profit': [75,-100],
-            'Individual': [75,100]
+            'Government': [-90,-90],
+            'Non-Profit': [-90,90],
+            'For-Profit': [90,-90],
+            'Individual': [90,90]
         }
         var width = $('#canvas-force').width(),
             height = $('#canvas-force').height();
