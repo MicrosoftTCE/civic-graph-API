@@ -464,17 +464,16 @@ p {
 }
 
 .addInfoMobile {
+    border: 2px solid white;
     right: 0;
     top: 0;
     position: fixed;
-    background-color: blue;
-    height:6vh;
-    width:11%;
+    height:7%;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-size:12pt;
     color: white;
-    border-style: none;
-    border: 2px solid white;
-    cursor:pointer;
-    font-size: 18px;
+    background-color: blue;
 }
 
 .addInfoDesktop {
