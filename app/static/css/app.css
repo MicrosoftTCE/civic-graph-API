@@ -177,7 +177,6 @@ p {
 }
 .edit-marker {
     font-size: 15pt;
-    margin-top: 15px;
     float: right;
     cursor: pointer;
     opacity: 0.6;
