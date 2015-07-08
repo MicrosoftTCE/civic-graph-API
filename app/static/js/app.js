@@ -38,6 +38,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
             }
+            $scope.overviewUrl = 'partials/overview.html?i='+$scope.random;
             $scope.$broadcast('entitiesLoaded');
         });
     // Maybe get from database.
@@ -63,7 +64,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         {'name': 'Network', 'url': 'partials/network.html?i='+$scope.random},
         {'name': 'Map', 'url': 'partials/map.html?i='+$scope.random}
     ];
-
+    $scope.overviewUrl = null;
     $scope.template = $scope.views[0];
 
     $scope.changeView = function() {
