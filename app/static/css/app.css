@@ -481,7 +481,7 @@ p {
     display: block;
 }
 .details-panelMb {
-    height: 50vh;
+    height: 20vh;
     width: 100%;
     position: fixed;
     left: 0;
