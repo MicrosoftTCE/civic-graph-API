@@ -436,13 +436,13 @@ p {
     line-height: 20pt;
     border: 2px solid;
     float: right;
-    height:100%;
+    height: 7vh;
+    width: 7vh;
     width: 12%;
     font-size: 20pt;
     color: white;
     background-color: blue;
 }
-
 .addInfoDesktop {
     transition: opacity 0.1s linear;
     margin-top: 3px;
