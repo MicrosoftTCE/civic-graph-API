@@ -833,16 +833,18 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             markers.on('click', function(marker) {
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
+                $scope.actions.interacted = true;
             });
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
+                $scope.actions.interacted = true;
             });
             $scope.$on('selectEntity', function() {
                 var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
                 if (coordinates.length > 0) {
                     map.setView(coordinates[0], 11);
                 }
-                 
+                $scope.actions.interacted = true;
             });
         });
     });
