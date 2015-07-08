@@ -7,7 +7,7 @@
 <div ng-if='actions.interacted'>
 <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
 <div class='right_logo'> 
-    <img ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
+    <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image'>
     <div class='entity-name'>
         <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
         <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
