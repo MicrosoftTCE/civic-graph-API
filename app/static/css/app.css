@@ -160,15 +160,17 @@ p {
     height: 100vh;
 }
 .main-container {
-    margin-left: -15px;
-    margin-right: -15px;
 }
 .map-container {
     height: 100%;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 .network-container {
     height:100%;
     overflow:hidden;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 .control-panel {
     height: 100vh;
