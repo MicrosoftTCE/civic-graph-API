@@ -341,10 +341,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
     var drawNetworkMobile = function() {
         // Only show labels on top 5 most connected entities initially.
-    $( "#details-panel" ).scroll(function() {
-        $( this ).css(  "height", "50vh" );
-    });
-
         _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
             var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
@@ -390,22 +386,24 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.showLicense = false;
             $scope.clickedEntity.entity = null;
             var entityFound = false;
-                data.nodes.forEach(function(d) {
-                    var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
-                    if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
-                        $scope.currentEntity = d;
-                        entityFound = true;
-                        $scope.setEntity(d);
-                        $scope.clickedEntity.entity = d;
-                        focus(d);
-                    }
-                })
+            data.nodes.forEach(function(d) {
+                var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
+                if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+                    $scope.currentEntity = d;
+                    entityFound = true;
+                    $scope.setEntity(d);
+                    $scope.clickedEntity.entity = d;
+                    focus(d);
+                }
+            });
             if (!entityFound) {
                 $scope.currentEntity = null;
             }
             tick();
             $scope.actions.interacted = true
             $scope.safeApply();
+            $("#details-panel").css( "height", "20vh");
+            $("#details-panel").scrollTop(0);
         });
 
         var canvas = d3.select('div#canvas-force').append('canvas');
@@ -502,6 +500,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         });
         $scope.$on('changeSizeBy', function(event, link) {
             tick();
+        });
+        $( "#details-panel" ).scroll(function() {
+            $( this ).animate({height:'50vh'}, 500);
         });
     }
     var drawNetwork = function() {
