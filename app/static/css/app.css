@@ -307,23 +307,19 @@ p {
  border-top-color: #595959;
  background: #595959;
 }
-
 .navButtonMob {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 34px;
-    height: 34px;
+    float: left;
+    min-height: 20px;
+    height: 100%;
     background: none;
     border-radius: 2px;
     border: none;
-    font-size: 15pt;
+    font-size: 19pt;
     color: #757171;
 }
 
 .navButtonMob.glyphicon-chevron-up {
-    color: white;
-    background-color: grey;
+    color: #757171;
 }
 
 .network-container{
@@ -465,13 +461,10 @@ p {
 
 .addInfoMobile {
     border: 2px solid white;
-    right: 0;
-    top: 0;
-    position: fixed;
-    height:7%;
-    padding-left: 4%;
-    padding-right: 4%;
-    font-size:12pt;
+    float: right;
+    height:100%;
+    width: 10%;
+    font-size:100%;
     color: white;
     background-color: blue;
 }
@@ -536,25 +529,28 @@ p {
     float: left;
     display: inline-block;
 }
-
 .navLogoMobile{
     text-align: center;
     height: 7vh;
-    z-index: 3;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    z-index: 30;
+    min-height: 30px;
+    text-align: center;
+
 }
 .navLogoMobileBackground{
-    padding-top: 5px;
+    border-bottom: 1px solid grey;
     text-align: center;
+    height: 7vh;
+    z-index: 30;
+    min-height: 30px;
     background-color: #D0D0D0;
+
 
 }
 .logoMob{
-    height: 35px;
-    width: 200px;
+    padding-top: 1%;
+    height: 90%;
 }
-
 .save {
     text-align: center;
     padding-top:8px;
