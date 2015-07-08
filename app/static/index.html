@@ -29,7 +29,7 @@
 <div ng-show="mobile" ng-class="settingsEnabled ? 'navLogoMobileBackground' : 'navLogoMobile' ">
 <button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify navButtonMob' ></button><button ng-show='settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up navButtonMob' ></button>
 <img  class="logoMob" src="img/civicgraphdark.png">
-<button class="visible-xs-block addInfoMobile"  ng-hide="editing" ng-click='startEdit(null)'><p>+</p></button>
+<input class="visible-xs-block addInfoMobile" ng-hide="editing" ng-click='startEdit(null)' type="button" value="+"/>
 </div>
     <div class='container-fluid main-container'>
         <div class='row'>
