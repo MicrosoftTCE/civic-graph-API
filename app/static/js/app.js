@@ -501,8 +501,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.$on('changeSizeBy', function(event, link) {
             tick();
         });
-        $( "#details-panel" ).scroll(function() {
-            $( this ).animate({height:'50vh'}, 250);
+        $('#details-panel').scroll(function() {
+            $(this).css('height','50vh');
         });
     }
     var drawNetwork = function() {
