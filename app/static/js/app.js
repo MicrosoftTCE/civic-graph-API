@@ -477,7 +477,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 context.strokeStyle = 'black';
                 var name = d.nickname ? d.nickname : d.name;
                 context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif-light, sans-serif';
-                context.strokeText(name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
+                context.strokeText(name, d.x+offsets[d.type][0]-name.length*2, d.y+offsets[d.type][1]+10, 100)
             });
         }
         var force = d3.layout.force()
