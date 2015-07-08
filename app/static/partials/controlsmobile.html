@@ -1,6 +1,6 @@
 <br>
 <div class="form-group has-feedback centerInput">
-    <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='select($item)' typeahead-editable='false' class='form-control'>
+    <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectEntity($item)' typeahead-editable='false' class='form-control'>
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
 </div>
 <div ng-hide="template.name =='Map'">
