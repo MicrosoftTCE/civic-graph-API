@@ -476,7 +476,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             _.forEach(entityNames, function(d){
                 context.strokeStyle = 'black';
                 var name = d.nickname ? d.nickname : d.name;
-                context.font="lighter 11px sans-serif";
+                context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif';
                 context.strokeText(name, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 200)
             });
         }
