@@ -434,15 +434,13 @@ p {
     line-height: 20px;
 }
 .addInfoMobile {
-    line-height: 20pt;
-    border: 2px solid;
     float: right;
     height: 7vh;
     width: 7vh;
-    width: 12%;
-    font-size: 20pt;
+    border: 0.5vh solid transparent;
     color: white;
     background-color: blue;
+    background-clip: padding-box;
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
