@@ -510,6 +510,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $('#details-panel').scroll(function() {
             $(this).css('height','50vh');
         });
+        $( "#details-panel" ).click(function(e) {
+            if (window.innerHeight/3 > parseInt($(this).css('height'))) {
+            $( this ).css('height','50vh');
+            } else {
+            $( this ).css('height','20vh');
+            }
+        });
     }
     var drawNetwork = function() {
         var svg = d3.select('#network');
