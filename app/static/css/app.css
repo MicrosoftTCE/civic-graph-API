@@ -564,4 +564,6 @@ p {
 #canvas-force {
     overflow: auto;
 }
-
+.details-panel a {
+    display: inline;
+}
