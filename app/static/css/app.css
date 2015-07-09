@@ -441,6 +441,7 @@ p {
     color: white;
     background-color: blue;
     background-clip: padding-box;
+    font-size: 10pt;
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
