@@ -290,6 +290,7 @@ p {
     border: none;
     font-size: 19pt;
     color: #757171;
+    padding: 3px;
 }
 
 .navButtonMob.glyphicon-chevron-up {
