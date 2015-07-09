@@ -488,6 +488,9 @@ p {
     text-align: center;
     display: block;
 }
+.details-panel.right_logo a {
+    display: inline;
+}
 .details-panelMb {
     height: 20vh;
     width: 100%;
@@ -564,3 +567,4 @@ p {
 #canvas-force {
     overflow: auto;
 }
+
