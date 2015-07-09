@@ -474,6 +474,11 @@ p {
     overflow-x: hidden;
     background-color: white;
     z-index: 2;
+    -webkit-transition: all .8s ease;
+    -moz-transition: all .8s ease;
+    -ms-transition: all .8s ease;
+    -o-transition: all .8s ease;
+    transition: all .8s ease;
 }
 .details-panel p, h1, h2, h3, h5, h6 {
     text-align: center;
