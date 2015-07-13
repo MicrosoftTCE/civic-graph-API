@@ -1,14 +1,35 @@
 <div ng-if='!mobile'>
-<button class='addInfoDesktop' ng-click='startEdit()'><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</p></button>
-<hr />
+    <button class='addInfoDesktop' ng-click='startEdit()'><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</p></button>
+    <hr />
 </div>
-<div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'>
-</div>
+<div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'></div>
 <div ng-if='actions.interacted'>
 <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
+</div>
 <!--MOBILE TOP VIEW-->
 <div class='mobile-details' ng-if='mobile'>
-    <h2>Mobile top</h2>
+    <div class='mobileLogo' style="display:inline-block"> 
+    <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
+    </div>
+        <div class="mdetails-top-right">
+            <div class='m-entity-name'>
+            <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+            <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
+            </div>
+            <div>
+            <span ng-if='currentEntity.locations.length'>
+            <p class="mdetailsleft" >{{currentEntity.locations[0].full_address}}</p>
+            </span>
+            <p class="mdetailsright typemobile {{currentEntity.type+'Background'}}">{{currentEntity.type}}</p>
+            </div>
+            <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
+        </div>
+    <div class="mdetails-top-bottom">
+        <h6 class="upcase">Influence</h6>
+        <div ng-if='currentEntity.employees' class="details-influence" ><p>{{currentEntity.employees | number}}</p><h6>Employees</h6></div>
+        <div ng-if='currentEntity.followers' class="details-influence" ><p>{{currentEntity.followers | number}}</p><h6>Twitter Followers</h6></div>
+        <div ng-if='currentEntity.influence' class="details-influence" ><p>{{currentEntity.influence}}</p><h6>Reach</h6></div>
+    </div>
 </div>
 <!-- END MOBILE TOP VIEW-->
 <!--DESKTOP TOP VIEW-->
