@@ -97,7 +97,18 @@ p {
 .Government {
     color: rgb(242, 80, 34);
 }
-
+.For-ProfitBackground {
+    background-color: rgb(127, 186, 0);
+}
+.Non-ProfitBackground {
+    background-color: dodgerblue;
+}
+.IndividualBackground {
+    background-color: orange;
+}
+.GovernmentBackground {
+    background-color: rgb(242, 80, 34);
+}
 .For-Profit-checkbox {
     background-color: rgb(127, 186, 0);
 }
