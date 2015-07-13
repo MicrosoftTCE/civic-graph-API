@@ -566,4 +566,61 @@ p {
 #canvas-force {
     overflow: auto;
 }
+.mobile-details{
+    margin: 0;
+    padding: 0;
+    text-align: center
+}
+.mobileLogo{
+    float: left;
+    display: inline;
+    margin: 0;
+}
+.mobileLogo img{
+    padding-left: 0;
+    margin: 3px;
+}
 
+.details-influence{
+    width: 30%;
+    display: inline-block;
+}
+.details-influence:not(:last-child) {
+    border-right: 1px solid lightgrey;
+}
+.details-influence h6{
+    margin: 0;
+    font-size: 8pt;
+    font-weight: 400;
+}
+.m-entity-name h2{
+    margin: 0;
+    font-size: 18pt;
+    font-color: black;
+    padding-bottom: 5px;
+}
+.mdetailsleft {
+    display: inline;
+    width: 35%;
+}
+
+.mdetailsright{
+    display: inline;
+    width: 35%;
+}
+.mobile-details a {
+    margin: 0px 10px 0px 10px;
+}
+.upcase{
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+.mdetails-top-bottom h6{
+    font-size: 8pt;
+    color: grey;
+}
+.typemobile {
+    color: white;
+    padding: 3px 6px;
+    border-radius: 5px;
+}
