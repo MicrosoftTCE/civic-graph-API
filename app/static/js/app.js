@@ -380,6 +380,31 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'employees': function(e) { return ((e/200000) * 5 )+1.5;},
             'followers': function(f) { return ((f/11000000) * 5 )+1.5;}
         }
+        $('#canvas-force').click(function (e) {
+            var oX = e.offsetX,
+                oY = e.offsetY;
+            $scope.showLicense = false;
+            $scope.clickedEntity.entity = null;
+            var entityFound = false;
+            data.nodes.forEach(function(d) {
+                var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
+                if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+                    $scope.currentEntity = d;
+                    entityFound = true;
+                    $scope.setEntity(d);
+                    $scope.clickedEntity.entity = d;
+                    focus(d);
+                }
+            });
+            if (!entityFound) {
+                $scope.currentEntity = null;
+            }
+            tick();
+            $scope.actions.interacted = true
+            $scope.safeApply();
+            $("#details-panel").css( "height", "20vh");
+            $("#details-panel").scrollTop(0);
+        });
 
         var canvas = d3.select('div#canvas-force').append('canvas');
         var context = canvas.node().getContext('2d');
@@ -402,58 +427,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         canvasEl.style.height = height + 'px';
         context.scale(ratio, ratio);
 
-    var scalezoom = 1;
-    var originx = 0;
-    var originy = 0;
 
-    canvasEl.onmousewheel = function (event){
-        context.clearRect(0, 0, canvasEl.width, canvasEl.height);
-        var mousex = event.clientX - canvas.offsetLeft;
-        var mousey = event.clientY - canvas.offsetTop;
-        var wheel = event.wheelDelta/120;//n or -n
 
-        var zoom = Math.pow(1 + Math.abs(wheel)/2 , wheel > 0 ? 1 : -1);
-        context.translate(
-            originx,
-            originy
-        );
-        context.scale(zoom,zoom);
-        context.translate(
-            -( mousex / scalezoom + originx - mousex / ( scalezoom * zoom ) ),
-            -( mousey / scalezoom + originy - mousey / ( scalezoom * zoom ) )
-        );
 
-        originx = ( mousex / scalezoom + originx - mousex / ( scalezoom * zoom ) );
-        originy = ( mousey / scalezoom + originy - mousey / ( scalezoom * zoom ) );
-        scalezoom *= zoom;
 
-        tick();
-    }
-    $('#networkCanvas').click(function (e) {
-        var oX = e.offsetX/scalezoom,
-            oY = e.offsetY/scalezoom;
-        $scope.showLicense = false;
-        $scope.clickedEntity.entity = null;
-        var entityFound = false;
-        data.nodes.forEach(function(d) {
-            var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
-            if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
-                $scope.currentEntity = d;
-                entityFound = true;
-                $scope.setEntity(d);
-                $scope.clickedEntity.entity = d;
-                focus(d);
-            }
-        });
-        if (!entityFound) {
-            $scope.currentEntity = null;
-        }
-        tick();
-        $scope.actions.interacted = true
-        $scope.safeApply();
-        $("#details-panel").css( "height", "20vh");
-        $("#details-panel").scrollTop(0);
-    });
         var tick = function() {
             context.clearRect(0, 0, width, height);
             var showEntities = {};
