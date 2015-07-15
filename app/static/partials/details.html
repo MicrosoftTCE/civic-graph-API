@@ -56,6 +56,8 @@
 </div>
 <div ng-if='currentEntity.twitter_handle'>
 <h6>Twitter:</h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
+</div>
+<div ng-if='currentEntity.followers'>
 <h6>Twitter Followers:</h6><p>{{currentEntity.followers | number}}</p>
 </div>
 </div>
