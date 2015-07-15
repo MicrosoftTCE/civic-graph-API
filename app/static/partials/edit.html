@@ -45,28 +45,28 @@
 
     <div><h6>Collaboration</h6>
         <div ng-repeat='collaboration in editEntity.collaborations'>
-            <input type='text' class='form-control' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, collaboration)' ng-change='addConnection(editEntity.collaborations)' placeholder='Collaborator'>
+            <input type='text' class='form-control' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, collaboration)' ng-change='addConnection(editEntity.collaborations)' typeahead-editable='false' placeholder='Collaborator'>
             <input type='text' class='form-control details-field' ng-model='collaboration.details' placeholder='Collaboration details'>
         </div>
     </div>
     <div><h6>Employment</h6>
-        <input type='text' class='form-control' ng-repeat='employment in editEntity.employments' ng-model='employment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, employment)' ng-change='addConnection(editEntity.employments)' placeholder='Entity'>
+        <input type='text' class='form-control' ng-repeat='employment in editEntity.employments' ng-model='employment.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, employment)' ng-change='addConnection(editEntity.employments)' typeahead-editable='false' placeholder='Entity'>
     </div>
     <div><h6>Related to</h6>
         <div ng-repeat='relation in editEntity.relations'>
-            <input type='text' class='form-control' ng-model='relation.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, relation)' ng-change='addConnection(editEntity.relations)' placeholder='Related entity'>
+            <input type='text' class='form-control' ng-model='relation.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, relation)' ng-change='addConnection(editEntity.relations)' typeahead-editable='false' placeholder='Related entity'>
             <input type='text' class='form-control details-field' ng-model='relation.details' placeholder='Relation details'>
         </div>
     </div>
     <div><h6>From whom do they receive data?</h6>
         <div ng-repeat='data in editEntity.data_received'>
-            <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_received)' placeholder='Data Resource'>
+            <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_received)' typeahead-editable='false' placeholder='Data Resource'>
             <input type='text' class='form-control details-field' ng-model='data.details' placeholder='Link to data'>
         </div>
     </div>
     <div><h6>To whom do they provide data?</h6>
         <div ng-repeat='data in editEntity.data_given'>
-            <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_given)' placeholder='Data Resource'>
+            <input type='text' class='form-control' ng-model='data.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, data)' ng-change='addConnection(editEntity.data_given)' typeahead-editable='false' placeholder='Data Resource'>
             <input type='text' class='form-control details-field' ng-model='data.details' placeholder='Link to data'>
         </div>
     </div>
