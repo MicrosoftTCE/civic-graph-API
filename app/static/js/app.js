@@ -1,9 +1,9 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .constant('_', window._)
-.config(function($locationProvider) {
+.config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
-})
-.controller('homeCtrl', function($scope, $http, $location, $modal) {
+}])
+.controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
     $scope.categories = [];
@@ -145,14 +145,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (fn && (typeof(fn) === 'function')) {fn();}
         } else {this.$apply(fn);}
     };
-})
-.controller('overviewCtrl', function($scope) {
+}])
+.controller('overviewCtrl', ['$scope', function($scope) {
     $scope.categorizedEntities = {};
     _.forEach(_.keys($scope.entityTypes), function(type) {
         $scope.categorizedEntities[type] = _.filter($scope.entities, {'type': type});
     });
-})
-.controller('detailsCtrl', function($scope, $http) {
+}])
+.controller('detailsCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.itemsShownDefault = {'key_people': 3, 'grants_given': 3, 'grants_received': 3, 'investments_made': 3, 'investments_received': 3, 'collaborations': 3, 'employments': 3, 'relations': 3, 'data_given': 3, 'data_received': 3, 'revenues': 3, 'expenses': 3}
     $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
@@ -166,8 +166,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.showLess = function(type) {
         $scope.itemsShown[type] = $scope.itemsShownDefault[type];
     }
-})
-.controller('editCtrl', function($scope, $http, $timeout) {
+}])
+.controller('editCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
     $scope.updating = false;
     $scope.error = false;
 
@@ -318,8 +318,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.removeEmpty();
         $scope.savetoDB();
     }
-})
-.controller('networkCtrl', function($scope, $http, $timeout) {
+})]
+.controller('networkCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
 
@@ -781,7 +781,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             //$location.search('entityID', null);
         };
     }
-})
+}])
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
     $scope.options = {
         center: {
