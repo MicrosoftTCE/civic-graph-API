@@ -318,7 +318,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.removeEmpty();
         $scope.savetoDB();
     }
-})]
+}])
 .controller('networkCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
