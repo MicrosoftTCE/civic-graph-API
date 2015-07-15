@@ -227,7 +227,7 @@ def update(entity, data):
                 if oldconnection.details != connection['details']:
                     oldconnection.details = connection['details']
                     app.logger.debug('UPDATING CONNECTION DETAILS', oldconnection.details)
-            else:
+            elif 'entity_id' in connection:
                 otherentity = Entity.query.get(connection['entity_id'])
                 if ctype is 'collaborations':
                     collaboration = Collaboration(entity, otherentity, connection['details'])
