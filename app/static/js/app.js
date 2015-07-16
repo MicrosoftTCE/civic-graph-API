@@ -380,31 +380,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'employees': function(e) { return ((e/200000) * 5 )+1.5;},
             'followers': function(f) { return ((f/11000000) * 5 )+1.5;}
         }
-        $('#canvas-force').click(function (e) {
-            var oX = e.offsetX,
-                oY = e.offsetY;
-            $scope.showLicense = false;
-            $scope.clickedEntity.entity = null;
-            var entityFound = false;
-            data.nodes.forEach(function(d) {
-                var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
-                if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
-                    $scope.currentEntity = d;
-                    entityFound = true;
-                    $scope.setEntity(d);
-                    $scope.clickedEntity.entity = d;
-                    focus(d);
-                }
-            });
-            if (!entityFound) {
-                $scope.currentEntity = null;
-            }
-            tick();
-            $scope.actions.interacted = true
-            $scope.safeApply();
-            $("#details-panel").css( "height", "20vh");
-            $("#details-panel").scrollTop(0);
-        });
 
         var canvas = d3.select('div#canvas-force').append('canvas');
         var context = canvas.node().getContext('2d');
@@ -427,11 +402,42 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         canvasEl.style.height = height + 'px';
         context.scale(ratio, ratio);
 
+    var scalezoom = 1;
+    $('#networkCanvas').click(function (e) {
+        var oX = e.offsetX/scalezoom,
+            oY = e.offsetY/scalezoom;
+        $scope.showLicense = false;
+        $scope.clickedEntity.entity = null;
+        var entityFound = false;
+        data.nodes.forEach(function(d) {
+            var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
+            if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+                $scope.currentEntity = d;
+                entityFound = true;
+                $scope.setEntity(d);
+                $scope.clickedEntity.entity = d;
+                focus(d);
+            }
+        });
+        if (!entityFound) {
+            $scope.currentEntity = null;
+        }
+        tick();
+        $scope.actions.interacted = true
+        $scope.safeApply();
+        $("#details-panel").css( "height", "20vh");
+        $("#details-panel").scrollTop(0);
+    });
 
-
-
-
+        var count = 0;
+        var initialLoad = true;
         var tick = function() {
+            count++
+            if (count > 70 && initialLoad){
+                initialLoad = false;
+                force.stop();
+                new RTP.PinchZoom($('#networkCanvas'), {});
+            }
             context.clearRect(0, 0, width, height);
             var showEntities = {};
             // Draw links.
@@ -484,7 +490,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 var name = d.nickname ? d.nickname : d.name;
                 context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif-light, sans-serif';
                 context.strokeText(name, d.x+offsets[d.type][0]-name.length*2, d.y+offsets[d.type][1]+10, 100)
-            });
+            });      
         }
         var force = d3.layout.force()
             .size([width, height])
