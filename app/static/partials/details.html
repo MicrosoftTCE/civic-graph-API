@@ -8,9 +8,10 @@
 </div>
 <!--MOBILE TOP VIEW-->
 <div class='mobile-details' ng-if='mobile'>
-    <div class='mobileLogo' style="display:inline-block"> 
-    <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
-    </div>
+    <div class="topContainer">
+        <div class='mobileLogo' style="display:inline-block"> 
+        <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
+        </div>
         <div class="mdetails-top-right">
             <div class='m-entity-name'>
             <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
@@ -18,14 +19,15 @@
             </div>
             <div>
             <span ng-if='currentEntity.locations.length'>
-            <p class="mdetailsleft" >{{currentEntity.locations[0].full_address}}</p>
+            <span class="mdetailsleft" >{{currentEntity.locations[0].full_address}}</span>
             </span>
-            <p class="mdetailsright typemobile {{currentEntity.type+'Background'}}">{{currentEntity.type}}</p>
+            <span class="mdetailsright typemobile">({{currentEntity.type}})</span>
             </div>
             <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
         </div>
+    </div>
     <div class="mdetails-top-bottom">
-        <h6 class="upcase">Influence</h6>
+        <h6 class="influence">Influence:</h6>
         <div ng-if='currentEntity.employees' class="details-influence" ><p>{{currentEntity.employees | number}}</p><h6>Employees</h6></div>
         <div ng-if='currentEntity.followers' class="details-influence" ><p>{{currentEntity.followers | number}}</p><h6>Twitter Followers</h6></div>
         <div ng-if='currentEntity.influence' class="details-influence" ><p>{{currentEntity.influence}}</p><h6>Reach</h6></div>
