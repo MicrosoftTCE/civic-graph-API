@@ -498,9 +498,6 @@ p {
 .right_logo {
     text-align: center;
 }
-.right_logo a {
-    display: inline;
-}
 .details-panelMb {
     height: 20vh;
     width: 100%;
