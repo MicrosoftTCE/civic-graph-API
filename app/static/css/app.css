@@ -388,12 +388,16 @@ p {
     margin-bottom: 10px;
 }
 .licenseMob {
-    /*    margin-top: 70vh;*/
     color: #9E9E9E;
     font-weight: 400;
     font-size: 1.1em;
     z-index: 12;
     pointer-events: none;
+    bottom: 10%;
+    position: fixed;
+    width: 75%;
+    left: 50%;
+    margin: 0 0 0 -37.5%;
 }
 .licenseMob a {
     pointer-events: auto;
