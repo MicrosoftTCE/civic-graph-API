@@ -439,7 +439,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (count > 70 && initialLoad){
                 initialLoad = false;
                 force.stop();
-                //new RTP.PinchZoom($('#networkCanvas'), {});
+                new RTP.PinchZoom($('#networkCanvas'), {});
             }
             context.clearRect(0, 0, width, height);
             var showEntities = {};
