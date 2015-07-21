@@ -34,13 +34,6 @@
 
 <legend></legend>
 </div>
-<h4 class="mobileTitle">View&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<span ng-repeat='view in views'>
-    <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
-    <span class='caption'>{{view.name}}</span>
-</span>
-</h4>
-<legend></legend>
 
 <div  id="aboutButton">
     <a ng-click='showAbout()' href="">Learn more</a>

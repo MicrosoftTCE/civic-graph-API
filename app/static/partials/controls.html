@@ -28,9 +28,9 @@
 </div>
 
 <h3>View:</h3>
-<div class='control-input' ng-repeat='view in views'>
-    <label class='checkbox radio'  ng-class="{'unchecked': $parent.$parent.template != view}" ng-model='$parent.$parent.template' btn-radio='view'></label>
-    <span class='caption'>{{view.name}}</span>
+<div class='control-input' ng-repeat='(view, enabled) in showView'>
+    <label class='checkbox radio'  ng-class="{'unchecked': !$parent.$parent.showView[view]}" ng-model='$parent.$parent.showView[view]' ng-click='changeView(view)'></label>
+    <span class='caption'>{{view}}</span>
 </div>
 <hr class='license-divider'>
 <p ng-hide='mobile' class="license">This work by

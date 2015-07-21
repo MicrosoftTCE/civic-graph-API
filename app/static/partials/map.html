@@ -1,3 +1,6 @@
 <div class='map-container' ng-controller='mapCtrl'>
     <leaflet center='options.center' defaults='options.defaults'></leaflet>
+    <button ng-click="switchView()" ng-show='showView.Map' class="mViewSwitch">
+   		<img alt="Network" src="img/cluster.png" width="30" height="30">
+	</button>
 </div>
