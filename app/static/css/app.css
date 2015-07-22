@@ -623,12 +623,18 @@ p {
     margin: 8px 0px 8px 0px;
 }
 .mViewSwitch{
-    bottom: 0px;
-    right: 0;
+    bottom: 3px;
+    right: 3px;
     position: fixed;
+    background-color: #757171;
+    width: 6vh;
+    height: 6vh;
     vertical-align: middle;
-    font-size: 20pt;
-    border: none;
-    background: none;
-    color: #757171;
+    display: inline-block;
+    text-align: center;
+    line-height: 6vh;
 }
+.mViewSwitch img{
+    vertical-align: middle;
+}
+
