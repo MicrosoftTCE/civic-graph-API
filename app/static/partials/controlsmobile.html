@@ -1,5 +1,4 @@
-<br>
-<div class="form-group has-feedback centerInput search">
+<div class="form-group searchMobile has-feedback centerInput search">
     <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectEntity($item); toggleSettings();' typeahead-editable='false' class='form-control'>
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
 </div>
@@ -23,7 +22,7 @@
 </div>
 </div>
 
-<legend></legend>
+<legend class="mLegend"></legend>
 
 <h4 class="mobileTitle">Sized By
 <span ng-repeat='sizeBy in sizeBys'>
@@ -32,7 +31,7 @@
 </span>
 </h4>
 
-<legend></legend>
+<legend class="mLegend"></legend>
 </div>
 
 <div  id="aboutButton">
