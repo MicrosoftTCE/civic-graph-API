@@ -623,10 +623,10 @@ p {
     margin: 8px 0px 8px 0px;
 }
 .mViewSwitch{
-    bottom: 3px;
-    right: 3px;
+    bottom: 2px;
+    right: 2px;
     position: fixed;
-    background-color: #757171;
+    border: 1px solid #757171;
     width: 6vh;
     height: 6vh;
     vertical-align: middle;

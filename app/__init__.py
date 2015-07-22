@@ -17,7 +17,7 @@ def create_app():
     return app
 
 app = create_app()
-cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_DEFAULT_TIMEOUT': 1000000000})
+cache = Cache(app, config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 1000000000})
 
 from app import views, models
 from database import db
