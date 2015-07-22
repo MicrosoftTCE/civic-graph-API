@@ -424,7 +424,9 @@ p {
     margin: 0;
 }
 .mobileTitle{
+    margin-top: 5px;
     font-size: 1.3em;
+    margin-bottom: 5px;
 }
 .mobileTitle span{
     margin-left: 2px;
@@ -637,4 +639,10 @@ p {
 .mViewSwitch img{
     vertical-align: middle;
 }
-
+.searchMobile{
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.mLegend{
+    margin: 0;
+}
