@@ -365,15 +365,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             'Employment': {'focused' : '#EE73FF', 'unfocused' : '#E3DFE4'},
             'Collaboration': {'focused' : '#FFD955', 'unfocused' : '#E3DFE4'}
         };
-        var offsets = {
-            'Government': [-90,-90],
-            'Non-Profit': [-90,90],
-            'For-Profit': [90,-90],
-            'Individual': [90,90]
-        }
         var width = $('#canvas-force').width(),
             height = $('#canvas-force').height();
 
+        var offsets = {
+            'Government': [-90,-90-(height/6)],
+            'Non-Profit': [-90,90-(height/6)],
+            'For-Profit': [90,-90-(height/6)],
+            'Individual': [90,90-(height/6)]
+        }
         var isInsideCircle = function (x, y, cx, cy, radius) {
             var dx = x-cx
             var dy = y-cy
