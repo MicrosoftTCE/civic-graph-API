@@ -646,3 +646,6 @@ p {
 .mLegend{
     margin: 0;
 }
+#networkCanvas {
+    padding: 5px;
+}
