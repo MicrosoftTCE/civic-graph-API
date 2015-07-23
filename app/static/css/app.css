@@ -390,7 +390,7 @@ p {
 .licenseMob {
     color: #9E9E9E;
     font-weight: 400;
-    font-size: 1.1em;
+    font-size: 0.9em;
     z-index: 12;
     pointer-events: none;
     bottom: 10%;
