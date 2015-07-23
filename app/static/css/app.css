@@ -407,7 +407,7 @@ p {
     width: 100%;
     resize:vertical;
     overflow: scroll;
-    height: 50vh;
+    height: auto;
 }
 
 .settingsmobile.mapView {
