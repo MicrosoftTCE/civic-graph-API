@@ -141,7 +141,7 @@ def update(entity, data):
                 if oldconnection.year != connection['year']:
                     oldconnection.year = connection['year']
                     app.logger.debug('UPDATING ' + ftype + ' YEAR: ' + str(oldconnection.year))
-            else:
+            elif 'entity_id' in connection:
                 # Connection doesn't exist, create it connect entities.
                 otherentity = Entity.query.get(connection['entity_id'])
                 if ftype is 'investment':
@@ -186,7 +186,7 @@ def update(entity, data):
                 oldconnection = Dataconnection.query.get(connection['id'])
                 if oldconnection.details != connection['details']:
                     oldconnection.details = connection['details']
-            else:
+            elif 'entity_id' in connection:
                 otherentity = Entity.query.get(connection['entity_id'])
                 newconnection = Dataconnection()
                 if connection['details']:
