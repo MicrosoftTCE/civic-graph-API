@@ -516,6 +516,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             tick();
         });
         $scope.$on('selectEntity', function() {
+            $scope.showLicense = false;
             $scope.clickedEntity.entity = $scope.currentEntity;
             $scope.actions.interacted = true;
             $scope.safeApply();
