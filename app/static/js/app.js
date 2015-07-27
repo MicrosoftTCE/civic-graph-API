@@ -431,6 +431,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $("#details-panel").css( "height", "20vh");
         $("#details-panel").scrollTop(0);
     });
+        $('#nloader').hide();
 
         var count = 0;
         var initialLoad = true;
