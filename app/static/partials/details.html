@@ -76,7 +76,7 @@
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length'>
 <h6>Collaborated with:</h6>
-    <a ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations' ng-click='selectEntity(collaboration.entity_id)'>{{collaboration.entity}}</a>
+    <a ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations' ng-click='selectItem(collaboration.entity_id)'>{{collaboration.entity}}</a>
 
     <a ng-if='currentEntity.collaborations.length > itemsShown.collaborations' ng-click="showMore('collaborations')">More...</a>
     <a ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' ng-click="showLess('collaborations')">Less...</a>
@@ -85,7 +85,7 @@
 <!-- EMPLOYMENTS -->
 <div ng-if='currentEntity.employments.length'>
 <h6>Employment:</h6>
-    <a ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments' ng-click='selectEntity(employment.entity_id)'>{{employment.entity}}</a>
+    <a ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments' ng-click='selectItem(employment.entity_id)'>{{employment.entity}}</a>
 
     <a ng-if='currentEntity.employments.length > itemsShown.employments' ng-click="showMore('employments')">More...</a>
     <a ng-if='itemsShown.employments > itemsShownDefault.employments' ng-click="showLess('employments')">Less...</a>
@@ -94,7 +94,7 @@
 <!-- RELATIONS -->
 <div ng-if='currentEntity.relations.length'>
 <h6>Related to:</h6>
-    <a ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations' ng-click='selectEntity(relation.entity_id)'>{{relation.entity}}</a>
+    <a ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations' ng-click='selectItem(relation.entity_id)'>{{relation.entity}}</a>
 
     <a ng-if='currentEntity.relations.length > itemsShown.relations' ng-click="showMore('relations')">More...</a>
     <a ng-if='itemsShown.relations > itemsShownDefault.relations' ng-click="showLess('relations')">Less...</a>
@@ -103,7 +103,7 @@
 <!-- DATA USAGE -->
 <div ng-if='currentEntity.data_given.length'>
 <h6>Gave data to:</h6>
-    <a ng-repeat='datasource in currentEntity.data_given | limitTo:itemsShown.data_given' ng-click='selectEntity(datasource.entity_id)'>{{datasource.entity}}</a>
+    <a ng-repeat='datasource in currentEntity.data_given | limitTo:itemsShown.data_given' ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
 
     <a ng-if='currentEntity.data_given.length > itemsShown.data_given' ng-click="showMore('data_given')">More...</a>
     <a ng-if='itemsShown.data_given > itemsShownDefault.data_given' ng-click="showLess('data_given')">Less...</a>
@@ -111,7 +111,7 @@
 
 <div ng-if='currentEntity.data_received.length'>
 <h6>Used data from:</h6>
-    <a ng-repeat='datasource in currentEntity.data_received | limitTo:itemsShown.data_received' ng-click='selectEntity(datasource.entity_id)'>{{datasource.entity}}</a>
+    <a ng-repeat='datasource in currentEntity.data_received | limitTo:itemsShown.data_received' ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
 
     <a ng-if='currentEntity.data_received.length > itemsShown.data_received' ng-click="showMore('data_received')">More...</a>
     <a ng-if='itemsShown.data_received > itemsShownDefault.data_received' ng-click="showLess('data_received')">Less...</a>
@@ -120,7 +120,7 @@
 <!-- GRANTS RECEIVED -->
 <div ng-if='currentEntity.grants_received.length'>
 <h6>Received grants from:</h6>
-    <p ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received'><a ng-click='selectEntity(grant.entity_id)'>{{grant.entity}}</a><span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></p>
+    <p ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received'><a ng-click='selectItem(grant.entity_id)'>{{grant.entity}}</a><span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></p>
 
     <a ng-if='currentEntity.grants_received.length > itemsShown.grants_received' ng-click="showMore('grants_received')">More...</a>
     <a ng-if='itemsShown.grants_received > itemsShownDefault.grants_received' ng-click="showLess('grants_received')">Less...</a>
@@ -129,7 +129,7 @@
 <!-- INVESTMENTS RECEIVED -->
 <div ng-if='currentEntity.investments_received.length' ng-hide="currentEntity.type=='Individual'">
 <h6>Received investments from:</h6>
-    <p ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'><a ng-click='selectEntity(investment.entity_id)'>{{investment.entity}}</a><span ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
+    <p ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'><a ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
     
     <a ng-if='currentEntity.investments_received.length > itemsShown.investments_received' ng-click="showMore('investments_received')">More...</a>
     <a ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' ng-click="showLess('investments_received')">Less...</a>
@@ -138,7 +138,7 @@
 <!-- GRANTS GIVEN -->
 <div ng-if='currentEntity.grants_given.length' ng-hide="currentEntity.type=='Individual'">
 <h6>Gave grants to:</h6>
-    <p ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'><a ng-click='selectEntity(grant.entity_id)'>{{grant.entity}}</a><span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></p>
+    <p ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'><a ng-click='selectItem(grant.entity_id)'>{{grant.entity}}</a><span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></p>
 
     <a ng-if='currentEntity.grants_given.length > itemsShown.grants_given' ng-click="showMore('grants_given')">More...</a>
     <a ng-if='itemsShown.grants_given > itemsShownDefault.grants_given' ng-click="showLess('grants_given')">Less...</a>
@@ -147,7 +147,7 @@
 <!-- INVESTMENTS MADE -->
 <div ng-if='currentEntity.investments_made.length' ng-hide="currentEntity.type=='Individual'">
 <h6>Invested in:</h6>
-    <p ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'><a ng-click='selectEntity(investment.entity_id)'>{{investment.entity}}</a><span ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
+    <p ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'><a ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
     <a ng-if='currentEntity.investments_made.length > itemsShown.investments_made' ng-click="showMore('investments_made')">More...</a>
     <a ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' ng-click="showLess('investments_made')">Less...</a>
 </div>
