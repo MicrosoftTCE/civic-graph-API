@@ -1,5 +1,5 @@
 <div class="form-group searchMobile has-feedback centerInput search">
-    <input type='text' ng-model='currentEntity'  typeahead='entity as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectEntity($item); toggleSettings();' typeahead-editable='false' class='form-control'>
+    <input type='text' ng-model='currentEntity'  typeahead='item as item.name for item in searchItems | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectItem($item)' typeahead-editable='false' class='form-control' placeholder='Search'>
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
 </div>
 <div ng-hide="template.name =='Map'">
