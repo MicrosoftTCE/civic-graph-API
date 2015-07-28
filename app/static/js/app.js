@@ -57,7 +57,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
             $scope.searchItems = entitiesByLocation.concat($scope.entities); 
             
-            console.log($scope.searchItems);
             if ($scope.getURLID()) {
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
