@@ -1,7 +1,8 @@
 angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .constant('_', window._)
-.config(['$locationProvider', function($locationProvider) {
+.config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
     $locationProvider.html5Mode(true);
+    $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }])
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
