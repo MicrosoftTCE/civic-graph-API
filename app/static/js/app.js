@@ -106,9 +106,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
-    // $scope.selectEntity = function(entity) {
+    // $scope.selectItem = function(entity) {
     //     entity % 1 === 0 ? $scope.setEntityID(entity) : $scope.setEntity(entity);
-    //     $scope.$broadcast('selectEntity');
+    //     $scope.$broadcast('selectItem
     // };
     $scope.setLocation = function(location){
         $scope.currentLocation = location;
@@ -125,7 +125,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         }
         else{
             item % 1 === 0 ? $scope.setEntityID(item) : $scope.setEntity(item);
-            $scope.$broadcast('selectEntity');
+            $scope.$broadcast('selectItem');
         }
     }
     $scope.setEntities = function(entities) {
@@ -556,7 +556,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         $scope.$on('changeSizeBy', function(event, link) {
             tick();
         });
-        $scope.$on('selectEntity', function() {
+        $scope.$on('selectItem', function() {
             $scope.showLicense = false;
             $scope.clickedEntity.entity = $scope.currentEntity;
             $scope.actions.interacted = true;
@@ -854,7 +854,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         node.on('click', click);
         node.on('dblclick', dblclick);
         svg.on('click', backgroundclick);
-        $scope.$on('selectEntity', function() {
+        $scope.$on('selectItem', function() {
             dblclick($scope.currentEntity);
         })
         // Only show labels on top 5 most connected entities initially.
@@ -899,7 +899,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         });
 
-        $scope.$on('selectEntity', function(event) {
+        $scope.$on('selectItem', function(event) {
             click($scope.currentEntity);
         });
         $scope.$on('selectItem', function(){
@@ -999,7 +999,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 $scope.actions.interacted = true;
                 $scope.safeApply();
             });
-            $scope.$on('selectEntity', function() {
+            $scope.$on('selectItem', function() {
                 var coordinates = $scope.currentEntity.locations.length > 0 ? _.pluck($scope.currentEntity.locations, 'coordinates') : null;
                 if (coordinates.length > 0) {
                     map.setView(coordinates[0], 11);
