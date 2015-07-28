@@ -7,7 +7,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
+    $scope.searchItems = null;                 
     $scope.categories = [];
+    $scope.currentLocation = null;              
+    $scope.clickedLocation = {};                 
+    $scope.clickedLocation.location = null;        
     $scope.currentEntity;
     $scope.clickedEntity = {};
     $scope.clickedEntity.entity = null;
@@ -35,6 +39,25 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $http.get('api/entities')
         .success(function(data) {
             $scope.entities = data.nodes;
+            var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
+
+            var entitiesByLocation = _.map(locations, function(loc){
+                var findings = _.filter($scope.entities, _.flow(
+                                 _.property('locations'),
+                                 _.partialRight(_.any, { locality : loc })
+                               ));
+
+                return {
+                    name: loc,
+                    type: 'location',
+                    entities: findings,
+                    dict: _.zipObject(_.pluck(findings, 'name'), _.pluck(findings, 'index'))
+                }
+            });
+
+            $scope.searchItems = entitiesByLocation.concat($scope.entities); 
+            
+            console.log($scope.searchItems);
             if ($scope.getURLID()) {
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
@@ -84,10 +107,28 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.setEntityID = function(id) {
         $scope.setEntity(_.find($scope.entities, {'id': id}));
     }
-    $scope.selectEntity = function(entity) {
-        entity % 1 === 0 ? $scope.setEntityID(entity) : $scope.setEntity(entity);
-        $scope.$broadcast('selectEntity');
-    };
+    // $scope.selectEntity = function(entity) {
+    //     entity % 1 === 0 ? $scope.setEntityID(entity) : $scope.setEntity(entity);
+    //     $scope.$broadcast('selectEntity');
+    // };
+    $scope.setLocation = function(location){
+        $scope.currentLocation = location;
+        if ($scope.editing){
+            $scope.stopEdit();
+        }
+        $scope.$broadcast('itemChange');
+    }
+
+    $scope.selectItem = function(item){
+        if(item.type === 'location'){
+            $scope.setLocation(item);
+            $scope.$broadcast('selectItem');
+        }
+        else{
+            item % 1 === 0 ? $scope.setEntityID(item) : $scope.setEntity(item);
+            $scope.$broadcast('selectEntity');
+        }
+    }
     $scope.setEntities = function(entities) {
         $scope.entities = entities;
     }
@@ -523,6 +564,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.safeApply();
             tick();
         });
+        $scope.$on('selectItem', function() {
+            $scope.actions.interacted = true;
+            $scope.safeApply();
+            tick();
+        });
         $('#details-panel').scroll(function() {
             $(this).css('height','50vh');
         });
@@ -693,11 +739,69 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.safeApply();
         }
 
+         var focusLocation = function(location) {
+            //  If the current entity is shown and it doesn't match the clicked node, then set the new node to clicked.
+            $scope.safeApply();
+
+            node.classed('focused', function(n){
+              return n.name in location.dict
+            })
+            .classed('unfocused', function(n){
+              return !(n.name in location.dict)
+            });
+
+            _.forEach(links, function(link, type){
+              link
+              .classed('focused', function(o){
+                return (o.source.name in location.dict && o.target.name in location.dict);
+              })
+              .classed('unfocused', function(o){
+                return !(o.source.name in location.dict) || !(o.target.name in location.dict);
+              })
+            })
+        }
+
+        var unfocusLocation = function(location){
+            node
+            .classed('focused', false)
+            .classed('unfocused', false);
+            _.forEach(links, function(link, type) {
+                link
+                .classed('focused', false)
+                .classed('unfocused', false);
+            });
+
+            if ($scope.clickedLocation.location) force.resume();
+        };
+
+        var highlightLocation = function(location){
+            $scope.showLicense = false;
+            if($scope.clickedEntity.entity){
+                unfocus($scope.clickedEntity.entity);
+                $scope.clickedEntity.entity = null;
+            }
+            if($scope.clickedLocation.location !== location){
+                unfocusLocation($scope.clickedLocation.location);
+                $scope.clickedLocation.location = location;
+                focusLocation(location);
+            }
+            if (d3.event) {d3.event.stopPropagation();}
+            $scope.actions.interacted = true
+            $scope.safeApply();
+        }
+
         var click = function(entity) {
             $scope.showLicense = false;
+
+            if($scope.clickedLocation.location) {
+                unfocusLocation($scope.clickedLocation.entity);
+                $scope.clickedLocation.location = null;
+            }
+            //  If the previous node is equal to the new node, do nothing.
             if ($scope.clickedEntity.entity == entity) {
                 $scope.clickedEntity.entity = null;
             } else {
+                //  Unfocus on previous node and focus on new node.
                 if ($scope.clickedEntity.entity) unfocus($scope.clickedEntity.entity);
                 $scope.clickedEntity.entity = entity;
                 focus(entity);
@@ -708,6 +812,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             if (d3.event) {d3.event.stopPropagation();}
             $scope.actions.interacted = true
             $scope.safeApply();
+        }
+
+         var backgroundclick = function() {
+            if ($scope.clickedLocation.location) {
+                unfocus($scope.clickedLocation.location);
+                $scope.clickedLocation.location = null;
+            }
+            if ($scope.clickedEntity.entity) {
+                unfocus($scope.clickedEntity.entity);
+                $scope.clickedEntity.entity = null;
+            }
+            $scope.safeApply();
+            //TODO: Show generic details and not individual entity details.
         }
 
         var dblclick = function(entity) {
@@ -725,14 +842,14 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             $scope.safeApply();
         }
 
-        var backgroundclick = function() {
-            if ($scope.clickedEntity.entity) {
-                unfocus($scope.clickedEntity.entity);
-                $scope.clickedEntity.entity = null;
-            }
-            $scope.safeApply();
-            //TODO: Show generic details and not individual entity details.
-        }
+        // var backgroundclick = function() {
+        //     if ($scope.clickedEntity.entity) {
+        //         unfocus($scope.clickedEntity.entity);
+        //         $scope.clickedEntity.entity = null;
+        //     }
+        //     $scope.safeApply();
+        //     //TODO: Show generic details and not individual entity details.
+        // }
         node.on('mouseover', hover);
         node.on('mouseout', unhover);
         node.on('click', click);
@@ -785,6 +902,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
 
         $scope.$on('selectEntity', function(event) {
             click($scope.currentEntity);
+        });
+        $scope.$on('selectItem', function(){
+            highlightLocation($scope.currentLocation); 
         });
         // Focus the entity if it's in URL params.
         if ($scope.getURLID()){
