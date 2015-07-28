@@ -6,3 +6,5 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:'+MYSQL_PASSWORD+'@localhost/civicgraph'
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 PROPAGATE_EXCEPTIONS = True
+# Minify all API requests.
+JSONIFY_PRETTYPRINT_REGULAR = False
