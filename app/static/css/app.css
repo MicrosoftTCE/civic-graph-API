@@ -439,14 +439,10 @@ p {
 }
 .addInfoMobile {
     float: right;
-    height: 7vh;
-    width: 7vh;
-    border: 0.5vh solid transparent;
-    color: white;
-    background-color: blue;
-    background-clip: padding-box;
-    font-size: 10pt;
+    height: 80%;
+    margin: 5px 5px 0 0;
 }
+
 .addInfoDesktop {
     transition: opacity 0.1s linear;
     margin-top: 3px;
