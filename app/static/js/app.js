@@ -964,6 +964,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             zoom: 3
         },
         defaults: {
+            tileLayer:'https://api.tiles.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZGF2aWRscm50IiwiYSI6IjA0M2RkNzMzZWJmNzEzNGYzMTdhYTExYzAyZmU4ZTE1In0.TNYlFta2VItrkn4L0Z9BJQ',
             tileLayerOptions: {
                 detectRetina: true,
                 reuseTiles: false
@@ -1050,5 +1051,4 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             });
         });
     });
-
 }]);
