@@ -1020,7 +1020,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             var markers = L.markerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, iconCreateFunction: clusterIcon, disableClusteringAtZoom: 10});
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
-                    if (loc.coordinates.lat) {
+                    if (_.every(loc.coordinates)) {
                         var m = L.marker(loc.coordinates, {'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
                         markers.addLayer(m);
                     };
