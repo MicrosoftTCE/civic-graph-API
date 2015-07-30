@@ -1033,7 +1033,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
                 $scope.actions.interacted = true;
-                if ($scope.settingsEnabled) {$scope.toggleSettings()};
+                if ($scope.settingsEnabled && $scope.mobile) {$scope.toggleSettings()};
                 $scope.safeApply();
             });
             map.on('click', function() {
