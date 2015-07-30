@@ -395,7 +395,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         // Only show labels on top 5 most connected entities initially.
         _.forEach(_.keys($scope.entityTypes), function(type) {
             // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'collaborations.length'), 5);
             _.forEach(top5, function(entity) {entity.wellconnected = true;});
         });
 
