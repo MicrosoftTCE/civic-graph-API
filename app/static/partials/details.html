@@ -153,7 +153,7 @@
 </div>
 <!-- REVENUES -->
 <div ng-if='currentEntity.revenues.length'>
-<h6>Revenue:</h6>
+<h6>Revenues:</h6>
     <p ng-repeat='revenue in currentEntity.revenues | limitTo:itemsShown.revenues'>{{revenue.year}}: {{revenue.amount | currency:undefined:0}}</p>
 
     <a ng-if='currentEntity.revenues.length > itemsShown.revenues' ng-click="showMore('revenues')">More...</a>
