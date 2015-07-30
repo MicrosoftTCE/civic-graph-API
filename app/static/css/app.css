@@ -134,14 +134,15 @@ p {
 .Data-checkbox {
     background-color: dodgerblue
 }
-
 .angular-leaflet-map {
     height: 100vh;
+}
+.angular-leaflet-map-mobile {
+    height: 93vh;
 }
 .main-container {
 }
 .map-container {
-    height: 100%;
     margin-left: -15px;
     margin-right: -15px;
 }
@@ -235,16 +236,16 @@ p {
 }
 /* CATEGORIZED LINK STYLES */
 .Employment-link {
-    stroke: purple;
+    stroke: #EE73FF;
 }
 .Funding-link {
-    stroke: rgb(242, 80, 34);
+    stroke: #FF7460;
 }
 .Collaboration-link {
-    stroke: yellow;
+    stroke: #FFD955;
 }
 .Data-link {
-    stroke: blue;
+    stroke: #84C2FF;
 }
 .Relation-link {
     stroke: red;
@@ -642,4 +643,12 @@ p {
 .mLegend{
     margin: 0;
 }
-
+.mapLicense{
+    position: absolute;
+    bottom: 0;
+    right:0;
+    font-size: 0.8em;
+}
+.angular-leaflet-map-mobile .mapLicense {
+    right: 7vh;
+}
