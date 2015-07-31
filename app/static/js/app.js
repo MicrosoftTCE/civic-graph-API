@@ -307,7 +307,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.addBlankFields();
 
     $scope.isValid = function() {
-        return $scope.editEntity.type != null && $scope.editEntity.name && $scope.editEntity.name.length > 0;
+        var collaborationIsValid = true;
+        _.each($scope.editEntity.collaborations, function(c){
+            if (!c.entity && c.entity != ""){
+            collaborationIsValid = false;
+            }
+        })
+        return $scope.editEntity.type != null && $scope.editEntity.name && $scope.editEntity.name.length > 0 && collaborationIsValid;
     }
     var removeCommas = function(finances) {
         _.forEach(finances, function(f) {
