@@ -652,3 +652,9 @@ p {
 .angular-leaflet-map-mobile .mapLicense {
     right: 7vh;
 }
+.ng-invalid.ng-dirty {
+    border-color: red;
+}
+.ng-valid.ng-dirty {
+    border-color: green;
+}
