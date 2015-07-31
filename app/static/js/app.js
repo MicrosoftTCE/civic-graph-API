@@ -311,7 +311,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             var collaborationIsValid = true;
             _.each(arrayofentityarrays, function(arrayofentities){
                 _.each(arrayofentities, function(c){
-                    console.log(c)
                     if (!c.entity && c.entity != ""){
                     collaborationIsValid = false;
                     }
