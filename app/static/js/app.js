@@ -307,13 +307,26 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
     $scope.addBlankFields();
 
     $scope.isValid = function() {
-        var collaborationIsValid = true;
-        _.each($scope.editEntity.collaborations, function(c){
-            if (!c.entity && c.entity != ""){
-            collaborationIsValid = false;
-            }
-        })
-        return $scope.editEntity.type != null && $scope.editEntity.name && $scope.editEntity.name.length > 0 && collaborationIsValid;
+        function entitySelected(arrayofentityarrays){
+            var collaborationIsValid = true;
+            _.each(arrayofentityarrays, function(arrayofentities){
+                _.each(arrayofentities, function(c){
+                    console.log(c)
+                    if (!c.entity && c.entity != ""){
+                    collaborationIsValid = false;
+                    }
+                })
+            })
+            return collaborationIsValid
+        }
+        var arrayofentityarrays = [
+        $scope.editEntity.collaborations, $scope.editEntity.employments, 
+        $scope.editEntity.relations, $scope.editEntity.data_received,
+        $scope.editEntity.data_given, $scope.editEntity.grants_given,
+        $scope.editEntity.grants_received, $scope.editEntity.investments_made,
+        $scope.editEntity.investments_received
+        ]
+        return $scope.editEntity.type != null && $scope.editEntity.name && $scope.editEntity.name.length > 0 && entitySelected(arrayofentityarrays);
     }
     var removeCommas = function(finances) {
         _.forEach(finances, function(f) {
