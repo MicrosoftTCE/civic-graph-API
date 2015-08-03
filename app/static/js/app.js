@@ -436,10 +436,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             height = $('#canvas-force').height();
 
         var offsets = {
-            'Government': [-90,-90-(height/6)],
-            'Non-Profit': [-90,90-(height/6)],
-            'For-Profit': [90,-90-(height/6)],
-            'Individual': [90,90-(height/6)]
+            'Government': [-90,-90-(height/7)],
+            'Non-Profit': [-90,90-(height/7)],
+            'For-Profit': [90,-90-(height/7)],
+            'Individual': [90,90-(height/7)]
         }
         var isInsideCircle = function (x, y, cx, cy, radius) {
             var dx = x-cx
