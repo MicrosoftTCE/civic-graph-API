@@ -43,7 +43,7 @@
             <div ng-show='showView.Network' class='display-panel' ng-hide="editing && mobile || showView.Map" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/network.html?i='+random"></div>
             <div ng-if='showView.Map' class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/map.html?i='+random"></div>
             <div id='details-panel' class='col-sm-2 details-panel' ng-class="{'details-panelMb': mobile}" ng-if='!editing' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
-            <div class='col-sm-2 edit-panel' ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
+            <div class='col-sm-2 edit-panel' ng-class="{'edit-panelMb': mobile}" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
         </div>
     </div>
 </body>
