@@ -508,7 +508,6 @@ p {
 }
 .details-panel a {
     text-align: center;
-    display: block;
     color: #2e92cf;
     text-decoration: none;
 }
@@ -525,6 +524,10 @@ p {
     left: 0;
     bottom: 0;
     padding-bottom: 35px;
+    text-align: center;
+}
+.details-panelMb a{
+    margin: 2%;
 }
 .overview-type {
     text-align: center;
