@@ -1036,7 +1036,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 var html = createPieChart({data: counts, r: r, strokeWidth: strokeWidth});
                 return new L.DivIcon({html: html, className: 'marker-cluster', iconSize: new L.point(iconDim, iconDim)});
             }
-            var markers = L.markerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, iconCreateFunction: clusterIcon, disableClusteringAtZoom: 10});
+            var markers = L.markerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, iconCreateFunction: clusterIcon, maxClusterRadius: 10});
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
                     if (_.every(loc.coordinates)) {
