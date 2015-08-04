@@ -510,6 +510,7 @@ p {
     text-align: center;
     color: #2e92cf;
     text-decoration: none;
+    display: block;
 }
 .details-panel a:hover {
     opacity: 0.7;
@@ -713,4 +714,7 @@ p {
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
     background-color: #BDC4C0;
     opacity: .65;
+}
+.topContainer a{
+    display: inline;
 }
