@@ -1025,7 +1025,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
             map.invalidateSize();
             new L.Control.Zoom({position: 'topright'}).addTo(map);
             L.control.locate({position: 'topright', showPopup: false, icon:'fa fa-location-arrow'}).addTo(map);
+            var zoomDisplayed;
             var clusterIcon = function(cluster) {
+                console.log(cluster._zoom)
                 var children = cluster.getAllChildMarkers();
                 var total = children.length;
                 var clusterMarkers = _.pluck(children, 'options');
@@ -1036,24 +1038,50 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
                 var html = createPieChart({data: counts, r: r, strokeWidth: strokeWidth});
                 return new L.DivIcon({html: html, className: 'marker-cluster', iconSize: new L.point(iconDim, iconDim)});
             }
-            var markers = L.markerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, iconCreateFunction: clusterIcon, maxClusterRadius: 10});
+
+            var markerIcon = {
+                'Non-Profit' : L.icon({
+                iconUrl: 'img/marker-nonprof.svg',
+                iconSize:[60, 60]
+                }),
+                'For-Profit' : L.icon({
+                iconUrl: 'img/marker-prof.svg',
+                iconSize:[60, 60]
+                }),
+                'Individual' : L.icon({
+                iconUrl: 'img/marker-ind.svg',
+                iconSize:[60, 60]
+                }),
+                'Government' : L.icon({
+                iconUrl: 'img/marker-gov.svg',
+                iconSize:[60, 60]
+                })
+            }
+
+            var markers = L.markerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, iconCreateFunction: clusterIcon, maxClusterRadius: 30, spiderfyDistanceMultiplier: 1.3});
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
                     if (_.every(loc.coordinates)) {
-                        var m = L.marker(loc.coordinates, {'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
+                        console.log(entity.type)
+                        var m = L.marker(loc.coordinates, {icon: markerIcon[entity.type], 'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
                         markers.addLayer(m);
                     };
                 });
             });
             map.addLayer(markers);
             map.locate({setView: true, maxZoom: 11});
+                   markers.on('clusterclick', function (a) {
+                console.log('cluster ' + a.layer.getAllChildMarkers().length);
+            });
             markers.on('click', function(marker) {
+                console.log('clickm')
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
                 $scope.actions.interacted = true;
                 if ($scope.settingsEnabled && $scope.mobile) {$scope.toggleSettings()};
                 $scope.safeApply();
             });
+     
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
                 $scope.actions.interacted = true;
