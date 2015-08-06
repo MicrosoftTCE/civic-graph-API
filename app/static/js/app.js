@@ -1071,6 +1071,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
                     if (_.every(loc.coordinates)) {
+                        //Changes bing maps New York coordinates from college point to a more centric coordinate
+                        if ( loc.coordinates[0].toFixed(5) == 40.78200 && loc.coordinates[1].toFixed(5) == -73.83170) {
+                        loc.coordinates[0] = 40.77065;
+                        loc.coordinates[1] = -73.97406;
+                        }
                         console.log(entity.type)
                         var m = L.marker(loc.coordinates, {icon: markerIcon[entity.type], 'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
                         markers.addLayer(m);
