@@ -409,7 +409,6 @@ p {
     color: #9E9E9E;
     font-weight: 400;
     font-size: 0.9em;
-    z-index: 12;
     pointer-events: none;
     bottom: 10%;
     position: fixed;
@@ -420,7 +419,9 @@ p {
 .licenseMob a {
     pointer-events: auto;
 }
-
+#networkCanvas{
+    z-index: 1;
+}
 .settingsmobile {
     width: 100%;
     resize:vertical;
@@ -547,7 +548,7 @@ p {
     text-align: center;
     height: 7vh;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     min-height: 30px;
     text-align: center;
     position: fixed;
