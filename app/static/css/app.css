@@ -718,3 +718,49 @@ p {
 .topContainer a{
     display: inline;
 }
+/*//EVENT ANIMATIONS FOR MOBILE*/
+.scroll-up {
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.5s;
+    max-height: 999px;
+    margin-top: 7vh;
+
+}
+.scroll-up.ng-hide {
+    max-height: 0px;
+}
+.animate-if.ng-enter {
+    -webkit-transition: 0.5s linear all;
+    -moz-transition: 0.5s linear all;
+    -ms-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+.animate-if.ng-enter {
+    margin-top: 100vh;
+}
+.animate-if.ng-enter.ng-enter-active {
+    margin-top: 7vh;
+}
+.details-animate.ng-enter, .details-animate.ng-leave {
+    -webkit-transition: 1s linear all;
+    -moz-transition: 1s linear all;
+    -ms-transition: 1s linear all;
+    -o-transition: 1s linear all;
+    transition: 1s linear all;
+}
+.details-animate.ng-enter {
+    max-height: 0px;
+}
+.details-animate.ng-enter.ng-enter-active {
+    max-height: 400px;
+}
+.details-animate.ng-leave {
+    max-height: 400px;
+}
+.details-animate.ng-leave.ng-leave-active {
+    max-height: 0px;
+}
+.details-animateshow.ng-hide {
+    max-height: 999px;
+}
