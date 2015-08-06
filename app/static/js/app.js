@@ -1,9 +1,30 @@
-angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
+angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate'])
 .constant('_', window._)
 .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }])
+.directive('addMobileEvents', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            if (scope.mobile) {
+                $("#details-panel").css( "height", "20vh");
+                $("#details-panel").scrollTop(0);
+                $('#details-panel').scroll(function() {
+                    $(this).css('height','50vh');
+                });
+                $( "#details-panel" ).click(function(e) {
+                    if (window.innerHeight/3 > parseInt($(this).css('height'))) {
+                        $(this).css('height','50vh');
+                    } else {
+                        $(this).css('height','20vh');
+                    }
+                });
+            }
+        }
+    };
+})
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
@@ -496,7 +517,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
         tick();
         $scope.actions.interacted = true
         $scope.safeApply();
-        $("#details-panel").css( "height", "20vh");
         $("#details-panel").scrollTop(0);
     });
         $('#nloader').hide();
@@ -624,17 +644,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive'])
              $scope.safeApply();
              tick();
          });
-
-        $('#details-panel').scroll(function() {
-            $(this).css('height','50vh');
-        });
-        $( "#details-panel" ).click(function(e) {
-            if (window.innerHeight/3 > parseInt($(this).css('height'))) {
-            $( this ).css('height','50vh');
-            } else {
-            $( this ).css('height','20vh');
-            }
-        });
     }
     var drawNetwork = function() {
         var svg = d3.select('#network');
