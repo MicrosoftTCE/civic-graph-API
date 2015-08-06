@@ -654,6 +654,7 @@ p {
     border: 1px solid #757171;
     width: 6vh;
     height: 6vh;
+    z-index: 2;
     vertical-align: middle;
     display: inline-block;
     text-align: center;
