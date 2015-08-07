@@ -228,9 +228,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
     $scope.$on('entityChange', function(event) {
         // Reset items shown in details list.
-        console.log("called")
-        console.log($scope.mobile);
-
         $scope.itemsShown = _.clone($scope.itemsShownDefault);
     });
     $scope.showMore = function(type) {
