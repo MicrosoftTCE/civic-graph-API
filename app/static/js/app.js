@@ -228,6 +228,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
     $scope.$on('entityChange', function(event) {
         // Reset items shown in details list.
+        console.log("called")
+        console.log($scope.mobile);
+
         $scope.itemsShown = _.clone($scope.itemsShownDefault);
     });
     $scope.showMore = function(type) {
@@ -540,8 +543,12 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                         if($scope.currentLocation){
                             if(d.source.name in $scope.currentLocation.dict && d.target.name in $scope.currentLocation.dict){
                                 context.beginPath()
-                                context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
-                                context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
+
+                                //  Modification - Boundaries      var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
+                                var k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
+                                context.moveTo(Math.max(4.5*k, Math.min(width - 4.5*k, d.source.x+offsets[d.source.type][0])), Math.max(4.5*k, Math.min(height - 4.5*k, d.source.y+offsets[d.source.type][1])));
+                                context.lineTo(Math.max(4.5*k, Math.min(width - 4.5*k, d.target.x+offsets[d.target.type][0])), Math.max(4.5*k, Math.min(height - 4.5*k, d.target.y+offsets[d.target.type][1])));
+
                                 context.strokeStyle = colors[type]['focused']
                                 context.stroke()
                                 context.closePath();
@@ -550,14 +557,18 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                         else{
                             if (!$scope.currentEntity || d.source == $scope.currentEntity || d.target == $scope.currentEntity) {
                                 context.beginPath()
-                                context.moveTo(d.source.x+offsets[d.source.type][0], d.source.y+offsets[d.source.type][1]);
-                                context.lineTo(d.target.x+offsets[d.target.type][0], d.target.y+offsets[d.target.type][1]); 
+
+                                //  Modification - Boundaries
+                                var k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
+                                context.moveTo(Math.max(4.5*k, Math.min(width - 4.5*k, d.source.x+offsets[d.source.type][0])), Math.max(4.5*k, Math.min(height - 4.5*k, d.source.y+offsets[d.source.type][1])));
+                                context.lineTo(Math.max(4.5*k, Math.min(width - 4.5*k, d.target.x+offsets[d.target.type][0])), Math.max(4.5*k, Math.min(height - 4.5*k, d.target.y+offsets[d.target.type][1])));
+
                                 context.strokeStyle = colors[type]['focused']
                                 context.stroke()
                                 context.closePath();
                                 showEntities[d.source.id] = true;
                                 showEntities[d.target.id] = true;
-                            }  
+                            }
                         }
                     }
                 });
@@ -598,7 +609,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                     var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
                     context.beginPath();
                     context.fillStyle = colors[d.type][focus];
-                    context.arc(d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k, 0, 2 * Math.PI);
+                    context.arc(Math.max(4.5*k, Math.min(width - 4.5*k, d.x+offsets[d.type][0])), Math.max(4.5*k, Math.min(height - 4.5*k, d.y+offsets[d.type][1])), 4.5*k, 0, 2 * Math.PI);
                     context.fill()
                     context.lineWidth = 1;
                     context.stroke();
@@ -606,11 +617,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 }
             });
             _.forEach(entityNames, function(d){
+                var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
                 context.strokeStyle = 'black';
                 var name = d.nickname ? d.nickname : d.name;
                 context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif-light, sans-serif';
-                context.strokeText(name, d.x+offsets[d.type][0]-name.length*2, d.y+offsets[d.type][1]+10, 100)
-            });      
+                context.strokeText(name, Math.max(4.5*k, Math.min(width - 4.5*k, d.x+offsets[d.type][0]))-name.length*2, Math.max(4.5*k, Math.min(height - 4.5*k, d.y+offsets[d.type][1]))+10, 100)            });      
         }
         var force = d3.layout.force()
             .size([width, height])
@@ -650,7 +661,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         var bounds = svg.node().getBoundingClientRect();
         var height = bounds.height;
         var width = bounds.width;
-        var offsetScale = 8;
+        var offsetScale = 6;
         var defaultnodesize = 7;
         var offsets = {
             'Individual': {'x': 1, 'y': 1},
@@ -658,9 +669,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             'Non-Profit': {'x': -1, 'y': 1},
             'Government': {'x': -1, 'y': -1}
         }
+        var lowerBoundRadius = 10;  
+        var upperBoundRadius = 50;
         var scale = {
-            'employees': d3.scale.sqrt().domain([10, 130000]).range([10, 50]),
-            'followers': d3.scale.sqrt().domain([10, 10000000]).range([10, 50])
+            'employees': d3.scale.sqrt().domain([10, 130000]).range([lowerBoundRadius, upperBoundRadius]),
+            'followers': d3.scale.sqrt().domain([10, 10000000]).range([lowerBoundRadius, upperBoundRadius])
         }
         var links = {};
         var force = d3.layout.force()
@@ -668,7 +681,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             .nodes($scope.entities)
             .links(_.flatten(_.values($scope.connections)))
             .charge(function(d) {
-                return d.employees ? -2*scale.employees(d.employees) : -25;
+                return d.employees ? -2*scale.employees(d.employees) : -20;
             })
             .linkStrength(0)
             .linkDistance(50);
@@ -701,6 +714,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             _.forEach($scope.entities, function(entity) {
                 entity.x += offsets[entity.type].x*k;
                 entity.y += offsets[entity.type].y*k;
+                entity.x = Math.max(upperBoundRadius, Math.min(width - upperBoundRadius, entity.x));
+                entity.y = Math.max(upperBoundRadius, Math.min(height - upperBoundRadius, entity.y));
             });
 
             _.forEach(links, function(link, type) {
@@ -1036,7 +1051,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             L.control.locate({position: 'topright', showPopup: false, icon:'fa fa-location-arrow'}).addTo(map);
             var zoomDisplayed;
             var clusterIcon = function(cluster) {
-                console.log(cluster._zoom)
                 var children = cluster.getAllChildMarkers();
                 var total = children.length;
                 var clusterMarkers = _.pluck(children, 'options');
@@ -1071,12 +1085,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             _.forEach($scope.entities, function(entity) {
                 _.forEach(entity.locations, function(loc) {
                     if (_.every(loc.coordinates)) {
-                        //Changes bing maps New York coordinates from college point to a more centric coordinate
                         if ( loc.coordinates[0].toFixed(5) == 40.78200 && loc.coordinates[1].toFixed(5) == -73.83170) {
                         loc.coordinates[0] = 40.77065;
                         loc.coordinates[1] = -73.97406;
                         }
-                        console.log(entity.type)
                         var m = L.marker(loc.coordinates, {icon: markerIcon[entity.type], 'title': entity.name, 'entity_id': entity.id, 'message': entity.name, 'type': entity.type});
                         markers.addLayer(m);
                     };
