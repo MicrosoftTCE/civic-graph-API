@@ -766,3 +766,16 @@ p {
 .details-animateshow.ng-hide {
     max-height: 999px;
 }
+#qmark {
+    font-size: 1.5em;
+    line-height: 6vh;
+    text-align: center;
+    color: #757171;
+    border: 1px solid #757171;
+    left: 2px;
+    bottom: 2px;
+    position: fixed;
+    width: 6vh;
+    height: 6vh;
+    z-index: 2;
+}
