@@ -768,6 +768,7 @@ p {
 }
 #qmark {
     font-size: 1.5em;
+    font-weight: 800;
     line-height: 6vh;
     text-align: center;
     color: #757171;
