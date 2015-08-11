@@ -469,7 +469,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         }
         var scale = {
             'employees': function(e) { return ((e/200000) * 5 )+1.5;},
-            'followers': function(f) { return ((f/11000000) * 5 )+1.5;}
+            'followers': function(f) {
+                if (f > 0 && f <= 500){return 1.5;}
+                else if(f > 500 && f <= 5000){ return 1.8;}
+                else if(f >5000 && f <= 10000){ return 2}
+                else if(f > 10000 && f <= 25000){ return 2.5}
+                else if(f >25000 && f <= 900000){ return 3}
+                else if(f >900000){ return 5}
+                else{return 1}
+                }          
         }
 
         var canvas = d3.select('div#canvas-force').append('canvas');
