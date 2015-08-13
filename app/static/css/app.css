@@ -777,7 +777,7 @@ p {
     bottom: 0; 
 }
 .details-animate.ng-leave.ng-leave-active {
-    bottom: -20vh;
+    bottom: -50vh;
 }
 .details-animateshow.ng-hide {
     max-height: 999px;
