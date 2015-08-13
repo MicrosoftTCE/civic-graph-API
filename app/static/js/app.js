@@ -958,12 +958,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
         $scope.$on('toggleLink', function(event, link) {
-            console.log("ToggleLink");  
             links[link.name]
             .classed({'visible': link.enabled, 'hidden': !link.enabled});
         });
         $scope.$on('toggleNode', function(event, type) {
-            console.log("ToggleNode");  
             svg
             .selectAll('.'+type.name+'-node')
             .classed({'visible': type.enabled, 'hidden': !type.enabled});
@@ -1065,7 +1063,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             var clusterIcon = function(cluster) {
                 var children = cluster.getAllChildMarkers();
                 var total = children.length;
-                console.log(total)
                 var clusterMarkers = _.pluck(children, 'options');
                 var counts = _.map(_.countBy(clusterMarkers,'type'), function(count, type) {return {'type': type,'value': count}});
                 var r = 28;
@@ -1109,10 +1106,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             map.addLayer(markers);
             map.locate({setView: true, maxZoom: 11});
                    markers.on('clusterclick', function (a) {
-                console.log('cluster ' + a.layer.getAllChildMarkers().length);
             });
             markers.on('click', function(marker) {
-                console.log('clickm')
                 $scope.setEntityID(marker.layer.options.entity_id);
                 $scope.clickedEntity.entity = $scope.currentEntity;
                 $scope.actions.interacted = true;
