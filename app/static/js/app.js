@@ -1022,7 +1022,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     }
 
     $timeout(function () {
-        var createPieChart = function(options) {
+            var createPieChart = function(options) {
             var data = options.data;
             var pie = d3.layout.pie().sort(null).value(function(d) {return d.value});
             var arc = d3.svg.arc().outerRadius(options.r).innerRadius(options.r-10);
@@ -1046,6 +1046,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 .attr('d', arc)
                 .attr('class', function(d) {return d.data.type+'-arc'});
 
+            arcs.append("svg:text")
+                .text(function(d,i) { 
+                    if (i == 0) {
+                    return options.count 
+                    }
+                });
+
             return window.XMLSerializer ? (new window.XMLSerializer()).serializeToString(svg) : svg.xml ? svg.xml : '';
         }
 
@@ -1058,15 +1065,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             var clusterIcon = function(cluster) {
                 var children = cluster.getAllChildMarkers();
                 var total = children.length;
+                console.log(total)
                 var clusterMarkers = _.pluck(children, 'options');
                 var counts = _.map(_.countBy(clusterMarkers,'type'), function(count, type) {return {'type': type,'value': count}});
                 var r = 28;
                 var strokeWidth = 1;
                 var iconDim = (r+strokeWidth)*2;
-                var html = createPieChart({data: counts, r: r, strokeWidth: strokeWidth});
+                var html = createPieChart({data: counts, r: r, strokeWidth: strokeWidth, count: total });
                 return new L.DivIcon({html: html, className: 'marker-cluster', iconSize: new L.point(iconDim, iconDim)});
             }
-
             var markerIcon = {
                 'Non-Profit' : L.icon({
                 iconUrl: 'img/marker-nonprof.svg',
