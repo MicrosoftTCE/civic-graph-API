@@ -761,23 +761,23 @@ p {
     margin-top: 7vh;
 }
 .details-animate.ng-enter, .details-animate.ng-leave {
-    -webkit-transition: 1s linear all;
-    -moz-transition: 1s linear all;
-    -ms-transition: 1s linear all;
-    -o-transition: 1s linear all;
-    transition: 1s linear all;
+    -webkit-transition: 0.7s linear all;
+    -moz-transition: 0.7s linear all;
+    -ms-transition: 0.7s linear all;
+    -o-transition: 0.7s linear all;
+    transition: 0.7s linear all;
 }
 .details-animate.ng-enter {
-    max-height: 0px;
+    bottom: -20vh;
 }
 .details-animate.ng-enter.ng-enter-active {
-    max-height: 400px;
+    bottom: 0; 
 }
 .details-animate.ng-leave {
-    max-height: 400px;
+    bottom: 0; 
 }
 .details-animate.ng-leave.ng-leave-active {
-    max-height: 0px;
+    bottom: -20vh;
 }
 .details-animateshow.ng-hide {
     max-height: 999px;
