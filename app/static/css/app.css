@@ -796,3 +796,8 @@ p {
     height: 6vh;
     z-index: 2;
 }
+.arcText {
+    font-weight: 800;
+    font-size: 1.2em;
+    opacity: 0.6;
+}
