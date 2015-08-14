@@ -801,3 +801,33 @@ p {
     font-size: 1.2em;
     opacity: 0.6;
 }
+.topNav{
+    position: fixed;
+    top: 0;
+    text-align: center;
+    background: rgba(232, 232, 232, 0.9);
+    margin: 2px;
+    width: 98%;
+    border: 2px solid none;
+    z-index: 2;
+    line-height: 0.8;
+}
+.topNav h2{
+    display: inline;
+}
+.topNav a{
+    line-height: 0.3;
+    position: relative;
+    margin-right: 10%;
+    color: black;
+}
+.popup {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal {
+    margin-top: 7vh;
+}
+.mcotainer{
+    text-align: center;
+}
