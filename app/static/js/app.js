@@ -1055,7 +1055,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                     if (i == 0) {
                     return options.count 
                     }
-                });
+                }) 
+                .attr("x", -4 * options.count.toString().length)
+                .attr("dy", 5)
+                .attr("class","arcText");
 
             return window.XMLSerializer ? (new window.XMLSerializer()).serializeToString(svg) : svg.xml ? svg.xml : '';
         }
