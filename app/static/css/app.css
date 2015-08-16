@@ -171,7 +171,8 @@ p {
 .control-panel {
     height: 100vh;
     overflow: scroll;
-    background-image: url("/img/settingsb.png");
+    background-color: lightgrey;
+    /*background-image: url("/img/settingsb.png");*/
 }
 .control-panel h3 {
     text-align: left;
