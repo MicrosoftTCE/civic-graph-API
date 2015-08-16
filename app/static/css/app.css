@@ -740,8 +740,6 @@ input.ng-valid.ng-dirty {
     -webkit-transition:all linear 0.5s;
     transition:all linear 0.5s;
     max-height: 999px;
-    margin-top: 7vh;
-
 }
 .scroll-up.ng-hide {
     max-height: 0px;
