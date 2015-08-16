@@ -15,7 +15,6 @@ body {
 }
 .logo {
     position: relative;
-    background-color: #D0D0D0 ;
     text-align: center;
     margin-left: 0.9%;
     margin-right: 1%;
@@ -59,6 +58,7 @@ p {
     vertical-align: middle;
     margin-top: 2px;
     margin-bottom: 6px;
+    box-shadow: 0px 0px 0px 1px lightgrey;
 }
 .checkbox input {
     display: none;
@@ -171,7 +171,7 @@ p {
 .control-panel {
     height: 100vh;
     overflow: scroll;
-    background-color: #D0D0D0;
+    background-image: url("/img/settingsb.png");
 }
 .control-panel h3 {
     text-align: left;
@@ -437,7 +437,6 @@ p {
 }
 .settingsmobile {
     width: 100%;
-    resize:vertical;
     overflow: scroll;
     height: auto;
 }
@@ -677,7 +676,7 @@ p {
     vertical-align: middle;
 }
 .searchMobile{
-    margin-top: 8px;
+    margin-top: 8vh;
     margin-bottom: 3px;
 }
 .mLegend{
@@ -695,10 +694,10 @@ p {
 .angular-leaflet-map-mobile .mapLicense {
     right: 7vh;
 }
-.ng-invalid.ng-dirty {
+input.ng-invalid.ng-dirty {
     border-color: red;
 }
-.ng-valid.ng-dirty {
+input.ng-valid.ng-dirty {
     border-color: green;
 }
 #nloader{
