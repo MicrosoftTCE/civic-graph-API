@@ -471,9 +471,7 @@ p {
 }
 .addInfoMobile {
     float: right;
-    height: 6vh;
-    min-height: 40px;
-    max-height: 50px;
+    height: 100%;
     margin: 5px 5px 0 0;
 }
 
@@ -674,10 +672,6 @@ p {
     display: inline-block;
     text-align: center;
     line-height: 6vh;
-    min-height: 40px;
-    max-height: 50px;
-    min-width: 40px;
-    max-width: 50px;
 }
 .mViewSwitch img{
     vertical-align: middle;
@@ -787,12 +781,11 @@ input.ng-valid.ng-dirty {
     max-height: 999px;
 }
 #qmark {
-    font-size: 2.2em;
-    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 600;
+    font-size: 1.5em;
+    font-weight: 800;
     line-height: 6vh;
     text-align: center;
-    color: #515151;
+    color: #757171;
     border: 1px solid #757171;
     left: 2px;
     bottom: 2px;
@@ -800,10 +793,6 @@ input.ng-valid.ng-dirty {
     width: 6vh;
     height: 6vh;
     z-index: 2;
-    min-height: 40px;
-    max-height: 50px;
-    min-width: 40px;
-    max-width: 50px;
 }
 .arcText {
     font-weight: 800;
