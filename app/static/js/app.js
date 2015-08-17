@@ -537,6 +537,22 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
         var count = 0;
         var initialLoad = true;
+        var drawOnTop = [];
+        data.nodes.forEach(function(d) {
+                if ($scope.entityTypes[d.type]) {
+                    if($scope.currentLocation){
+                        if(d.name in $scope.currentLocation.dict){
+                                drawOnTop.push(d);
+                        }
+                    }else if (!$scope.currentEntity || showEntities[d.id] || d === $scope.currentEntity){ 
+                        if ($scope.currentEntity || d.wellconnected) {
+                                drawOnTop.push(d);
+
+                        }
+                    }   
+                }
+            })
+        data.nodes = data.nodes.concat(drawOnTop)
         var tick = function() {
             count++
             if (count > 70 && initialLoad){
