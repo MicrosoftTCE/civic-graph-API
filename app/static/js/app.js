@@ -1131,6 +1131,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 });
             });
             map.addLayer(markers);
+            function onLocationError(e) {
+                  alert = function() {};
+            }
+            map.on('locationerror', onLocationError);
             map.locate({setView: true, maxZoom: 11});
                    markers.on('clusterclick', function (a) {
             });
