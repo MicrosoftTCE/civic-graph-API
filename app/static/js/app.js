@@ -538,6 +538,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         var count = 0;
         var initialLoad = true;
         var drawOnTop = [];
+        var allNodes = [];
         data.nodes.forEach(function(d) {
                 if ($scope.entityTypes[d.type]) {
                     if($scope.currentLocation){
@@ -547,12 +548,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                     }else if (!$scope.currentEntity || showEntities[d.id] || d === $scope.currentEntity){ 
                         if ($scope.currentEntity || d.wellconnected) {
                                 drawOnTop.push(d);
-
+                        } else { 
+                            allNodes.push(d);
                         }
-                    }   
+                    } 
                 }
             })
-        data.nodes = data.nodes.concat(drawOnTop)
+        allNodes = allNodes.concat(drawOnTop);
         var tick = function() {
             count++
             if (count > 70 && initialLoad){
@@ -601,7 +603,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 });
             });
             var entityNames = [];
-            data.nodes.forEach(function(d) {
+            allNodes.forEach(function(d) {
                 if ($scope.entityTypes[d.type]) {
                     var focus;
 
