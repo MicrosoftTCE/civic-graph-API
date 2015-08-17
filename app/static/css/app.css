@@ -471,7 +471,9 @@ p {
 }
 .addInfoMobile {
     float: right;
-    height: 100%;
+    height: 6vh;
+    min-height: 40px;
+    max-height: 50px;
     margin: 5px 5px 0 0;
 }
 
