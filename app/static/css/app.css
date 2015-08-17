@@ -672,6 +672,10 @@ p {
     display: inline-block;
     text-align: center;
     line-height: 6vh;
+    min-height: 40px;
+    max-height: 50px;
+    min-width: 40px;
+    max-width: 50px;
 }
 .mViewSwitch img{
     vertical-align: middle;
