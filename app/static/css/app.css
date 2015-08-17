@@ -781,11 +781,12 @@ input.ng-valid.ng-dirty {
     max-height: 999px;
 }
 #qmark {
-    font-size: 1.5em;
-    font-weight: 800;
+    font-size: 2.2em;
+    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
     line-height: 6vh;
     text-align: center;
-    color: #757171;
+    color: #515151;
     border: 1px solid #757171;
     left: 2px;
     bottom: 2px;
@@ -793,6 +794,10 @@ input.ng-valid.ng-dirty {
     width: 6vh;
     height: 6vh;
     z-index: 2;
+    min-height: 40px;
+    max-height: 50px;
+    min-width: 40px;
+    max-width: 50px;
 }
 .arcText {
     font-weight: 800;
