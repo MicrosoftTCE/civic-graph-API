@@ -574,10 +574,9 @@ p {
     min-height: 30px;
 }
 .logoMob{
-    padding-top: 1%;
-    height: 90%;
-    /*float: left;*/
+    height: 65%;
     text-align: center;
+    margin-top: 2%;
 }
 .save {
     text-align: center;
