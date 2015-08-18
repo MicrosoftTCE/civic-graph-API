@@ -1,5 +1,4 @@
 import time
-import json
 import twitter
 from app.models import Entity
 from database import db
@@ -15,12 +14,15 @@ api = twitter.Api(consumer_key=consumer_key,
 for entity in entities:
     twitter_handle = entity.twitter_handle.strip('@ ')
     if len(twitter_handle) > 0:
-        time.sleep(3)
-    	user = api.GetUser(screen_name=twitter_handle)
-        followers = user.followers_count
-        if followers:
-        	print entity.name
-        	print followers
-        	entity.followers = followers
+        try:
+            time.sleep(3)
+        	user = api.GetUser(screen_name=twitter_handle)
+            followers = user.followers_count
+            if followers:
+            	print entity.name
+            	print followers
+            	entity.followers = followers
+        except:
+            print 'ERROR', entity.name
 
 db.commit()
