@@ -15,7 +15,7 @@ for entity in entities:
     twitter_handle = entity.twitter_handle.strip('@ ')
     if len(twitter_handle) > 0:
         try:
-            time.sleep(3)
+            time.sleep(6)
             user = api.GetUser(screen_name=twitter_handle)
             followers = user.followers_count
             if followers:
