@@ -17,6 +17,7 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js'></script>
     <script src='js/lib/angular-leaflet-directive.min.js'></script>
     <script src='js/lib/pinchzoom.min.js'></script>
+    <script src='js/lib/oms.min.js'></script>
     <script src='js/app.js'></script>
 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
@@ -32,7 +33,8 @@
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" class="navLogoMobile" >
-<button ng-show='!settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify navButtonMob' ></button><button ng-show='settingsEnabled' ng-click='toggleSettings()' class='glyphicon glyphicon-chevron-up navButtonMob' ></button>
+<img alt="Menu" src="img/icon-hamb.png" ng-show='!settingsEnabled' ng-click='toggleSettings()' class='navButtonMob' >
+<img alt="Menu" src="img/icon-chev.png" ng-show='settingsEnabled' ng-click='toggleSettings()' class='navButtonMob'  >
 <img  class="logoMob" src="img/civicgraphdark.png">
 <div class="logoContainer">
 <img alt="Add Info" src="img/addbutton.png" class='visible-xs-block addInfoMobile' ng-hide='editing' ng-click='startEdit(null)' ></div>
@@ -43,7 +45,7 @@
             <div ng-show='settingsEnabled && !editing' class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up' ng-class="{'mapView': template.name =='Map'}" ng-include="'partials/controlsmobile.html?i='+random"></div>
             <div ng-show='showView.Network' class='display-panel' ng-hide="editing && mobile || showView.Map" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/network.html?i='+random"></div>
             <div ng-if='showView.Map' class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/map.html?i='+random"></div>
-            <div id='details-panel' add-mobile-events class='col-sm-2 details-panel details-animate details-animateshow' ng-class="{'details-panelMb': mobile}" ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
+            <div id='details-panel' add-mobile-events class='col-sm-2 details-panel details-animate ' ng-class="{'details-panelMb': mobile}" ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
             <div class='col-sm-2 edit-panel animate-if' ng-class="{'edit-panelMb': mobile}" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
         </div>
     </div>

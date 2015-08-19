@@ -312,14 +312,10 @@ p {
 }
 .navButtonMob {
     float: left;
-    min-height: 20px;
-    height: 100%;
-    background: none;
-    border-radius: 2px;
-    border: none;
-    font-size: 19pt;
-    color: #757171;
-    padding: 6px;
+    height: 5vh;
+    min-height: 30px;
+    max-height: 50px;
+    margin: 5px 0px 0px 5px;
 }
 
 .navButtonMob.glyphicon-chevron-up {
@@ -470,7 +466,9 @@ p {
 }
 .addInfoMobile {
     float: right;
-    height: 100%;
+    height: 6vh;
+    min-height: 30px;
+    max-height: 50px;
     margin: 5px 5px 0 0;
 }
 
@@ -561,7 +559,7 @@ p {
     height: 7vh;
     width: 100%;
     z-index: 2;
-    min-height: 30px;
+    min-height: 50px;
     text-align: center;
     position: fixed;
 }
@@ -572,7 +570,7 @@ p {
     z-index: 1;
     min-height: 30px;
 }
-.logoMob{
+.logoMob{  
     height: 65%;
     text-align: center;
     margin-top: 2%;
@@ -662,7 +660,6 @@ p {
     bottom: 2px;
     right: 2px;
     position: fixed;
-    border: 1px solid #757171;
     width: 6vh;
     height: 6vh;
     z-index: 2;
@@ -670,6 +667,10 @@ p {
     display: inline-block;
     text-align: center;
     line-height: 6vh;
+    min-height: 40px;
+    max-height: 50px;
+    min-width: 40px;
+    max-width: 50px;
 }
 .mViewSwitch img{
     vertical-align: middle;
@@ -739,6 +740,7 @@ input.ng-valid.ng-dirty {
     -webkit-transition:all linear 0.5s;
     transition:all linear 0.5s;
     max-height: 999px;
+
 }
 .scroll-up.ng-hide {
     max-height: 0px;
@@ -779,18 +781,16 @@ input.ng-valid.ng-dirty {
     max-height: 999px;
 }
 #qmark {
-    font-size: 1.5em;
-    font-weight: 800;
-    line-height: 6vh;
-    text-align: center;
-    color: #757171;
-    border: 1px solid #757171;
     left: 2px;
     bottom: 2px;
     position: fixed;
     width: 6vh;
     height: 6vh;
     z-index: 2;
+    min-height: 40px;
+    max-height: 50px;
+    min-width: 40px;
+    max-width: 50px;
 }
 .arcText {
     font-weight: 800;
