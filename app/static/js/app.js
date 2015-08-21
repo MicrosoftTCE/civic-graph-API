@@ -385,6 +385,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             .success(function(response) {
                 $scope.setEntities(response.nodes);
                 $scope.setEntityID($scope.editEntity.id);
+                $scope.broadcast('entitiesLoaded')
                 // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
                 $scope.updating = false;
             })
