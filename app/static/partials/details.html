@@ -39,8 +39,8 @@
 <div class='right_logo'> 
     <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
     <div class='entity-name'>
-        <h2><a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
-        <h2><a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <h2><a style="display:inline;" ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <h2><a style="display:inline;" ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
     </div>
 </div>
 <div ng-if='currentEntity.locations.length'>
