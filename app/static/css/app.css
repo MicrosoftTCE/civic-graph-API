@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Segoe UI';
+    src: url("/fonts/segoeui.ttf");
+}
 body {
     overflow:hidden;
 }
