@@ -701,9 +701,15 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         }
         var lowerBoundRadius = 10;  
         var upperBoundRadius = 50;
+        var maxEmployees = d3.max($scope.entities, function(el) {
+            return parseInt(el.employees);
+        });
+        var maxFollowers = d3.max($scope.entities, function(el) {
+            return parseInt(el.followers);
+        });
         var scale = {
-            'employees': d3.scale.sqrt().domain([10, 130000]).range([lowerBoundRadius, upperBoundRadius]),
-            'followers': d3.scale.sqrt().domain([10, 10000000]).range([lowerBoundRadius, upperBoundRadius])
+            'employees': d3.scale.sqrt().domain([10, maxEmployees]).range([lowerBoundRadius, upperBoundRadius]),
+            'followers': d3.scale.sqrt().domain([10, maxFollowers]).range([lowerBoundRadius, upperBoundRadius])
         }
         var links = {};
         var force = d3.layout.force()
