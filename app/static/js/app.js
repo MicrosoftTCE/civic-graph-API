@@ -427,19 +427,29 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                     $scope.connections[type].push({'source': sourceNode, 'target': targetNode});
                 });
             });
+            
+        var wellConnectedEntites = [];
+        // Only show labels on top 5 most connected entities initially.
+        _.forEach(_.keys($scope.entityTypes), function(type) {
+            // Find the top 5 most-connected entities.
+            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'collaborations.length'), 5);
+            _.forEach(top5, function(entity) {wellConnectedEntites.push(entity); entity.wellconnected = true;});
+        });
+        var i = $scope.entities.length
+        while (i--) {
+            _.each(wellConnectedEntites, function(e) {
+                if (e === $scope.entities[i]){
+                    $scope.entities.splice(i,1);
+                }
+
+            })
+        }
+        $scope.entities = $scope.entities.concat(wellConnectedEntites);
             if ($scope.mobile) { drawNetworkMobile();} else {drawNetwork();};
         });
     });
 
     var drawNetworkMobile = function() {
-        // Only show labels on top 5 most connected entities initially.
-        _.forEach(_.keys($scope.entityTypes), function(type) {
-            // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'collaborations.length'), 5);
-            _.forEach(top5, function(entity) {entity.wellconnected = true;});
-        });
-
-
         var data = {
             nodes: $scope.entities,
             links: _.flatten(_.values($scope.connections))
@@ -972,12 +982,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         //     if(item.type !== 'location'){
         //         dblclick($scope.currentEntity);
         //     }
-        // })        // Only show labels on top 5 most connected entities initially.
-        _.forEach(_.keys($scope.entityTypes), function(type) {
-            // Find the top 5 most-connected entities.
-            var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'weight'), 5);
-            _.forEach(top5, function(entity) {entity.wellconnected = true;});
-        });
 
         node
         .classed('wellconnected', function(d) {return d.hasOwnProperty('wellconnected');})
