@@ -396,7 +396,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                     $scope.error = false;
                     $scope.updating = false;
                     $scope.addBlankFields();
-                }, 5000);
+                }, 2000);
             });
     }
     $scope.cancelEdit = function() {
