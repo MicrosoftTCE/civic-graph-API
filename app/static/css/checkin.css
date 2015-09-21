@@ -1,0 +1,156 @@
+#block{
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	text-align: center;
+	position: fixed;
+	z-index: 2;
+}
+#block input{
+	margin-top: 25%;
+}
+#block input[type=submit]  {
+	border: none;
+	padding: 5px;
+}
+
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	overflow: hidden;
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html{
+	font-family: 'Roboto', sans-serif;
+}
+a { 
+	color: inherit; 
+	color: #9F9F9F;
+	margin: 2%;
+} 
+h2{
+	font-size: 2em;
+	color: #4A4A4A;
+	margin: 5% 0% 5% 0%;
+}
+h3, label{
+	color: #9F9F9F;
+	font-size: 1.5em;
+	font-weight: 100;
+}
+h4{
+	color: #9F9F9F;
+	font-size: 1.5em;
+	font-weight: 100;
+	font-style: italic;
+}
+.left-container{
+	text-align: center;
+	border-right: 1px solid #9F9F9F;
+	height: 80vh;
+	margin-top: 5%;
+	position: fixed;
+}
+.left-container img{
+	width: 100%;
+}
+.left-container div{
+	margin-top: 30%;
+}
+.right-container{
+	/*border: 1px solid blue;*/
+		margin-left: 30%;
+
+	height: 100vh;
+}
+#step1,#step2,#step3{
+	margin: 10%;
+}
+button{
+	margin-top: 5%;
+	background-color: #66ad1c;
+	padding: 2%;
+	width: 40%;
+	border: 1px solid #9F9F9F;
+	color: white;
+	text-transform: uppercase;
+}
+button[disabled]{
+	background-color: lightgrey;
+	color: grey;
+	border: 1px solid white;
+}
+input[type='text']{
+	padding: 2%;
+	width: 70%;
+	margin: 1% 0% 5% 0%;
+}
+input[type='radio']{
+	margin: 1% 1% 5% 5%;
+}
+.employerEntity{
+	margin: 0px;
+	padding: 0px;
+}
+p{	
+	color: #4A4A4A;
+	font-size: 1.5em;
+	display: inline;
+}
+#step1{
+	height: 90vh;
+	/*display: none;*/
+}
+#step2 {
+	/*display: none;*/
+	height: 90vh;
+}
+#step3{
+	/*display: none;*/
+	height: 90vh;
+}
