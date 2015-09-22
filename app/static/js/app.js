@@ -117,8 +117,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         });
         $scope.$broadcast('viewChange');
     }
-
     $scope.setEntity = function(entity) {
+        $scope.currentLocation = null;
         $scope.currentEntity = entity;
         if ($scope.editing) {
             $scope.stopEdit();
@@ -848,9 +848,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             if ($scope.clickedEntity.entity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
-
         var hover = function(entity) {
-            if (!$scope.clickedEntity.entity && !$scope.editing) {
+            if (!$scope.clickedEntity.entity && !$scope.editing && !$scope.currentLocation ) {
                 focus(entity);
             }
             $scope.actions.interacted = true;
@@ -858,7 +857,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         }
 
         var unhover = function(entity) {
-            if (!$scope.clickedEntity.entity) {
+            if (!$scope.clickedEntity.entity && !$scope.currentLocation) {
                 unfocus(entity);
             }
             $scope.actions.interacted = true;
