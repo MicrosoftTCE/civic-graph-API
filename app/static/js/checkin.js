@@ -439,9 +439,9 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     }
 
-    $scope.savetoDB = function(entity) {
+    $scope.savetoDB = function(entitytosave) {
         $scope.updating = true;
-        $http.post('http://172.31.98.241:5000/api/save', {'entity': entity})
+        $http.post('http://172.31.98.241:5000/api/save', {'entity': entitytosave})
             .success(function(response) {
             $scope.dataToEntities(response);
             document.getElementById("nEntityForm").reset();
@@ -453,7 +453,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
             $("html, body").animate({ scrollTop: 0}, 1000);
             })
             .error(function(data, status, headers, config){
-                window.location.reload()
+//                window.location.reload()
                 console.log('ERROR');
                 console.log(status);
                 console.log(headers);
