@@ -242,10 +242,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     $scope.employerFound = false;
     $scope.submit = function(){
-        console.log($scope.editEntity)
         // !$scope.newOrganization.type 
-        console.log($scope.editEntity.employments[0].id);
-        console.log($scope.editEntity.employments[0].entity);
         if(!$scope.editEntity.employments[0].entity_id && $scope.editEntity.employments[0].entity && !$scope.newOrganization.type) {
             return false;
         }
