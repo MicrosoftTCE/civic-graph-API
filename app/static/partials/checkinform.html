@@ -58,6 +58,12 @@
 <script type="text/javascript">
 	$(document).ready(function(){
     	$(this).scrollTop(0);
+    	$(':input').on('keydown', function (e) {
+		    if (e.which == 9) {
+		        e.preventDefault();
+		    }
+		});
 	});
+
 </script>
 
