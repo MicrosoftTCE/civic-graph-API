@@ -231,3 +231,58 @@ p{
 	display: inline-block !important;
     background-color: rgb(242, 80, 34);
 }
+#waitMessage {
+	color: #66ad1c;
+	font-style: italic;
+	font-size: 0.8em;
+}
+.buttonadd {
+	margin-top: 2% !important;
+}
+.one {
+    opacity: 1;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.0s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.0s;
+}
+
+.two {
+    opacity: 1;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.2s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.2s;
+}
+
+.three {
+    opacity: 1;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.3s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

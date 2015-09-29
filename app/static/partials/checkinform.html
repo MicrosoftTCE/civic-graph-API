@@ -34,22 +34,16 @@
 			
 			<label>Tell us who you've collaborated with (ex: Civic Hall, TK,TK):</label><br>
 			<div id="collaborations">
-			<!-- <div id="addedCollaborators"></div> -->
 
 			<div ng-repeat='collaboration in editEntity.collaborations' ng-click="removeCollaboration(collaboration)" id="addedCollaborators"  ng-class="getCollaboratorColor(collaboration)">
 			<span>{{collaboration.entity}}</span><span class="xCLose">&#10006</span>
-            <!-- <input type='text' class='form-control' ng-model='collaboration.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, collaboration)' ng-change='addConnection(editEntity.collaborations)' typeahead-editable='false' placeholder='Collaborator'>
-            <input type='text' class='form-control details-field' ng-model='collaboration.details' placeholder='Collaboration details'> -->
        		</div>
-
-
             <input type='text' ng-model='editEntity.collaborations[editEntity.collaborations.length-1].entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setCollaboration($item, editEntity.collaborations[editEntity.collaborations.length-1])' typeahead-editable='false'>
 			</div>
-<!-- 			<label for="" ng-model='newEntity.website' >Website</label><br><br>
-			<input type='text' ng-model='editEntity.url'><br> -->
 			<label for="" ng-model='newEntity.twitter'>Twitter</label>
 	    	<input type='text' ng-model='editEntity.twitter_handle'><br>
-			<button ng-click="add()">add</button><a href="" ng-click="add()">skip</a><br>
+	    	<div id="waitMessage" ng-if="waitingForResponse"><span>Adding Organization</span><span class="one">.</span><span class="two">.</span><span class="three">.</span>​</div>
+			<button ng-click="add()" class="buttonadd" ng-disabled='!isValidAdd()'>add</button>
 		</div>
 	</div>
 	<div class="step-container">
@@ -66,15 +60,4 @@
     	$(this).scrollTop(0);
 	});
 </script>
-
-
-
-
-
-
-
-
-
-
-
 

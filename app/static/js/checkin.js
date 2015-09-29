@@ -20,6 +20,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
     $scope.editing = false;
     $scope.actions = {'interacted':false};
     $scope.templateShown = false;
+    $scope.waitingForResponse = false;
 
     $scope.newEntity = function(type){
         return {
@@ -241,7 +242,11 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     $scope.employerFound = false;
     $scope.submit = function(){
-        if(!$scope.editEntity.employments[0].entity_id && !$scope.newOrganization.type) {
+        console.log($scope.editEntity)
+        // !$scope.newOrganization.type 
+        console.log($scope.editEntity.employments[0].id);
+        console.log($scope.editEntity.employments[0].entity);
+        if(!$scope.editEntity.employments[0].entity_id && $scope.editEntity.employments[0].entity && !$scope.newOrganization.type) {
             return false;
         }
 
@@ -261,7 +266,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     
     $scope.isValid = function(){
-        console.log($scope.editEntity)
+        // console.log($scope.editEntity)
         var valid = false;
         // if ($scope.newEntity.name && $scope.newEntity.location && $scope.newEntity.type){
         if ($scope.editEntity.name && !$scope.templateShown){
@@ -271,6 +276,15 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         }
         return valid
     };
+
+    $scope.isValidAdd = function(){
+        var valid = false;
+        if ($scope.editEntity.locations[0].full_address && !$scope.waitingForResponse){
+            valid = true;
+        } 
+        return valid
+    }
+
     $scope.onSelect = function ($item, $model, $label) {
         if ($item.employments.length >= 1) {
         var employment = $item.employments[0];
@@ -427,7 +441,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     $scope.savetoDB = function(entity) {
         $scope.updating = true;
-        $http.post('api/save', {'entity': entity})
+        $http.post('http://172.31.98.241:5000/api/save', {'entity': entity})
             .success(function(response) {
             $scope.dataToEntities(response);
             document.getElementById("nEntityForm").reset();
@@ -462,13 +476,16 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         $scope.editEntity.employments[0].entity_id = newOrg.id;
     }
     $scope.saveOrgToDB = function(entity) {
+        $scope.waitingForResponse = true;
         $scope.updating = true;
         $http.post('api/save', {'entity': entity})
         .success(function(response) {
+            $scope.waitingForResponse = false;
             $scope.dataToEntities(response);
             $scope.addOrgToEntity();
         })
         .error(function(data, status, headers, config){
+            $scope.waitingForResponse = false;
             console.log('ERROR');
             $scope.error = true;
             $timeout(function() {
