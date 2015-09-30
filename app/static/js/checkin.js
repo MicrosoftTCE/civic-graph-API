@@ -2,8 +2,51 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 .constant('_', window._)
 .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
     $locationProvider.html5Mode(true);
-    // $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }])
+.directive('ngEnterBlur', function() {
+    return {
+    restrict: "A",
+    require: 'ngModel',
+    scope: true,
+    link: function (scope, element, attrs, loc) {
+            element.bind("keydown keypress blur", function (event) {
+                if(event.which === 13 || event.type === "blur") {
+                    // scope.$apply(function (){
+                    //     scope.$eval(attrs.ngEnterBlur);
+                    // });
+                    if(!scope.editEntity.locations[0].full_address){
+                        $('#locationmsg').show()
+                    } else {
+                        $('#locationmsg').hide()
+                    }
+                    event.preventDefault();
+                }
+            })
+        }
+    }
+})
+.directive('ngEnterBlurOrg', function() {
+    return {
+    restrict: "A",
+    require: 'ngModel',
+    scope: true,
+    link: function (scope, element, attrs, loc) {
+            element.bind("keydown keypress blur", function (event) {
+                if(event.which === 13 || event.type === "blur") {
+                    // scope.$apply(function (){
+                    //     scope.$eval(attrs.ngEnterBlur);
+                    // });
+                    if(!scope.newOrganization.locations[0].full_address){
+                        $('#locationmsgorg').show()
+                    } else {
+                        $('#locationmsgorg').hide()
+                    }
+                    event.preventDefault();
+                }
+            })
+        }
+    }
+})
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
@@ -21,7 +64,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
     $scope.actions = {'interacted':false};
     $scope.templateShown = false;
     $scope.waitingForResponse = false;
-
+   
     $scope.newEntity = function(type){
         return {
           "categories": [],
@@ -140,22 +183,22 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
     //     entity % 1 === 0 ? $scope.setEntityID(entity) : $scope.setEntity(entity);
     //     $scope.$broadcast('selectItem
     // };
-    $scope.setLocation = function(location){
-        $scope.currentLocation = location;
-        if ($scope.editing){
-            $scope.stopEdit();
-        }
-    }
+    // $scope.setLocation = function(location){
+    //     $scope.currentLocation = location;
+    //     if ($scope.editing){
+    //         $scope.stopEdit();
+    //     }
+    // }
 
-    $scope.selectItem = function(item){
-        if(item.type === 'location'){
-            $scope.setLocation(item);
-        }
-        else{
-            item % 1 === 0 ? $scope.setEntityID(item) : $scope.setEntity(item);
-        }
-        $scope.$broadcast('selectItem', item);
-    }
+    // $scope.selectItem = function(item){
+    //     if(item.type === 'location'){
+    //         $scope.setLocation(item);
+    //     }
+    //     else{
+    //         item % 1 === 0 ? $scope.setEntityID(item) : $scope.setEntity(item);
+    //     }
+    //     $scope.$broadcast('selectItem', item);
+    // }
 
     $scope.$on('setCurrentEntity', function(event, args){
         $scope.currentEntity = args.value;
@@ -242,7 +285,6 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
 
     $scope.employerFound = false;
     $scope.submit = function(){
-        // !$scope.newOrganization.type 
         if(!$scope.editEntity.employments[0].entity_id && $scope.editEntity.employments[0].entity && !$scope.newOrganization.type) {
             return false;
         }
@@ -300,7 +342,6 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         var eName = $scope.editEntity.employments[0].entity
         $scope.newOrganization.name = eName
     };
-
     $scope.addressSearch = function(search) {
         return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
             .then(function(response) {
@@ -320,6 +361,8 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         if ($scope.editEntity.type == 'Individual') {
             location.full_address = location.locality ? location.district ? location.locality + ', ' + location.district : location.locality : location.country;
         }
+        $('#locationmsg').hide()
+        $('#locationmsgorg').hide()
     }
 
     $scope.addLocation = function(locations) {
