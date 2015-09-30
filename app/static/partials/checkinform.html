@@ -17,7 +17,8 @@
 
  			<div ng-if='templateShown'>
  			<label for="">Location of Organization</label><br>
- 			<input type='text' ng-repeat='location in newOrganization.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(newOrganization.locations)'><br>
+ 			<div id='locationmsgorg'><span>Please select a location from the dropdown menu.</span>​</div>
+ 			<input type='text' ng-repeat='location in newOrganization.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(newOrganization.locations)' ng-enter-blur-org='{{newOrganization.locations}}'><br>
 			<input type="radio" id='cb1' ng-model='newOrganization.type' value="For-Profit"><label for="cb1">For-Profit</label>
 			<input type="radio" id='cb2' ng-model='newOrganization.type' value="Government"><label for="cb2">Government</label>
 			<input type="radio" id='cb3' ng-model='newOrganization.type' value="Non-Profit"><label for="cb3">Non-Profit</label>
@@ -30,9 +31,10 @@
 		<div id="step2">
 			<h2>Almost done...</h2>
 			<label for="">Where are you based?</label><br>
-		    <input type='text' ng-repeat='location in editEntity.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)'>
+			<div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
+		    <input type='text' ng-repeat='location in editEntity.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' ng-enter-blur='{{editEntity.locations}}'>
 			
-			<label>Tell us who you've collaborated with (e.g. Code for America, Microsoft, Tim O'Reilly...)</label><br>
+			<label>Tell us who you've collaborated with (ex: Civic Hall, TK,TK):</label><br>
 			<div id="collaborations">
 
 			<div ng-repeat='collaboration in editEntity.collaborations' ng-click="removeCollaboration(collaboration)" id="addedCollaborators"  ng-class="getCollaboratorColor(collaboration)">
@@ -65,6 +67,5 @@
 		    }
 		});
 	});
-
 </script>
 
