@@ -34,8 +34,7 @@
 			<div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
 		    <input type='text' ng-repeat='location in editEntity.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' ng-enter-blur='{{editEntity.locations}}'>
 			
-			<label>Tell us who you've collaborated with (ex: Civic Hall, TK,TK):</label><br>
-			<div id="collaborations">
+			<label>Tell us who you've collaborated with (e.g. Code for America, Microsoft, Tim O'Reilly...)</label><br>			<div id="collaborations">
 
 			<div ng-repeat='collaboration in editEntity.collaborations' ng-click="removeCollaboration(collaboration)" id="addedCollaborators"  ng-class="getCollaboratorColor(collaboration)">
 			<span>{{collaboration.entity}}</span><span class="xCLose">&#10006</span>
