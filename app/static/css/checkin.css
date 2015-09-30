@@ -230,6 +230,10 @@ p{
 	display: inline-block !important;
     background-color: rgb(242, 80, 34);
 }
+.greyEnt {
+	display: inline-block !important;
+    background-color: grey;
+}
 #waitMessage {
 	color: #66ad1c;
 	font-style: italic;
