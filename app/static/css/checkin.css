@@ -190,7 +190,11 @@ p{
 .template {
 	background-color: #EEEFF1;
 	padding: 5%;
-	border-radius: 5%;
+	border-radius: 10px;
+	width: 85%;
+}
+.template input[type='text']{
+	width: 100%;
 }
 #addedCollaborators {
 	cursor: pointer; 
