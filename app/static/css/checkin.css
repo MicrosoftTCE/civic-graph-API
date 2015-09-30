@@ -232,7 +232,14 @@ p{
 }
 .greyEnt {
 	display: inline-block !important;
-    background-color: grey;
+	background-color: grey;
+	cursor: pointer; 
+	border-radius: 5px;
+	padding: 8px 10px 8px 10px;
+	margin:2px 5px 2px 0px;
+	display: none;
+	color: white;
+	font-size: 0.8em;
 }
 #waitMessage {
 	color: #66ad1c;
