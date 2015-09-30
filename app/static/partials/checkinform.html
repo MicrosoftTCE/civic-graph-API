@@ -34,12 +34,14 @@
 			<div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
 		    <input type='text' ng-repeat='location in editEntity.locations|limitTo:1' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' ng-enter-blur='{{editEntity.locations}}'>
 			
-			<label>Tell us who you've collaborated with (e.g. Code for America, Microsoft, Tim O'Reilly...)</label><br>			<div id="collaborations">
-
-			<div ng-repeat='collaboration in editEntity.collaborations' ng-click="removeCollaboration(collaboration)" id="addedCollaborators"  ng-class="getCollaboratorColor(collaboration)">
-			<span>{{collaboration.entity}}</span><span class="xCLose">&#10006</span>
-       		</div>
-            <input type='text' ng-model='editEntity.collaborations[editEntity.collaborations.length-1].entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setCollaboration($item, editEntity.collaborations[editEntity.collaborations.length-1])' typeahead-editable='false'>
+			<label>Tell us who you've collaborated with (ex: Civic Hall, TK,TK):</label><br>
+			<div id="collaborations">
+				<div id="collaborationscontainer">
+					<div ng-repeat='collaboration in editEntity.collaborations' ng-click="removeCollaboration(collaboration)" id="addedCollaborators"  ng-class="getCollaboratorColor(collaboration)">
+					<span>{{collaboration.entity}}</span><span class="xCLose">&#10006</span>
+		       		</div>
+		       	</div>
+		            <input type='text' ng-model='editEntity.collaborations[editEntity.collaborations.length-1].entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' ng-enter-blur-col='{{editEntity.collaborations[editEntity.collaborations.length-1].entity}}' typeahead-on-select='setCollaboration($item, editEntity.collaborations[editEntity.collaborations.length-1])' typeahead-editable='false'>
 			</div>
 			<label for="" ng-model='newEntity.twitter'>Twitter</label>
 	    	<input type='text' ng-model='editEntity.twitter_handle'><br>
