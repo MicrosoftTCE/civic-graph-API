@@ -311,3 +311,35 @@ p{
         opacity: 1;
     }
 }
+
+input[type=radio] {
+    display: none;
+}
+input[type=radio] + label::before {
+    content: '';
+    display: inline-block;
+    background-color: white;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #DDDDDD;
+    border-radius: 50%;
+    margin: 0 0.5em;
+    margin-top: -1px;
+    vertical-align: middle;
+}
+input[type=radio]:checked + label::before {
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #DDDDDD;
+}
+.radio3 + label::before {
+    width: 1.2em;
+    height: 1.2em;
+}
+input.for-profit-background[type=radio]:checked + label::before {
+    background-color: rgb(127, 186, 0);
+}
+input.non-profit-background[type=radio]:checked + label::before {
+    background-color: dodgerblue;
+}
+input.government-background[type=radio]:checked + label::before {
+    background-color: rgb(242, 80, 34);
+}
