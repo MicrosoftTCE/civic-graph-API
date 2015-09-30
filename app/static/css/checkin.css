@@ -158,13 +158,12 @@ input[type='text']{
     font-size: 1.5em;
     padding-left: 20px;
     display: block;
-/*	border: 2px solid #BBBBBB;
-	height: 5%;
-	width: 80%;
-	margin: 1% 0% 5% 0%;
-*/}
+}
 input[type='radio']{
 	margin: 1% 2% 5% 5%;
+}
+#cb1 {
+	margin-left: 0;
 }
 .employerEntity{
 	margin: 0px;
@@ -236,6 +235,21 @@ p{
 	font-style: italic;
 	font-size: 0.8em;
 }
+#locationmsg {
+	display: none;
+	padding: 5px 0px;
+	color: #66ad1c;
+	font-style: italic;
+	font-size: 0.8em;
+}
+#locationmsgorg {
+	display: none;
+	padding: 5px 0px;
+	color: #66ad1c;
+	font-style: italic;
+	font-size: 0.8em;
+}
+
 .buttonadd {
 	margin-top: 2% !important;
 }
