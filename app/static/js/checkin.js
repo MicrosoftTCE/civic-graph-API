@@ -25,6 +25,29 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         }
     }
 })
+.directive('ngEnterBlurCol', function() {
+    return {
+    restrict: "A",
+    require: 'ngModel',
+    scope: true,
+    link: function (scope, element, attrs, loc) {
+            element.bind("keydown keypress blur", function (event) {
+                if(event.which === 13 || event.type === "blur") {
+                    if (!scope.editEntity.collaborations[scope.editEntity.collaborations.length-1].entity && this.value) {
+                        $('#collaborationscontainer').append("<div ng-click='removeCollaboration(collaboration)' id='addedCollaborators'  class='greyEnt'><span>"+this.value+"</span><span class='xCLose'>&#10006</span></div>")
+                        this.value = "";
+                        $(".greyEnt").each(function () { 
+                            $(this).on("click", function () {
+                                $(this).remove();
+                            })
+                        });
+                    }
+                    event.preventDefault();
+                }
+            })
+        }
+    }
+})
 .directive('ngEnterBlurOrg', function() {
     return {
     restrict: "A",
@@ -404,7 +427,6 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         $scope.templateShown = false;
         $scope.addConnection($scope.editEntity.collaborations)
         connection.entity_id = entity.id;
-        $scope.addConnectionTag(entity);
     }
 
     $scope.removeCollaboration = function (collaborator) {
