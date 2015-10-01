@@ -59,7 +59,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     }
     $http.get('api/entities')
         .success(function(data) {
-            console.log(data);
             $scope.entities = data.nodes;
             var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
 
