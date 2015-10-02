@@ -35,16 +35,11 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
             element.bind("keydown keypress blur", function (event) {
                 if(event.which === 13 || event.type === "blur") {
                     if(!scope.editEntity.locations[0].full_address){
-                        $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: this.value, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
-                            .then(function(response) {
-                                var location = response.data.resourceSets[0].resources[0];
-                                scope.setLocation(scope.editEntity.locations[0], location);
-                            });
+                        scope.autoSetAdress(this.value, scope.editEntity)
                         $('#locationmsg').show()
                     } else {
                         $('#locationmsg').hide()
                     }
-
                     event.preventDefault();
                 }
             })
@@ -60,11 +55,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
             element.bind("keydown keypress blur", function (event) {
                 if(event.which === 13 || event.type === "blur") {
                     if(!scope.newOrganization.locations[0].full_address){
-                        $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: this.value, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
-                            .then(function(response) {
-                                var location = response.data.resourceSets[0].resources[0];
-                                scope.setLocation(scope.newOrganization.locations[0], location);
-                            });
+                        scope.autoSetAdress(this.value, scope.newOrganization)
                         $('#locationmsgorg').show()
                     } else {
                         $('#locationmsgorg').hide()
@@ -374,6 +365,13 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
         return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
             .then(function(response) {
                 return response.data.resourceSets[0].resources
+            });
+    }
+    $scope.autoSetAdress = function(search, entity) {
+        return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
+            .then(function(response) {
+                var location = response.data.resourceSets[0].resources[0];
+                if (location) $scope.setLocation(entity.locations[0], location);
             });
     }
 
