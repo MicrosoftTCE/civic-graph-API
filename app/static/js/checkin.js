@@ -34,7 +34,7 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
     link: function (scope, element, attrs, loc) {
             element.bind("keydown keypress blur", function (event) {
                 if(event.which === 13 || event.type === "blur") {
-                    if(!scope.newOrganization.locations[0].full_address){
+                    if(!scope.editEntity.locations[0].full_address){
                         $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: this.value, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
                             .then(function(response) {
                                 var location = response.data.resourceSets[0].resources[0];
