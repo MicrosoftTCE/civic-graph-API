@@ -37,11 +37,8 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
                     if(!scope.newOrganization.locations[0].full_address){
                         $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: this.value, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
                             .then(function(response) {
-                                console.log("success callback")
                                 var location = response.data.resourceSets[0].resources[0];
-                                console.log(location)
                                 scope.setLocation(scope.editEntity.locations[0], location);
-                                console.log(scope.editEntity)
                             });
                         $('#locationmsg').show()
                     } else {
@@ -65,11 +62,8 @@ angular.module('civic-graph-kiosk', ['ui.bootstrap', 'leaflet-directive', 'ngAni
                     if(!scope.newOrganization.locations[0].full_address){
                         $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: this.value, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
                             .then(function(response) {
-                                console.log("success callback")
                                 var location = response.data.resourceSets[0].resources[0];
-                                console.log(location)
                                 scope.setLocation(scope.newOrganization.locations[0], location);
-                                console.log(scope.newOrganization)
                             });
                         $('#locationmsgorg').show()
                     } else {
