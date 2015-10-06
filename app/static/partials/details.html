@@ -1,11 +1,5 @@
-<div ng-if='!mobile'>
-    <button class='addInfoDesktop' ng-click='startEdit()'><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Information</p></button>
-    <hr />
-</div>
+<div class="details">
 <div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'></div>
-<div ng-if='actions.interacted'>
-<i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
-</div>
 <!--MOBILE TOP VIEW-->
 <div class='mobile-details' ng-if='mobile'>
     <div class="topContainer">
@@ -39,31 +33,29 @@
 <div class='right_logo'> 
     <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
     <div class='entity-name'>
-        <h2><a style="display:inline;" ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
-        <h2><a style="display:inline;" ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <h2 style="display:inline;" ng-if='currentEntity.url'><a style="display:inline;" ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <h2 style="display:inline;" ng-if='!currentEntity.url'><a style="display:inline;" ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <div ng-if='actions.interacted' style="display:inline">
+        <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
+        </div>
     </div>
+
+
 </div>
-<div ng-if='currentEntity.locations.length'>
-<h6>Locations:</h6>
-<p ng-repeat='location in currentEntity.locations'>{{location.full_address}}</p>
+<div ng-if='currentEntity.type'>
+<p ng-class="currentEntity.type"><span class='details-gly glyphicon glyphicon-stop'></span>{{currentEntity.type}}</p>
 </div>
 
-<div ng-if='currentEntity.influence'>
-<h6>Influence:</h6><p>{{currentEntity.influence}}</p>
-</div>
-
-<h6>Type of Entity:</h6><p>{{currentEntity.type}}</p>
 <div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees">
-<h6>Employees:</h6><p>{{currentEntity.employees | number}}</p>
+<!-- <h6>Type of Entity:</h6>-->
+
+<div ng-if='currentEntity.locations.length'>
+<p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.full_address}}</p>
 </div>
 <div ng-if='currentEntity.twitter_handle'>
-<h6>Twitter:</h6><a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
+<a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'><span class='details-gly glyphicon glyphicon-bullhorn'></span>{{currentEntity.twitter_handle}}</a>
 </div>
-<div ng-if='currentEntity.followers'>
-<h6>Twitter Followers:</h6><p>{{currentEntity.followers | number}}</p>
-</div>
-</div>
-<!--END DESKTOP TOP VIEW-->
+<hr>
 <!-- KEY PEOPLE -->
 <div ng-if='currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
 <h6>Key Civic People:</h6>
@@ -73,6 +65,26 @@
     <a ng-if='itemsShown.key_people > itemsShownDefault.key_people' ng-click="showLess('key_people')">Less...</a>
 </div>
 
+<h6>Influence:</h6>
+<div ng-if='currentEntity.influence' class="influence-col">
+<span class="glyphicon glyphicon-record
+"></span><h6>{{currentEntity.influence}}</h6>
+</div>
+
+<div class="influence-col">
+<p>{{currentEntity.employees | thousandSuffix}}</p><h6>Employees</h6>
+</div>
+
+<div ng-if='currentEntity.followers' class="influence-col">
+<p>{{currentEntity.followers | thousandSuffix}}</p><h6>Followers</h6>
+</div>
+
+
+</div>
+
+<!--END DESKTOP TOP VIEW-->
+<br><br>
+<hr>
 <!-- COLLABORATIONS -->
 <div ng-if='currentEntity.collaborations.length'>
 <h6>Collaborated with:</h6>
@@ -168,7 +180,7 @@
     <a ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">Less...</a>
 </div>
 <hr >
-<div ng-if='!currentEntity.locations.length'>
+<!-- <div ng-if='!currentEntity.locations.length'>
 <p>No known location information.</p>
 </div>
 <div ng-if='!currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
@@ -206,5 +218,9 @@
 </div>
 <div ng-if='!currentEntity.expenses.length' ng-hide="currentEntity.type=='Individual'">
     <p>No known expense information.</p>
+</div> -->
 </div>
+</div>
+<div ng-if='!mobile' class='addInfoDesktopContainer' ng-click='startEdit()'>
+    <button class='addInfoDesktop' ><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Info</p></button>
 </div>

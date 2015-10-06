@@ -25,6 +25,24 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         }
     };
 })
+.filter('thousandSuffix', function () {
+    return function (input, decimals) {
+      var exp, rounded,
+        suffixes = ['k', 'M', 'G', 'T', 'P', 'E'];
+
+      if(window.isNaN(input)) {
+        return null;
+      }
+
+      if(input < 1000) {
+        return input;
+      }
+
+      exp = Math.floor(Math.log(input) / Math.log(1000));
+
+      return (input / Math.pow(1000, exp)).toFixed(decimals) + suffixes[exp - 1];
+    };
+  })
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
@@ -57,7 +75,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         if (entityID) {entityID = parseInt(entityID);};
         return entityID
     }
-    $http.get('api/entities')
+    $http.get('http://172.31.98.241:5000/api/entities')
         .success(function(data) {
             $scope.entities = data.nodes;
             var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
@@ -112,6 +130,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.overviewUrl = null;
 
     $scope.changeView = function(view) {
+        console.log(view)
         _.forEach(_.keys($scope.showView), function(name) {
             $scope.showView[name] = view==name;
         });
@@ -204,7 +223,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         });
     }
 
-    $http.get('api/categories')
+    $http.get('http://172.31.98.241:5000/api/categories')
         .success(function(data) {
             $scope.categories = data.categories;
         });
@@ -381,7 +400,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
     $scope.savetoDB = function() {
         $scope.updating = true;
-        $http.post('api/save', {'entity': $scope.editEntity})
+        $http.post('http://172.31.98.241:5000/api/save', {'entity': $scope.editEntity})
             .success(function(response) {
                 $scope.setEntities(response.nodes);
                 $scope.setEntityID($scope.editEntity.id);
@@ -414,10 +433,10 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.switchView = function() {
         $scope.changeView('Map');
     }
-
+    $scope.loading = true;
     $scope.showLicense =  true;
     $scope.$on('entitiesLoaded', function() {
-        $http.get('api/connections').
+        $http.get('http://172.31.98.241:5000/api/connections').
         success(function(data) {
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {
@@ -689,6 +708,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
          });
     }
     var drawNetwork = function() {
+        $scope.loading = false;
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
         var height = bounds.height;

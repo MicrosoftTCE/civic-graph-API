@@ -1,42 +1,67 @@
+<div class="control-panel">
 <div class='logo'>
-<img  src="img/civicgraphdark.png" width="100%">
+<img  src="img/civicgraph.png" width="100%">
 </div><br>
+<div class="control-panel-content">
 
-<div class="form-group has-feedback search">
+
+<!-- <div class="form-group has-feedback search">
     <input type='text' ng-model='currentEntity'  typeahead='item as item.name for item in searchItems | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectItem($item)' typeahead-editable='false' class='form-control' placeholder='Search'>
     <i class="glyphicon glyphicon-search form-control-feedback"></i>
-</div>
+</div> -->
 
-<h3>Types:</h3>
+<h3>Types</h3>
 <div class='control-input' ng-repeat='(type, enabled) in entityTypes'>
     <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
     <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
     <span class='caption'>{{type}}</span>
 </div>
 
-<h3>Connections:</h3>
+<hr>
+
+<h3>Connections</h3>
 <div class='control-input' ng-repeat='(type, enabled) in connectionTypes'>
     <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
     <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
     <span class='caption'>{{type}}</span>
 </div>
 
-<h3>Sized By:</h3>
+<hr>
+
+<h3>Size By</h3>
 <div class='control-input' ng-repeat='sizeBy in sizeBys'>
     <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
     <span class='caption'>{{sizeBy.name}}</span>
 </div>
 
-<h3>View:</h3>
-<div class='control-input' ng-repeat='(view, enabled) in showView'>
+<hr>
+
+<h3>View</h3>
+
+<div class="switch switch-blue" >
+  <input type="radio" class="switch-input" name="view2" value="week2" id="week2" checked>
+  <label for="week2" class="switch-label switch-label-off" ng-click='changeView("Network")'>NETWORK</label>
+  <input type="radio" class="switch-input" name="view2" value="month2" id="month2">
+  <label for="month2" class="switch-label switch-label-on" ng-click='changeView("Map")'>MAP</label>
+  <span class="switch-selection"></span>
+</div>
+
+
+<!-- <div class='control-input' ng-repeat='(view, enabled) in showView'>
     <label class='checkbox radio'  ng-class="{'unchecked': !$parent.$parent.showView[view]}" ng-model='$parent.$parent.showView[view]' ng-click='changeView(view)'></label>
     <span class='caption'>{{view}}</span>
 </div>
+ -->
+
 <hr class='license-divider'>
-<p ng-hide='mobile' class="license">This work by
+</div>
+
+<div class="license">
+<p ng-hide='mobile' >This work by
  <a href="https://www.microsoft.com/" target='_blank'>
 <img alt="Microsoft" src="img/msftlogogrey.png" width="80"></a>
 is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target='_blank'>CC BY-SA 4.0.</a>
 Based on a work found <a href="https://github.com/rasmi/civic-graph" target='_blank'>here.</a></p>
 <p><a ng-click='showAbout()' href=''>Learn more</a></p>
-
+</div>
+</div>
