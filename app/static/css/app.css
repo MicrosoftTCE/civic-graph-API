@@ -174,7 +174,7 @@ hr{
 }
 .control-panel {
     /*height: 100vh;*/
-    min-width: 175px;
+    /*min-width: 175px;*/
     overflow: scroll;
     background-color: #F9F9F9;
 }
@@ -192,7 +192,7 @@ hr{
 .edit-panel {
     float: right;
     border-left: 1px solid #CECECE;
-    background-color: #F9F9F9;
+    background-color: hsla(15, 100%, 50%, 0.42);
     height: 100vh;
     overflow: scroll;
     padding-top: 10px;
@@ -427,7 +427,7 @@ hr{
     background-color: black;
 }
 .license {
-    background-color: #6ABCF7;
+    background-color: #FFA78B;
     position: absolute;
     bottom: 0;
     padding: 10px;
@@ -435,6 +435,9 @@ hr{
 .license-divider {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.license p {
+        /*color: white;*/
 }
 .licenseMob {
     color: #9E9E9E;
@@ -539,7 +542,7 @@ hr{
 }
 .details-panel{
     float: right;
-    min-width: 230px;
+    /*min-width: 230px;*/
     padding: 10px;
     padding-bottom: 30px;
     height: 100vh;
@@ -1011,12 +1014,14 @@ input.ng-valid.ng-dirty {
   margin: 30% auto;
   /*margin-top: 40%;*/
   /*margin-left: 40%;*/
+
   width: 40px;
   height: 40px;
   position: relative;
 }
 
 .cube1, .cube2 {
+  border-radius: 50%;
   width: 40px;
   height: 40px;
   position: absolute;
@@ -1062,4 +1067,13 @@ input.ng-valid.ng-dirty {
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
   }
+}
+#test{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 3;
+    background-color: hsla(304, 0%, 66%, 0.33);
 }
