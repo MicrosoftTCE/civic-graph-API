@@ -8,12 +8,16 @@ body {
 .edit-title {
     padding-bottom:6px;
 }
+.display-panel{
+    width: 60%;
+}
 .network-container {
     background-color: white;
 }
 .entity-twitter-logo {
-/*    padding-left: 15pt;
-*/}
+    /*padding-left: 15pt;*/
+    margin-bottom: 5px;
+}
 .logo {
     position: relative;
     text-align: center;
@@ -22,17 +26,20 @@ body {
     margin-top: 5%;
 */    padding: 10% 5% 0% 5%;
 }
+.logo img{
+    padding: 5%;
+}
 .caption {
     padding-left: 5px;
     color: black;
-    font-size: 16px
+    font-size: 1em
 }
 h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 p {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: #505050;
+    color: black;
     font-size: 14px;
     font-weight: normal;
 }
@@ -42,11 +49,13 @@ hr{
 .control-panel h3 {
     margin-top: 10px;
     padding-bottom: 5px;
-    font-size: 1.2em;
+    font-size: 1.3em;
+    font-weight: 900;
     /*text-transform: uppercase;*/
 }
 .control-input {
-    padding-left: 2px;
+    padding-left: 3px;
+    margin: 2% 0;
 }
 .entity-name {
     padding-bottom: 10px;
@@ -54,7 +63,7 @@ hr{
 .checkbox {
     width: 26px;
     height: 26px;
-    border: 5px solid black;
+    border: 5px solid white;
     padding: 0;
     background-color: black;
     position: relative;
@@ -62,7 +71,7 @@ hr{
     vertical-align: middle;
     margin-top: 2px;
     margin-bottom: 6px;
-    /*box-shadow: 0px 0px 0px 1px lightgrey;*/
+    box-shadow: 0px 0px 0px 1px lightgrey;
 }
 .checkbox input {
     display: none;
@@ -71,7 +80,7 @@ hr{
     width: 26px;
     height: 26px;
     border-radius: 50%;
-    background-color: #F88662;
+    background-color: #333;
     border: 5px white black;
 }
 .radio-big {
@@ -176,14 +185,20 @@ hr{
     /*height: 100vh;*/
     /*min-width: 175px;*/
     overflow: scroll;
+        overflow-y: scroll;
+    overflow-x: hidden;
     background-color: #F9F9F9;
 }
 .control-panel-content{
+    /*overflow: scroll;*/
+    overflow-y: scroll;
+    overflow-x: hidden;
     margin: 0px 15px 0px 15%;
 }
 .control-panel-ctr{
     border-right: 1px solid #CECECE;
     padding: 0;
+    width: 20% !important;
     height: 100vh;
 }
 .control-panel h3 {
@@ -427,10 +442,12 @@ hr{
     background-color: black;
 }
 .license {
-    background-color: #FFA78B;
+    /*background-color: #333;*/
     position: absolute;
     bottom: 0;
     padding: 10px;
+    text-align: center;
+    color: #333333;
 }
 .license-divider {
     margin-top: 10px;
@@ -438,6 +455,7 @@ hr{
 }
 .license p {
         /*color: white;*/
+        color: #333333;
 }
 .licenseMob {
     color: #9E9E9E;
@@ -508,7 +526,7 @@ hr{
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
-    margin-top: 3px;
+    margin-top: 26px;
     background-color: #F86A3C;
     border: none;
     text-align: center;
@@ -535,7 +553,7 @@ hr{
     /*margin-top: 5%;*/
 }
 .details {
-    height: 88vh !important;
+    height: 83vh !important;
     overflow-y: scroll;
     overflow-x: hidden;
     margin-bottom: 5%;
@@ -543,34 +561,48 @@ hr{
 .details-panel{
     float: right;
     /*min-width: 230px;*/
-    padding: 10px;
+    padding: 30px;
     padding-bottom: 30px;
     height: 100vh;
     background-color: white;
     z-index: 2;
     border-left: 1px solid #CECECE;
-    background-color: #F9F9F9;
+    /*background-color: #F9F9F9;*/
+    width: 20% !important;
     -webkit-transition: all .2s ease;
     -moz-transition: all .2s ease;
     -ms-transition: all .2s ease;
     -o-transition: all .2s ease;
     transition: all .2s ease;
 }
+.bio {
+    font-style: italic;
+    font-size: 0.8em;
+    margin-bottom: 10px !important;
+}
 .details-panel p, h1, h2, h3, h5, h6, a {
     /*text-align: center;*/
+    /*color: black;*/
     margin-bottom: 0%
 }
 .details-panel h6 {
     font-size: 14px;
     font-weight: bold;
+    margin: 6% 0;
 }
 .details-panel a {
-    color: orange;
+    /*color: black;*/
     text-decoration: none;
     display: block;
 }
 .details-panel a:hover {
     opacity: 0.7;
+    text-decoration: none;
+    /*color: none !important;*/
+    color: orange !important;
+}
+.details-panel hr{
+    margin: 10%;
 }
 .right_logo {
     /*text-align: center;*/
@@ -593,6 +625,9 @@ hr{
 .overview a {
     display: inline;
     cursor: pointer;
+}
+.overview {
+    text-align: center;
 }
 .checkboxCont{
     width: 45%;
@@ -682,16 +717,23 @@ hr{
 .mdetails-top-right h2{
     font-size: 17pt;
 }
+.influence-container{
+    width: 100%;
+}
 .influence-col{
-    margin-right: 10px;
+    margin-right: 4%; 
     width: auto;
-    float: left;
+    /* float: left; */
+    display: inline-block;
     text-align: center;
     box-sizing: border-box;
 }
 .influence-col h6{
     margin-top: 0;
-    /*font-size: 0em;*/
+    font-size: 1.6em;
+}
+.influence-col p{
+    font-size: 0.8em;
 }
 .details-influence{
     line-height: 1;
@@ -707,6 +749,10 @@ hr{
     margin-top: 5px;
     font-size: 9pt;
     font-weight: 200;
+}
+.details-panel .more{
+    font-style: italic;
+    /*opacity: 0.6; */
 }
 .mdetails-top-bottom h6{
 }
@@ -737,8 +783,10 @@ hr{
     margin-bottom: 3px;
 }
 .search {
+    /*opacity: 0.3;*/
+    background-color: rgba(241,242,242,0.25);
     height: 6vh;
-    width: 60%;
+    width: 58%;
     position: fixed;
     bottom: 0;
     margin-left: 20%;
@@ -746,7 +794,9 @@ hr{
 
 }
 .search input[type='text']{
+    background-color: rgba(241,242,242,0.25);
     height: 100%;
+    margin: 0 2%;
     font-size: 1.2em;
 }
 .search .glyphicon {
@@ -890,6 +940,22 @@ input.ng-valid.ng-dirty {
     margin-right: 10%;
     color: black;
 }
+.bottomNavMb{
+    z-index: 5;
+    position: fixed;
+    bottom: 0;
+    /*border: 1px solid red;*/
+    width: 100%;
+    height: 10%;
+    max-height:50px; 
+    min-height:35px;
+}
+.bottomNavMb button{
+    height: 100%;
+    width: 25%;
+    border: none;
+    float: left;
+}
 .popup {
     max-height: 90vh;
     overflow-y: auto;
@@ -914,26 +980,29 @@ input.ng-valid.ng-dirty {
 
 .switch {
   position: relative;
-  height: 26px;
-  width: 120px;
+  height: 32px;
+  width: 80%;
+  /*border-radius: 50%;*/
   /*margin: 20px auto;*/
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 3px;
+  background: white;
+  border-radius: 20px;
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .switch-label {
-  position: relative;
-  z-index: 2;
-  float: left;
-  width: 58px;
-  line-height: 26px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
-  text-align: center;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
-  cursor: pointer;
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 50%;
+    padding-top: 5px;
+    line-height: 26px;
+    font-size: 11px;
+    color: black;
+    text-align: center;
+    /* margin: 5px; */
+    /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); */
+    cursor: pointer;
 }
 .switch-label:active {
   font-weight: bold;
@@ -952,9 +1021,10 @@ input.ng-valid.ng-dirty {
   display: none;
 }
 .switch-input:checked + .switch-label {
+border-radius: 50%;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.65);
-  text-shadow: 0 1px rgba(255, 255, 255, 0.25);
+  color: white;
+  /*text-shadow: 0 1px rgba(255, 255, 255, 0.25);*/
   -webkit-transition: 0.15s ease-out;
   -moz-transition: 0.15s ease-out;
   -ms-transition: 0.15s ease-out;
@@ -967,7 +1037,7 @@ input.ng-valid.ng-dirty {
   transition-property: color, text-shadow;
 }
 .switch-input:checked + .switch-label-on ~ .switch-selection {
-  left: 60px;
+  left: 50%;
   /* Note: left: 50%; doesn't transition in WebKit */
 }
 
@@ -977,16 +1047,16 @@ input.ng-valid.ng-dirty {
   top: 2px;
   left: 2px;
   display: block;
-  width: 58px;
-  height: 22px;
-  border-radius: 3px;
-  background-color: #65bd63;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9dd993), color-stop(100%, #65bd63));
+  width: 50%;
+  height: 30px;
+  border-radius: 20px;
+  background-color: black;
+/*  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9dd993), color-stop(100%, #65bd63));
   background-image: -webkit-linear-gradient(top, #9dd993, #65bd63);
   background-image: -moz-linear-gradient(top, #9dd993, #65bd63);
   background-image: -ms-linear-gradient(top, #9dd993, #65bd63);
   background-image: -o-linear-gradient(top, #9dd993, #65bd63);
-  background-image: linear-gradient(top, #9dd993, #65bd63);
+  background-image: linear-gradient(top, #9dd993, #65bd63);*/
   -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);
   -webkit-transition: left 0.15s ease-out;
@@ -996,18 +1066,20 @@ input.ng-valid.ng-dirty {
   transition: left 0.15s ease-out;
 }
 .switch-blue .switch-selection {
-  background-color: #3aa2d0;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4fc9ee), color-stop(100%, #3aa2d0));
-  background-image: -webkit-linear-gradient(top, #4fc9ee, #3aa2d0);
-  background-image: -moz-linear-gradient(top, #4fc9ee, #3aa2d0);
-  background-image: -ms-linear-gradient(top, #4fc9ee, #3aa2d0);
-  background-image: -o-linear-gradient(top, #4fc9ee, #3aa2d0);
-  background-image: linear-gradient(top, #4fc9ee, #3aa2d0);
+  background-color: #333333;
+  background-image: #333333;
+/*  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4fc9ee), color-stop(100%, #3aa2d0));
+  background-image: -webkit-linear-gradient(top, black, #3aa2d0);
+  background-image: -moz-linear-gradient(top, black, #3aa2d0);
+  background-image: -ms-linear-gradient(top, black, #3aa2d0);
+  background-image: -o-linear-gradient(top, black, #3aa2d0);
+  background-image: linear-gradient(top, black, #3aa2d0);*/
 }
-/*.dropdown-menu {
-    top: -100% !important;
+.dropdown-menu {
+    bottom: 100% !important;
+    top: auto !important;
 }
-*/
+
 
 
 .spinner {
@@ -1068,7 +1140,7 @@ input.ng-valid.ng-dirty {
     -webkit-transform: rotate(-360deg);
   }
 }
-#test{
+#loadingBlock{
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -1077,3 +1149,6 @@ input.ng-valid.ng-dirty {
     z-index: 3;
     background-color: hsla(304, 0%, 66%, 0.33);
 }
+
+
+
