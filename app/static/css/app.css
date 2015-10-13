@@ -1,6 +1,17 @@
 @font-face {
     font-family: 'Segoe UI';
     src: url("/fonts/segoeui.ttf");
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Segoe UI';
+    src: url("/fonts/segoeuil.ttf");
+    font-weight: 100;
+}
+@font-face {
+    font-family: 'Segoe UI';
+    src: url("/fonts/segoeuib.ttf");
+    font-weight: 800;
 }
 body {
     overflow:hidden;
@@ -24,15 +35,16 @@ body {
 /*    margin-left: 0.9%;
     margin-right: 1%;
     margin-top: 5%;
-*/    padding: 10% 5% 0% 5%;
+*/    padding: 25px 40px 15px 40px;
 }
-.logo img{
+/*.logo img{
     padding: 5%;
-}
+}*/
 .caption {
     padding-left: 5px;
     color: black;
-    font-size: 1em
+    font-size: 1em;
+    font-weight: 300;
 }
 h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -44,14 +56,14 @@ p {
     font-weight: normal;
 }
 hr{
-    margin: 5px 0px;
+    margin: 7% 0px;
 }
 .control-panel h3 {
+    /*text-transform: uppercase;*/
     margin-top: 10px;
     padding-bottom: 5px;
-    font-size: 1.3em;
-    font-weight: 900;
-    /*text-transform: uppercase;*/
+    font-size: 1em;
+    font-weight: bolder;
 }
 .control-input {
     padding-left: 3px;
@@ -185,18 +197,25 @@ hr{
     /*height: 100vh;*/
     /*min-width: 175px;*/
     overflow: scroll;
-        overflow-y: scroll;
+    overflow-y: scroll;
     overflow-x: hidden;
     background-color: #F9F9F9;
 }
+.control-panel hr{
+    height: 2px;
+    background-color: #CECECE;
+}
 .control-panel-content{
     /*overflow: scroll;*/
-    overflow-y: scroll;
-    overflow-x: hidden;
-    margin: 0px 15px 0px 15%;
+    padding-bottom: 100px;
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
+    margin: 0px 15% 0px 15%;
 }
 .control-panel-ctr{
-    border-right: 1px solid #CECECE;
+    overflow: scroll;
+    background-color: #F9F9F9;
+    border-right: 2px solid #CECECE;
     padding: 0;
     width: 20% !important;
     height: 100vh;
@@ -205,6 +224,7 @@ hr{
     text-align: left;
 }
 .edit-panel {
+    overflow: scroll;
     float: right;
     border-left: 1px solid #CECECE;
     background-color: hsla(15, 100%, 50%, 0.42);
@@ -442,17 +462,27 @@ hr{
     background-color: black;
 }
 .license {
-    /*background-color: #333;*/
-    position: absolute;
+    /* margin-left: 10%; */
+    width: 19.8%;
+    z-index: 3;
+    position: fixed;
     bottom: 0;
     padding: 10px;
-    text-align: center;
+    background-color: #F9F9F9;
+    /* text-align: center; */
+    border-top: 2px solid #CECECE;
     color: #333333;
 }
-.license-divider {
+.license p{
+    margin-left: 10%;
+}
+.license a {
+    color: #333333;
+}
+/*.license-divider {
     margin-top: 10px;
     margin-bottom: 10px;
-}
+}*/
 .license p {
         /*color: white;*/
         color: #333333;
@@ -517,7 +547,8 @@ hr{
 .addInfoDesktopContainer {
     /*background-color: #1ea4eb; */
     height: 12vh;
-    border-top: 1px solid #CECECE;
+    border-top: 2px solid #CECECE;
+    text-align: center;
 }
 .addInfoDesktopContainer p{
     /*background-color: #1ea4eb; */
@@ -526,12 +557,12 @@ hr{
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
-    margin-top: 26px;
+    margin-top: 24px;
     background-color: #F86A3C;
     border: none;
     text-align: center;
     vertical-align: middle;
-    width: 100%;
+    width: 80%;
     z-index: 3;
     height: 7vh;
     border: 2px solid #CECECE;
@@ -553,20 +584,21 @@ hr{
     /*margin-top: 5%;*/
 }
 .details {
-    height: 83vh !important;
     overflow-y: scroll;
     overflow-x: hidden;
+    height: 83vh !important;
     margin-bottom: 5%;
+    margin: 30px 30px 0px 30px;
 }
 .details-panel{
     float: right;
     /*min-width: 230px;*/
-    padding: 30px;
+    padding: 0;
     padding-bottom: 30px;
     height: 100vh;
     background-color: white;
     z-index: 2;
-    border-left: 1px solid #CECECE;
+    border-left: 2px solid #CECECE;
     /*background-color: #F9F9F9;*/
     width: 20% !important;
     -webkit-transition: all .2s ease;
@@ -576,6 +608,7 @@ hr{
     transition: all .2s ease;
 }
 .bio {
+    font-weight: lighter;
     font-style: italic;
     font-size: 0.8em;
     margin-bottom: 10px !important;
@@ -587,8 +620,9 @@ hr{
 }
 .details-panel h6 {
     font-size: 14px;
-    font-weight: bold;
-    margin: 6% 0;
+    font-weight: 100;
+    font-style: italic;
+    /*margin: 3% 0;*/
 }
 .details-panel a {
     /*color: black;*/
@@ -602,7 +636,26 @@ hr{
     color: orange !important;
 }
 .details-panel hr{
-    margin: 10%;
+    margin: 10% 0;
+    height: 2px;
+    color: #CECECE;
+    background-color: #CECECE;
+}
+.gradientback{
+
+    position:absolute;
+    bottom:13.2vh;
+    left:0px;
+    width:100%;
+    height:50px;
+    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0089fff1', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
 }
 .right_logo {
     /*text-align: center;*/
@@ -720,21 +773,17 @@ hr{
 .influence-container{
     width: 100%;
 }
-.influence-col{
-    margin-right: 4%; 
-    width: auto;
-    /* float: left; */
-    display: inline-block;
+.influence-container td{
     text-align: center;
-    box-sizing: border-box;
 }
-.influence-col h6{
-    margin-top: 0;
+.influence-container h5{
+    margin-top: 4px;
     font-size: 1.6em;
 }
-.influence-col p{
+.influence-container p{
     font-size: 0.8em;
 }
+
 .details-influence{
     line-height: 1;
     width: 30%;
@@ -1083,7 +1132,7 @@ border-radius: 50%;
 
 
 .spinner {
-  margin: 30% auto;
+  margin: 42vh auto;
   /*margin-top: 40%;*/
   /*margin-left: 40%;*/
 
