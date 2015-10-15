@@ -53,17 +53,13 @@
             <div id='details-panel' add-mobile-events class='col-sm-2 details-panel details-animate ' ng-class="{'details-panelMb bottomPopUpMb': mobile}" ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
             <div class='col-sm-2 animate-if' ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random" style='overflow:scroll;'></div>
             <!-- <div ng-show='mobile' class='bottomNavMb' ng-include="'partials/bottom-nav-mobile.html?i='+random"></div> -->
-                <div ng-controller='networkCtrl' ng-show='mobile' class='bottomNavMb' >
+                <div ng-show='mobile' class='bottomNavMb' >
                 <table>
                     <td ng-click='showSearch()'><i class="fa fa-search"><p>Search</p></i></td>
                     <td ng-click='toggleSettings()'><i class="fa fa-filter"><p>Filter</p></i></td>
                     <td ng-click='switchView()'><i ng-if="showView.Network" class="fa fa-globe"><p>Map</p></i><i ng-if="showView.Map" class="fa fa-users"><p>Network</p></i></td>
                     <td ng-click='startEdit(null)'><i class="fa fa-plus-circle"><p>Add</p></i></td>
                 </table>
-                    <!-- <button ng-click='showSearch()'>SEARCH</button>
-                    <button ng-click='toggleSettings()'>MENU</button>
-                    <button ng-click='switchView()'>VIEW</button>
-                    <button ng-click='startEdit(null)' >ADD INFO</button>             -->
                 </div>
 
         </div>
