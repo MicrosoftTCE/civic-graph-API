@@ -20,12 +20,32 @@
             <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
         </div>
     </div>
-    <div class="mdetails-top-bottom">
+    
+
+    <!-- <div class="influence-container"> -->
+<h6>Influence</h6>
+    <table style="width:100%">
+      <tr>
+        <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
+        <td ng-if='currentEntity.employees'><h5>{{currentEntity.employees | thousandSuffix}}</h5></td> 
+        <td ng-if='currentEntity.followers'><h5>{{currentEntity.followers | thousandSuffix}}</h5></td>
+      </tr>
+      <tr>
+        <td ng-if='currentEntity.influence'><p>{{currentEntity.influence}}</p></td>
+        <td ng-if='currentEntity.employees'><p>Employees</p></td> 
+        <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"></span>Followers</p></td>
+      </tr>
+    </table>
+<!-- </div> -->
+
+
+
+   <!--  <div class="mdetails-top-bottom">
         <h6 class="influence">Influence:</h6>
         <div ng-if='currentEntity.employees' class="details-influence" ><p>{{currentEntity.employees | number}}</p><h6>Employees</h6></div>
         <div ng-if='currentEntity.followers' class="details-influence" ><p>{{currentEntity.followers | number}}</p><h6>Twitter Followers</h6></div>
         <div ng-if='currentEntity.influence' class="details-influence" ><p>{{currentEntity.influence}}</p><h6>Reach</h6></div>
-    </div>
+    </div> -->
 </div>
 <!-- END MOBILE TOP VIEW-->
 <!--DESKTOP TOP VIEW-->
@@ -39,7 +59,7 @@
         <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
         </div>
     </div>
-<p class="bio">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error minima quod molestias maxime sit quasi voluptatum inventore quos.</p>
+<p class="bio">Microsoft Corporation is an American multinational technology company headquartered in Redmond, Washington, that develops, manufactures, licenses, supports and sells computer software, consumer electronics and personal computers and services</p>
 
 </div>
 <div ng-if='currentEntity.type'>
@@ -88,7 +108,7 @@
 
 
 </div>
-
+</div>
 <!--END DESKTOP TOP VIEW-->
 
 
@@ -189,7 +209,7 @@
     <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">less...</a>
 </div>
 
-     <div class="gradientback">
+     <div ng-if="!mobile" class="gradientback">
 
      </div>
 <!-- <hr > -->

@@ -58,6 +58,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.connections = {};
     $scope.editing = false;
     $scope.actions = {'interacted':false};
+    $scope.showsearchMB = false;
+
+    $scope.showSearch = function () {
+        $scope.showsearchMB = $scope.showsearchMB ? false : true;
+        $scope.$broadcast('hideLicense');
+    }
+
 
     window.mobilecheck = function() {
         var check = false;
@@ -190,7 +197,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             });
             $scope.editEntity = newEntity;
         }
-        $scope.editing = true;
+        $scope.editing = $scope.editing ? false : true;
+        // $scope.editing = true;
     }
 
     $scope.stopEdit = function() {
@@ -431,10 +439,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
     $scope.switchView = function() {
-        $scope.changeView('Map');
+        $scope.showView.Network ? $scope.changeView('Map') :  $scope.changeView('Network');  
     }
     $scope.loading = true;
     $scope.showLicense =  true;
+    $scope.$on('hideLicense', function(){
+        $scope.showLicense = false;
+    })
     $scope.$on('entitiesLoaded', function() {
         $http.get('http://172.31.98.241:5000/api/connections').
         success(function(data) {
@@ -1044,10 +1055,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     }
 }])
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
-    $scope.switchView = function() {
-        $scope.changeView('Network');
-    }
-
     $scope.options = {
         center: {
             lat: 20.00,

@@ -20,6 +20,8 @@ body {
     padding-bottom:6px;
 }
 .display-panel{
+    position: fixed;
+    margin-left: 20%;
     width: 60%;
 }
 .network-container {
@@ -60,7 +62,7 @@ hr{
 }
 .control-panel h3 {
     /*text-transform: uppercase;*/
-    margin-top: 10px;
+    margin-top: 14px;
     padding-bottom: 5px;
     font-size: 1em;
     font-weight: bolder;
@@ -169,7 +171,7 @@ hr{
     top: 8%;
 }
 .leaflet-right {
-    right: -5px;
+    right: 15px;
 }
 .leaflet-bar a {
     color: #757171;
@@ -219,6 +221,7 @@ hr{
     padding: 0;
     width: 20% !important;
     height: 100vh;
+    z-index: 2;
 }
 .control-panel h3 {
     text-align: left;
@@ -238,7 +241,14 @@ hr{
     margin-bottom: 3px;
 }
 .edit-panelMb {
-    margin-top: 10%;
+    height: 87vh;
+    margin-top: 7vh;
+    overflow: scroll;
+    background-color: #6FBECC;
+    /* margin-bottom: 5vh; */
+}
+.edit-panelMb input[type="text"]{
+    border-radius: 0;
 }
 .edit-form {
 }
@@ -384,6 +394,7 @@ hr{
     top: 0;
     left: 0;
     display: block;
+    z-index: 0;
 }
 
 /*Animation spinner for form submission*/
@@ -468,10 +479,27 @@ hr{
     position: fixed;
     bottom: 0;
     padding: 10px;
-    background-color: #F9F9F9;
+    /*background-color: #F9F9F9;*/
     /* text-align: center; */
-    border-top: 2px solid #CECECE;
+    /*border-top: 2px solid #CECECE;*/
     color: #333333;
+
+
+
+    /*position:absolute;*/
+    /*bottom:10vh;*/
+    /*left:0px;*/
+    /*width:100%;*/
+    /*height:50px;*/
+    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(30%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0089fff1', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+
 }
 .license p{
     margin-left: 10%;
@@ -547,7 +575,7 @@ hr{
 .addInfoDesktopContainer {
     /*background-color: #1ea4eb; */
     height: 12vh;
-    border-top: 2px solid #CECECE;
+    /*border-top: 2px solid #CECECE;*/
     text-align: center;
 }
 .addInfoDesktopContainer p{
@@ -557,18 +585,32 @@ hr{
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
-    margin-top: 24px;
-    background-color: #F86A3C;
+    margin-top: 16px;
+    background-color: rgb(242, 80, 34);
     border: none;
     text-align: center;
     vertical-align: middle;
     width: 80%;
     z-index: 3;
-    height: 7vh;
-    border: 2px solid #CECECE;
-/*    bottom:0;
-    right:0;*/
-}
+    height: 5.8vh;
+    border: 2px solid #F25022;
+
+    /*transition: opacity 0.1s linear;*/
+    /* margin-top: 16px; */
+/*    bottom: 0;
+    right: 10%;
+    position: absolute;
+    float: left;
+    margin-bottom: 15px;
+    background-color: rgb(242, 80, 34);
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    width: 80%;
+    z-index: 3;
+    height: 6vh;
+    border: 2px solid #F25022;
+*/}
 
 .addInfoDesktop:hover {
     opacity: 0.8;
@@ -586,7 +628,7 @@ hr{
 .details {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 83vh !important;
+    height: 86vh !important;
     margin-bottom: 5%;
     margin: 30px 30px 0px 30px;
 }
@@ -644,7 +686,7 @@ hr{
 .gradientback{
 
     position:absolute;
-    bottom:13.2vh;
+    bottom:10vh;
     left:0px;
     width:100%;
     height:50px;
@@ -668,6 +710,7 @@ hr{
     bottom: 0;
     padding-bottom: 35px;
     text-align: center;
+    overflow: scroll;
 }
 .details-panelMb a{
     margin: 2%;
@@ -991,19 +1034,43 @@ input.ng-valid.ng-dirty {
 }
 .bottomNavMb{
     z-index: 5;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     /*border: 1px solid red;*/
     width: 100%;
-    height: 10%;
+    height: 10vh;
     max-height:50px; 
     min-height:35px;
+    background-color: rgba(255,255,255,1);
 }
-.bottomNavMb button{
-    height: 100%;
+.bottomNavMb td{
     width: 25%;
-    border: none;
-    float: left;
+    height: 100%;
+    border-top: 1px solid #CECECE;
+    text-align: center;
+    font-size: 2em;
+    color: #8C8C8C;
+    /*height: 100%;*/
+    /*width: 25%;*/
+    /*border: none;*/
+    /*float: left;*/
+}
+.bottomNavMb td:not(:last-child){
+    border-right: 1px solid #CECECE;
+}
+.bottomNavMb table{
+    width: 100%;
+    height: 100%;
+}
+.bottomNavMb p{
+    color: #8C8C8C;
+    font-size: 0.4em;
+    margin-top: 3px;
+}
+.bottomNavMb i{
+    /*color: #8C8C8C;*/
+    /*font-size: 0.4em;*/
+    margin-top: 3px;
 }
 .popup {
     max-height: 90vh;
@@ -1031,6 +1098,7 @@ input.ng-valid.ng-dirty {
   position: relative;
   height: 32px;
   width: 80%;
+  margin-top: 2%;
   /*border-radius: 50%;*/
   /*margin: 20px auto;*/
   background: white;
@@ -1198,6 +1266,16 @@ border-radius: 50%;
     z-index: 3;
     background-color: hsla(304, 0%, 66%, 0.33);
 }
+.bottomPopUpMb{
+    position: fixed;
+    bottom: 6vh;
+    z-index: 3;
+    width: 100% !important;
+}
+.searchMB{
+    /*background-color: white;*/
+    /*width: 100%;*/
+}
+.logoModal{
 
-
-
+}

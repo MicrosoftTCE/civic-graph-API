@@ -18,7 +18,7 @@
     <script src='js/lib/angular-leaflet-directive.min.js'></script>
     <script src='js/lib/pinchzoom.min.js'></script>
     <script src='js/app.js'></script>
-
+    
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
     <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css'>
     <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'>
@@ -35,24 +35,37 @@
 <div ng-show="mobile" class="navLogoMobile" >
     <!-- <img alt="Menu" src="img/icon-hamb.png" ng-show='!settingsEnabled' ng-click='toggleSettings()' class='navButtonMob' > -->
     <!-- <img alt="Menu" src="img/icon-chev.png" ng-show='settingsEnabled' ng-click='toggleSettings()' class='navButtonMob'  > -->
-    <img  class="logoMob" src="img/civicgraphdark.png">
-    <div class="logoContainer">
-    <!-- <img alt="Add Info" src="img/addbutton.png" class='visible-xs-block addInfoMobile' ng-hide='editing' ng-click='startEdit(null)' > -->
-    </div>
+    <img ng-click='showAbout()' class="logoMob" src="img/civicgraph.png">
+<!--     <div class="logoContainer">
+    <img alt="Add Info" src="img/addbutton.png" class='visible-xs-block addInfoMobile' ng-hide='editing' ng-click='startEdit(null)' >
+    </div> -->
 </div>
     <div class='container-fluid main-container'>
         <div class='row'>
             <div id='settings' ng-show='settingsEnabled' class='col-sm-2 control-panel-ctr hidden-xs' ng-include="'partials/controls.html?i='+random"></div>
-            <div ng-show='settingsEnabled && !editing' class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up' ng-class="{'mapView': template.name =='Map'}" ng-include="'partials/controlsmobile.html?i='+random"></div>
-            <div ng-show='showView.Network' class='display-panel' ng-hide="editing && mobile || showView.Map" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/network.html?i='+random"></div>
-            <div class="form-group has-feedback search">
+            <div ng-show='settingsEnabled && !editing' class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up bottomPopUpMb' ng-class="{'mapView': template.name =='Map'}" ng-include="'partials/controlsmobile.html?i='+random"></div>
+            <div ng-show='showView.Network' ng-hide="editing && mobile || showView.Map" ng-class="mobile ? 'display-panelMB' : 'display-panel'" ng-include="'partials/network.html?i='+random"></div>
+            <div ng-show='!mobile || showsearchMB' ng-class="mobile ? 'searchMB bottomPopUpMb' : 'search'" class="form-group has-feedback">
                 <input type='text' ng-model='currentEntity'  typeahead='item as item.name for item in searchItems | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='selectItem($item)' typeahead-editable='false' class='form-control' placeholder='Search'>
                 <i class="glyphicon glyphicon-search form-control-feedback"></i>
             </div>
-            <div ng-if='showView.Map' class='display-panel' ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/map.html?i='+random"></div>
-            <div id='details-panel' add-mobile-events class='col-sm-2 details-panel details-animate ' ng-class="{'details-panelMb': mobile}" ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
-            <div class='col-sm-2 edit-panel animate-if' ng-class="{'edit-panelMb': mobile}" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
-            <div ng-show='mobile' class='bottomNavMb' ng-include="'partials/bottom-nav-mobile.html?i='+random"></div>
+            <div ng-if='showView.Map' ng-class="mobile ? 'display-panelMB' : 'display-panel'"ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/map.html?i='+random"></div>
+            <div id='details-panel' add-mobile-events class='col-sm-2 details-panel details-animate ' ng-class="{'details-panelMb bottomPopUpMb': mobile}" ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-show='!mobile || clickedEntity.entity' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
+            <div class='col-sm-2 animate-if' ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random" style='overflow:scroll;'></div>
+            <!-- <div ng-show='mobile' class='bottomNavMb' ng-include="'partials/bottom-nav-mobile.html?i='+random"></div> -->
+                <div ng-controller='networkCtrl' ng-show='mobile' class='bottomNavMb' >
+                <table>
+                    <td ng-click='showSearch()'><i class="fa fa-search"><p>Search</p></i></td>
+                    <td ng-click='toggleSettings()'><i class="fa fa-filter"><p>Filter</p></i></td>
+                    <td ng-click='switchView()'><i ng-if="showView.Network" class="fa fa-globe"><p>Map</p></i><i ng-if="showView.Map" class="fa fa-users"><p>Network</p></i></td>
+                    <td ng-click='startEdit(null)'><i class="fa fa-plus-circle"><p>Add</p></i></td>
+                </table>
+                    <!-- <button ng-click='showSearch()'>SEARCH</button>
+                    <button ng-click='toggleSettings()'>MENU</button>
+                    <button ng-click='switchView()'>VIEW</button>
+                    <button ng-click='startEdit(null)' >ADD INFO</button>             -->
+                </div>
+
         </div>
     </div>
 </body>
