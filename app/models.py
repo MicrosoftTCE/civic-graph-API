@@ -23,6 +23,7 @@ class Entity(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     nickname = Column(String(100))
+    description = Column(String(160))
     locations = relationship('Location', secondary=location_table, backref='entity', lazy='dynamic', cascade='all, delete-orphan', single_parent=True)
     entitytype = Column(String(100))
     categories = relationship('Category', secondary=category_table, backref='entity', lazy='dynamic')
