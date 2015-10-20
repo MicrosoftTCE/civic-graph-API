@@ -66,6 +66,7 @@ class Entity(Base):
         return {'id': self.id,
                 'name': self.name,
                 'nickname': self.nickname,
+                'description': self.description,
                 'locations': [location.json() for location in self.locations],
                 'type': self.entitytype,
                 'categories': [category.json() for category in self.categories],
