@@ -18,11 +18,17 @@ for entity in entities:
             time.sleep(6)
             user = api.GetUser(screen_name=twitter_handle)
             followers = user.followers_count
+            description = user.description
             if followers:
                 print entity.name
                 print followers
                 entity.followers = followers
+            if description:
+                print entity.description
+                print description
+                entity.description = description
         except:
             print 'ERROR', entity.name
 
 db.commit()
+
