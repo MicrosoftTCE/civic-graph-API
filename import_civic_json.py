@@ -239,7 +239,8 @@ def make_connections():
 def create_entity(node):
     entity = Entity(node['name'])
     entity.nickname = node['nickname']
-    
+    if node['description']:
+        entity.description = node['description']
     entity.entitytype = node['type']
     entity.influence = node['influence']
     if entity.influence:
