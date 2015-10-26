@@ -10,6 +10,8 @@ def update(entity, data):
         entity.name = data['name']
     if entity.nickname != data['nickname']:
         entity.nickname = data['nickname']
+    # if entity.description != data['description']:
+        # entity.description = data['description']
     if entity.entitytype != data['type']:
         entity.entitytype = data['type']
     if entity.influence != data['influence']:

@@ -1,4 +1,4 @@
-<div class="details">
+<div ng-class="mobile ? 'detailsMb' : 'details'">
 <div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'></div>
 <!--MOBILE TOP VIEW-->
 <div class='mobile-details' ng-if='mobile'>
@@ -19,11 +19,12 @@
             </div>
             <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
         </div>
-    </div>
-    
 
-    <!-- <div class="influence-container"> -->
-<h6>Influence</h6>
+    </div>
+            <p class="bio">{{currentEntity.description}}</p>
+
+
+    <div class="influence-container">
     <table style="width:100%">
       <tr>
         <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
@@ -36,7 +37,7 @@
         <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"></span>Followers</p></td>
       </tr>
     </table>
-<!-- </div> -->
+    </div>
 
 
 
@@ -53,13 +54,13 @@
 <div class='right_logo'> 
     <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
     <div class='entity-name'>
-        <h2 style="display:inline;" ng-if='currentEntity.url'><a style="display:inline;color:black;" ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
+        <h2 style="display:inline;" ng-if='currentEntity.url'><a style="display:inline;color:#333333;" ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
         <h2 style="display:inline;" ng-if='!currentEntity.url'><a style="display:inline;" ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
         <div ng-if='actions.interacted' style="display:inline">
         <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
         </div>
     </div>
-<p class="bio">Microsoft Corporation is an American multinational technology company headquartered in Redmond, Washington, that develops, manufactures, licenses, supports and sells computer software, consumer electronics and personal computers and services</p>
+<p class="bio">{{currentEntity.description}}</p>
 
 </div>
 <div ng-if='currentEntity.type'>
@@ -73,7 +74,7 @@
 <p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.full_address}}</p>
 </div>
 <div ng-if='currentEntity.twitter_handle'>
-<a style='color:black;' ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'><i class="fa fa-twitter details-gly"></i>{{currentEntity.twitter_handle}}</a>
+<a style='color:#333333;' ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'><i class="fa fa-twitter details-gly"></i>{{currentEntity.twitter_handle}}</a>
 </div>
 
 <!-- KEY PEOPLE -->

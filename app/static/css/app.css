@@ -21,8 +21,13 @@ body {
 }
 .display-panel{
     position: fixed;
+    overflow: hidden;
     margin-left: 20%;
     width: 60%;
+}
+.display-panelMb{
+    border: 1px solid green;
+    height: 100vh;
 }
 .network-container {
     background-color: white;
@@ -44,7 +49,7 @@ body {
 }*/
 .caption {
     padding-left: 5px;
-    color: black;
+    color: #333333;
     font-size: 1em;
     font-weight: 300;
 }
@@ -53,7 +58,7 @@ h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
 }
 p {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-    color: black;
+    color: #333333;
     font-size: 14px;
     font-weight: normal;
 }
@@ -187,13 +192,13 @@ hr{
 }
 .map-container {
     margin-left: -15px;
-    margin-right: -15px;
+    /*margin-right: -15px;*/
 }
 .network-container {
     height:100%;
     overflow:hidden;
     margin-left: -15px;
-    margin-right: -15px;
+    /*margin-right: -15px;*/
 }
 .control-panel {
     /*height: 100vh;*/
@@ -244,8 +249,13 @@ hr{
     height: 87vh;
     margin-top: 7vh;
     overflow: scroll;
-    background-color: #6FBECC;
+    background-color: #333333;
     /* margin-bottom: 5vh; */
+    color: white;
+    padding-bottom: 15px;
+}
+.edit-panelMb .caption{
+    color: white;
 }
 .edit-panelMb input[type="text"]{
     border-radius: 0;
@@ -385,90 +395,18 @@ hr{
 
 .network-container{
     text-align: center;
+    overflow: hidden;
 }
 
 #network {
     text-align: center;
     width: 100%;
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
     left: 0;
     display: block;
     z-index: 0;
 }
-
-/*Animation spinner for form submission*/
-/*source: http://projects.lukehaas.me/css-loaders/*/
-
-.loader {
-    font-size: 90px;
-    text-indent: -9999em;
-    overflow: hidden;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    margin: 72px auto;
-    position: relative;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-    transform: translateZ(0);
-  -webkit-animation: load6 1.7s infinite ease;
-    animation: load6 1.7s infinite ease;
-}
-@-webkit-keyframes load6 {
-    0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    box-shadow: 0 -0.83em 0 -0.4em green, 0 -0.83em 0 -0.42em green, 0 -0.83em 0 -0.44em green, 0 -0.83em 0 -0.46em green, 0 -0.83em 0 -0.477em green;
-}
-5%,
-95% {
-    box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-}
-10%,
-59% {
-    box-shadow: 0 -0.83em 0 -0.4em blue, -0.087em -0.825em 0 -0.42em blue, -0.173em -0.812em 0 -0.44em blue, -0.256em -0.789em 0 -0.46em blue, -0.297em -0.775em 0 -0.477em blue;
-}
-20% {
-    box-shadow: 0 -0.83em 0 -0.4em #31D446, -0.338em -0.758em 0 -0.42em #31D446, -0.555em -0.617em 0 -0.44em #31D446, -0.671em -0.488em 0 -0.46em #31D446, -0.749em -0.34em 0 -0.477em #31D446;
-}
-38% {
-    box-shadow: 0 -0.83em 0 -0.4em #FFFB21, -0.377em -0.74em 0 -0.42em #FFFB21, -0.645em -0.522em 0 -0.44em #FFFB21, -0.775em -0.297em 0 -0.46em #FFFB21, -0.82em -0.09em 0 -0.477em #FFFB21;
-}
-100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-    box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-}
-}
-@keyframes load6 {
-    0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-    box-shadow: 0 -0.83em 0 -0.4em green, 0 -0.83em 0 -0.42em green, 0 -0.83em 0 -0.44em green, 0 -0.83em 0 -0.46em green, 0 -0.83em 0 -0.477em green;
-}
-5%,
-95% {
-    box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-}
-10%,
-59% {
-    box-shadow: 0 -0.83em 0 -0.4em blue, -0.087em -0.825em 0 -0.42em blue, -0.173em -0.812em 0 -0.44em blue, -0.256em -0.789em 0 -0.46em blue, -0.297em -0.775em 0 -0.477em blue;
-}
-20% {
-    box-shadow: 0 -0.83em 0 -0.4em #31D446, -0.338em -0.758em 0 -0.42em #31D446, -0.555em -0.617em 0 -0.44em #31D446, -0.671em -0.488em 0 -0.46em #31D446, -0.749em -0.34em 0 -0.477em #31D446;
-}
-38% {
-    box-shadow: 0 -0.83em 0 -0.4em #FFFB21, -0.377em -0.74em 0 -0.42em #FFFB21, -0.645em -0.522em 0 -0.44em #FFFB21, -0.775em -0.297em 0 -0.46em #FFFB21, -0.82em -0.09em 0 -0.477em #FFFB21;
-}
-100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-    box-shadow: 0 -0.83em 0 -0.4em red, 0 -0.83em 0 -0.42em red, 0 -0.83em 0 -0.44em red, 0 -0.83em 0 -0.46em red, 0 -0.83em 0 -0.477em red;
-}
-}
-
-/*End of animation spinner*/
 .bbackground {
     background-color: black;
 }
@@ -491,12 +429,12 @@ hr{
     /*left:0px;*/
     /*width:100%;*/
     /*height:50px;*/
-    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(30%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30%); /* W3C */
+    background: -moz-linear-gradient(top,  rgba(249,249,249,0) 0%, rgba(249,249,249,1) 30%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,249,249,0)), color-stop(30%,rgba(249,249,249,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(249,249,249,0) 0%,rgba(249,249,249,1) 30%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(249,249,249,0) 0%,rgba(249,249,249,1) 30%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(249,249,249,0) 0%,rgba(249,249,249,1) 30%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(249,249,249,0) 0%,rgba(249,249,249,1) 30%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0089fff1', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
 
 
@@ -505,7 +443,7 @@ hr{
     margin-left: 10%;
 }
 .license a {
-    color: #333333;
+    color: #52B3BF;
 }
 /*.license-divider {
     margin-top: 10px;
@@ -520,7 +458,7 @@ hr{
     font-weight: 400;
     font-size: 0.9em;
     pointer-events: none;
-    bottom: 10%;
+    bottom: 15vh;
     position: fixed;
     width: 75%;
     left: 50%;
@@ -548,14 +486,12 @@ hr{
 }
 .captionMobile {
     padding: 5px;
-    font-weight: 800;
-    margin: 0;
 }
-.mobileTitle{
+/*.mobileTitle{
     margin-top: 5px;
     font-size: 1.3em;
     margin-bottom: 5px;
-}
+}*/
 .mobileTitle span{
     margin-left: 2px;
     color: rgb(51, 51, 51);
@@ -632,6 +568,13 @@ hr{
     margin-bottom: 5%;
     padding: 30px 30px 0px 30px;
 }
+.detailsMb {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: auto;
+    margin-bottom: 5%;
+    padding: 30px 30px 0px 30px;
+}
 .details-panel{
     float: right;
     /*min-width: 230px;*/
@@ -664,7 +607,7 @@ hr{
     font-size: 14px;
     font-weight: 100;
     font-style: italic;
-    /*margin: 3% 0;*/
+    margin: 10px 0 5px 0;
 }
 .details-panel a {
     /*color: black;*/
@@ -689,7 +632,7 @@ hr{
     bottom:14vh;
     left:0px;
     width:100%;
-    height:50px;
+    height:100px;
     background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -702,18 +645,18 @@ hr{
 .right_logo {
     /*text-align: center;*/
 }
-.details-panelMb {
-    height: 20vh;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 35px;
-    text-align: center;
+.details-panelMb{
     overflow: scroll;
+    height: 45vh;
 }
-.details-panelMb a{
-    margin: 2%;
+.details-panelMb .influence-container{
+    margin-top: 5%;
+}
+.details-panelMb hr{
+    margin: 5% 0;
+}
+.details-panelMb .bio{
+    margin: 5% 0;
 }
 .overview-type {
     text-align: center;
@@ -726,6 +669,7 @@ hr{
     text-align: center;
 }
 .checkboxCont{
+    padding-top: 10px;
     width: 45%;
     float: left;
     display: inline-block;
@@ -774,7 +718,7 @@ hr{
     padding-bottom: 10px;
 }
 .participate {
-    padding: 3% 5% 0% 5%;
+    padding: 3% 10% 5% 10%;
 }
 .error {
     text-align: center;
@@ -788,11 +732,12 @@ hr{
 
 #canvas-force {
     overflow: auto;
+    width: 100%;
 }
-.mobile-details{
+/*.mobile-details{
     text-align: center;
     margin-bottom: 20px;
-}
+}*/
 
 .mobileLogo {
     float: left;
@@ -886,10 +831,26 @@ hr{
 
 }
 .search input[type='text']{
-    background-color: rgba(241,242,242,0.25);
+    background-color: hsla(0, 0%, 100%, 0.2); 
     height: 100%;
     margin: 0 2%;
     font-size: 1.2em;
+    color: #636363;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #636363;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #636363;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #636363;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #636363;
 }
 .search .glyphicon {
     margin-top: 5px;
@@ -915,9 +876,6 @@ input.ng-invalid.ng-dirty {
 }
 input.ng-valid.ng-dirty {
     border-color: green;
-}
-#nloader{
-    margin-top: 45%;
 }
 .logoContainer{
     height: 80%;
@@ -953,9 +911,9 @@ input.ng-valid.ng-dirty {
 }
 /*//EVENT ANIMATIONS FOR MOBILE*/
 .scroll-up {
-    -webkit-transition:all linear 0.5s;
-    transition:all linear 0.5s;
-    max-height: 999px;
+    -webkit-transition: 0.5s linear all;
+    transition:0.5s linear all;
+    max-height: 500px;
 
 }
 .scroll-up.ng-hide {
@@ -1030,26 +988,29 @@ input.ng-valid.ng-dirty {
     line-height: 0.3;
     position: relative;
     margin-right: 10%;
-    color: black;
+    color: #333333;
 }
 .bottomNavMb{
+    overflow: hidden;
+    /*border: 1px solid red;*/
+    /*clear:both;*/
     z-index: 5;
-    position: absolute;
+    position: fixed;
+    /*margin-top: 90vh;*/
     bottom: 0;
     /*border: 1px solid red;*/
     width: 100%;
-    height: 10vh;
-    max-height:50px; 
-    min-height:35px;
+    height: 50px;
     background-color: rgba(255,255,255,1);
 }
 .bottomNavMb td{
     width: 25%;
     height: 100%;
     border-top: 1px solid #CECECE;
+    background-color: #E4E4E4;
     text-align: center;
-    font-size: 2em;
-    color: #8C8C8C;
+    font-size: 1.7em;
+    color: #333333;
     /*height: 100%;*/
     /*width: 25%;*/
     /*border: none;*/
@@ -1063,7 +1024,7 @@ input.ng-valid.ng-dirty {
     height: 100%;
 }
 .bottomNavMb p{
-    color: #8C8C8C;
+    color: #333333;
     font-size: 0.4em;
     margin-top: 3px;
 }
@@ -1072,17 +1033,66 @@ input.ng-valid.ng-dirty {
     /*font-size: 0.4em;*/
     margin-top: 3px;
 }
+.clickedButtonMb {
+    color: black !important;
+    background-color: white !important;
+}
 .popup {
+    width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     background-color: white;
+    border: 4px solid lightgrey;
+}
+.popup i {
+    color: lightgrey;
+    font-size: 2em;
 }
 .popup .logo {
-    margin: 5% 0% 0% 5%;
+    /*margin: 5% 0% 0% 5%;*/
+    padding: 3% 0 0 10%;
+    width: 40%;
 }
 .modal {
     margin-top: 7vh;
 }
+.modal li{
+ /*   margin-left: 0;
+    padding-right: 0;*/
+    list-style-type: none;
+    counter-increment: step-counter;
+    margin: 10px 0;
+}
+.modal ol{
+    padding: 0;
+}
+
+.modal li::before {
+    content: counter(step-counter);
+    margin-right: 5px;
+    font-size: 80%;
+    /*background-color: rgb(200,200,200);*/
+    color: white;
+    font-weight: bold;
+    padding: 1px 5px;
+    border-radius: 50%;
+}
+.modal li:nth-child(1)::before{
+    /*background-color: orange;*/
+    color: orange;
+    border: 5px solid orange;
+}
+.modal li:nth-child(2)::before{
+    /*background-color: green;*/
+    color: green;
+    border: 5px solid green;
+}
+.modal li:nth-child(3)::before{
+    /*background-color: blue;*/
+    color: blue;
+    border: 5px solid blue;
+}
+
 .mcotainer{
     text-align: center;
 }
@@ -1115,7 +1125,7 @@ input.ng-valid.ng-dirty {
     padding-top: 5px;
     line-height: 26px;
     font-size: 11px;
-    color: black;
+    color: #333333;
     text-align: center;
     /* margin: 5px; */
     /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45); */
@@ -1192,12 +1202,15 @@ border-radius: 50%;
   background-image: -o-linear-gradient(top, black, #3aa2d0);
   background-image: linear-gradient(top, black, #3aa2d0);*/
 }
-.dropdown-menu {
+/*.dropdwon-menu{*/
+.search .dropdown-menu {
     bottom: 100% !important;
     top: auto !important;
 }
-
-
+.searchMB .dropdown-menu {
+    bottom: 100% !important;
+    top: auto !important;
+}
 
 .spinner {
   margin: 42vh auto;
@@ -1268,11 +1281,20 @@ border-radius: 50%;
 }
 .bottomPopUpMb{
     position: fixed;
-    bottom: 6vh;
-    z-index: 3;
-    width: 100% !important;
+    bottom: 5px;
+    padding-bottom: 10vh;
+    z-index: 5;
+    width: 96% !important;
+    margin-left: 2%;
+    /* background: white; */
+}
+.bottomPopUpMb:not(.searchMB){
+    border: 1px solid lightgrey;
+    background: white;
 }
 .searchMB{
+    width: 90%;
+    /*margin-left: 5%;*/
     /*background-color: white;*/
     /*width: 100%;*/
 }

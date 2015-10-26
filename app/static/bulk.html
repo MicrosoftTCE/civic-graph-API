@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Civic Bulk Import</title>
+
+	 <link rel='stylesheet' href='css/bulk.css'>
+</head>
+<body>
+
+<div id="input">
+	<h1>Paste your spreadsheet here in the following format:</h1>
+Name, Nickname, Location, Influence, Type, Website, Twitter, Number of employees, Revenue, Revenue Year, Expenses, Expenses Year.
+<textarea name="" id="" cols="150" rows="20"></textarea>
+<br>
+<input type="submit" id="parse" value="Parse">
+</div>	
+
+
+<div id="submit">
+<h1>If All the data is correct press Submit</h1>
+<input type="submit" id="submitData" value="Submit">
+<input type="submit" id="back" value="Go Back">
+
+	<table>
+	<tr>
+		<th>Name</th>
+		<th>Nickname</th>
+		<th>Location</th>
+		<th>Influence</th>
+		<th>Type</th>
+		<th>Website</th>
+		<th>Twitter</th>
+		<th>Number of employees</th>
+		<th>Revenue</th>
+		<th>Revenue Year</th>
+		<th>Expenses</th>
+		<th>Expenses Year</th>
+	</tr>
+	</table>
+</div>
+
+
+
+<script src='js/bulk.js'></script>
+</body>
+</html>
+
