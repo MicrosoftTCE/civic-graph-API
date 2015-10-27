@@ -26,7 +26,7 @@ body {
     width: 60%;
 }
 .display-panelMb{
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     height: 100vh;
 }
 .network-container {
@@ -232,10 +232,11 @@ hr{
     text-align: left;
 }
 .edit-panel {
+    width: 20% !important;
     overflow: scroll;
     float: right;
     border-left: 1px solid #CECECE;
-    background-color: hsla(15, 100%, 50%, 0.42);
+    background-color: #CECECE;
     height: 100vh;
     overflow: scroll;
     padding-top: 10px;
@@ -244,18 +245,21 @@ hr{
 .edit-panel h6{
     text-align: left;
     margin-bottom: 3px;
+    color: #333333;
+    font-size: 1em;
+    font-weight: 500;
 }
 .edit-panelMb {
     height: 87vh;
     margin-top: 7vh;
     overflow: scroll;
-    background-color: #333333;
+    background-color: #CECECE;
     /* margin-bottom: 5vh; */
-    color: white;
-    padding-bottom: 15px;
+    color: #333333;
+    padding: 0% 5% 5% 15px;
 }
 .edit-panelMb .caption{
-    color: white;
+    color: #333333;
 }
 .edit-panelMb input[type="text"]{
     border-radius: 0;
@@ -272,6 +276,9 @@ hr{
     margin-left: 5px;
     cursor: pointer;
     opacity: 0.6;
+}
+.f-right {
+    float: right; 
 }
 .marker-mobile{
     position: fixed;
@@ -521,7 +528,7 @@ hr{
 }
 .addInfoDesktop {
     transition: opacity 0.1s linear;
-    margin-top: 35px;
+    /*margin-top: 35px;*/
     background-color: rgb(242, 80, 34);
     border: none;
     text-align: center;
@@ -564,9 +571,9 @@ hr{
 .details {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 86vh !important;
+    height: 90vh !important;
     margin-bottom: 5%;
-    padding: 30px 30px 0px 30px;
+    padding: 30px 30px 50px 30px;
 }
 .detailsMb {
     overflow-y: scroll;
@@ -627,12 +634,11 @@ hr{
     background-color: #CECECE;
 }
 .gradientback{
-
-    position:absolute;
-    bottom:14vh;
-    left:0px;
-    width:100%;
-    height:100px;
+    position: absolute;
+    bottom: 9vh;
+    left: 0px;
+    width: 100%;
+    height: 70px;
     background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -718,7 +724,7 @@ hr{
     padding-bottom: 10px;
 }
 .participate {
-    padding: 3% 10% 5% 10%;
+    padding: 1% 10% 5% 10%;
 }
 .error {
     text-align: center;
@@ -769,6 +775,37 @@ hr{
     font-size: 1.6em;
 }
 .influence-container p{
+    font-size: 0.8em;
+}
+.influence-containerMb{
+    width: 95%;
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+.influence-containerMb h5{
+    margin-top: 4px;
+    font-size: 1.6em;
+}
+.aligc{
+    width: 33%;
+    /*border: 1px solid red;*/
+    display: inline-block;
+    float: left;
+}
+.alig{
+    position: relative; 
+    float: left;
+    text-align: center;
+    /*width: auto !important;*/
+    /*border: 1px solid green;*/
+}
+.influence-containerMb div:nth-child(2)>div{
+    float: none;
+}
+.influence-containerMb div:nth-child(3)>div{
+    float: right;
+}
+.influence-containerMb p{
     font-size: 0.8em;
 }
 
@@ -909,8 +946,13 @@ input.ng-valid.ng-dirty {
 .topContainer a{
     display: inline;
 }
+
+
+
+
+
 /*//EVENT ANIMATIONS FOR MOBILE*/
-.scroll-up {
+/*.scroll-up {
     -webkit-transition: 0.5s linear all;
     transition:0.5s linear all;
     max-height: 500px;
@@ -932,28 +974,88 @@ input.ng-valid.ng-dirty {
 .animate-if.ng-enter.ng-enter-active {
     margin-top: 7vh;
 }
-.details-animate.ng-enter, .details-animate.ng-leave {
+.searchMB.ng-enter, .searchMB.ng-leave {
     -webkit-transition: 0.7s linear all;
     -moz-transition: 0.7s linear all;
     -ms-transition: 0.7s linear all;
     -o-transition: 0.7s linear all;
     transition: 0.7s linear all;
 }
-.details-animate.ng-enter {
+.searchMB.ng-enter {
     bottom: -20vh;
 }
-.details-animate.ng-enter.ng-enter-active {
+.searchMB.ng-enter.ng-enter-active {
     bottom: 0; 
 }
-.details-animate.ng-leave {
+.searchMB.ng-leave {
     bottom: 0; 
 }
-.details-animate.ng-leave.ng-leave-active {
+.searchMB.ng-leave.ng-leave-active {
     bottom: -50vh;
 }
 .details-animateshow.ng-hide {
     max-height: 999px;
+}*/
+.bottomPopUpMb.ng-enter      { 
+    -webkit-animation:slideInUp 0.5s both ease-in;
+    -moz-animation:slideInUp 0.5s both ease-in;
+    animation:slideInUp 0.5s both ease-in;  
 }
+.bottomPopUpMb.ng-leave      { 
+    -webkit-animation:slideOutUp 0.3s both ease-in;
+    -moz-animation:slideDownUp 0.3s both ease-in;
+    animation:slideDownUp 0.3s both ease-in;  
+}
+.searchMB.ng-enter      { 
+    -webkit-animation:slideInUp 0.5s both ease-in;
+    -moz-animation:slideInUp 0.5s both ease-in;
+    animation:slideInUp 0.5s both ease-in;  
+}
+.searchMB.ng-leave      { 
+    -webkit-animation:slideOutUp 0.3s both ease-in;
+    -moz-animation:slideDownUp 0.3s both ease-in;
+    animation:slideDownUp 0.3s both ease-in;  
+}
+.fadeIt.ng-enter      { 
+    -webkit-animation:slideInUp 0.5s both ease-in;
+    -moz-animation:slideInUp 0.5s both ease-in;
+    animation:slideInUp 0.5s both ease-in;  
+}
+.fadeIt.ng-leave      { 
+    -webkit-animation:slideOutUp 0.3s both ease-in;
+    -moz-animation:slideDownUp 0.3s both ease-in;
+    animation:slideDownUp 0.3s both ease-in;  
+}
+
+
+/* slide in from the bottom */
+@keyframes slideInUp {
+    from    { transform:translateY(100%); display: none; }
+    to      { transform: translateY(0); display: block;}
+}
+@-moz-keyframes slideInUp {
+    from    { -moz-transform:translateY(100%); display: none;}
+    to      { -moz-transform: translateY(0); display: block;}
+}
+@-webkit-keyframes slideInUp {
+    from    { -webkit-transform:translateY(100%); display: none;}
+    to      { -webkit-transform: translateY(0); display: block;}
+}
+
+/* slide in from the bottom */
+@keyframes slideDownUp {
+    from    { transform:translateY(0); display: block;}
+    to      { transform: translateY(100%); display: none;}
+}
+@-moz-keyframes slideDownUp {
+    from    { -moz-transform:translateY(0); display: block;}
+    to      { -moz-transform: translateY(100%); display: none;}
+}
+@-webkit-keyframes slideDownUp {
+    from    { -webkit-transform:translateY(0); display: block;}
+    to      { -webkit-transform: translateY(100%); display: none; }
+}
+
 #qmark {
     left: 2px;
     bottom: 2px;
@@ -1037,21 +1139,21 @@ input.ng-valid.ng-dirty {
     color: black !important;
     background-color: white !important;
 }
-.popup {
+.mcontainer {
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     background-color: white;
-    border: 4px solid lightgrey;
+    border: 1px solid lightgrey;
 }
-.popup i {
+.mcontainer i {
     color: lightgrey;
     font-size: 2em;
 }
-.popup .logo {
-    /*margin: 5% 0% 0% 5%;*/
-    padding: 3% 0 0 10%;
-    width: 40%;
+.mcontainer h6 {
+    font-size: 1.5em;
+    padding: 2% 0 0 10%;
+    display: inline-block;
 }
 .modal {
     margin-top: 7vh;
@@ -1084,13 +1186,13 @@ input.ng-valid.ng-dirty {
 }
 .modal li:nth-child(2)::before{
     /*background-color: green;*/
-    color: green;
-    border: 5px solid green;
+    color: rgb(127, 186, 0);
+    border: 5px solid rgb(127, 186, 0);
 }
 .modal li:nth-child(3)::before{
     /*background-color: blue;*/
-    color: blue;
-    border: 5px solid blue;
+    color: dodgerblue;
+    border: 5px solid dodgerblue;
 }
 
 .mcotainer{
@@ -1286,6 +1388,7 @@ border-radius: 50%;
     z-index: 5;
     width: 96% !important;
     margin-left: 2%;
+    height: 35%;
     /* background: white; */
 }
 .bottomPopUpMb:not(.searchMB){
@@ -1297,6 +1400,7 @@ border-radius: 50%;
     /*margin-left: 5%;*/
     /*background-color: white;*/
     /*width: 100%;*/
+    height: auto;
 }
 .logoModal{
 

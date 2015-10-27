@@ -23,7 +23,7 @@
     </div>
             <p class="bio">{{currentEntity.description}}</p>
 
-
+<!-- 
     <div class="influence-container">
     <table style="width:100%">
       <tr>
@@ -37,10 +37,31 @@
         <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"></span>Followers</p></td>
       </tr>
     </table>
+    </div> -->
+
+    <div class="influence-containerMb">
+        <div ng-if='currentEntity.influence' class="aligc">
+        <div class="alig">
+            <h5><span class="glyphicon glyphicon-record"></span></h5>
+            <p><p>{{currentEntity.influence}}</p>
+            </div>
+        </div>
+        <div ng-if='currentEntity.employees' class="aligc">
+        <div class="alig">
+            <h5><h5>{{currentEntity.employees | thousandSuffix}}</h5>
+            <p><p>Employees</p>
+            </div>
+        </div>
+        <div ng-if='currentEntity.followers' class="aligc">
+        <div class="alig">
+            <h5><h5>{{currentEntity.followers | thousandSuffix}}</h5>
+            <p><p><span class="fa fa-twitter"></span>Followers</p>
+            </div>
+        </div>
     </div>
 
 
-
+<br>
    <!--  <div class="mdetails-top-bottom">
         <h6 class="influence">Influence:</h6>
         <div ng-if='currentEntity.employees' class="details-influence" ><p>{{currentEntity.employees | number}}</p><h6>Employees</h6></div>
@@ -114,8 +135,8 @@
 
 
 <!-- COLLABORATIONS -->
+<br><hr>
 <div ng-if='currentEntity.collaborations.length'>
-<hr>
 <h5>Connections</h5>
 <h6>Collaboration</h6>
     <a ng-class="currentEntity.type" ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations' ng-click='selectItem(collaboration.entity_id)' >{{collaboration.entity}}</a>

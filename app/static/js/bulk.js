@@ -1,3 +1,61 @@
+var ajax = {};
+ajax.x = function() {
+    if (typeof XMLHttpRequest !== 'undefined') {
+        return new XMLHttpRequest();  
+    }
+    var versions = [
+        "MSXML2.XmlHttp.6.0",
+        "MSXML2.XmlHttp.5.0",   
+        "MSXML2.XmlHttp.4.0",  
+        "MSXML2.XmlHttp.3.0",   
+        "MSXML2.XmlHttp.2.0",  
+        "Microsoft.XmlHttp"
+    ];
+
+    var xhr;
+    for(var i = 0; i < versions.length; i++) {  
+        try {  
+            xhr = new ActiveXObject(versions[i]);  
+            break;  
+        } catch (e) {
+        }  
+    }
+    return xhr;
+};
+
+ajax.send = function(url, callback, method, data, sync) {
+    var x = ajax.x();
+    x.open(method, url, sync);
+    x.onreadystatechange = function() {
+        if (x.readyState == 4) {
+            callback(x.responseText)
+        }
+    };
+    if (method == 'POST') {
+        x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    }
+    x.send(data)
+};
+
+ajax.get = function(url, data, callback, sync) {
+    var query = [];
+    for (var key in data) {
+        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+    }
+    ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, sync)
+};
+
+ajax.post = function(url, data, callback, sync) {
+    var query = [];
+    for (var key in data) {
+        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+    }
+    ajax.send(url, callback, 'POST', query.join('&'), sync)
+};
+
+
+
+
 var parse = document.getElementById("parse");
 var textarea = document.getElementsByTagName('textarea')[0];
 var table = document.getElementsByTagName("table")[0].getElementsByTagName('tbody')[0];
@@ -52,21 +110,55 @@ var submitDiv = document.getElementById("submit");
 		// 	// }
 		// }
 		var Entity = {};
-		var allEntitites = [];
+		var allEntities = [];
         for (var r = 1, n = table.rows.length; r < n; r++) {
+
+
+        		// name: table.rows[r].cells[0].getElementsByTagName("input")[0].value,
+        		// nickname: table.rows[r].cells[1].getElementsByTagName("input")[0].value,
+        		// location: table.rows[r].cells[2].getElementsByTagName("input")[0].value,
+        		// influence: table.rows[r].cells[3].getElementsByTagName("input")[0].value,
+        		// type: table.rows[r].cells[4].getElementsByTagName("input")[0].value,
+        		// website: table.rows[r].cells[5].getElementsByTagName("input")[0].value,
+        		// twitter: table.rows[r].cells[6].getElementsByTagName("input")[0].value,
+        		// employees: table.rows[r].cells[7].getElementsByTagName("input")[0].value,
+        		// revenue: table.rows[r].cells[8].getElementsByTagName("input")[0].value,
+        		// revenueYear: table.rows[r].cells[9].getElementsByTagName("input")[0].value,
+        		// expenses: table.rows[r].cells[10].getElementsByTagName("input")[0].value,
+        		// expensesYear: table.rows[r].cells[11].getElementsByTagName("input")[0].value
+
+
         	var entity = {
-        		name: table.rows[r].cells[0].getElementsByTagName("input")[0].value,
-        		nickname: table.rows[r].cells[1].getElementsByTagName("input")[0].value,
-        		location: table.rows[r].cells[2].getElementsByTagName("input")[0].value,
-        		influence: table.rows[r].cells[3].getElementsByTagName("input")[0].value,
-        		type: table.rows[r].cells[4].getElementsByTagName("input")[0].value,
-        		website: table.rows[r].cells[5].getElementsByTagName("input")[0].value,
-        		twitter: table.rows[r].cells[6].getElementsByTagName("input")[0].value,
-        		employees: table.rows[r].cells[7].getElementsByTagName("input")[0].value,
-        		revenue: table.rows[r].cells[8].getElementsByTagName("input")[0].value,
-        		revenueYear: table.rows[r].cells[9].getElementsByTagName("input")[0].value,
-        		expenses: table.rows[r].cells[10].getElementsByTagName("input")[0].value,
-        		expensesYear: table.rows[r].cells[11].getElementsByTagName("input")[0].value
+				"categories": [],
+				"collaborations": [],
+				"data_given": [],
+				"data_received": [],
+				"employees": table.rows[r].cells[7].getElementsByTagName("input")[0].value,
+				"employments": [],
+				"expenses": [],
+				"followers": null,
+				"grants_given": [],
+				"grants_received": [],
+				"id": null,
+				"influence": table.rows[r].cells[3].getElementsByTagName("input")[0].value,
+				"investments_made": [],
+				"investments_received": [],
+				"key_people": [],
+				"location": table.rows[r].cells[2].getElementsByTagName("input")[0].value,
+				"locations": [],
+				"name": table.rows[r].cells[0].getElementsByTagName("input")[0].value,
+				"nickname": table.rows[r].cells[1].getElementsByTagName("input")[0].value,
+				"relations": [],
+				"revenues": [],
+				"twitter_handle": table.rows[r].cells[6].getElementsByTagName("input")[0].value,
+				"type": table.rows[r].cells[4].getElementsByTagName("input")[0].value,
+				"url": table.rows[r].cells[5].getElementsByTagName("input")[0].value,
+				"index": null,
+				"weight": null,
+				"x": null,
+				"y": null,
+				"px": null,
+				"py": null
         	}
             // for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
             // 	// if (table.rows[r].cells[c].getElementsByTagName("input")[0]){
@@ -75,14 +167,32 @@ var submitDiv = document.getElementById("submit");
             //     e.cellData = cellData;
             //     // }
             // }
-            allEntitites.push(entity);
+            allEntities.push(entity);
         }
-        console.log(allEntitites);
-
-
+        validateEntities(allEntities);
 		// console.log(table.rows[2].cells[2].getElementsByTagName("input")[0].value)
 		// var data = "";
 	}
+
+var validateEntities = function(entities){
+	for (var i = 0; i < entities.length; i++) {
+		autoSetAdress(entities[i].location,entities[i])
+		// console.log(autoSetAdress(entities[i].location,entities[i]));
+
+	};
+};
+
+
+var autoSetAdress = function(search, entity) {
+	ajax.get('http://dev.virtualearth.net/REST/v1/Location', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}}, function() {
+		console.log("yay")
+	});
+    // return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
+    //     .then(function(response) {
+    //         var location = response.data.resourceSets[0].resources[0];
+    //         if (location) console.log(location)
+    //     });
+}
 
 	
 // 	function getTextAreaSelection(textarea) {
