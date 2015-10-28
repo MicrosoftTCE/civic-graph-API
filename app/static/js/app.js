@@ -87,7 +87,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             $scope.overviewUrl = 'partials/overview.html?i='+$scope.random;
             $scope.$broadcast('entitiesLoaded');
         });
-    }, 10);
+    }, 500);
     // Maybe get from database.
     $scope.entityTypes = {
         'Government': true,
