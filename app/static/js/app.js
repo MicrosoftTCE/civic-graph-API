@@ -57,6 +57,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         if (entityID) {entityID = parseInt(entityID);};
         return entityID
     }
+    setTimeout(function() {
     $http.get('api/entities')
         .success(function(data) {
             $scope.entities = data.nodes;
@@ -86,6 +87,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             $scope.overviewUrl = 'partials/overview.html?i='+$scope.random;
             $scope.$broadcast('entitiesLoaded');
         });
+    }, 10);
     // Maybe get from database.
     $scope.entityTypes = {
         'Government': true,
