@@ -1,8 +1,13 @@
 <div class='network-container' ng-controller='networkCtrl'>
-    <button ng-show='!settingsEnabled && !mobile' ng-click='toggleSettings()' class='glyphicon glyphicon-align-justify hambDesktop' ></button>
-
     <svg id="network" ng-if="!mobile" ng-style="{height: '100vh'}"></svg>
-    <div id="canvas-force" ng-if="mobile" ng-style="{height: '100vh' }"><div id="nloader"><div class="loader"></div><p>Loading...</p></div>
+    <div id="canvas-force" ng-if="mobile" ng-style="{height: '90vh' }">
+    </div>
+
+    <div id="loadingBlock" ng-if='loading'>
+        <div class="spinner">
+          <div class="cube1"></div>
+          <div class="cube2"></div>
+        </div>
     </div>
 
     <p ng-show='mobile && showLicense' class="licenseMob">This work by<br>
@@ -11,6 +16,4 @@
     </a>
     <br>is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target='_blank'>CC BY-SA 4.0.</a><br>
     Based on a work found <a href="https://github.com/microsoftny/civic-graph" target='_blank'>here.</a></p>
-    <img alt="Map" src="img/icon-globe.png" ng-click="switchView()" ng-show='mobile && showView.Network' class="mViewSwitch">
-    <img alt="?" src="img/icon-qmark.png" ng-show='mobile && !showLicense' ng-click='showAbout()' id="qmark">
 </div>

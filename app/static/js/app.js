@@ -9,22 +9,40 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         restrict: 'A',
         link: function (scope, element, attrs) {
             if (scope.mobile) {
-                $("#details-panel").css( "height", "20vh");
+                $("#details-panel").css( "height", "30vh");
                 $("#details-panel").scrollTop(0);
                 $('#details-panel').scroll(function() {
-                    $(this).css('height','50vh');
+                    $(this).css('height','55vh');
                 });
                 $( "#details-panel" ).click(function(e) {
                     if (window.innerHeight/3 > parseInt($(this).css('height'))) {
-                        $(this).css('height','50vh');
+                        $(this).css('height','55vh');
                     } else {
-                        $(this).css('height','20vh');
+                        $(this).css('height','30vh');
                     }
                 });
             }
         }
     };
 })
+.filter('thousandSuffix', function () {
+    return function (input, decimals) {
+      var exp, rounded,
+        suffixes = ['k', 'M', 'G', 'T', 'P', 'E'];
+
+      if(window.isNaN(input)) {
+        return null;
+      }
+
+      if(input < 1000) {
+        return input;
+      }
+
+      exp = Math.floor(Math.log(input) / Math.log(1000));
+
+      return (input / Math.pow(1000, exp)).toFixed(decimals) + suffixes[exp - 1];
+    };
+  })
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
@@ -40,6 +58,57 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.connections = {};
     $scope.editing = false;
     $scope.actions = {'interacted':false};
+    $scope.showsearchMB = false;
+
+    $scope.hydePartials = function(except){
+        if (except === "search") {
+            $scope.editing = false;
+            $scope.settingsEnabled = false;
+        } else if (except === "settings"){
+            $scope.editing = false;
+            $scope.showsearchMB = false;
+        } else if (except === "edit") {
+            $scope.settingsEnabled = false;
+            $scope.showsearchMB = false;
+        } else {
+            $scope.editing = false;
+            $scope.settingsEnabled = false;
+            $scope.showsearchMB = false;
+        }
+ 
+    }
+
+    $scope.showSearch = function () {
+        $scope.hydePartials("search");
+        $scope.showsearchMB = $scope.showsearchMB ? false : true;
+        $scope.$broadcast('hideLicense');
+    }
+
+    $scope.toggleSettings = function() {
+        $scope.hydePartials("settings");
+        $scope.settingsEnabled = !$scope.settingsEnabled;
+    }
+
+    $scope.startEdit = function(entity) {
+        if ($scope.mobile) {
+        $scope.hydePartials("edit");
+        }
+        if (entity) {
+            $scope.editEntity = entity;
+        } else {
+            newEntity = {};
+            _.forEach($scope.entities[0], function(value, key) {
+                newEntity[key] = _.isArray(value) ? [] : null;
+            });
+            $scope.editEntity = newEntity;
+        }
+        $scope.editing = $scope.editing ? false : true;
+        // $scope.editing = true;
+    }
+
+    $scope.switchView = function() {
+        $scope.showView.Network ? $scope.changeView('Map') :  $scope.changeView('Network');  
+    }
 
     window.mobilecheck = function() {
         var check = false;
@@ -49,9 +118,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.mobile = window.mobilecheck();
     $scope.settingsEnabled = !$scope.mobile;
 
-    $scope.toggleSettings = function() {
-        $scope.settingsEnabled = !$scope.settingsEnabled;
-    }
     $scope.getURLID = function() {
         var entityID = $location.search().entityID;
         if (entityID) {entityID = parseInt(entityID);};
@@ -87,7 +153,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             $scope.overviewUrl = 'partials/overview.html?i='+$scope.random;
             $scope.$broadcast('entitiesLoaded');
         });
-    }, 500);
+}, 100);
     // Maybe get from database.
     $scope.entityTypes = {
         'Government': true,
@@ -114,6 +180,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.overviewUrl = null;
 
     $scope.changeView = function(view) {
+        console.log(view)
         _.forEach(_.keys($scope.showView), function(name) {
             $scope.showView[name] = view==name;
         });
@@ -161,19 +228,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     });
     $scope.setEntities = function(entities) {
         $scope.entities = entities;
-    }
-
-    $scope.startEdit = function(entity) {
-        if (entity) {
-            $scope.editEntity = entity;
-        } else {
-            newEntity = {};
-            _.forEach($scope.entities[0], function(value, key) {
-                newEntity[key] = _.isArray(value) ? [] : null;
-            });
-            $scope.editEntity = newEntity;
-        }
-        $scope.editing = true;
     }
 
     $scope.stopEdit = function() {
@@ -413,14 +467,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 .controller('networkCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
-    $scope.switchView = function() {
-        $scope.changeView('Map');
-    }
-
+    console.log("networkCTRL")
+    $scope.loading = true;
     $scope.showLicense =  true;
+    $scope.$on('hideLicense', function(){
+        $scope.showLicense = false;
+    })
+
+// setTimeout(function(){  console.log("timeout");$scope.$broadcast('entitiesLoaded'); }, 10000);
     $scope.$on('entitiesLoaded', function() {
+        console.log("waiting for entities")
         $http.get('api/connections').
         success(function(data) {
+            console.log("connections")
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {
                 _.forEach(connections, function(connection) {
@@ -511,7 +570,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         canvasEl.style.width = width + 'px';
         canvasEl.style.height = height + 'px';
         context.scale(ratio, ratio);
-
+        $scope.loading = false;
     var scalezoom = 1;
     $('#networkCanvas').click(function (e) {
         var oX = e.offsetX/scalezoom,
@@ -522,6 +581,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         data.nodes.forEach(function(d) {
             var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
             if(isInsideCircle(oX, oY, d.x+offsets[d.type][0], d.y+offsets[d.type][1], 4.5*k)) {
+                $scope.hydePartials();
                 $scope.$emit('setCurrentEntity', { value: d });
                 entityFound = true;
                 $scope.setEntity(d);
@@ -538,8 +598,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         $scope.safeApply();
         $("#details-panel").scrollTop(0);
     });
-        $('#nloader').hide();
-
         var count = 0;
         var initialLoad = true;
         var drawOnTop = [];
@@ -652,7 +710,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             });
             _.forEach(entityNames, function(d){
                 var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
-                context.strokeStyle = 'black';
+                context.strokeStyle = '#333333';
                 var name = d.nickname ? d.nickname : d.name;
                 context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif-light, sans-serif';
                 context.strokeText(name, Math.max(4.5*k, Math.min(width - 4.5*k, d.x+offsets[d.type][0]))-name.length*2, Math.max(4.5*k, Math.min(height - 4.5*k, d.y+offsets[d.type][1]))+10, 100)            });      
@@ -691,6 +749,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
          });
     }
     var drawNetwork = function() {
+        console.log("hitting this")
+        $scope.loading = false;
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
         var height = bounds.height;
@@ -986,8 +1046,23 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             .attr('r', function(d) {return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;});
         });
         $scope.$on('toggleLink', function(event, link) {
-            links[link.name]
-            .classed({'visible': link.enabled, 'hidden': !link.enabled});
+            // links[link.name]
+            // .classed({'visible': link.enabled, 'hidden': !link.enabled});
+            _.map($scope.entityTypes, function(val,key){
+                svg
+                .selectAll('.'+key+'-link')
+                .classed({
+                    'visible': function(l) {
+                        // ConnectionType enabled, connection source entity type is enabled, connection target entity type is enabled.
+                        return !$scope.connectionTypes[l.type] || ($scope.entityTypes[l.source.type] && $scope.entityTypes[l.target.type]);
+                    },
+                    'hidden': function (l) {
+                        // If any of ConnectionType, source entity type, or target entity type are disabled.
+                        return !$scope.connectionTypes[l.type] || (!$scope.entityTypes[l.source.type] || !$scope.entityTypes[l.target.type]);
+                    }
+                });
+
+            });
         });
         $scope.$on('toggleNode', function(event, type) {
             svg
@@ -1026,10 +1101,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     }
 }])
 .controller('mapCtrl', ['$scope', '$timeout', 'leafletData', function($scope, $timeout, leafletData) {
-    $scope.switchView = function() {
-        $scope.changeView('Network');
-    }
-
     $scope.options = {
         center: {
             lat: 20.00,
