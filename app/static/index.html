@@ -52,13 +52,14 @@
             <div ng-if='showView.Map' ng-class="mobile ? 'display-panelMb' : 'display-panel'"ng-hide="editing && mobile" ng-class="settingsEnabled ? 'col-sm-8' : 'col-sm-10'" ng-include="'partials/map.html?i='+random"></div>
             <div id='details-panel' add-mobile-events class='details-panel' ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-class="{'details-panelMb bottomPopUpMb': mobile}" ng-show='!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))' ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
 
-            <div class="fadeIt" ng-animate="'animate'" ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random" style='overflow:scroll;'></div>
+            <div class="fadeIt" ng-animate="'animate'" ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing' ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
             <!-- <div ng-show='mobile' class='bottomNavMb' ng-include="'partials/bottom-nav-mobile.html?i='+random"></div> -->
                 <div ng-show='mobile' class='bottomNavMb' >
                 <table>
                     <td ng-class="{'clickedButtonMb': showsearchMB}" ng-click='showSearch()'><i class="fa fa-search"><p>Search</p></i></td>
                     <td ng-class="{'clickedButtonMb': settingsEnabled}" ng-click='toggleSettings()'><i class="fa fa-filter"><p>Filter</p></i></td>
-                    <td ng-click='switchView()'><i ng-if="showView.Network" class="fa fa-globe"><p>Map</p></i><i ng-if="showView.Map" class="fa fa-users"><p>Network</p></i></td>
+                    <td ng-click='switchView()'><i ng-if="showView.Network" class="fa fa-globe"><p>Map</p></i>
+                    <span  ng-if="showView.Map"><img src="img/clustergrey.png" width="18px" height="18px" alt=""></span><p  ng-if="showView.Map" style="transform:translateY(-3px)">Network</p></td>
                     <td ng-class="{'clickedButtonMb': editing}" ng-click='startEdit(null)'><i class="fa fa-plus-circle"><p>Add</p></i></td>
                 </table>
                 </div>

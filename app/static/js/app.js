@@ -123,7 +123,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         if (entityID) {entityID = parseInt(entityID);};
         return entityID
     }
-    $http.get('http://172.31.98.244:5000/api/entities')
+    setTimeout(function() {
+    $http.get('api/entities')
         .success(function(data) {
             $scope.entities = data.nodes;
             var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
@@ -152,6 +153,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             $scope.overviewUrl = 'partials/overview.html?i='+$scope.random;
             $scope.$broadcast('entitiesLoaded');
         });
+}, 100);
     // Maybe get from database.
     $scope.entityTypes = {
         'Government': true,
@@ -258,7 +260,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         });
     }
 
-    $http.get('http://172.31.98.244:5000/api/categories')
+    $http.get('api/categories')
         .success(function(data) {
             $scope.categories = data.categories;
         });
@@ -435,7 +437,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
     $scope.savetoDB = function() {
         $scope.updating = true;
-        $http.post('http://172.31.98.244:5000/api/save', {'entity': $scope.editEntity})
+        $http.post('api/save', {'entity': $scope.editEntity})
             .success(function(response) {
                 $scope.setEntities(response.nodes);
                 $scope.setEntityID($scope.editEntity.id);
@@ -465,14 +467,19 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 .controller('networkCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
+    console.log("networkCTRL")
     $scope.loading = true;
     $scope.showLicense =  true;
     $scope.$on('hideLicense', function(){
         $scope.showLicense = false;
     })
+
+// setTimeout(function(){  console.log("timeout");$scope.$broadcast('entitiesLoaded'); }, 10000);
     $scope.$on('entitiesLoaded', function() {
-        $http.get('http://172.31.98.244:5000/api/connections').
+        console.log("waiting for entities")
+        $http.get('api/connections').
         success(function(data) {
+            console.log("connections")
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {
                 _.forEach(connections, function(connection) {
@@ -742,6 +749,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
          });
     }
     var drawNetwork = function() {
+        console.log("hitting this")
         $scope.loading = false;
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
