@@ -1,6 +1,4 @@
 <div class="map-container" ng-class="{'angular-leaflet-map-mobile':mobile}" ng-controller='mapCtrl'>
     <leaflet center='options.center' defaults='options.defaults'></leaflet>
-	<img alt="Network" src="img/icon-cluster.png" ng-click="switchView()" ng-show='showView.Map && mobile' class="mViewSwitch">
 	<div class="mapLicense"><a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></div>
-    <img alt="?" src="img/icon-qmark.png" ng-show='mobile && !showLicense' ng-click='showAbout()' id="qmark">
 </div>
