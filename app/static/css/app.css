@@ -201,16 +201,16 @@ hr{
 }
 .network-container {
     height:100%;
-    overflow:hidden;
+    /*overflow:hidden;*/
     margin-left: -15px;
     /*margin-right: -15px;*/
 }
 .control-panel {
     /*height: 100vh;*/
     /*min-width: 175px;*/
-    overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     background-color: #F9F9F9;
 }
 .control-panel hr{
@@ -225,7 +225,9 @@ hr{
     margin: 0px 15% 0px 15%;
 }
 .control-panel-ctr{
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     background-color: #F9F9F9;
     border-right: 2px solid #CECECE;
     padding: 0;
@@ -238,12 +240,13 @@ hr{
 }
 .edit-panel {
     width: 20% !important;
-    overflow: scroll;
     float: right;
     border-left: 1px solid #CECECE;
     /*background-color: #CECECE;*/
     height: 100vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     padding: 10px 10px 50px 10px;
 }
 .edit-panel h6{
@@ -254,7 +257,9 @@ hr{
     font-weight: 500;
 }
 .edit-panelMb {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     border: 1px solid lightgrey;
     width: 96% !important;
     margin-left: 2%;
@@ -262,10 +267,10 @@ hr{
     margin-top: 18%;
     /* margin-bottom: 5vh; */
     color: #333333;
-    padding: 0% 5% 5% 15px; 
+    padding: 0 5% 20% 15px; 
 }
 .form-ctr{
-    overflow: auto; 
+    /*overflow: auto; */
     z-index: 10;
 }
 .edit-panelMb .caption{
@@ -497,7 +502,9 @@ hr{
 }
 .settingsmobile {
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     height: auto;
 }
 
@@ -589,6 +596,7 @@ hr{
 .details {
     overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     height: 90vh !important;
     margin-bottom: 5%;
     padding: 30px 30px 50px 30px;
@@ -596,9 +604,11 @@ hr{
 .detailsMb {
     overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     height: auto;
     margin-bottom: 5%;
     padding: 30px 30px 0px 30px;
+    z-index: 10;
 }
 .details-panel{
     float: right;
@@ -670,7 +680,9 @@ hr{
     /*text-align: center;*/
 }
 .details-panelMb{
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     height: 45vh;
 }
 .details-panelMb .influence-container{
@@ -756,7 +768,7 @@ hr{
 }
 
 #canvas-force {
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
 }
 /*.mobile-details{
@@ -1166,7 +1178,9 @@ input.ng-valid.ng-dirty {
 .mcontainer {
     width: 100%;
     max-height: 90vh;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     background-color: white;
     border: 1px solid lightgrey;
 }
