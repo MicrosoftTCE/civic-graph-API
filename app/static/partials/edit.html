@@ -7,27 +7,21 @@
 </div>
 <div class="form-ctr">
 <form class='edit-form' novalidate>
-  <div><h6>Entity Name<span ng-if='!($parent.$parent.editEntity.name.length > 0)'> (Required)</span></h6>
+  <div><h6>Entity Name<span ng-if='!($parent.$parent.editEntity.name.length > 0)' class="red-asterisc">*</span></h6>
     <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name' required>
     <h6>Nickname</h6>
     <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
   </div>
 
-    <div><h6>Location(s)<span ng-if='!$parent.$parent.editEntity.locations[1]'> (Required)</span></h6>
+    <div><h6>Location(s)<span ng-if='!$parent.$parent.editEntity.locations[1]' class="red-asterisc">*</span></h6>
         <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
     </div>
 
-    <h6>Type of entity<span ng-if='!$parent.$parent.editEntity.type'> (Required)</span></h6>
+    <h6>Type of entity<span ng-if='!$parent.$parent.editEntity.type' class="red-asterisc">*</span></h6>
 
     <div ng-repeat='(type, enabled) in entityTypes'>
       <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.editEntity.type != type}" ng-model='$parent.$parent.editEntity.type' btn-radio='type' ng-change='changetype()'></label>
       <span class='caption'>{{type}}</span>
-    </div>
-
-    <h6>Circle of Influence</h6>
-    <div ng-repeat='influenceType in influenceTypes'>
-      <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.editEntity.influence != influenceType}" ng-model='$parent.$parent.editEntity.influence' btn-radio='influenceType'></label >
-      <span class='caption'>{{influenceType}}</span>
     </div>
 
     <h6>Type of work</h6>
@@ -35,6 +29,12 @@
     <div ng-repeat='category in editCategories'>
         <label class='checkbox' ng-class="{'unchecked': !category.enabled}"><input type='checkbox' ng-model='category.enabled'></label>
         <span class='caption'>{{category.name}}</label>
+    </div>
+
+    <h6>Circle of Influence</h6>
+    <div ng-repeat='influenceType in influenceTypes'>
+      <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.editEntity.influence != influenceType}" ng-model='$parent.$parent.editEntity.influence' btn-radio='influenceType'></label >
+      <span class='caption'>{{influenceType}}</span>
     </div>
     
     <h6>Website</h6>
