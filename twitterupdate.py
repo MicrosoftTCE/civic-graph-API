@@ -1,3 +1,6 @@
+import sys
+reload(sys)
+sys.setdefaultencoding("ISO-8859-1")
 import time
 import twitter
 from app.models import Entity
