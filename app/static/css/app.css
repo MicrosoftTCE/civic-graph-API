@@ -271,7 +271,8 @@ hr{
 }
 .form-ctr{
     /*overflow: auto; */
-    z-index: 10;
+    /*z-index: 10;*/
+    /*border: 1px solid red;*/
 }
 .edit-panelMb .caption{
     color: #333333;
@@ -306,9 +307,8 @@ hr{
     font-size: 19pt;
     color: #333333;
     padding-top: 6px;
-    /* z-index: 2; */
     float: right;
-    /*margin-right: -10px;*/
+    transform: translateY(5px);
 }
 .edit-title h3{
     display: inline-block;
@@ -1161,7 +1161,7 @@ input.ng-valid.ng-dirty {
 }
 .bottomNavMb p{
     color: #9E9E9E;
-    font-size: 0.5em;
+    font-size: 0.4em;
 }
 .bottomNavMb i{
     /*color: #8C8C8C;*/
