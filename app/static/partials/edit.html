@@ -151,18 +151,24 @@
         </div>
     </div>
 </form>
+
+
+
+</div>
+<div class='save'>
+<button ng-disabled='!isValid()' ng-hide='updating' class='btn bluebtn' ng-click='save()'><p>Save</p></button>
+</div>
 </div>
 <div ng-if='updating && !error'>
     <h2>Saving...</h2><br>
     <h3>Thank you for submitting data to Civic Graph!</h3>
-    <div class='loader'></div>
+    <div class="side-spinner">
+    <div class="cube1"></div>
+    <div class="cube2"></div>
+    </div>
 </div>
 <div class='error' ng-if='error'>
     <i class='glyphicon glyphicon-remove-sign error-symbol'></i>
     <h3>Something went wrong.</h3>
     <h6>Please check your submission and try again.</h6>
-</div>
-<div class='save'>
-<button ng-disabled='!isValid()' ng-hide='updating' class='btn bluebtn' ng-click='save()'><p>Save</p></button>
-</div>
 </div>
