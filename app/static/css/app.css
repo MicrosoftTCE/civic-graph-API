@@ -273,9 +273,14 @@ hr{
     margin-left: 2%;
     height: 87vh;
     margin-top: 18%;
-    /* margin-bottom: 5vh; */
     color: #333333;
     padding: 0 5% 20% 15px; 
+}
+.edit-panelMb h6{
+    font-size: 14px;
+    font-weight: 100;
+    font-style: italic;
+    margin: 17px 0 5px 0;
 }
 .form-ctr{
     /*overflow: auto; */
