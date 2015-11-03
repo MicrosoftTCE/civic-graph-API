@@ -1189,12 +1189,12 @@ input.ng-valid.ng-dirty {
 }
 .bottomNavMb p{
     color: #9E9E9E;
-    font-size: 0.4em;
+    font-size: 0.6em;
 }
 .bottomNavMb i{
     /*color: #8C8C8C;*/
     /*font-size: 0.4em;*/
-    margin-top: 3px;
+    margin-top: 10px
 }
 .clickedButtonMb {
     color: #333333!important;
