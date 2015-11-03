@@ -8,13 +8,13 @@
 <div class="form-ctr">
 <form class='edit-form' novalidate>
   <div><h5>Entity Name<span ng-class=" !($parent.$parent.editEntity.name.length > 0) ? 'red-asterisc' : 'green-asterisc' "> *</span></h5>
-    <input type='text' class='form-control' ng-model='editEntity.name' placeholder='Name' required>
+    <input type='text' class='form-control' ng-model='editEntity.name' placeholder='' required>
     <h5>Nickname</h5>
-    <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder='Nickname'>
+    <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder=''>
   </div>
 
     <div><h5>Location(s)<span ng-class=" !$parent.$parent.editEntity.locations[0].coordinates ? 'red-asterisc' : 'green-asterisc' "> *</span></h5>
-        <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder='Location'>
+        <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder=''>
     </div>
 
     <h5>Type of entity<span ng-class=" !$parent.$parent.editEntity.type ? 'red-asterisc' : 'green-asterisc' "> *</span></h5>
