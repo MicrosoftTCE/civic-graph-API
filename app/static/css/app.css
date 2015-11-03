@@ -115,9 +115,13 @@ hr{
 }
 .finance-amount {
     width: 60% !important;
+    border-right: none;
 }
 .finance-year {
     width: 40% !important;
+}
+.input-group{
+    display: inline-block;
 }
 .unchecked {
     background-color: white !important;
@@ -208,8 +212,9 @@ hr{
 .control-panel {
     /*height: 100vh;*/
     /*min-width: 175px;*/
-    overflow-y: scroll;
-    overflow-x: hidden;
+/*    overflow-y: scroll;
+    overflow-x: hidden;*/
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
     background-color: #F9F9F9;
 }
@@ -225,9 +230,10 @@ hr{
     margin: 0px 15% 0px 15%;
 }
 .control-panel-ctr{
-    overflow-y: scroll;
+/*    overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;*/
+    overflow: auto;
     background-color: #F9F9F9;
     border-right: 2px solid #CECECE;
     padding: 0;
@@ -247,14 +253,16 @@ hr{
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    padding: 10px 10px 50px 10px;
+    padding: 30px 30px 50px 30px;
 }
 .edit-panel h6{
-    text-align: left;
-    margin-bottom: 3px;
-    color: #333333;
-    font-size: 1em;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 100;
+    font-style: italic;
+    margin: 17px 0 5px 0;
+}
+.edit-panel h5 {
+
 }
 .edit-panelMb {
     overflow-y: scroll;
@@ -286,6 +294,9 @@ hr{
 .edit-form input[type="text"]{
     border-radius: 0;
 }
+.stacked {
+     border-bottom: none;
+}   
 /* Metadata field padding.*/
 .details-field {
     padding-left: 24px;
@@ -655,7 +666,7 @@ hr{
     /*color: none !important;*/
     color: orange !important;
 }
-.details-panel hr{
+hr{
     margin: 10% 0;
     height: 2px;
     color: #CECECE;
@@ -734,13 +745,22 @@ hr{
 }
 .save {
     text-align: center;
-    padding-top:8px;
-    padding-bottom: 8px;
+    padding-top:10px;
+    padding-bottom: 10px;
 }
 .save button {
-    font-size: 1.5em;
-    font-weight: 500;
-    font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    height: 5.8vh;
+    /*font-size: 1.5em;*/
+    /*font-weight: 500;*/
+    /*font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;*/
+}
+.save p{
+    vertical-align: middle;
+    font-size: 13pt;
+    font-weight: 600;
+    margin-bottom: 1%;
+    color: white;
+    /* margin-top: 5%; */
 }
 .shareButton {
     width: 50px;
@@ -893,17 +913,17 @@ hr{
     /*opacity: 0.3;*/
     background-color: rgba(241,242,242,0.25);
     height: 6vh;
-    width: 58%;
     position: fixed;
     bottom: 0;
     margin-left: 20%;
     font-size: 1.5em;
+    width: 55.8%;
 
 }
 .search input[type='text']{
     background-color: hsla(0, 0%, 100%, 0.2); 
     height: 100%;
-    margin: 0 2%;
+    margin: 0 30px;
     font-size: 1em;
     color: #636363;
     border-radius: 0;
@@ -1161,7 +1181,7 @@ input.ng-valid.ng-dirty {
 }
 .bottomNavMb p{
     color: #9E9E9E;
-    font-size: 0.6em;
+    font-size: 0.4em;
 }
 .bottomNavMb i{
     /*color: #8C8C8C;*/
@@ -1449,4 +1469,7 @@ input.ng-valid.ng-dirty {
 }
 .red-asterisc{
     color:red;
+}
+.green-asterisc{
+    color:green;
 }
