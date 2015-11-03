@@ -1386,25 +1386,27 @@ input.ng-valid.ng-dirty {
 }
 
 .spinner {
-  margin: 42vh auto;
-  /*margin-top: 40%;*/
-  /*margin-left: 40%;*/
-
-  width: 40px;
-  height: 40px;
-  position: relative;
+    margin: 42vh auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
 }
-
+.side-spinner {
+    margin: 30%;
+    width: 40px;
+    height: 40px;
+    position: relative; 
+}
 .cube1, .cube2 {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  
-  -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
-  animation: sk-cubemove 1.8s infinite ease-in-out;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
+    animation: sk-cubemove 1.8s infinite ease-in-out;
 }
 
 .cube1, .cube2 {
