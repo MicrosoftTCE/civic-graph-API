@@ -253,7 +253,8 @@ hr{
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    padding: 30px 30px 50px 30px;
+    padding: 30px 30px 8px 30px;
+
 }
 .edit-panel h6{
     font-size: 14px;
@@ -273,6 +274,7 @@ hr{
     margin-left: 2%;
     height: 87vh;
     margin-top: 18%;
+    /* margin-bottom: 5vh; */
     color: #333333;
     padding: 0 5% 20% 15px; 
 }
@@ -755,6 +757,7 @@ hr{
 }
 .save button {
     height: 5.8vh;
+    min-height: 50px;
     /*font-size: 1.5em;*/
     /*font-weight: 500;*/
     /*font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;*/
