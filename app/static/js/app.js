@@ -180,7 +180,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     $scope.overviewUrl = null;
 
     $scope.changeView = function(view) {
-        console.log(view)
         _.forEach(_.keys($scope.showView), function(name) {
             $scope.showView[name] = view==name;
         });
@@ -467,7 +466,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 .controller('networkCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
     // See http://stackoverflow.com/q/16824308
-    console.log("networkCTRL")
     $scope.loading = true;
     $scope.showLicense =  true;
     $scope.$on('hideLicense', function(){
@@ -476,10 +474,8 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 
 // setTimeout(function(){  console.log("timeout");$scope.$broadcast('entitiesLoaded'); }, 10000);
     $scope.$on('entitiesLoaded', function() {
-        console.log("waiting for entities")
         $http.get('api/connections').
         success(function(data) {
-            console.log("connections")
             _.forEach(_.keys(data.connections), function(type) { $scope.connections[type] = []; });
             _.forEach(data.connections, function(connections, type) {
                 _.forEach(connections, function(connection) {
@@ -749,7 +745,6 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
          });
     }
     var drawNetwork = function() {
-        console.log("hitting this")
         $scope.loading = false;
         var svg = d3.select('#network');
         var bounds = svg.node().getBoundingClientRect();
