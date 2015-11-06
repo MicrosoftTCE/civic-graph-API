@@ -67,9 +67,6 @@
 <p ng-class="currentEntity.type"><span class='details-gly glyphicon glyphicon-stop'></span>{{currentEntity.type}}</p>
 </div>
 
-<div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees">
-<!-- <h6>Type of Entity:</h6>-->
-
 <div ng-if='currentEntity.locations.length'>
 <p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.full_address}}</p>
 </div>
@@ -108,7 +105,6 @@
 
 
 
-</div>
 </div>
 <!--END DESKTOP TOP VIEW-->
 
