@@ -823,6 +823,7 @@ hr{
 }
 .mdetails-top-right h2{
     font-size: 17pt;
+    display: inline;
 }
 .influence-container{
     width: 100%;
