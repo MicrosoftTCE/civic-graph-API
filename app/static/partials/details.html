@@ -74,7 +74,7 @@
 <!-- <h6>Type of Entity:</h6>-->
 
 <div ng-if='currentEntity.locations.length'>
-<p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.locality+ ", "+ location.country_code}}</p>
+<p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.country_code == 'US' ? location.locality+ ", "+ location.district : location.locality+ ", "+ location.country}}</p>
 </div>
 <div ng-if='currentEntity.twitter_handle'>
 <a style='color:#333333;' ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'><i class="fa fa-twitter details-gly"></i>{{currentEntity.twitter_handle}}</a>
