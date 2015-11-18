@@ -807,7 +807,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             var k = offsetScale*e.alpha;
             // console.log(e.alpha)
             _.forEach($scope.entities, function(entity) {
-                if (entity.x && offsets[entity.type].x){
+                if (entity.x && offsets[entity.type]){
                     entity.x += offsets[entity.type].x*k;
                     entity.y += offsets[entity.type].y*k;
                     entity.x = Math.max(upperBoundRadius, Math.min(width - upperBoundRadius, entity.x));
