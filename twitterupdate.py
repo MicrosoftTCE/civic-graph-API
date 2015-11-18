@@ -32,4 +32,3 @@ for entity in entities:
             print 'ERROR', entity.name
 
 db.commit()
-
