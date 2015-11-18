@@ -1,11 +1,10 @@
-import sys
-reload(sys)
-sys.setdefaultencoding("ISO-8859-1")
 import time
 import twitter
 from app.models import Entity
 from database import db
 from secrets import consumer_key, consumer_secret, access_token, access_token_secret
+
+import pdb; pdb.set_trace()
 
 entities = Entity.query.filter(Entity.twitter_handle!=None).all()
 
@@ -27,7 +26,6 @@ for entity in entities:
                 print followers
                 entity.followers = followers
             if description:
-                print entity.description
                 print description
                 entity.description = description
         except:
