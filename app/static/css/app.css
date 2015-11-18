@@ -268,7 +268,7 @@ hr{
 .edit-panelMb {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    /*-webkit-overflow-scrolling: touch;*/
     border: 1px solid lightgrey;
     width: 96% !important;
     margin-left: 2%;
@@ -354,6 +354,10 @@ hr{
 }
 .unfocused {
     opacity: 0.05;
+    transition: opacity 0.8s ease-in;
+    -ms-transition: opacity 0.8s ease-in;
+    -moz-transition: opacity 0.8s ease-in;
+    -webkit-transition: opacity 0.8s ease-in;
 }
 .node.wellconnected text{
     visibility: visible;

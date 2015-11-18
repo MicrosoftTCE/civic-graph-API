@@ -1,5 +1,5 @@
 # Check if Entity exists.
-import datetime
+from datetime import datetime
 from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, Edit
 from database import db
 from app import app
@@ -95,6 +95,7 @@ def update(entity, data):
         edit = Edit(ip)
         edit.entity_id = entity.id
         edit.edit_type = e_type
+        edit.edit_time = datetime.utcnow()
         db.add(edit)
         db.commit()
 

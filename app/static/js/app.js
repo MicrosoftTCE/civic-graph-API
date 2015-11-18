@@ -899,17 +899,20 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             if ($scope.clickedEntity.entity) force.resume();
             //TODO: Show generic details and not individual entity details?
         }
+        var hoverTimer;
         var hover = function(entity) {
             if (!$scope.clickedEntity.entity && !$scope.editing && !$scope.currentLocation ) {
-                focus(entity);
+                hoverTimer = setTimeout(function(){ 
+                    focus(entity)
+                }, 500);
             }
             $scope.actions.interacted = true;
             $scope.safeApply();
         }
-
         var unhover = function(entity) {
             if (!$scope.clickedEntity.entity && !$scope.currentLocation) {
                 unfocus(entity);
+                clearTimeout(hoverTimer)
             }
             $scope.actions.interacted = true;
             $scope.safeApply();

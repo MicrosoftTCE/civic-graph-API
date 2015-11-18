@@ -6,6 +6,7 @@ from secrets import consumer_key, consumer_secret, access_token, access_token_se
 
 entities = Entity.query.filter(Entity.twitter_handle!=None).all()
 
+
 api = twitter.Api(consumer_key=consumer_key,
                     consumer_secret=consumer_secret,
                     access_token_key=access_token,
@@ -24,7 +25,6 @@ for entity in entities:
                 print followers
                 entity.followers = followers
             if description:
-                print entity.description
                 print description
                 entity.description = description
         except:
