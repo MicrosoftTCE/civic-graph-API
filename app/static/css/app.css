@@ -829,7 +829,9 @@ hr{
     width: 100%;
 }
 .influence-container td{
+    width: 33%;
     text-align: center;
+    float: left;
 }
 .influence-container h5{
     margin-top: 4px;

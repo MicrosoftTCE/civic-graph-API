@@ -95,19 +95,19 @@
 <div class="influence-container">
 <h6 ng-if='currentEntity.influence'>Influence</h6>
     <table style="width:100%">
-      <tr>
-        <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
-        <td ng-if='currentEntity.employees'><h5>{{currentEntity.employees | thousandSuffix}}</h5></td> 
-        <td ng-if='currentEntity.followers'><h5>{{currentEntity.followers | thousandSuffix}}</h5></td>
-      </tr>
-      <tr>
-        <td ng-if='currentEntity.influence'><p>{{currentEntity.influence}}</p></td>
-        <td ng-if='currentEntity.employees'><p>Employees</p></td> 
-        <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"></span>Followers</p></td>
+        <tr>
+            <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
+            <td ng-if='currentEntity.employees'><h5>{{currentEntity.employees | thousandSuffix}}</h5></td> 
+            <td ng-if='currentEntity.followers'><h5>{{currentEntity.followers | thousandSuffix}}</h5></td>
+        </tr>
+        <tr>
+            <td ng-if='currentEntity.influence'><p>{{currentEntity.influence}}</p></td>
+            <td ng-if='currentEntity.employees'><p>Employees</p></td> 
+            <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter">Followers</span></p>
+        </td>
       </tr>
     </table>
 </div>
-
 
 
 
