@@ -1,20 +1,28 @@
 body {
-  background: #E3F8FF;
-  font-family: Verdana;
+	background: #E3F8FF;
+	font-family: Verdana;
 }
 table {
-  width: 100%;
-  /*border: 1px solid grey;*/
-  background: #EFFFE4;
+	width: 100%;
+	border: 1px solid grey;
+	background: #C2F5FF;
+}
+table td{
+	vertical-align: top;
 }
 .entity-container{
-  background: #FFFCC2;
-  margin: 10%;
+	background: #C2F5FF;
+	margin: 10%;
+	border: 1px solid grey;
+	padding: 10px;
+}
+tr td{
+	background-color: white;
 }
 input[type='submit']{
-  height: 35px;
-  background: #FFADAD;
-  color: #393937;
-  font-size: 1.2em;
-  margin-bottom: 10px;
+	height: 35px;
+	background: #FFADAD;
+	color: #393937;
+	font-size: 1.2em;
+	margin-bottom: 10px;
 }
