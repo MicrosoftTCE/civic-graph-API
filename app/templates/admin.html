@@ -1,0 +1,77 @@
+<!doctype html>
+<link rel="stylesheet" href="static/css/admin.css">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
+
+{% for node in data["nodes"] %}
+<div class="entity-container">
+    <h1 >{{ node.name }}</h1> 
+    <h2 >Nickname: {{ node.nickname }}</h2>
+    <h2 >Id: {{ node.id }}</h2>
+    <h2>Edits:</h2>
+    <table>
+      <tr>
+        <td>IP:</td>
+        <td>Action:</td>
+        <td>Date:</td>
+      </tr>
+    {% for edit in data["edits"][node.id] %}
+        <tr>
+        <td>{{edit['ip']}}</td>
+        <td>{{edit['edit_type']}}</td>
+        <td>{{edit['edit_time'].date()}}</td>
+      </tr>
+    {% endfor %}
+    </table>  
+    <form data-name="{{node.name}}" data-id="{{node.id}}" action="{{ url_for('delete', id=node.id) }}" method="POST" onsubmit="return validate_delete(this)">
+    <input type="hidden" name="_method" value="DELETE" />
+    <input type="submit" value="Delete entry {{node.name}}" />
+  </form>
+    <table>
+      <tr>
+        <td>Key People</td>
+        <td>Locations</td>
+        <td>Collaborations</td>
+      </tr>
+      <tr>
+        <td>
+          <ul>
+          {% for people in node.key_people %}
+          <li >{{ people.name }}</li>
+          {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul>
+          {% for location in node.locations %}
+          <li >{{ location.full_address }}</li>
+          {% endfor %}
+          </ul>
+        </td>   
+        <td>
+          <ul>
+          {% for collaboration in node.collaborations %}
+          <li >{{ collaboration.entity }}</li>
+          {% endfor %}
+          </ul>
+        </td>
+      </tr>
+    </table>
+</div>
+{% endfor %}
+
+<script type="text/javascript">
+    function validate_delete(form) {
+      var confirm_id = prompt("Are you sure you want to delete "+form.dataset.name+"??, Please type the entity id to confirm","entity_id");
+      return (confirm_id === form.dataset.id)
+    }
+</script>
+

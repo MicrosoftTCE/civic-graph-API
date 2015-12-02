@@ -1,7 +1,9 @@
 # Check if Entity exists.
-from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location
+import datetime
+from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, Edit
 from database import db
 from app import app
+
 
 def update(entity, data):
     # Check if data has changed item-by-item.
@@ -24,7 +26,6 @@ def update(entity, data):
         entity.url = data['url']
     if entity.twitter_handle != data['twitter_handle']:
         entity.twitter_handle = data['twitter_handle']
-        # Pull entity.followers from Twitter API.
 
     def update_finance(finances, ftype):
         # Delete any finances which have been removed.
@@ -89,6 +90,15 @@ def update(entity, data):
         db.commit()
 
     update_key_people(data['key_people'])
+
+    def update_edit(ip, e_type):
+        edit = Edit(ip)
+        edit.entity_id = entity.id
+        edit.edit_type = e_type
+        db.add(edit)
+        db.commit()
+
+    update_edit(data["ip"], data["edit_type"])
 
     def update_categories(categories):
         # Add any new categories.

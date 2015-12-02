@@ -1,0 +1,20 @@
+body {
+  background: #E3F8FF;
+  font-family: Verdana;
+}
+table {
+  width: 100%;
+  /*border: 1px solid grey;*/
+  background: #EFFFE4;
+}
+.entity-container{
+  background: #FFFCC2;
+  margin: 10%;
+}
+input[type='submit']{
+  height: 35px;
+  background: #FFADAD;
+  color: #393937;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
