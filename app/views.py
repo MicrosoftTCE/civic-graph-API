@@ -136,5 +136,5 @@ def admin_login():
     'edits': edits()
     }
     app.logger.debug('QUERYI FOR EDITS, DATA:')
-    app.logger.debug(data.edits)
+    app.logger.debug(data['edits'])
     return render_template('admin.html', data=data)
