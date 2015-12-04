@@ -113,9 +113,11 @@ def delete():
     id = request.args.get('id')
     if method == 'DELETE':
         entity = db.query(Entity).filter(Entity.id == id).delete(synchronize_session='evaluate')
-        connections = db.query(Collaboration).filter(or_(Collaboration.entity_id1 == id, Collaboration.entity_id2 == id)).delete(synchronize_session='evaluate')
+        collab = db.query(Collaboration).filter(or_(Collaboration.entity_id1 == id, Collaboration.entity_id2 == id)).delete(synchronize_session='evaluate')
         data = db.query(Dataconnection).filter(or_(Dataconnection.giver_id == id, Dataconnection.receiver_id == id)).delete(synchronize_session='evaluate')
         employment = db.query(Employment).filter(or_(Employment.entity_id1 == id, Employment.entity_id2 == id)).delete(synchronize_session='evaluate')
+        revenue = db.query(Revenue).filter(Revenue.entity_id == id).delete(synchronize_session='evaluate')
+        expense = db.query(Expense).filter(Expense.entity_id == id).delete(synchronize_session='evaluate')
         relation = db.query(Relation).filter(or_(Relation.entity_id1 == id, Relation.entity_id2 == id)).delete(synchronize_session='evaluate')
         grant = db.query(Fundingconnection).filter(or_(Fundingconnection.giver_id == id, Fundingconnection.receiver_id == id)).delete(synchronize_session='evaluate')
         edit = db.query(Edit).filter(Edit.entity_id == id).delete(synchronize_session='evaluate')
