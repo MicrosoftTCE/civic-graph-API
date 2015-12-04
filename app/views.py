@@ -133,4 +133,5 @@ def admin_login():
     'nodes': reversed(nodes()),
     'edits': edits()
     }
+    app.logger.debug('QUERYI FOR EDITS, DATA:' + data['edits'])
     return render_template('admin.html', data=data)
