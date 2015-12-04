@@ -129,6 +129,7 @@ def delete():
 @requires_auth
 @cache.memoize(timeout=None)
 def admin_login():
+    app.logger.debug('ABOUT TO QUERY ADMIN DATA')
     data = {
     'nodes': reversed(nodes()),
     'edits': edits()
