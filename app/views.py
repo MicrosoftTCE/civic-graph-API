@@ -130,6 +130,7 @@ def delete():
 @cache.memoize(timeout=None)
 def admin_login():
     app.logger.debug('ABOUT TO QUERY ADMIN DATA')
+    app.logger.debug(edits())
     data = {
     'nodes': reversed(nodes()),
     'edits': edits()
