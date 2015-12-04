@@ -129,12 +129,8 @@ def delete():
 @requires_auth
 @cache.memoize(timeout=None)
 def admin_login():
-    app.logger.debug('ABOUT TO QUERY ADMIN DATA')
-    app.logger.debug(edits())
     data = {
     'nodes': reversed(nodes()),
     'edits': edits()
     }
-    app.logger.debug('QUERYI FOR EDITS, DATA:')
-    app.logger.debug(data['edits'])
     return render_template('admin.html', data=data)
