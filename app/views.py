@@ -122,6 +122,7 @@ def delete():
         edit = db.query(Edit).filter(Edit.entity_id == id).delete(synchronize_session='evaluate')
         db.execute("DELETE FROM location_table WHERE entity_id="+id+";")
         db.execute("DELETE FROM category_table WHERE entity_id="+id+";")
+        db.execute("DELETE FROM keypeople_table WHERE entity_id="+id+";")
         entity = db.query(Entity).filter(Entity.id == id).delete(synchronize_session='evaluate')
         app.logger.debug('DELETING ENTITY WITH ID' + id)
         db.commit()
