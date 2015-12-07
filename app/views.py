@@ -90,9 +90,9 @@ def save():
     if data['id']:
         entity = Entity.query.get(data['id'])
     elif data['name']:
-        app.logger.debug('ADDING NEW ENTITY ' + str(data['name']))
+        app.logger.debug('ADDING NEW ENTITY ' + data['name'])
         data["edit_type"] = "create"
-        entity = Entity(str(data['name']))
+        entity = Entity(data['name'])
         db.add(entity)
         db.commit()
     if entity:
