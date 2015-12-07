@@ -109,6 +109,7 @@ def save():
 @requires_auth
 @cache.memoize(timeout=None)
 def delete():
+    app.secret_key = 'A\xfbf\xd0\x86\r\xd9\xc9\x04\x8f\xd4\x04\xe0.2^\x82\xc7)\xbf\x0e\x98f\xfc\xa2\x91J0be\xa0\xd6\x03\xd6\x17\xee,\xef\x93'
     method = request.form.get('_method')
     id = request.args.get('id')
     if method == 'DELETE':
