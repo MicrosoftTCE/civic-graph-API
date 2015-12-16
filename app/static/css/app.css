@@ -354,6 +354,10 @@ hr{
 }
 .unfocused {
     opacity: 0.05;
+    transition: opacity 0.4s ease-in;
+    -ms-transition: opacity 0.4s ease-in;
+    -moz-transition: opacity 0.4s ease-in;
+    -webkit-transition: opacity 0.4s ease-in;
 }
 .node.wellconnected text{
     visibility: visible;
