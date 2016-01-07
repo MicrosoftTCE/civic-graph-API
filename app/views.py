@@ -5,7 +5,7 @@ from sqlalchemy import or_
 from app.models import Entity, Edit, Category, Keyperson, Revenue, Expense, Relation, Fundingconnection, Dataconnection, Collaboration, Employment, Relation
 from database import db
 from api import update
-from secrets import admin_name, admin_pass
+from secrets import admin_name, admin_pass, flask_session_secret_key
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug import Request
 
@@ -109,7 +109,7 @@ def save():
 @requires_auth
 @cache.memoize(timeout=None)
 def delete():
-    app.secret_key = 'A\xfbf\xd0\x86\r\xd9\xc9\x04\x8f\xd4\x04\xe0.2^\x82\xc7)\xbf\x0e\x98f\xfc\xa2\x91J0be\xa0\xd6\x03\xd6\x17\xee,\xef\x93'
+    app.secret_key = flask_session_secret_key
     method = request.form.get('_method')
     id = request.args.get('id')
     if method == 'DELETE':
