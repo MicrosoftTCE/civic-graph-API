@@ -1,6 +1,6 @@
 # Check if Entity exists.
 from datetime import datetime
-from models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, Edit
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, Edit
 from database import db
 from app import app
 
@@ -70,7 +70,7 @@ def update(entity, data):
         # TODO: Make sure they're deleted from the db and not just removed from entity.key_people.
         new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
         entity.key_people = [key_person for key_person in entity.key_people if key_person.id in new_keypeople]
-        
+
         # Do this or else list comprehensions don't work as expected.
         db.commit()
 
@@ -116,7 +116,7 @@ def update(entity, data):
                 app.logger.debug('REMOVING CATEGORY ' + category.name)
                 entity.categories.remove(category)
         db.commit()
-                
+
     update_categories(data['categories'])
 
     def update_fundingconnections(connections, ftype, direction):
@@ -193,7 +193,7 @@ def update(entity, data):
                 if connection.id not in new_connections:
                     db.delete(connection)
         db.commit()
-        
+
         for connection in connections:
             if connection['id']:
                 oldconnection = Dataconnection.query.get(connection['id'])
@@ -263,7 +263,7 @@ def update(entity, data):
         # See: cascade='delete-orphan'
         new_locations = [location['id'] for location in locations if location['id']]
         entity.locations = [location for location in entity.locations if location.id in new_locations]
-        
+
         # Do this or else list comprehensions don't work as expected.
         db.commit()
 

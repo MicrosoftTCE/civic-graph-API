@@ -4,7 +4,7 @@ from functools import wraps
 from sqlalchemy import or_
 from app.models import Entity, Edit, Category, Keyperson, Revenue, Expense, Relation, Fundingconnection, Dataconnection, Collaboration, Employment, Relation
 from database import db
-from api import update
+from app.api import update
 from secrets import admin_name, admin_pass, flask_session_secret_key
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug import Request
