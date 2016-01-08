@@ -4,3 +4,4 @@ civicenv
 secrets.py
 *.log
 /backups
+dump.rdb
