@@ -207,6 +207,7 @@ hr{
     height:100%;
     /*overflow:hidden;*/
     margin-left: -15px;
+    margin-top: 60px;
     /*margin-right: -15px;*/
 }
 .control-panel {
@@ -276,7 +277,7 @@ hr{
     margin-top: 18%;
     /* margin-bottom: 5vh; */
     color: #333333;
-    padding: 0 5% 20% 15px; 
+    padding: 0 5% 20% 15px;
 }
 .edit-panelMb h6{
     font-size: 14px;
@@ -303,7 +304,7 @@ hr{
 }
 .stacked {
      border-bottom: none;
-}   
+}
 /* Metadata field padding.*/
 .details-field {
     padding-left: 24px;
@@ -319,7 +320,7 @@ hr{
     transform: translateY(-2px);
 }
 .f-right {
-    float: right; 
+    float: right;
 }
 .marker-mobile{
     font-size: 19pt;
@@ -749,7 +750,7 @@ hr{
     z-index: 1;
     min-height: 30px;
 }
-.logoMob{  
+.logoMob{
     height: 65%;
     text-align: center;
     margin-top: 2%;
@@ -860,7 +861,7 @@ hr{
     float: left;
 }
 .alig{
-    position: relative; 
+    position: relative;
     float: left;
     text-align: center;
     /*width: auto !important;*/
@@ -936,7 +937,7 @@ hr{
 
 }
 .search input[type='text']{
-    background-color: hsla(0, 0%, 100%, 0.2); 
+    background-color: hsla(0, 0%, 100%, 0.2);
     height: 100%;
     margin: 0 30px;
     font-size: 1em;
@@ -1055,10 +1056,10 @@ input.ng-valid.ng-dirty {
     bottom: -20vh;
 }
 .searchMB.ng-enter.ng-enter-active {
-    bottom: 0; 
+    bottom: 0;
 }
 .searchMB.ng-leave {
-    bottom: 0; 
+    bottom: 0;
 }
 .searchMB.ng-leave.ng-leave-active {
     bottom: -50vh;
@@ -1066,35 +1067,35 @@ input.ng-valid.ng-dirty {
 .details-animateshow.ng-hide {
     max-height: 999px;
 }*/
-.bottomPopUpMb.ng-enter      { 
+.bottomPopUpMb.ng-enter      {
     -webkit-animation:slideInUp 0.5s both ease-in;
     -moz-animation:slideInUp 0.5s both ease-in;
-    animation:slideInUp 0.5s both ease-in;  
+    animation:slideInUp 0.5s both ease-in;
 }
-.bottomPopUpMb.ng-leave      { 
+.bottomPopUpMb.ng-leave      {
     -webkit-animation:slideOutUp 0.3s both ease-in;
     -moz-animation:slideDownUp 0.3s both ease-in;
-    animation:slideDownUp 0.3s both ease-in;  
+    animation:slideDownUp 0.3s both ease-in;
 }
-.searchMB.ng-enter      { 
+.searchMB.ng-enter      {
     -webkit-animation:slideInUp 0.5s both ease-in;
     -moz-animation:slideInUp 0.5s both ease-in;
-    animation:slideInUp 0.5s both ease-in;  
+    animation:slideInUp 0.5s both ease-in;
 }
-.searchMB.ng-leave      { 
+.searchMB.ng-leave      {
     -webkit-animation:slideOutUp 0.3s both ease-in;
     -moz-animation:slideDownUp 0.3s both ease-in;
-    animation:slideDownUp 0.3s both ease-in;  
+    animation:slideDownUp 0.3s both ease-in;
 }
-.fadeIt.ng-enter      { 
+.fadeIt.ng-enter      {
     -webkit-animation:slideInUp 0.5s both ease-in;
     -moz-animation:slideInUp 0.5s both ease-in;
-    animation:slideInUp 0.5s both ease-in;  
+    animation:slideInUp 0.5s both ease-in;
 }
-.fadeIt.ng-leave      { 
+.fadeIt.ng-leave      {
     -webkit-animation:slideOutUp 0.3s both ease-in;
     -moz-animation:slideDownUp 0.3s both ease-in;
-    animation:slideDownUp 0.3s both ease-in;  
+    animation:slideDownUp 0.3s both ease-in;
 }
 
 
@@ -1402,7 +1403,7 @@ input.ng-valid.ng-dirty {
     margin: 30%;
     width: 40px;
     height: 40px;
-    position: relative; 
+    position: relative;
 }
 .cube1, .cube2 {
     border-radius: 50%;

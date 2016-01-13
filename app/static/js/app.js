@@ -46,11 +46,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
 .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', function($scope, $http, $location, $modal) {
     $scope.random = new Date().getTime();
     $scope.entities = [];
-    $scope.searchItems = null;                 
+    $scope.searchItems = null;
     $scope.categories = [];
-    $scope.currentLocation = null;              
-    $scope.clickedLocation = {};                 
-    $scope.clickedLocation.location = null;        
+    $scope.currentLocation = null;
+    $scope.clickedLocation = {};
+    $scope.clickedLocation.location = null;
     $scope.currentEntity;
     $scope.clickedEntity = {};
     $scope.clickedEntity.entity = null;
@@ -75,7 +75,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             $scope.settingsEnabled = false;
             $scope.showsearchMB = false;
         }
- 
+
     }
 
     $scope.showSearch = function () {
@@ -107,7 +107,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
     }
 
     $scope.switchView = function() {
-        $scope.showView.Network ? $scope.changeView('Map') :  $scope.changeView('Network');  
+        $scope.showView.Network ? $scope.changeView('Map') :  $scope.changeView('Network');
     }
 
     window.mobilecheck = function() {
@@ -143,9 +143,9 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 }
             });
 
-            $scope.searchItems = entitiesByLocation.concat($scope.entities); 
+            $scope.searchItems = entitiesByLocation.concat($scope.entities);
 
-            
+
             if ($scope.getURLID()) {
                 // Set the entity to the ID in the URL if it exists.
                 $scope.setEntityID($scope.getURLID());
@@ -395,7 +395,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             return collaborationIsValid
         }
         var arrayofentityarrays = [
-        $scope.editEntity.collaborations, $scope.editEntity.employments, 
+        $scope.editEntity.collaborations, $scope.editEntity.employments,
         $scope.editEntity.relations, $scope.editEntity.data_received,
         $scope.editEntity.data_given, $scope.editEntity.grants_given,
         $scope.editEntity.grants_received, $scope.editEntity.investments_made,
@@ -491,7 +491,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             _.forEach(top5, function(entity) { entity.wellconnected = true;});
         });
 
-        $scope.entities = _.sortBy($scope.entities, function(e){ 
+        $scope.entities = _.sortBy($scope.entities, function(e){
             return (e.wellconnected) ?  1 :  0;
         });
             if ($scope.mobile) { drawNetworkMobile();} else {drawNetwork();};
@@ -528,13 +528,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             return dx*dx+dy*dy <= radius*radius
         }
         var scale = {
-            'employees': function(e) { 
-                if (e>200000){
-                    return 7
+            'employees': function(e) {
+                if (e > 10) {
+                  return Math.log(e)/3
                 } else {
-                    return ((e/200000) * 5 )+1.5;
+                  return 1.5
                 }
-            },            
+            },
             'followers': function(f) {
                 if (f > 0 && f <= 500){return 1.5;}
                 else if(f > 500 && f <= 5000){ return 1.8;}
@@ -543,7 +543,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 else if(f >25000 && f <= 900000){ return 3}
                 else if(f >900000){ return 5}
                 else{return 1}
-            }          
+            }
         }
 
         var canvas = d3.select('div#canvas-force').append('canvas');
@@ -604,13 +604,13 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                         if(d.name in $scope.currentLocation.dict){
                                 drawOnTop.push(d);
                         }
-                    }else if (!$scope.currentEntity || showEntities[d.id] || d === $scope.currentEntity){ 
+                    }else if (!$scope.currentEntity || showEntities[d.id] || d === $scope.currentEntity){
                         if ($scope.currentEntity || d.wellconnected) {
                                 drawOnTop.push(d);
-                        } else { 
+                        } else {
                             allNodes.push(d);
                         }
-                    } 
+                    }
                 }
             })
         allNodes = allNodes.concat(drawOnTop);
@@ -709,7 +709,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 context.strokeStyle = '#333333';
                 var name = d.nickname ? d.nickname : d.name;
                 context.font='lighter 11px Segoe UI, HelveticaNeue-Light, sans-serif-light, sans-serif';
-                context.strokeText(name, Math.max(4.5*k, Math.min(width - 4.5*k, d.x+offsets[d.type][0]))-name.length*2, Math.max(4.5*k, Math.min(height - 4.5*k, d.y+offsets[d.type][1]))+10, 100)            });      
+                context.strokeText(name, Math.max(4.5*k, Math.min(width - 4.5*k, d.x+offsets[d.type][0]))-name.length*2, Math.max(4.5*k, Math.min(height - 4.5*k, d.y+offsets[d.type][1]))+10, 100)            });
         }
         var force = d3.layout.force()
             .size([width, height])
@@ -758,7 +758,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
             'Non-Profit': {'x': -1, 'y': 1},
             'Government': {'x': -1, 'y': -1}
         }
-        var lowerBoundRadius = 10;  
+        var lowerBoundRadius = 10;
         var upperBoundRadius = 50;
         var maxEmployees = d3.max($scope.entities, function(el) {
             return parseInt(el.employees);
@@ -902,7 +902,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
         var hoverTimer;
         var hover = function(entity) {
             if (!$scope.clickedEntity.entity && !$scope.editing && !$scope.currentLocation ) {
-                hoverTimer = setTimeout(function(){ 
+                hoverTimer = setTimeout(function(){
                     focus(entity)
                 }, 500);
             }
@@ -1144,11 +1144,11 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 .attr('class', function(d) {return d.data.type+'-arc'});
 
             arcs.append("svg:text")
-                .text(function(d,i) { 
+                .text(function(d,i) {
                     if (i == 0) {
-                    return options.count 
+                    return options.count
                     }
-                }) 
+                })
                 .attr("x", -4 * options.count.toString().length)
                 .attr("dy", 5)
                 .attr("class","arcText");
@@ -1220,7 +1220,7 @@ angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate']
                 if ($scope.settingsEnabled && $scope.mobile) {$scope.toggleSettings()};
                 $scope.safeApply();
             });
-     
+
             map.on('click', function() {
                 $scope.clickedEntity.entity = null;
                 $scope.actions.interacted = true;
