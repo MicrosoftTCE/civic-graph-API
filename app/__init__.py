@@ -4,7 +4,7 @@ import logging
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config')
+    app.config.from_pyfile('../config.py')
     wfilehandler = logging.FileHandler('werkzeug.log')
     wfilehandler.setLevel(logging.DEBUG)
     wlog = logging.getLogger('werkzeug')
