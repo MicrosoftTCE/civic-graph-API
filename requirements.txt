@@ -3,4 +3,4 @@ Flask-Cache==0.13.1
 SQLAlchemy==0.9.9
 uWSGI==2.0.12
 redis==2.10.5
-mySQL==5.7.12
+MySQL-python==1.2.5
