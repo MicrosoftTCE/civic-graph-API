@@ -2,7 +2,10 @@
 *.pyc
 .DS_Store
 civicenv
-secrets.py
 *.log
 /backups
 dump.rdb
+
+# Config files 
+/config.py
+/secrets.py
