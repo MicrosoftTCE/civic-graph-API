@@ -55,6 +55,14 @@ Run redis-server:
 redis-server /PATH/TO/redis.conf
 brew services start redis		    # (Homebrew) 
 ```
+Run nginx:
+```
+brew services start nginx
+```
+Run uwsgi:
+```
+uwsgi --ini uwsgi.ini
+```
 Finally, you can run the application on `http://localhost:5000`:
 ```
 python run.py
