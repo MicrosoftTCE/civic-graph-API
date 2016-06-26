@@ -9,3 +9,7 @@ dump.rdb
 # Config files 
 /config.py
 /secrets.py
+
+/app/static/node_modules
+/app/static/build
+.idea
