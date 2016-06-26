@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var gulp   = require('gulp'),
+    var gulp = require('gulp'),
         uglify = require('gulp-uglify'),
         cleanCss = require('gulp-clean-css'),
         concat = require('gulp-concat'),
@@ -14,7 +14,7 @@
         cssSrc = 'css/**/*.css',
         minifiedCss = 'app.min.css';
 
-    gulp.task('js', function() {
+    gulp.task('js', function () {
         return gulp.src(jsSrc)
             .pipe(uglify())
             .on('error', notify.onError("Error: <%= error.message %>"))
@@ -22,7 +22,7 @@
             .pipe(gulp.dest(build));
     });
 
-    gulp.task('css', function() {
+    gulp.task('css', function () {
         return gulp.src(cssSrc)
             .pipe(concat(minifiedCss))
             .pipe(cleanCss())

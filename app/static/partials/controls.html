@@ -1,52 +1,53 @@
 <div class="control-panel">
-<div class='logo'>
-<img  src="img/civicgraph.png" width="100%">
-</div>
-<div class="control-panel-content">
+    <div class='logo'>
+        <img src="../img/civicgraph.png" width="100%">
+    </div>
+    <div class="control-panel-content">
 
-<h3>Types</h3>
-<div class='control-input' ng-repeat='(type, enabled) in entityTypes'>
-    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-    <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
-    <span class='caption'>{{type}}</span>
-</div>
+        <h3>Types</h3>
+        <div class='control-input' ng-repeat='(type, enabled) in entityTypes'>
+            <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+                <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
+            <span class='caption'>{{type}}</span>
+        </div>
 
-<hr>
+        <hr>
 
-<h3>Connections</h3>
-<div class='control-input' ng-repeat='(type, enabled) in connectionTypes'>
-    <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-    <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
-    <span class='caption'>{{type}}</span>
-</div>
+        <h3>Connections</h3>
+        <div class='control-input' ng-repeat='(type, enabled) in connectionTypes'>
+            <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
+                <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
+            <span class='caption'>{{type}}</span>
+        </div>
 
-<hr>
+        <hr>
 
-<h3>Size By</h3>
-<div class='control-input' ng-repeat='sizeBy in sizeBys'>
-    <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}" ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
-    <span class='caption'>{{sizeBy.name}}</span>
-</div>
+        <h3>Size By</h3>
+        <div class='control-input' ng-repeat='sizeBy in sizeBys'>
+            <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}"
+                   ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
+            <span class='caption'>{{sizeBy.name}}</span>
+        </div>
 
-<hr>
+        <hr>
 
-<h3>View</h3>
+        <h3>View</h3>
 
-<div class="switch switch-blue" >
-  <input type="radio" class="switch-input" name="view2" value="week2" id="week2" checked>
-  <label for="week2" class="switch-label switch-label-off" ng-click='changeView("Network")'>Network</label>
-  <input type="radio" class="switch-input" name="view2" value="month2" id="month2">
-  <label for="month2" class="switch-label switch-label-on" ng-click='changeView("Map")'>Map</label>
-  <span class="switch-selection"></span>
-</div>
+        <div class="switch switch-blue">
+            <input type="radio" class="switch-input" name="view2" value="week2" id="week2" checked>
+            <label for="week2" class="switch-label switch-label-off" ng-click='changeView("Network")'>Network</label>
+            <input type="radio" class="switch-input" name="view2" value="month2" id="month2">
+            <label for="month2" class="switch-label switch-label-on" ng-click='changeView("Map")'>Map</label>
+            <span class="switch-selection"></span>
+        </div>
 
 
+    </div>
 
-</div>
+    <div class="license">
+        <p>An open-source project by <a href="https://www.microsoft.com/" target='_blank'>
+            <img alt="Microsoft" src="../img/msftlogogrey.png" width="80"></a>.
+            <a ng-click='showAbout()' href=''>Learn more</a></p>
 
-<div class="license">
-  <p>An open-source project by <a href="https://www.microsoft.com/" target='_blank'>
-  <img alt="Microsoft" src="img/msftlogogrey.png" width="80"></a>. <a ng-click='showAbout()' href=''>Learn more</a></p>
-
-</div>
+    </div>
 </div>

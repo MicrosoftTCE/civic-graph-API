@@ -220,11 +220,7 @@
             $modal.open({
                 animation: false,
                 templateUrl: 'partials/about.html?i=' + $scope.random,
-                controller: function ($scope, $modalInstance) {
-                    $scope.closeWindow = function () {
-                        $modalInstance.close();
-                    };
-                }
+                controller: 'modalCtrl'
             });
         };
 
