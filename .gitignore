@@ -11,5 +11,5 @@ dump.rdb
 /secrets.py
 
 /app/static/node_modules
-/app/static/build
+#/app/static/build
 .idea
