@@ -14,13 +14,26 @@
   </div>
 
     <div><h5>Location(s)<span ng-class=" !$parent.$parent.editEntity.locations[0].coordinates ? 'red-asterisc' : 'green-asterisc' "> *</span></h5>
-        <input type='text' class='form-control' ng-repeat='location in editEntity.locations' ng-model='location.full_address' typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)' typeahead-on-select='setLocation(location, $item)' typeahead-editable='false' ng-change='addLocation(editEntity.locations)' placeholder=''>
+        <input type='text' class='form-control'
+               ng-repeat='location in editEntity.locations'
+               ng-model='location.full_address'
+               ng-disabled="editEntity.type==='Individual'"
+               typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+               typeahead-on-select='setLocation(location, $item)'
+               typeahead-editable='false'
+               ng-change='addLocation(editEntity.locations)'
+               placeholder=''
+        >
     </div>
 
     <h5>Type of entity<span ng-class=" !$parent.$parent.editEntity.type ? 'red-asterisc' : 'green-asterisc' "> *</span></h5>
 
     <div ng-repeat='(type, enabled) in entityTypes'>
-      <label class="checkbox radio {{type+'-checkbox'}}" ng-class="{'unchecked': $parent.$parent.editEntity.type != type}" ng-model='$parent.$parent.editEntity.type' btn-radio='type' ng-change='changetype()'></label>
+      <label class="checkbox radio {{type+'-checkbox'}}"
+             ng-class="{'unchecked': $parent.$parent.editEntity.type != type}"
+             ng-model='$parent.$parent.editEntity.type'
+             btn-radio='type'
+             ng-change='changeType()'></label>
       <span class='caption'>{{type}}</span>
     </div>
 
