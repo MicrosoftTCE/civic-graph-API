@@ -1,263 +1,294 @@
 <div ng-class="mobile ? 'detailsMb' : 'details'">
-<div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'></div>
-<!--MOBILE TOP VIEW-->
-<div class='mobile-details' ng-if='mobile'>
-    <div class="topContainer">
-        <div class='mobileLogo' style="display:inline-block"> 
-        <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
-        </div>
-        <div class="mdetails-top-right">
-            <div class='m-entity-name'>
-            <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
-            <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'><h2>{{currentEntity.name}}</h2></a>
-            <div ng-if='actions.interacted' style="display:inline">
-            <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
+    <div ng-if='!actions.interacted && !mobile' ng-include='overviewUrl'></div>
+    <!--MOBILE TOP VIEW-->
+    <div class='mobile-details' ng-if='mobile'>
+        <div class="topContainer">
+            <div class='mobileLogo' style="display:inline-block">
+                <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle'
+                     ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
             </div>
-            </div>
-            <div>
+            <div class="mdetails-top-right">
+                <div class='m-entity-name'>
+                    <a ng-if='currentEntity.url' ng-href='{{currentEntity.url}}' target='_blank'><h2>
+                        {{currentEntity.name}}</h2></a>
+                    <a ng-if='!currentEntity.url' ng-href='https://www.bing.com/search?q={{currentEntity.name}}'
+                       target='_blank'><h2>{{currentEntity.name}}</h2></a>
+                    <div ng-if='actions.interacted' style="display:inline">
+                        <i title='Edit' ng-click='startEdit(currentEntity)'
+                           class='glyphicon glyphicon-pencil edit-marker'></i>
+                    </div>
+                </div>
+                <div>
             <span ng-if='currentEntity.locations.length'>
-            <span class="mdetailsleft" >{{currentEntity.locations[0].locality+ ", "+ currentEntity.locations[0].country_code}}</span>
+            <span class="mdetailsleft">{{currentEntity.locations[0].locality+ ", "+ currentEntity.locations[0].country_code}}</span>
             </span>
-            <span class="mdetailsright typemobile">({{currentEntity.type}})</span>
+                    <span class="mdetailsright typemobile">({{currentEntity.type}})</span>
+                </div>
+                <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
             </div>
-            <a ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'>{{currentEntity.twitter_handle}}</a>
+
+        </div>
+        <p class="bio">{{currentEntity.description}}</p>
+
+        <div class="influence-containerMb">
+            <div ng-if='currentEntity.influence' class="aligc">
+                <div class="alig">
+                    <h5><span class="glyphicon glyphicon-record"></span></h5>
+                    <p>{{currentEntity.influence}}</p>
+                </div>
+            </div>
+            <div ng-if='currentEntity.employees' class="aligc">
+                <div class="alig">
+                    <h5>{{currentEntity.employees | thousandSuffix}}</h5>
+                    <p>Employees</p>
+                </div>
+            </div>
+            <div ng-if='currentEntity.followers' class="aligc">
+                <div class="alig">
+                    <h5>{{currentEntity.followers | thousandSuffix}}</h5>
+                    <p><span class="fa fa-twitter"></span> Followers</p>
+                </div>
+            </div>
         </div>
 
+
+        <br>
+        <br>
     </div>
+    <!-- END MOBILE TOP VIEW-->
+    <!--DESKTOP TOP VIEW-->
+    <div ng-if='!mobile'>
+        <div class='right_logo'>
+            <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle'
+                 ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
+            <div class='entity-name'>
+                <h2 style="display:inline;" ng-if='currentEntity.url'><a style="display:inline;color:#333333;"
+                                                                         ng-href='{{currentEntity.url}}'
+                                                                         target='_blank'>{{currentEntity.name}}</a></h2>
+                <h2 style="display:inline;" ng-if='!currentEntity.url'><a style="display:inline;"
+                                                                          ng-href='https://www.bing.com/search?q={{currentEntity.name}}'
+                                                                          target='_blank'>{{currentEntity.name}}</a>
+                </h2>
+                <div ng-if='actions.interacted' style="display:inline">
+                    <i title='Edit' ng-click='startEdit(currentEntity)'
+                       class='glyphicon glyphicon-pencil edit-marker'></i>
+                </div>
+            </div>
             <p class="bio">{{currentEntity.description}}</p>
 
-    <div class="influence-containerMb">
-        <div ng-if='currentEntity.influence' class="aligc">
-        <div class="alig">
-            <h5><span class="glyphicon glyphicon-record"></span></h5>
-            <p><p>{{currentEntity.influence}}</p>
-            </div>
         </div>
-        <div ng-if='currentEntity.employees' class="aligc">
-        <div class="alig">
-            <h5><h5>{{currentEntity.employees | thousandSuffix}}</h5>
-            <p><p>Employees</p>
-            </div>
+        <div ng-if='currentEntity.type'>
+            <p ng-class="currentEntity.type"><span class='details-gly glyphicon glyphicon-stop'></span>{{currentEntity.type}}
+            </p>
         </div>
-        <div ng-if='currentEntity.followers' class="aligc">
-        <div class="alig">
-            <h5><h5>{{currentEntity.followers | thousandSuffix}}</h5>
-            <p><p><span class="fa fa-twitter"></span> Followers</p>
-            </div>
+
+        <!-- <div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees"> -->
+        <!-- <h6>Type of Entity:</h6>-->
+
+        <div ng-if='currentEntity.locations.length'>
+            <p ng-repeat='location in currentEntity.locations'><span
+                    class='details-gly glyphicon glyphicon-map-marker'></span>{{location.country_code == 'US' ?
+                location.locality+ ", "+ location.district : location.locality+ ", "+ location.country}}</p>
         </div>
+        <div ng-if='currentEntity.twitter_handle'>
+            <a style='color:#333333;' ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}"
+               target='_blank'><i class="fa fa-twitter details-gly"></i>{{currentEntity.twitter_handle}}</a>
+        </div>
+
+        <!-- KEY PEOPLE -->
+        <div ng-if='currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
+            <hr>
+            <h5>Details</h5>
+            <h6>Key Civic People</h6>
+            <p ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><a
+                    ng-class="currentEntity.type"
+                    ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}' target='_blank'>{{person.name}}</a>
+            </p>
+
+            <a ng-class="currentEntity.type" class='more'
+               ng-if='currentEntity.key_people.length > itemsShown.key_people'
+               ng-click="showMore('key_people')">more...</a>
+            <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.key_people > itemsShownDefault.key_people'
+               ng-click="showLess('key_people')">less...</a>
+        </div>
+
+
+        <div class="influence-container">
+            <h6 ng-if='currentEntity.influence'>Influence</h6>
+            <table style="width:100%">
+                <tr>
+                    <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
+                    <td ng-if='currentEntity.employees'><h5>{{currentEntity.employees | thousandSuffix}}</h5></td>
+                    <td ng-if='currentEntity.followers'><h5>{{currentEntity.followers | thousandSuffix}}</h5></td>
+                </tr>
+                <tr>
+                    <td ng-if='currentEntity.influence'><p>{{currentEntity.influence}}</p></td>
+                    <td ng-if='currentEntity.employees'><p>Employees</p></td>
+                    <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"> Followers</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!-- </div> -->
+    </div>
+    <!--END DESKTOP TOP VIEW-->
+
+
+    <!-- COLLABORATIONS -->
+    <hr>
+    <div ng-if='currentEntity.collaborations.length'>
+        <h5>Connections</h5>
+        <h6>Collaboration</h6>
+        <a ng-class="currentEntity.type"
+           ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations'
+           ng-click='selectItem(collaboration.entity_id)'>{{collaboration.entity}}</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.collaborations.length > itemsShown.collaborations'
+           ng-click="showMore('collaborations')">more...</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' ng-click="showLess('collaborations')">less...</a>
     </div>
 
+    <!-- EMPLOYMENTS -->
+    <div ng-if='currentEntity.employments.length'>
+        <h6>Employment</h6>
+        <a ng-class="currentEntity.type"
+           ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments'
+           ng-click='selectItem(employment.entity_id)'>{{employment.entity}}</a>
 
-<br>
-<br>
-</div>
-<!-- END MOBILE TOP VIEW-->
-<!--DESKTOP TOP VIEW-->
-<div ng-if='!mobile'>
-<div class='right_logo'> 
-    <img class='entity-twitter-logo' ng-if='currentEntity.twitter_handle' ng-src='https://twitter.com/{{currentEntity.twitter_handle}}/profile_image?size=bigger'>
-    <div class='entity-name'>
-        <h2 style="display:inline;" ng-if='currentEntity.url'><a style="display:inline;color:#333333;" ng-href='{{currentEntity.url}}' target='_blank'>{{currentEntity.name}}</a></h2>
-        <h2 style="display:inline;" ng-if='!currentEntity.url'><a style="display:inline;" ng-href='https://www.bing.com/search?q={{currentEntity.name}}' target='_blank'>{{currentEntity.name}}</a></h2>
-        <div ng-if='actions.interacted' style="display:inline">
-        <i title='Edit' ng-click='startEdit(currentEntity)' class='glyphicon glyphicon-pencil edit-marker'></i>
-        </div>
+        <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.employments.length > itemsShown.employments'
+           ng-click="showMore('employments')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.employments > itemsShownDefault.employments'
+           ng-click="showLess('employments')">less...</a>
     </div>
-<p class="bio">{{currentEntity.description}}</p>
 
-</div>
-<div ng-if='currentEntity.type'>
-<p ng-class="currentEntity.type"><span class='details-gly glyphicon glyphicon-stop'></span>{{currentEntity.type}}</p>
-</div>
+    <!-- RELATIONS -->
+    <div ng-if='currentEntity.relations.length'>
+        <h6>Related to</h6>
+        <a ng-class="currentEntity.type" ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations'
+           ng-click='selectItem(relation.entity_id)'>{{relation.entity}}</a>
 
-<!-- <div ng-hide="currentEntity.type=='Individual' || !currentEntity.employees"> -->
-<!-- <h6>Type of Entity:</h6>-->
+        <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.relations.length > itemsShown.relations'
+           ng-click="showMore('relations')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.relations > itemsShownDefault.relations'
+           ng-click="showLess('relations')">less...</a>
+    </div>
 
-<div ng-if='currentEntity.locations.length'>
-<p ng-repeat='location in currentEntity.locations'><span class='details-gly glyphicon glyphicon-map-marker'></span>{{location.country_code == 'US' ? location.locality+ ", "+ location.district : location.locality+ ", "+ location.country}}</p>
-</div>
-<div ng-if='currentEntity.twitter_handle'>
-<a style='color:#333333;' ng-href="https://twitter.com/{{currentEntity.twitter_handle.replace('@','')}}" target='_blank'><i class="fa fa-twitter details-gly"></i>{{currentEntity.twitter_handle}}</a>
-</div>
+    <!-- DATA USAGE -->
+    <div ng-if='currentEntity.data_given.length'>
+        <h6>Gave data to</h6>
+        <a ng-class="currentEntity.type"
+           ng-repeat='datasource in currentEntity.data_given | limitTo:itemsShown.data_given'
+           ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
 
-<!-- KEY PEOPLE -->
-<div ng-if='currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
-<hr>
-<h5>Details</h5>
-<h6>Key Civic People</h6>
-    <p ng-repeat='person in currentEntity.key_people | limitTo:itemsShown.key_people'><a ng-class="currentEntity.type" ng-href='https://www.bing.com/search?q={{person.name}} {{currentEntity.name}}' target='_blank'>{{person.name}}</a></p>
+        <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.data_given.length > itemsShown.data_given'
+           ng-click="showMore('data_given')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.data_given > itemsShownDefault.data_given'
+           ng-click="showLess('data_given')">less...</a>
+    </div>
 
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.key_people.length > itemsShown.key_people' ng-click="showMore('key_people')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.key_people > itemsShownDefault.key_people' ng-click="showLess('key_people')">less...</a>
-</div>
+    <div ng-if='currentEntity.data_received.length'>
+        <h6>Used data from</h6>
+        <a ng-class="currentEntity.type"
+           ng-repeat='datasource in currentEntity.data_received | limitTo:itemsShown.data_received'
+           ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
 
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.data_received.length > itemsShown.data_received' ng-click="showMore('data_received')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.data_received > itemsShownDefault.data_received'
+           ng-click="showLess('data_received')">less...</a>
+    </div>
 
-<div class="influence-container">
-<h6 ng-if='currentEntity.influence'>Influence</h6>
-    <table style="width:100%">
-        <tr>
-            <td ng-if='currentEntity.influence'><h5><span class="glyphicon glyphicon-record"></span></h5></td>
-            <td ng-if='currentEntity.employees'><h5>{{currentEntity.employees | thousandSuffix}}</h5></td> 
-            <td ng-if='currentEntity.followers'><h5>{{currentEntity.followers | thousandSuffix}}</h5></td>
-        </tr>
-        <tr>
-            <td ng-if='currentEntity.influence'><p>{{currentEntity.influence}}</p></td>
-            <td ng-if='currentEntity.employees'><p>Employees</p></td> 
-            <td ng-if='currentEntity.followers'><p><span class="fa fa-twitter"> Followers</span></p>
-        </td>
-      </tr>
-    </table>
-</div>
+    <!-- GRANTS RECEIVED -->
+    <div ng-if='currentEntity.grants_received.length'>
+        <h6>Received grants from</h6>
 
+        <a ng-class="currentEntity.type"
+           ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received'
+           ng-click='selectItem(grant.entity_id)'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></a>
 
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.grants_received.length > itemsShown.grants_received'
+           ng-click="showMore('grants_received')">more...</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='itemsShown.grants_received > itemsShownDefault.grants_received'
+           ng-click="showLess('grants_received')">less...</a>
+    </div>
 
-<!-- </div> -->
-</div>
-<!--END DESKTOP TOP VIEW-->
+    <!-- INVESTMENTS RECEIVED -->
+    <div ng-if='currentEntity.investments_received.length' ng-hide="currentEntity.type=='Individual'">
+        <h6>Received investments from</h6>
+        <p ng-class="currentEntity.type"
+           ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'><a
+                ng-class="currentEntity.type" ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span
+                ng-class="currentEntity.type" ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span>
+        </p>
 
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.investments_received.length > itemsShown.investments_received'
+           ng-click="showMore('investments_received')">more...</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='itemsShown.investments_received > itemsShownDefault.investments_received'
+           ng-click="showLess('investments_received')">less...</a>
+    </div>
 
-<!-- COLLABORATIONS -->
-<hr>
-<div ng-if='currentEntity.collaborations.length'>
-<h5>Connections</h5>
-<h6>Collaboration</h6>
-    <a ng-class="currentEntity.type" ng-repeat='collaboration in currentEntity.collaborations | limitTo:itemsShown.collaborations' ng-click='selectItem(collaboration.entity_id)' >{{collaboration.entity}}</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.collaborations.length > itemsShown.collaborations' ng-click="showMore('collaborations')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.collaborations > itemsShownDefault.collaborations' ng-click="showLess('collaborations')">less...</a>
-</div>
+    <!-- GRANTS GIVEN -->
+    <div ng-if='currentEntity.grants_given.length' ng-hide="currentEntity.type=='Individual'">
+        <h6>Gave grants to</h6>
+        <p ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'><a
+                ng-class="currentEntity.type" ng-click='selectItem(grant.entity_id)'>{{grant.entity}}</a><span
+                ng-class="currentEntity.type" ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span>
+        </p>
 
-<!-- EMPLOYMENTS -->
-<div ng-if='currentEntity.employments.length'>
-<h6>Employment</h6>
-    <a ng-class="currentEntity.type" ng-repeat='employment in currentEntity.employments | limitTo:itemsShown.employments' ng-click='selectItem(employment.entity_id)'>{{employment.entity}}</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.grants_given.length > itemsShown.grants_given' ng-click="showMore('grants_given')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.grants_given > itemsShownDefault.grants_given'
+           ng-click="showLess('grants_given')">less...</a>
+    </div>
 
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.employments.length > itemsShown.employments' ng-click="showMore('employments')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.employments > itemsShownDefault.employments' ng-click="showLess('employments')">less...</a>
-</div>
+    <!-- INVESTMENTS MADE -->
+    <div ng-if='currentEntity.investments_made.length' ng-hide="currentEntity.type=='Individual'">
+        <h6>Invested in</h6>
+        <p ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'><a
+                ng-class="currentEntity.type" ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span
+                ng-class="currentEntity.type" ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span>
+        </p>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='currentEntity.investments_made.length > itemsShown.investments_made'
+           ng-click="showMore('investments_made')">more...</a>
+        <a ng-class="currentEntity.type" class='more'
+           ng-if='itemsShown.investments_made > itemsShownDefault.investments_made'
+           ng-click="showLess('investments_made')">less...</a>
+    </div>
+    <!-- REVENUES -->
+    <div ng-if='currentEntity.revenues.length'>
+        <h6>Revenues</h6>
+        <p ng-class="currentEntity.type" ng-repeat='revenue in currentEntity.revenues | limitTo:itemsShown.revenues'>
+            {{revenue.year}}: {{revenue.amount | currency:undefined:0}}</p>
 
-<!-- RELATIONS -->
-<div ng-if='currentEntity.relations.length'>
-<h6>Related to</h6>
-    <a ng-class="currentEntity.type" ng-repeat='relation in currentEntity.relations | limitTo:itemsShown.relations' ng-click='selectItem(relation.entity_id)'>{{relation.entity}}</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.revenues.length > itemsShown.revenues'
+           ng-click="showMore('revenues')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.revenues > itemsShownDefault.revenues'
+           ng-click="showLess('revenues')">less...</a>
+    </div>
 
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.relations.length > itemsShown.relations' ng-click="showMore('relations')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.relations > itemsShownDefault.relations' ng-click="showLess('relations')">less...</a>
-</div>
+    <!-- EXPENSES -->
+    <div ng-if='currentEntity.expenses.length' ng-hide="currentEntity.type=='Individual'">
+        <h6>Expense</h6>
+        <p ng-class="currentEntity.type" ng-repeat='expense in currentEntity.expenses | limitTo:itemsShown.expenses'>
+            {{expense.year}}: {{expense.amount | currency:undefined:0}}</p>
+        <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.expenses.length > itemsShown.expenses'
+           ng-click="showMore('expenses')">more...</a>
+        <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.expenses > itemsShownDefault.expenses'
+           ng-click="showLess('expenses')">less...</a>
+    </div>
 
-<!-- DATA USAGE -->
-<div ng-if='currentEntity.data_given.length'>
-<h6>Gave data to</h6>
-    <a ng-class="currentEntity.type" ng-repeat='datasource in currentEntity.data_given | limitTo:itemsShown.data_given' ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
+    <div ng-if="!mobile" class="gradientback">
 
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.data_given.length > itemsShown.data_given' ng-click="showMore('data_given')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.data_given > itemsShownDefault.data_given' ng-click="showLess('data_given')">less...</a>
-</div>
-
-<div ng-if='currentEntity.data_received.length'>
-<h6>Used data from</h6>
-    <a ng-class="currentEntity.type" ng-repeat='datasource in currentEntity.data_received | limitTo:itemsShown.data_received' ng-click='selectItem(datasource.entity_id)'>{{datasource.entity}}</a>
-
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.data_received.length > itemsShown.data_received' ng-click="showMore('data_received')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.data_received > itemsShownDefault.data_received' ng-click="showLess('data_received')">less...</a>
-</div>
-
-<!-- GRANTS RECEIVED -->
-<div ng-if='currentEntity.grants_received.length'>
-<h6>Received grants from</h6>
-
-    <a ng-class="currentEntity.type" ng-repeat='grant in currentEntity.grants_received | limitTo:itemsShown.grants_received' ng-click='selectItem(grant.entity_id)'>{{grant.entity}}<span ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></a>
-
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.grants_received.length > itemsShown.grants_received' ng-click="showMore('grants_received')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.grants_received > itemsShownDefault.grants_received' ng-click="showLess('grants_received')">less...</a>
-</div>
-
-<!-- INVESTMENTS RECEIVED -->
-<div ng-if='currentEntity.investments_received.length' ng-hide="currentEntity.type=='Individual'">
-<h6>Received investments from</h6>
-    <p ng-class="currentEntity.type" ng-repeat='investment in currentEntity.investments_received | limitTo:itemsShown.investments_received'><a ng-class="currentEntity.type" ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span ng-class="currentEntity.type" ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
-    
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.investments_received.length > itemsShown.investments_received' ng-click="showMore('investments_received')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.investments_received > itemsShownDefault.investments_received' ng-click="showLess('investments_received')">less...</a>
-</div>
-
-<!-- GRANTS GIVEN -->
-<div ng-if='currentEntity.grants_given.length' ng-hide="currentEntity.type=='Individual'">
-<h6>Gave grants to</h6>
-    <p ng-repeat='grant in currentEntity.grants_given | limitTo:itemsShown.grants_given'><a ng-class="currentEntity.type" ng-click='selectItem(grant.entity_id)'>{{grant.entity}}</a><span ng-class="currentEntity.type" ng-if='grant.amount > 0'>: {{grant.amount | currency:undefined:0}}</span></p>
-
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.grants_given.length > itemsShown.grants_given' ng-click="showMore('grants_given')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.grants_given > itemsShownDefault.grants_given' ng-click="showLess('grants_given')">less...</a>
-</div>
-
-<!-- INVESTMENTS MADE -->
-<div ng-if='currentEntity.investments_made.length' ng-hide="currentEntity.type=='Individual'">
-<h6>Invested in</h6>
-    <p ng-repeat='investment in currentEntity.investments_made | limitTo:itemsShown.investments_made'><a ng-class="currentEntity.type" ng-click='selectItem(investment.entity_id)'>{{investment.entity}}</a><span ng-class="currentEntity.type" ng-if='investment.amount > 0'>: {{investment.amount | currency:undefined:0}}</span></p>
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.investments_made.length > itemsShown.investments_made' ng-click="showMore('investments_made')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.investments_made > itemsShownDefault.investments_made' ng-click="showLess('investments_made')">less...</a>
-</div>
-<!-- REVENUES -->
-<div ng-if='currentEntity.revenues.length'>
-<h6>Revenues</h6>
-    <p ng-class="currentEntity.type" ng-repeat='revenue in currentEntity.revenues | limitTo:itemsShown.revenues'>{{revenue.year}}: {{revenue.amount | currency:undefined:0}}</p>
-
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.revenues.length > itemsShown.revenues' ng-click="showMore('revenues')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.revenues > itemsShownDefault.revenues' ng-click="showLess('revenues')">less...</a>
-</div>
-
-<!-- EXPENSES -->
-<div ng-if='currentEntity.expenses.length' ng-hide="currentEntity.type=='Individual'">
-<h6>Expense</h6>
-<p ng-class="currentEntity.type" ng-repeat='expense in currentEntity.expenses | limitTo:itemsShown.expenses'>{{expense.year}}: {{expense.amount | currency:undefined:0}}</p>
-    <a ng-class="currentEntity.type" class='more' ng-if='currentEntity.expenses.length > itemsShown.expenses' ng-click="showMore('expenses')">more...</a>
-    <a ng-class="currentEntity.type" class='more' ng-if='itemsShown.expenses > itemsShownDefault.expenses' ng-click="showLess('expenses')">less...</a>
-</div>
-
-     <div ng-if="!mobile" class="gradientback">
-
-     </div>
-<!-- <hr > -->
-<!-- <div ng-if='!currentEntity.locations.length'>
-<p>No known location information.</p>
-</div>
-<div ng-if='!currentEntity.key_people.length' ng-hide="currentEntity.type=='Individual'">
-    <p>No known Key Civic People.</p>
-</div>
-<div ng-if='!currentEntity.collaborations.length'>
-    <p>No known collaborations.</p>
-</div>
-<div ng-if='!currentEntity.employments.length'>
-    <p>No known employment information.</p>
-</div>
-<div ng-if='!currentEntity.relations.length'>
-    <p>No known relation information.</p>
-</div>
-<div ng-if='!currentEntity.data_given.length'>
-    <p>No known data provided to other entities.</p>
-</div>
-<div ng-if='!currentEntity.data_received.length'>
-    <p>No known external data used.</p>
-</div>
-<div ng-if='!currentEntity.grants_received.length'>
-    <p>No known grants received.</p>
-</div>
-<div ng-if='!currentEntity.investments_received.length' ng-hide="currentEntity.type=='Individual'">
-    <p>No known investments received.</p>
-</div>
-<div ng-if='!currentEntity.grants_given.length' ng-hide="currentEntity.type=='Individual'">
-    <p>No known grants provided.</p>
-</div>
-<div ng-if='!currentEntity.investments_made.length'>
-    <p>No known investments made.</p>
-</div>
-<div ng-if='!currentEntity.revenues.length' ng-hide="currentEntity.type=='Individual'">
-    <p>No known revenue information.</p>
-</div>
-<div ng-if='!currentEntity.expenses.length' ng-hide="currentEntity.type=='Individual'">
-    <p>No known expense information.</p>
-</div> -->
-</div>
+    </div>
 </div>
 <div ng-if='!mobile' class='addInfoDesktopContainer' ng-click='startEdit()'>
-    <button class='addInfoDesktop' ><p><i class="glyphicon glyphicon-plus-sign"></i> Add New Info</p></button>
+    <button class='addInfoDesktop'><span class="glyphicon glyphicon-plus-sign"></span>Add New Info</button>
 </div>
