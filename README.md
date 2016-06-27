@@ -21,6 +21,14 @@ Copy contents from /sampleconfig into project root:
 ```
 cp sampleconfig/* .
 ```
+Navigate to app/static and install npm:
+```
+npm install
+```
+Build minification files:
+```
+gulp
+```
 Install virtualenv:			
 ```
 pip install -U virtualenv 

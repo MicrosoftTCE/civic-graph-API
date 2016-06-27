@@ -1,4 +1,3 @@
-
 MYSQL_PASSWORD = ""
 
 admin_name = ""

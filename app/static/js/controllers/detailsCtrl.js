@@ -1,9 +1,9 @@
-(function( angular ) {
+(function (angular) {
 
-	'use strict';
+    'use strict';
 
-	function detailsCtrl($scope, _) {
-	    $scope.itemsShownDefault = {
+    function detailsCtrl($scope, _) {
+        $scope.itemsShownDefault = {
             'key_people': 3,
             'grants_given': 3,
             'grants_received': 3,
@@ -18,20 +18,20 @@
             'expenses': 3
         };
 
-	    $scope.itemsShown = _.clone($scope.itemsShownDefault);
+        $scope.itemsShown = _.clone($scope.itemsShownDefault);
 
-	    $scope.$on('entityChange', function() {
-	        // Reset items shown in details list.
-	        $scope.itemsShown = _.clone($scope.itemsShownDefault);
-	    });
-	    $scope.showMore = function(type) {
-	        $scope.itemsShown[type] = $scope.currentEntity[type].length;
-	    };
-	    $scope.showLess = function(type) {
-	        $scope.itemsShown[type] = $scope.itemsShownDefault[type];
-	    };
-	}
+        $scope.$on('entityChange', function () {
+            // Reset items shown in details list.
+            $scope.itemsShown = _.clone($scope.itemsShownDefault);
+        });
+        $scope.showMore = function (type) {
+            $scope.itemsShown[type] = $scope.currentEntity[type].length;
+        };
+        $scope.showLess = function (type) {
+            $scope.itemsShown[type] = $scope.itemsShownDefault[type];
+        };
+    }
 
-	angular.module('civic-graph')
-	.controller('detailsCtrl', ['$scope', "_", detailsCtrl]);
+    angular.module('civic-graph')
+        .controller('detailsCtrl', ['$scope', "_", detailsCtrl]);
 })(angular);

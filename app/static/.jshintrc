@@ -5,7 +5,9 @@
     "devel"   : true,
     "jquery"  : true,
     "$"       : true,
-    "require" : true
+    "require" : true,
+    "d3"      : true,
+    "L"       : true
   },
   "trailing"  : true,
   "white"     : true,
@@ -20,5 +22,6 @@
   "bitwise"   : true,
   "curly"     : false,
   "undef"     : true,
-  "nonew"     : true
+  "nonew"     : true,
+  "validthis" : true
 }
