@@ -6,10 +6,12 @@
         '$timeout',
         'leafletData',
         '_',
+        '$filter',
         mapCtrl
     ];
 
-    function mapCtrl($scope, $timeout, leafletData, _) {
+    function mapCtrl($scope, $timeout, leafletData, _, $filter) {
+
         $scope.options = {
             center  : {
                 lat : 20.00,
@@ -71,6 +73,12 @@
             };
 
             leafletData.getMap().then(function (map) {
+                var filteredEntities = $filter('filter')($scope.entities,
+                    function(entity) {
+                        return entity.collaborations.length > 4;
+                    }
+                );
+
                 map.invalidateSize();
                 new L.Control.Zoom({position: 'topright'}).addTo(map);
                 L.control.locate(
@@ -116,31 +124,39 @@
                 };
 
                 var markers = L.markerClusterGroup({
-                                                       spiderfyOnMaxZoom         : true,
-                                                       showCoverageOnHover       : false,
-                                                       iconCreateFunction        : clusterIcon,
-                                                       maxClusterRadius          : 30,
-                                                       spiderfyDistanceMultiplier: 1.3
-                                                   });
-                _.forEach($scope.entities, function (entity) {
-                    _.forEach(entity.locations, function (loc) {
-                        if (_.every(loc.coordinates)) {
-                            if (loc.coordinates[0].toFixed(5) === 40.78200
-                                && loc.coordinates[1].toFixed(5) === -73.83170) {
-                                loc.coordinates[0] = 40.77065;
-                                loc.coordinates[1] = -73.97406;
-                            }
-                            var m = L.marker(loc.coordinates, {
-                                icon       : markerIcon[entity.type],
-                                'title'    : entity.name,
-                                'entity_id': entity.id,
-                                'message'  : entity.name,
-                                'type'     : entity.type
-                            });
-                            markers.addLayer(m);
-                        }
-                    });
+
+                    spiderfyOnMaxZoom: true,
+                    showCoverageOnHover: false,
+                    iconCreateFunction: clusterIcon,
+                    maxClusterRadius: 30,
+                    spiderfyDistanceMultiplier: 1.3
                 });
+
+
+                function outerLoop(entity) {
+                    function innerLoop(loc) {
+                        if (!_.every(loc.coordinates)) return;
+                        if (loc.coordinates[0].toFixed(5) === '40.78200' && loc.coordinates[1].toFixed(5) === '-73.83170') {
+                            loc.coordinates[0] = 40.77065;
+                            loc.coordinates[1] = -73.97406;
+                        }
+                        var m = L.marker(loc.coordinates, {
+                            icon: markerIcon[entity.type],
+                            'title': entity.name,
+                            'entity_id': entity.id,
+                            'message': entity.name,
+                            'type': entity.type
+                        });
+                        markers.addLayer(m);
+                    }
+
+                    _.forEach(entity.locations, innerLoop);
+                }
+
+                console.log("Original: %O", $scope.entities);
+                console.log("Filtered: %O", filteredEntities);
+
+                _.forEach(filteredEntities, outerLoop);
                 map.addLayer(markers);
 
                 function onLocationError(leafletError) {
@@ -178,5 +194,6 @@
     }
 
     angular.module('civic-graph')
+
         .controller('mapCtrl', dependencies);
 })(angular, d3, L);

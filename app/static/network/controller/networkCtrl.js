@@ -6,12 +6,13 @@
         '$scope',
         '$http',
         '_',
+        '$filter',
         networkCtrl
     ];
 
     function isDef(o) { return o !== undefined && o !== null; }
 
-    function networkCtrl($scope, $http, _) {
+    function networkCtrl($scope, $http, _, $filter) {
         // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
         // See http://stackoverflow.com/q/16824308
         $scope.isLoading = true;
@@ -29,39 +30,51 @@
             }
         };
 
-        $scope.$on('entitiesLoaded', function () {
+        $scope.$on('entitiesLoaded', function (event) {
+            var targetScope = event.targetScope;
             $http.get('api/connections').success(function (data) {
+                var filteredEntities = $filter('filter')($scope.entities,
+                    function(entity) {
+                        return entity.collaborations.length >= targetScope.minConnections;
+                    }
+                );
+                var filteredConnections = {};
                 _.forEach(_.keys(data.connections), function (type) {
-                    $scope.connections[type] = [];
+                    // $scope.connections[type] = [];
+                    filteredConnections[type] = [];
                 });
                 _.forEach(data.connections, function (connections, type) {
                     _.forEach(connections, function (connection) {
-                        var sourceNode = _.find($scope.entities, {'id': connection.source});
-                        var targetNode = _.find($scope.entities, {'id': connection.target});
-                        $scope.connections[type].push({'source': sourceNode, 'target': targetNode});
+                        var sourceNode = _.find(filteredEntities, {'id': connection.source});
+                        var targetNode = _.find(filteredEntities, {'id': connection.target});
+                        if(!( isDef(sourceNode) && isDef(targetNode) )) return;
+
+                        filteredConnections[type].push({'source': sourceNode, 'target': targetNode});
+                        // $scope.connections[type].push({'source': sourceNode, 'target': targetNode});
                     });
                 });
                 // Only show labels on top 5 most connected entities initially.
                 _.forEach(_.keys($scope.entityTypes), function (type) {
                     // Find the top 5 most-connected entities.
-                    var top5 = _.takeRight(_.sortBy(_.filter($scope.entities, {'type': type}), 'collaborations.length'), 5);
+                    var top5 = _.takeRight(_.sortBy(_.filter(filteredEntities, {'type': type}), 'collaborations.length'), 5);
                     _.forEach(top5, function (entity) {
                         entity.wellconnected = true;
                     });
                 });
 
-                $scope.entities = _.sortBy($scope.entities, function (e) {
+                filteredEntities = _.sortBy(filteredEntities, function (e) {
                     return (e.wellconnected) ? 1 : 0;
                 });
+
                 if ($scope.mobile) {
-                    drawNetworkMobile();
+                    drawNetworkMobile(filteredEntities);
                 } else {
-                    drawNetwork();
+                    drawNetwork(filteredEntities, filteredConnections);
                 }
             });
         });
 
-        var drawNetworkMobile = function () {
+        var drawNetworkMobile = function (entityArray) {
             var data = {
                 nodes: $scope.entities,
                 links: _.flatten(_.values($scope.connections))
@@ -127,6 +140,7 @@
             var canvas = d3.select('div#canvas-force').append('canvas');
             var context = canvas.node().getContext('2d');
             var devicePixelRatio = window.devicePixelRatio || 1,
+
                 backingStoreRatio = context.webkitBackingStorePixelRatio ||
                     context.mozBackingStorePixelRatio ||
                     context.msBackingStorePixelRatio ||
@@ -178,7 +192,7 @@
             var allNodes = [];
             var showEntities;
             data.nodes.forEach(function (d) {
-                if ($scope.entityTypes[d.type]) {
+                if (isDef(entityArray[d.type])) {
                     if ($scope.currentLocation) {
                         if (d.name in $scope.currentLocation.dict) {
                             drawOnTop.push(d);
@@ -194,11 +208,14 @@
             });
             allNodes = allNodes.concat(drawOnTop);
             var tick = function () {
+
+                var pinchZoom;
+
                 count++;
                 if (count > 70 && initialLoad) {
                     initialLoad = false;
                     force.stop();
-                    new RTP.PinchZoom($('#networkCanvas'), {});
+                    pinchZoom = new RTP.PinchZoom($('#networkCanvas'), {});
                 }
                 context.clearRect(0, 0, width, height);
                 showEntities = {};
@@ -206,37 +223,45 @@
                 context.strokeStyle = '#ccc';
                 _.forEach($scope.connections, function (connections, type) {
                     connections.forEach(function (d) {
-                        var k;
-                        if ($scope.connectionTypes[type] && ($scope.entityTypes[d.target.type] && $scope.entityTypes[d.source.type])) {
-                            if ($scope.currentLocation) {
-                                if (d.source.name in $scope.currentLocation.dict && d.target.name in $scope.currentLocation.dict) {
-                                    context.beginPath();
 
-                                    //  Modification - Boundaries      var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
-                                    k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
-                                    context.moveTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.source.x + offsets[d.source.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.source.y + offsets[d.source.type][1])));
-                                    context.lineTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.target.x + offsets[d.target.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.target.y + offsets[d.target.type][1])));
+                        var isConTypeDefined = isDef($scope.connectionTypes[type]),
+                            isEntityTargetTypeDefined = isDef($scope.entityTypes[d.target.type]),
+                            isEntitySourceTypeDefined = isDef($scope.entityTypes[d.source.type]),
+                            k;
 
-                                    context.strokeStyle = colors[type]['focused'];
-                                    context.stroke();
-                                    context.closePath();
-                                }
+                        if (!(isConTypeDefined && isEntityTargetTypeDefined && isEntitySourceTypeDefined)) return;
+
+                        if (isDef($scope.currentLocation)) {
+                            if (d.source.name in $scope.currentLocation.dict && d.target.name in $scope.currentLocation.dict) {
+                                context.beginPath();
+
+                                //  Modification - Boundaries      var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
+                                k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
+                                context.moveTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.source.x + offsets[d.source.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.source.y + offsets[d.source.type][1])));
+                                context.lineTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.target.x + offsets[d.target.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.target.y + offsets[d.target.type][1])));
+
+                                context.strokeStyle = colors[type]['focused'];
+                                context.stroke();
+                                context.closePath();
                             }
-                            else {
-                                if (!$scope.currentEntity || d.source === $scope.currentEntity || d.target === $scope.currentEntity) {
-                                    context.beginPath();
+                        }
+                        else {
+                            if (!isDef($scope.currentEntity)
+                                || d.source === $scope.currentEntity
+                                || d.target === $scope.currentEntity) {
 
-                                    //  Modification - Boundaries
-                                    k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
-                                    context.moveTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.source.x + offsets[d.source.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.source.y + offsets[d.source.type][1])));
-                                    context.lineTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.target.x + offsets[d.target.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.target.y + offsets[d.target.type][1])));
+                                context.beginPath();
 
-                                    context.strokeStyle = colors[type]['focused'];
-                                    context.stroke();
-                                    context.closePath();
-                                    showEntities[d.source.id] = true;
-                                    showEntities[d.target.id] = true;
-                                }
+                                //  Modification - Boundaries
+                                k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
+                                context.moveTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.source.x + offsets[d.source.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.source.y + offsets[d.source.type][1])));
+                                context.lineTo(Math.max(4.5 * k, Math.min(width - 4.5 * k, d.target.x + offsets[d.target.type][0])), Math.max(4.5 * k, Math.min(height - 4.5 * k, d.target.y + offsets[d.target.type][1])));
+
+                                context.strokeStyle = colors[type]['focused'];
+                                context.stroke();
+                                context.closePath();
+                                showEntities[d.source.id] = true;
+                                showEntities[d.target.id] = true;
                             }
                         }
                     });
@@ -326,9 +351,12 @@
                 tick();
             });
         };
-        var drawNetwork = function () {
+
+        var drawNetwork = function (entityArray, connectionArray) {
             $scope.isLoading = false;
+
             var svg = d3.select('#network');
+            svg.selectAll("*").remove();
             var bounds = svg.node().getBoundingClientRect();
             var height = bounds.height;
             var width = bounds.width;
@@ -342,10 +370,10 @@
             };
             var lowerBoundRadius = 10;
             var upperBoundRadius = 50;
-            var maxEmployees = d3.max($scope.entities, function (el) {
+            var maxEmployees = d3.max(entityArray, function (el) {
                 return parseInt(el.employees);
             });
-            var maxFollowers = d3.max($scope.entities, function (el) {
+            var maxFollowers = d3.max(entityArray, function (el) {
                 return parseInt(el.followers);
             });
             var scale = {
@@ -355,15 +383,15 @@
             var links = {};
             var force = d3.layout.force()
                 .size([width, height])
-                .nodes($scope.entities)
-                .links(_.flatten(_.values($scope.connections)))
+                .nodes(entityArray)
+                .links(_.flatten(_.values(connectionArray)))
                 .charge(function (d) {
                     return d.employees ? -2 * scale.employees(d.employees) : -20;
                 })
                 .linkStrength(0)
                 .linkDistance(50);
 
-            _.forEach($scope.connections, function (connections, type) {
+            _.forEach(connectionArray, function (connections, type) {
                 links[type] = svg.selectAll('.link .' + type + '-link')
                     .data(connections)
                     .enter().append('line')
@@ -377,7 +405,7 @@
             });
 
             var node = svg.selectAll('.node')
-                .data($scope.entities)
+                .data(entityArray)
                 .enter().append('g')
                 .attr('class', function (d) {
                     return 'node ' + d.type + '-node';
@@ -404,7 +432,7 @@
                 // Cluster in four corners based on offset.
                 var k = offsetScale * e.alpha;
                 // console.log(e.alpha)
-                _.forEach($scope.entities, function (entity) {
+                _.forEach(entityArray, function (entity) {
                     if (entity.x && offsets[entity.type]) {
                         entity.x += offsets[entity.type].x * k;
                         entity.y += offsets[entity.type].y * k;
@@ -703,12 +731,6 @@
                     click($scope.currentEntity);
                 }
             });
-            // Focus the entity if it's in URL params.
-            // if ($scope.getURLID()) {
-            //     click($scope.currentEntity);
-            //     //Clear entityID from URL if you want... Maybe don't do this here.
-            //     //$location.search('entityID', null);
-            // }
         };
     }
 
