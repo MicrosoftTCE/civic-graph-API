@@ -13,6 +13,13 @@
                 });
         };
 
+        $scope.changeType = function() {
+            if ($scope.editEntity.type === 'Individual') {
+                $scope.editEntity.locations = [];
+                $scope.addLocation($scope.editEntity.locations);
+            }
+        };
+
         $scope.setLocation = function(location, data) {
             location.full_address = 'formattedAddress' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.formattedAddress : null;
             location.address_line = 'addressLine' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.addressLine : null;
