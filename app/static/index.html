@@ -23,6 +23,7 @@
     <script src='lib/angular-leaflet-directive.min.js'></script>
     <script src='lib/pinchzoom.min.js'></script>
     <script src='build/app.min.js'></script>
+    <!--<script src="extra/headAnalysis.js"></script>-->
 
 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
@@ -40,25 +41,6 @@
     <link rel='icon' type='image/png' href='img/cgraphico.ico'>
 
     <link rel='apple-touch-icon' href='img/apple-touch-icon.png'>
-    <script type="text/javascript">
-        window.heap = window.heap || [];
-        heap.load = function (e, t) {
-            window.heap.appid = e;
-            window.heap.config = t = t || {};
-            var n = t.forceSSL || "https:" === document.location.protocol, a = document.createElement("script");
-            a.type = "text/javascript";
-            a.async = !0;
-            a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
-            var o = document.getElementsByTagName("script")[0];
-            o.parentNode.insertBefore(a, o);
-            for (var r = function (e) {
-                return function () {
-                    heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-                }
-            }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++)heap[p[c]] = r(p[c])
-        };
-        heap.load("4041692328");
-    </script>
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" class="navLogoMobile">
@@ -103,8 +85,12 @@
              ng-show='!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))'
              ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
 
-        <div class="fadeIt" ng-animate="'animate'" ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing'
-             ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
+        <!--<div class="fadeIt" ng-animate="'animate'" ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing'-->
+        <!--ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>-->
+        <edit-entity entity="currentEntity"
+                     ng-class="mobile ? 'edit-panelMb' : 'edit-panel'"
+                     ng-show="editing"
+        ></edit-entity>
         <div ng-show='mobile' class='bottomNavMb'>
             <table>
                 <tr>

@@ -120,13 +120,7 @@
                     $scope.$broadcast('entitiesLoaded');
                 });
         }, 100);
-        // Maybe get from database.
-        $scope.entityTypes = {
-            'Government': true,
-            'For-Profit': true,
-            'Non-Profit': true,
-            'Individual': true
-        };
+
         // Get from database.
         $scope.connectionTypes = {
             'Funding': true,
@@ -135,7 +129,7 @@
             'Collaboration': true
         };
 
-        $scope.influenceTypes = ['Local', 'National', 'Global'];
+        
         $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'}, {
             'name': 'Twitter Followers',
             'value': 'followers'
@@ -224,10 +218,7 @@
             });
         };
 
-        $http.get('api/categories')
-            .success(function (data) {
-                $scope.categories = data.categories;
-            });
+        
         // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;

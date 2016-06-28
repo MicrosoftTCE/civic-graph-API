@@ -2,9 +2,24 @@
 
     'use strict';
 
-    function editCtrl($scope, $http, $timeout, _) {
+    var editControllerDeps = [
+        '$scope',
+        '$http',
+        '$timeout',
+        '_',
+        'entityService',
+        editCtrl
+    ];
+
+
+    function editCtrl($scope, $http, $timeout, _, entityService) {
+        console.log($scope.entity);
         $scope.updating = false;
         $scope.error = false;
+        $scope.editEntity = entityService.getEntityModel($scope.entity);
+        $scope.entityTypes= entityService.getEntityTypes();
+        $scope.influenceTypes = entityService.getInfluenceTypes();
+        $scope.categories = [];
 
         $scope.addressSearch = function(search) {
             return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {params: {query: search, key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD', 'jsonp': 'JSON_CALLBACK', 'incl': 'ciso2'}})
@@ -40,10 +55,6 @@
             }
         };
 
-        $scope.editCategories = _.map($scope.categories, function(c) {
-            return {'name': c.name, 'enabled': _.some($scope.editEntity.categories, {'name': c.name}), 'id': c.id};
-        });
-
         $scope.addKeyPerson = function() {
             // Add blank field to edit if there are none.
             // WATCH OUT! TODO: If someone deletes an old person, delete their id too.
@@ -59,6 +70,7 @@
         };
 
         $scope.addFundingConnection = function(funding) {
+            console.log(funding);
             if (!_.some(funding, {'entity':''})) {
                 // Maybe set amount to 0 instead of null?
                 funding.push({'entity':'', 'amount': null,'year': null, 'id': null});
@@ -82,22 +94,6 @@
                 records.push({'amount': null, 'year': null, 'id': null});
             }
         };
-        $scope.addBlankFields = function() {
-            $scope.addLocation($scope.editEntity.locations);
-            $scope.addKeyPerson();
-            $scope.addFundingConnection($scope.editEntity.grants_received);
-            $scope.addFundingConnection($scope.editEntity.investments_received);
-            $scope.addFundingConnection($scope.editEntity.grants_given);
-            $scope.addFundingConnection($scope.editEntity.investments_made);
-            $scope.addConnection($scope.editEntity.data_given);
-            $scope.addConnection($scope.editEntity.data_received);
-            $scope.addConnection($scope.editEntity.collaborations);
-            $scope.addConnection($scope.editEntity.employments);
-            $scope.addConnection($scope.editEntity.relations);
-            $scope.addFinance($scope.editEntity.revenues);
-            $scope.addFinance($scope.editEntity.expenses);
-        };
-        $scope.addBlankFields();
 
         $scope.isValid = function() {
             function entitySelected(arrayofentityarrays){
@@ -179,9 +175,15 @@
             $scope.removeEmpty();
             $scope.savetoDB();
         };
+
+        // Retrieve Categories from DB
+        $http.get('api/categories')
+            .success(function (data) {
+                $scope.categories = data.categories;
+            });
     }
 
     angular.module('civic-graph')
-    .controller('editCtrl', ['$scope', '$http', '$timeout', '_', editCtrl]);
+    .controller('editCtrl', editControllerDeps);
 
 })(angular);
