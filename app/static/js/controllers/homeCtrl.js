@@ -47,21 +47,12 @@
         };
 
         $scope.startEdit = function (entity) {
-            var newEntity;
+            console.log(entity);
+            $scope.currentEntity = entity;
             if ($scope.mobile) {
                 $scope.hydePartials("edit");
             }
-            if (entity) {
-                $scope.editEntity = entity;
-            } else {
-                newEntity = {};
-                _.forEach($scope.entities[0], function (value, key) {
-                    newEntity[key] = _.isArray(value) ? [] : null;
-                });
-                $scope.editEntity = newEntity;
-            }
-            $scope.editing = $scope.editing ? false : true;
-            // $scope.editing = true;
+            $scope.editing = true;
         };
 
         $scope.switchView = function () {

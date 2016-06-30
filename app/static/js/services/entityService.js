@@ -55,34 +55,54 @@
         }
 
         function Entity(obj) {
+            var self = this;
             var defObj = isDef(obj) ? obj : {};
             // TODO: Do a loop to generate these locations as models, in order to use the functions in model
             // this.locations = (isDef(defObj.locations) ? defObj.locations : [locationService.getLocationModel()]);
             // TODO: Do this for every array in this model
+            this.id = (isDef(defObj.id) ? defObj.id : null);
+            this.name = (isDef(defObj.name) ? defObj.name : null);
             this.locations = loopAndInit(defObj.locations, locationService.getLocationModel);
             this.influence = (isDef(defObj.influence) ? defObj.influence : null);
+            this.grants_received = loopAndInit(defObj.grants_received, fundingConnectionService.getFundingConnectionModel);
+            this.investments_received = loopAndInit(defObj.investments_received, fundingConnectionService.getFundingConnectionModel);
+            this.grants_given = loopAndInit(defObj.grants_given, fundingConnectionService.getFundingConnectionModel);
+            this.investments_made = loopAndInit(defObj.investments_made, fundingConnectionService.getFundingConnectionModel);
+            this.data_given = loopAndInit(defObj.data_given, connectionService.getConnectionModel);
+            this.data_received = loopAndInit(defObj.data_received, connectionService.getConnectionModel);
+            this.collaborations = loopAndInit(defObj.collaborations, connectionService.getConnectionModel);
+            this.key_people = loopAndInit(defObj.key_people, connectionService.getConnectionModel);
+            this.employments = loopAndInit(defObj.employments, connectionService.getConnectionModel);
+            this.revenues = loopAndInit(defObj.revenues, financeService.getFinanceModel);
+            this.expenses = loopAndInit(defObj.expenses, financeService.getFinanceModel);
+            this.categories = loopAndInit(defObj.categories, categoryService.getCategoryModel);
+            this.type = (isDef(defObj.type) ? defObj.type : '');
+            this.nickname = (isDef(defObj.nickname) ? defObj.nickname : '');
 
-            this.grants_received = fundingConnectionService.getFundingConnectionModel(defObj.grants_received);
-            this.investments_received = fundingConnectionService.getFundingConnectionModel(defObj.investments_received);
-            this.grants_given = fundingConnectionService.getFundingConnectionModel(defObj.grants_given);
-            this.investments_made = fundingConnectionService.getFundingConnectionModel(defObj.investments_made);
-            this.data_given = connectionService.getConnectionModel(defObj.data_given);
-            this.data_received = connectionService.getConnectionModel(defObj.data_received);
-            this.collaborations = connectionService.getConnectionModel(defObj.collaborations);
+            this.generateDBModel = function() {
+                var dbModel = {};
+                dbModel.locations = self.locations.map(getLocation);
+                dbModel.influence = self.influence;
+                dbModel.grants_received = self.grants_received;
+                dbModel.investments_received = self.investments_received;
+                dbModel.grants_given = self.grants_given;
+                dbModel.investments_made = self.investments_made;
+                dbModel.data_given = self.data_given;
+                dbModel.data_received = self.data_received;
+                dbModel.collaborations = self.collaborations;
+                dbModel.key_people = self.key_people;
+                dbModel.employments = self.employments;
+                dbModel.revenues = self.revenues;
+                dbModel.expenses = self.expenses;
+                dbModel.categories = self.categories;
+                dbModel.type = self.type;
+                dbModel.description = '';
+            };
 
-            this.key_people = (isDef(defObj.key_people)
-                ? defObj.key_people
-                : [connectionService.getConnectionModel()]);
+            function getLocation(location) {
+                return self.type === 'Individual' ? location.getPartialAddress() : location.getFullAddress();
+            }
 
-            this.employments = (isDef(defObj.employments)
-                ? defObj.employments
-                : [connectionService.getConnectionModel()]);
-
-            this.relations = connectionService.getConnectionModel(defObj.relations);
-            this.revenues = financeService.getFinanceModel(defObj.revenues);
-            this.expenses = financeService.getFinanceModel(defObj.expenses);
-            // TODO: Do a loop to generate these categories properly, with enabled set to true (default is false)
-            this.categories = (isDef(defObj.categories) ? defObj.categories : categoryService.getCategoryModel());
         }
 
         this.getEntityModel = function (obj) {

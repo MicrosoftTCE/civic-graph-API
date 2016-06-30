@@ -13,7 +13,8 @@
              templateUrl: '../../partials/edit.html',
              restrict   : 'E',
              scope      : {
-                 'entity' : "="
+                 'entity' : "=",
+                 'isOpen' : "="
              },
              controller   : 'editCtrl'
          };

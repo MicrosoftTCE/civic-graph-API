@@ -1,6 +1,5 @@
 <i title='Edit'
    ng-click='cancelEdit()'
-   ng-hide="!(updating || error)"
    class='glyphicon glyphicon-remove edit-marker f-right'>
 </i>
 <div ng-hide='updating'>
@@ -44,12 +43,11 @@
                 <input type='text' class='form-control'
                        ng-repeat='location in editEntity.locations'
                        ng-model='location.full_address'
-                       ng-disabled="editEntity.type==='Individual'"
-                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                       typeahead-on-select='setLocation(location, $item)'
-                       typeahead-editable='false'
-                       ng-change='addLocation(editEntity.locations)'
+                       ng-change='addLocation($last)'
                        placeholder=''
+                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                       typeahead-on-select='addLocation($last)'
+                       typeahead-editable='false'
                 >
             </div>
             <!-- Entity Type -->

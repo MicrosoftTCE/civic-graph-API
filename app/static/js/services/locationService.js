@@ -6,7 +6,7 @@
 
     'use strict';
 
-    var locationServiceDependencies = [LocationService];
+    var locationServiceDependencies = [LocationService]; 
 
 
 
@@ -18,7 +18,7 @@
 
         function Location(obj) {
             var defObj = isDef(obj) ? obj : {};
-            //TODO: create get partial that concats city + country
+            var self = this;
             this.address_line = (isDef(defObj.address_line) ? defObj.address_line : null);
             this.locality = (isDef(defObj.locality) ? defObj.locality : null);
             this.district = (isDef(defObj.district) ? defObj.district : null);
@@ -29,11 +29,15 @@
             this.address_line = (isDef(defObj.address_line) ? defObj.address_line : null);
 
             this.getFullAddress = function() {
-                return location.locality
-                    ? location.district
-                        ? location.locality + ', ' + location.district
-                        : location.locality
-                    : location.country;
+                return self.locality
+                    ? self.district
+                        ? self.locality + ', ' + self.district
+                        : self.locality
+                    : self.country;
+            };
+
+            this.getPartialAddress = function() {
+                return self.locality.concat(self.country);
             };
 
         }
