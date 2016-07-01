@@ -55,17 +55,17 @@
         <div ng-if='settingsEnabled && !editing'
              class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up bottomPopUpMb'
              ng-class="{'mapView': template.name =='Map'}"
+             ng-hide="showAnalytics"
              ng-include="'control/controlsmobile.html?i='+random">
         </div>
-        <div ng-show='showView.Network'
-             ng-hide="editing && mobile || showView.Map"
+        <div ng-hide="((editing && mobile || showView.Map) || (showAnalytics)) || !showView.Network"
              ng-class="mobile ? 'display-panelMb' : 'display-panel'"
              ng-include="'network/network.html?i='+random">
         </div>
         <div ng-if='!mobile || showsearchMB'
              ng-class="mobile ? 'searchMB bottomPopUpMb animateUp' : 'search'"
              class="form-group has-feedback"
-        >
+             ng-hide="showAnalytics">
             <input type='text' ng-model='currentEntity'
                    typeahead='item as item.name for item in searchItems | filter:{name: $viewValue} | limitTo:8'
                    typeahead-on-select='selectItem($item)'
@@ -76,19 +76,21 @@
         </div>
         <div ng-if='showView.Map'
              ng-class="mobile ? 'display-panelMb' : 'display-panel', settingsEnabled ? 'col-sm-8' : 'col-sm-10' "
-             ng-hide="editing && mobile"
-             ng-include="'map/map.html?i='+random"
-        ></div>
+             ng-hide="(editing && mobile) || (showAnalytics)"
+             ng-include="'map/map.html?i='+random">
+        </div>
         <div id='details-panel' add-mobile-events class='details-panel'
              ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-class="{'details-panelMb bottomPopUpMb': mobile}"
-             ng-show='!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))'
+             ng-show='(!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))) || (!showAnalytics)'
              ng-controller='detailsCtrl' ng-include="'detail/details.html?i='+random"></div>
         <edit-entity entity="currentEntity"
                      ng-class="mobile ? 'edit-panelMb' : 'edit-panel'"
-                     ng-show="editing"
+                     ng-show="editing && !showAnalytics"
                      is-open="editing"
         ></edit-entity>
-        <div ng-show='mobile' class='bottomNavMb'>
+        <analytics ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
+
+        <div ng-hide="(!mobile) ||(showAnalytics)" class='bottomNavMb'>
             <table>
                 <tr>
                     <td ng-class="{'clickedButtonMb': showsearchMB}" ng-click='showSearch()'>
@@ -111,10 +113,13 @@
                                 Map
                             </i>
                         </p>
-                        <p ng-if="showView.Map">
-                            <i class="icon-clustergrey" style="font-size: 13px;" ng-if="showView.Map"
-                               style="transform:translateY(2);">Network</i>
-                        </p>
+                    </td>
+                    <td>
+                        <span ng-if="showView.Map">
+                                <img src="img/clustergrey.png" style="margin-top:7px;" width="20px" height="20px"
+                                     alt="">
+                            </span>
+                        <p ng-if="showView.Map" style="transform:translateY(2)">Network</p>
                     </td>
                     <td ng-class="{'clickedButtonMb': editing}" ng-click='startEdit(null)'>
                         <p>
