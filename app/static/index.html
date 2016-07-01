@@ -88,8 +88,7 @@
                      ng-show="editing && !showAnalytics"
                      is-open="editing"
         ></edit-entity>
-        <analytics ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
-
+        <analytics ng-hide="!showAnalytics" ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
         <div ng-hide="(!mobile) ||(showAnalytics)" class='bottomNavMb'>
             <table>
                 <tr>

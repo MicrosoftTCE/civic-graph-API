@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function homeCtrl($scope, $http, $location, $modal, _, entityService) {
+    function homeCtrl($scope, $http, $location, $modal, _) {
         $scope.random = new Date().getTime();
         $scope.entities = [];
         $scope.searchItems = null;
@@ -237,5 +237,5 @@
     }
 
     angular.module('civic-graph')
-        .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', '_', 'entityService', homeCtrl]);
+        .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', '_', homeCtrl]);
 })(angular);
