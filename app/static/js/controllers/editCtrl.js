@@ -43,7 +43,7 @@
             }
         };
 
-        $scope.setLocation = function (location, data) {
+        $scope.setLocation = function (location, isLast) {
             location.full_address = 'formattedAddress' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.formattedAddress : null;
             location.address_line = 'addressLine' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.addressLine : null;
             location.locality = 'locality' in data.address ? data.address.locality : null;
@@ -55,14 +55,12 @@
             if ($scope.editEntity.type === 'Individual') {
                 location.full_address = location.locality ? location.district ? location.locality + ', ' + location.district : location.locality : location.country;
             }
-            console.log("I ran");
+            //console.log(location.full_address);
+            //x console.log($scope.addressSearch(location.full_address).$$state);
+            $scope.addLocation(isLast);
         };
 
         $scope.addLocation = function (isLast) {
-            console.log("Is last input: %O", isLast);
-            console.log("Contains: %O", $scope.editEntity.locations.includes(locationService.getLocationModel()));
-            console.log("Location Model: %O", locationService.getLocationModel());
-            console.log("Location Array: %O", $scope.editEntity.locations);
             if(isLast){
                 $scope.editEntity.locations.push(locationService.getLocationModel());
             }
@@ -176,8 +174,9 @@
             if(angular.equals(newVal, oldVal)){
                 return;
             }
-            console.log(newVal);
+            console.log("Current Entity: %O", newVal);
             $scope.editEntity = entityService.getEntityModel(newVal);
+            console.log("Edit Entity: %O", $scope.editEntity);
         });
 
 

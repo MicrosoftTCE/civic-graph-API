@@ -43,11 +43,11 @@
                 <input type='text' class='form-control'
                        ng-repeat='location in editEntity.locations'
                        ng-model='location.full_address'
-                       ng-change='addLocation($last)'
+                       ng-change='addLocation($last, $viewValue)'
                        placeholder=''
                        typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                       typeahead-on-select='addLocation($last)'
-                       typeahead-editable='false'
+                       typeahead-on-select='setLocation(location, $last, $viewValue)'
+                       typeahead-editable=""
                 >
             </div>
             <!-- Entity Type -->
