@@ -696,6 +696,8 @@
         }
     }
 
+    
+    
     angular.module('civic-graph')
         .controller('networkCtrl', ['$scope', '$http', networkCtrl]);
 

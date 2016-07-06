@@ -5,6 +5,15 @@
 }
 
 @font-face {
+    font-family: 'icomoon';
+    src: url("../fonts/icomoon/icomoon.svg") format('svg'),
+         url("../fonts/icomoon/icomoon.eot") format('embedded-opentype'),
+         url("../fonts/icomoon/icomoon.woff") format('woff'),
+         url("../fonts/icomoon/icomoon.ttf") format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
     font-family: 'Segoe UI';
     src: url("../fonts/segoeuil.ttf");
     font-weight: 100;
@@ -19,6 +28,42 @@
 body {
     overflow: hidden;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight:normal;
+    font-variant:normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-clustergrey:before {
+    content: '\e900';
+    letter-spacing: .3em;
+}
+
+.icon-clustergrey {
+    letter-spacing: normal;
+}
+
+.fa-plus-circle:before {
+    letter-spacing: .3em;
+}
+
+.fa-plus-circle {
+    letter-spacing: normal;
+}
+
+p {
+    margin: 0;
+}
+/*.icon-clustergrey1 i {*/
+    /*font-size:8px;*/
+/*}*/
 
 .edit-title {
     /*    position: absolute;
@@ -1410,7 +1455,8 @@ input.ng-valid.ng-dirty {
 .bottomNavMb i {
     /*color: #8C8C8C;*/
     /*font-size: 0.4em;*/
-    margin-top: 10px
+    /*margin-top: 0px;*/
+    margin: 0 0 0;
 }
 
 .clickedButtonMb {
