@@ -126,6 +126,10 @@ h1, h2, h3, h4, h5, h6, .caption, .captionMobile {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
+a {
+    color: white;
+}
+
 p {
     font-family: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #333333;
