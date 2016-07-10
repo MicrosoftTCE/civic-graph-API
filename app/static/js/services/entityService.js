@@ -50,6 +50,7 @@
 
                 newModelArray.push(initModelFunction(arrayValue));
             }
+            newModelArray.push(initModelFunction());
 
             return newModelArray;
         }
@@ -76,8 +77,11 @@
             this.revenues = loopAndInit(defObj.revenues, financeService.getFinanceModel);
             this.expenses = loopAndInit(defObj.expenses, financeService.getFinanceModel);
             this.categories = loopAndInit(defObj.categories, categoryService.getCategoryModel);
-            this.type = (isDef(defObj.type) ? defObj.type : '');
-            this.nickname = (isDef(defObj.nickname) ? defObj.nickname : '');
+            this.type = (isDef(defObj.type) ? defObj.type : null);
+            this.nickname = (isDef(defObj.nickname) ? defObj.nickname : null);
+            this.url = (isDef(defObj.url) ? defObj.url : null);
+            this.twitter_handle = (isDef(defObj.twitter_handle) ? defObj.twitter_handle : null);
+            this.employees = (isDef(defObj.employees) ? defObj.employees : null);
 
             this.generateDBModel = function() {
                 var dbModel = {};
@@ -116,7 +120,7 @@
         this.getInfluenceTypes = function () {
             return influenceTypes;
         };
-        
+
     }
 
     angular.module('civic-graph')

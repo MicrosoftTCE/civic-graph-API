@@ -12,7 +12,8 @@
            class='glyphicon glyphicon-remove marker-mobile'></i>
     </div>
     <div class="form-ctr">
-        <form class='edit-form' id="editEntityForm" novalidate>
+        <form class='edit-form' id="editEntityForm" name="editEntityForm">
+
             <!-- Entity Name/Nickname -->
             <div>
                 <h5>
@@ -42,8 +43,8 @@
                 </h5>
                 <input type='text' class='form-control'
                        ng-repeat='location in editEntity.locations'
-                       ng-model='location.full_address'
-                       ng-change='addLocation($last, $viewValue)'
+                       ng-model='location.formattedAddress'
+                       ng-change='addLocation($last)'
                        placeholder=''
                        typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
                        typeahead-on-select='setLocation(location, $last, $viewValue)'
@@ -60,7 +61,9 @@
                        ng-class="{'unchecked': editEntity.type != type}"
                        ng-model='editEntity.type'
                        btn-radio='type'
-                       ng-change='changeType()'></label>
+                       ng-change='changeType()'
+                       ng-required='true'
+                ></label>
                 <span class='caption'>{{type}}</span>
             </div>
 
@@ -71,7 +74,7 @@
 
             <div ng-repeat='category in categories'>
                 <label class='checkbox' ng-class="{'unchecked': !category.enabled}">
-                    <input type='checkbox' ng-model='category.enabled'/>
+                    <input type='checkbox' ng-model='category.enabled' ng-change="toggleCategory(category, $index)"/>
                 </label>
                 <span class='caption'>{{category.name}}</span>
             </div>
@@ -316,7 +319,7 @@
         </form>
     </div>
     <div class='save'>
-        <button ng-disabled='!isValid()' ng-hide='updating' class='btn bluebtn' ng-click='save()'>Save</button>
+        <button ng-disabled='!editEntityForm.$valid' ng-hide='updating' class='btn bluebtn' ng-click='save()'>Save</button>
     </div>
 </div>
 <div ng-show='updating && !error'>

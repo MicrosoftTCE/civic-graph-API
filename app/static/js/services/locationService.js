@@ -6,7 +6,7 @@
 
     'use strict';
 
-    var locationServiceDependencies = [LocationService]; 
+    var locationServiceDependencies = [LocationService];
 
 
 
@@ -35,6 +35,7 @@
                         : self.locality
                     : self.country;
             };
+            this.formattedAddress = this.getFullAddress();
 
             this.getPartialAddress = function() {
                 return self.locality.concat(self.country);

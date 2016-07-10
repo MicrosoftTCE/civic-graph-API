@@ -17,7 +17,7 @@
         function Category(obj) {
             var defObj = isDef(obj) ? obj : {};
             this.name = (isDef(defObj.name) ? defObj.name : null);
-            this.enabled = (isDef(defObj.enable) ? defObj.enabled : false);
+            this.enabled = (isDef(defObj.enable) ? defObj.enabled : true);
             this.id = (isDef(defObj.id) ? defObj.id : null);
         }
 

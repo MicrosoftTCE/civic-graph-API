@@ -2,14 +2,21 @@
 *.pyc
 .DS_Store
 civicenv
-*.log
 /backups
 dump.rdb
 
-# Config files 
+# Config files
 /config.py
 /secrets.py
 
 /app/static/node_modules
 /app/static/build
 .idea
+
+# UWSGI related files
+/uwsgi
+
+# Log files
+/log
+
+# Compiled python files

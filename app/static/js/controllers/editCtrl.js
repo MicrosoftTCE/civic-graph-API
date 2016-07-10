@@ -12,18 +12,25 @@
         editCtrl
     ];
 
+    function isDef(obj) {
+        return obj !== undefined && obj !== null;
+    }
 
     function editCtrl($scope, $http, $timeout, _, entityService, locationService) {
         console.log($scope.entity);
         $scope.updating = false;
         $scope.error = false;
         $scope.editEntity = entityService.getEntityModel($scope.entity);
+        console.log($scope.editEntity.locations);
         $scope.entityTypes = entityService.getEntityTypes();
         $scope.influenceTypes = entityService.getInfluenceTypes();
+
+        var categoryBackup;
+
         $scope.categories = [];
 
         $scope.addressSearch = function (search) {
-            return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {
+            return $http.jsonp('https://dev.virtualearth.net/REST/v1/Locations', {
                 params: {
                     query: search,
                     key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
@@ -32,8 +39,15 @@
                 }
             })
                 .then(function (response) {
-                    return response.data.resourceSets[0].resources;
+                    if (isDef(response.data.resourceSets) && response.data.resourceSets.length > 0) {
+                        return response.data.resourceSets[0].resources;
+                    }
                 });
+        };
+
+        $scope.toggleCategory = function (category, index) {
+            console.log($scope.editEntity.categories);
+            console.log(category);
         };
 
         $scope.changeType = function () {
@@ -44,24 +58,16 @@
         };
 
         $scope.setLocation = function (location, isLast) {
-            location.full_address = 'formattedAddress' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.formattedAddress : null;
-            location.address_line = 'addressLine' in data.address && $scope.editEntity.type !== 'Individual' ? data.address.addressLine : null;
-            location.locality = 'locality' in data.address ? data.address.locality : null;
-            location.district = 'adminDistrict' in data.address ? data.address.adminDistrict : null;
-            location.postal_code = 'postalCode' in data.address ? data.address.postalCode : null;
-            location.country = 'countryRegion' in data.address ? data.address.countryRegion : null;
-            location.country_code = 'countryRegionIso2' in data.address ? data.address.countryRegionIso2 : null;
-            location.coordinates = 'point' in data ? data.point.coordinates : null;
-            if ($scope.editEntity.type === 'Individual') {
-                location.full_address = location.locality ? location.district ? location.locality + ', ' + location.district : location.locality : location.country;
-            }
-            //console.log(location.full_address);
-            //x console.log($scope.addressSearch(location.full_address).$$state);
-            $scope.addLocation(isLast);
+            $scope.addressSearch(location.full_address)
+                .then(function (apiCallResult) {
+                    $scope.addLocation(isLast);
+                    console.log("This is the promise object result in setLocation: %O", apiCallResult[0]);
+                    // TODO: Parse apiCallResult[0]
+                });
         };
 
         $scope.addLocation = function (isLast) {
-            if(isLast){
+            if (isLast) {
                 $scope.editEntity.locations.push(locationService.getLocationModel());
             }
         };
@@ -109,34 +115,34 @@
         };
 
         $scope.isValid = function () {
-            function entitySelected(arrayOfEntityArrays) {
-                var collaborationIsValid = true;
-                _.each(arrayOfEntityArrays, function (arrayOfEntities) {
-                    _.each(arrayOfEntities, function (c) {
-                        if (!c.entity && c.entity !== "") {
-                            console.log(arrayOfEntities);
-                            collaborationIsValid = false;
-                        }
-                    });
-                });
-                return collaborationIsValid;
-            }
 
-            var arrayofentityarrays = [
-                $scope.editEntity.collaborations,
-                $scope.editEntity.employments,
-                $scope.editEntity.relations,
-                $scope.editEntity.data_received,
-                $scope.editEntity.data_given,
-                $scope.editEntity.grants_given,
-                $scope.editEntity.grants_received,
-                $scope.editEntity.investments_made,
-                $scope.editEntity.investments_received
-            ];
-            return $scope.editEntity.type !== null
-                && $scope.editEntity.name
-                && $scope.editEntity.name.length > 0
-                && entitySelected(arrayofentityarrays);
+            // function entitySelected(arrayOfEntityArrays) {
+            //     var collaborationIsValid = true;
+            //     _.each(arrayOfEntityArrays, function (arrayOfEntities) {
+            //         _.each(arrayOfEntities, function (c) {
+            //             if (!c.entity && c.entity !== "") {
+            //                 collaborationIsValid = false;
+            //             }
+            //         });
+            //     });
+            //     return collaborationIsValid;
+            // }
+            //
+            // var arrayofentityarrays = [
+            //     $scope.editEntity.collaborations,
+            //     $scope.editEntity.employments,
+            //     $scope.editEntity.relations,
+            //     $scope.editEntity.data_received,
+            //     $scope.editEntity.data_given,
+            //     $scope.editEntity.grants_given,
+            //     $scope.editEntity.grants_received,
+            //     $scope.editEntity.investments_made,
+            //     $scope.editEntity.investments_received
+            // ];
+            // return $scope.editEntity.type !== null
+            //     && $scope.editEntity.name
+            //     && $scope.editEntity.name.length > 0
+            //     && entitySelected(arrayofentityarrays);
         };
 
         $scope.savetoDB = function () {
@@ -166,24 +172,56 @@
         };
 
         $scope.save = function () {
-            $scope.removeEmpty();
+            // $scope.removeEmpty();
             $scope.savetoDB();
         };
 
-        $scope.$watch('entity', function(newVal, oldVal){
-            if(angular.equals(newVal, oldVal)){
+        $scope.$watch('entity', function (newVal, oldVal) {
+            if (angular.equals(newVal, oldVal)) {
                 return;
             }
             console.log("Current Entity: %O", newVal);
             $scope.editEntity = entityService.getEntityModel(newVal);
             console.log("Edit Entity: %O", $scope.editEntity);
+            $scope.categories = angular.copy(categoryBackup);
+
+            initCategoryArray();
         });
+
+        /**
+         * Initializes category fields with entity values.
+         *
+         * Loops through category in categories and loops through category in entity. Identifies categories enabled in
+         * the entity and sets local display data. This is because we created a backup of entity data so that the api
+         * data is not tampered with directly.
+         *
+         * TODO: replace with better data structure for categories.
+         */
+        function initCategoryArray() {
+            var category,
+                categoryIndex,
+                entityCategoryIndex,
+                entityCategory;
+
+            for (categoryIndex in $scope.categories) {
+                category = $scope.categories[categoryIndex];
+                for (entityCategoryIndex in $scope.editEntity.categories) {
+                    entityCategory = $scope.editEntity.categories[entityCategoryIndex];
+                    if (category.id === entityCategory.id) {
+                        category.enabled = entityCategory.enabled;
+                    }
+                }
+            }
+        }
 
 
         // Retrieve Categories from DB
         $http.get('api/categories')
             .success(function (data) {
-                $scope.categories = data.categories;
+                categoryBackup = data.categories;
+                // Creates backup of data using Angular to prevent api data from being tampered directly
+                $scope.categories = angular.copy(categoryBackup);
+                // $scope.categories = data.categories;
             });
     }
 

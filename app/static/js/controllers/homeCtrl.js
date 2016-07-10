@@ -17,6 +17,7 @@
         $scope.actions = {'interacted': false};
         $scope.showsearchMB = false;
         $scope.showAnalytics = false;
+        $scope.entityTypes = entityService.getEntityTypes();
 
         $scope.toggleAnalytics = function(){
             $scope.showAnalytics = !$scope.showAnalytics;
@@ -126,7 +127,7 @@
             'Collaboration': true
         };
 
-        
+
         $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'}, {
             'name': 'Twitter Followers',
             'value': 'followers'
@@ -215,7 +216,7 @@
             });
         };
 
-        
+
         // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
