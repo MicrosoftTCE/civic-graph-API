@@ -13,7 +13,6 @@
         minifiedCss = 'app.min.css';
 
     gulp.task('js', function () {
-        console.log(config.dev);    
         return gulp.src(config.dev.src.js)
             // .pipe(uglify())
             // .on('error', notify.onError("Error: <%= error.message %>"))

@@ -5,39 +5,38 @@
     <div class="control-panel-content">
 
         <h3>Types</h3>
-        <div class='control-input' ng-repeat='(type, enabled) in entityTypes'>
+        <div class='control-input' ng-repeat='(type, enabled) in control.entityTypes'>
             <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-                <input type='checkbox' ng-model='entityTypes[type]' ng-change='toggleNode(type)'></label>
+                <input type='checkbox' ng-model='control.entityTypes[type]' ng-change='control.toggleNode(type)'></label>
             <span class='caption'>{{type}}</span>
         </div>
 
         <hr>
 
         <h3>Connections</h3>
-        <div class='control-input' ng-repeat='(type, enabled) in connectionTypes'>
+        <div class='control-input' ng-repeat='(type, enabled) in control.connectionTypes'>
             <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">
-                <input type='checkbox' ng-model='connectionTypes[type]' ng-change='toggleLink(type)'></label>
+                <input type='checkbox' ng-model='control.connectionTypes[type]' ng-change='control.toggleLink(type)'></label>
             <span class='caption'>{{type}}</span>
         </div>
 
         <hr>
 
         <h3>Size By</h3>
-        <div class='control-input' ng-repeat='sizeBy in sizeBys'>
-            <label class='checkbox radio' ng-class="{'unchecked': $parent.$parent.sizeBy != sizeBy.value}"
-                   ng-model='$parent.$parent.sizeBy' btn-radio='sizeBy.value' ng-change='changeSizeBy()'></label>
+        <div class='control-input' ng-repeat='sizeBy in control.sizeByList'>
+            <label class='checkbox radio' ng-class="{'unchecked': control.sizeBy != sizeBy.value}"
+                   ng-model='control.sizeBy' btn-radio='sizeBy.value' ng-change='control.changeSizeBy()'></label>
             <span class='caption'>{{sizeBy.name}}</span>
         </div>
 
         <hr>
 
         <h3>View</h3>
-
         <div class="switch switch-blue">
-            <input type="radio" class="switch-input" name="view2" value="week2" id="week2" checked>
-            <label for="week2" class="switch-label switch-label-off" ng-click='changeView("Network")'>Network</label>
-            <input type="radio" class="switch-input" name="view2" value="month2" id="month2">
-            <label for="month2" class="switch-label switch-label-on" ng-click='changeView("Map")'>Map</label>
+            <input type="radio" class="switch-input" name="view2" ng-value="true" ng-model="toggleNetwork" id="week2" checked>
+            <label for="week2" class="switch-label switch-label-off">Network</label>
+            <input type="radio" class="switch-input" name="view2" ng-value="false" ng-model="toggleNetwork" id="month2">
+            <label for="month2" class="switch-label switch-label-on">Map</label>
             <span class="switch-selection"></span>
         </div>
 

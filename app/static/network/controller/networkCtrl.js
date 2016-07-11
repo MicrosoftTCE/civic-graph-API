@@ -175,7 +175,7 @@
             })
             allNodes = allNodes.concat(drawOnTop);
             var tick = function () {
-                count++
+                count++;
                 if (count > 70 && initialLoad) {
                     initialLoad = false;
                     force.stop();
@@ -190,7 +190,7 @@
                         if ($scope.connectionTypes[type] && ($scope.entityTypes[d.target.type] && $scope.entityTypes[d.source.type])) {
                             if ($scope.currentLocation) {
                                 if (d.source.name in $scope.currentLocation.dict && d.target.name in $scope.currentLocation.dict) {
-                                    context.beginPath()
+                                    context.beginPath();
 
                                     //  Modification - Boundaries      var k = scale[$scope.sizeBy](d[$scope.sizeBy]);
                                     var k = scale[$scope.sizeBy]((d.source)[$scope.sizeBy]);
@@ -287,6 +287,7 @@
             });
             $scope.$on('toggleLink', function (event, link) {
                 tick();
+                console.log('network found');
             });
             $scope.$on('changeSizeBy', function (event, link) {
                 tick();
@@ -691,13 +692,12 @@
                 click($scope.currentEntity);
                 //Clear entityID from URL if you want... Maybe don't do this here.
                 //$location.search('entityID', null);
-            }
-            ;
+            };
         }
     }
 
-    
-    
+
+
     angular.module('civic-graph')
         .controller('networkCtrl', ['$scope', '$http', networkCtrl]);
 

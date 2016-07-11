@@ -1,17 +1,18 @@
 (function (angular) {
 
     'use strict';
-    var dependencies = [
+
+    var homeDependencies = [
         '$scope',
         '$http',
         '$location',
-        '$modal',
         '_',
         'entityService',
+        'connectionService',
         homeCtrl
     ];
 
-    function homeCtrl($scope, $http, $location, $modal, _, entityService) {
+    function homeCtrl($scope, $http, $location, _, entityService, connectionService) {
         $scope.random = new Date().getTime();
         $scope.entities = [];
         $scope.searchItems = null;
@@ -27,6 +28,10 @@
         $scope.showsearchMB = false;
         $scope.showAnalytics = false;
         $scope.entityTypes = entityService.getEntityTypes();
+        $scope.connectionTypes = connectionService.getConnectionTypes();
+        $scope.status = {
+            "isNetworkShown": true
+        };
 
         $scope.toggleAnalytics = function(){
             $scope.showAnalytics = !$scope.showAnalytics;
@@ -62,7 +67,6 @@
         };
 
         $scope.startEdit = function (entity) {
-            console.log(entity);
             $scope.currentEntity = entity;
             if ($scope.mobile) {
                 $scope.hydePartials("edit");
@@ -71,7 +75,7 @@
         };
 
         $scope.switchView = function () {
-            $scope.changeView($scope.showView.Network ? 'Map' : 'Network');
+            $scope.changeView($scope.status.isNetworkShown ? 'Map' : 'Network');
         };
 
         window.mobilecheck = function () {
@@ -99,7 +103,6 @@
             $http.get('api/entities')
                 .success(function (data) {
                     $scope.entities = data.nodes;
-                    console.log("Full entity array: %O", $scope.entities);
                     var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
 
                     var entitiesByLocation = _.map(locations, function (loc) {
@@ -128,33 +131,8 @@
                 });
         }, 100);
 
-        // Get from database.
-        $scope.connectionTypes = {
-            'Funding': true,
-            'Data': true,
-            'Employment': true,
-            'Collaboration': true
-        };
-
-
-        $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'}, {
-            'name': 'Twitter Followers',
-            'value': 'followers'
-        }];
-        $scope.sizeBy = 'employees';
-
-        $scope.showView = {
-            'Network': true,
-            'Map': false
-        };
         $scope.overviewUrl = null;
 
-        $scope.changeView = function (view) {
-            _.forEach(_.keys($scope.showView), function (name) {
-                $scope.showView[name] = view === name;
-            });
-            $scope.$broadcast('viewChange');
-        };
         $scope.setEntity = function (entity) {
             $scope.currentLocation = null;
             $scope.currentEntity = entity;
@@ -203,18 +181,6 @@
             $scope.editing = false;
         };
 
-        $scope.changeSizeBy = function () {
-            $scope.$broadcast('changeSizeBy', $scope.sizeBy);
-        };
-
-        $scope.toggleLink = function (type) {
-            $scope.$broadcast('toggleLink', {'name': type, 'enabled': $scope.connectionTypes[type]});
-        };
-
-        $scope.toggleNode = function (type) {
-            $scope.$broadcast('toggleNode', {'name': type, 'enabled': $scope.entityTypes[type]});
-        };
-
         $scope.$on("editEntitySuccess", function(response) {
             $scope.setEntities(response.nodes);
             $scope.setEntityID($scope.currentEntity.id);
@@ -222,15 +188,6 @@
         });
 
         $scope.animationsEnabled = true;
-
-        $scope.showAbout = function () {
-            $modal.open({
-                animation: false,
-                templateUrl: 'control/about.html?i=' + $scope.random,
-                controller: 'modalCtrl'
-            });
-        };
-
 
         // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
         $scope.safeApply = function (fn) {
@@ -246,5 +203,5 @@
     }
 
     angular.module('civic-graph')
-        .controller('homeCtrl', dependencies );
+        .controller('homeCtrl', homeDependencies);
 })(angular);

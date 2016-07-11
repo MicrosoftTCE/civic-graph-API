@@ -43,22 +43,24 @@
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" class="navLogoMobile">
-    <img ng-click='showAbout()' class="logoMob" src="img/civicgraph.png">
+    <img class="logoMob" src="img/civicgraph.png">
 </div>
 <div class='container-fluid main-container'>
     <div class='row'>
-        <div id='settings'
-             ng-show='settingsEnabled'
-             class='col-sm-2 control-panel-ctr hidden-xs'
-             ng-include="'control/controls.html?i='+random">
-        </div>
+        <control
+                class='col-sm-2 control-panel-ctr hidden-xs'
+                ng-show='settingsEnabled'
+                id='settings'
+                toggle-network="status.isNetworkShown"
+        ></control>
+
         <div ng-if='settingsEnabled && !editing'
              class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up bottomPopUpMb'
              ng-class="{'mapView': template.name =='Map'}"
              ng-hide="showAnalytics"
              ng-include="'control/controlsmobile.html?i='+random">
         </div>
-        <div ng-hide="((editing && mobile || showView.Map) || (showAnalytics)) || !showView.Network"
+        <div ng-hide="((editing && mobile || showView.Map) || (showAnalytics)) || !status.isNetworkShown"
              ng-class="mobile ? 'display-panelMb' : 'display-panel'"
              ng-include="'network/network.html?i='+random">
         </div>
@@ -74,7 +76,7 @@
                    placeholder='Search'>
             <i class="glyphicon glyphicon-search form-control-feedback"></i>
         </div>
-        <div ng-if='showView.Map'
+        <div ng-if='!(status.isNetworkShown)'
              ng-class="mobile ? 'display-panelMb' : 'display-panel', settingsEnabled ? 'col-sm-8' : 'col-sm-10' "
              ng-hide="(editing && mobile) || (showAnalytics)"
              ng-include="'map/map.html?i='+random">
@@ -83,6 +85,7 @@
              ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-class="{'details-panelMb bottomPopUpMb': mobile}"
              ng-show='(!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))) || (!showAnalytics)'
              ng-controller='detailsCtrl' ng-include="'detail/details.html?i='+random"></div>
+
         <edit-entity entity="currentEntity"
                      ng-class="mobile ? 'edit-panelMb' : 'edit-panel'"
                      ng-show="editing && !showAnalytics"
@@ -103,10 +106,10 @@
                     </p>
                 </div>
                 <div class="col-xs-2 bottomNavMbRow" ng-click='switchView()'>
-                    <p ng-if="showView.Network">
+                    <p ng-if="status.isNetworkShown">
                         <i class="fa fa-globe"></i>Map
                     </p>
-                    <p ng-if="showView.Map">
+                    <p ng-if="!status.isNetworkShown">
                         <i class="icon-clustergrey"></i>
                         Network
                     </p>

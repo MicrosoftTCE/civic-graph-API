@@ -61,20 +61,15 @@
                     $scope.editEntity.categories.push(category);
                 }
             }
-
-            console.log($scope.editEntity.categories);
-            console.log(category);
         };
 
         $scope.setLocation = function (location, isLast) {
-            console.log(location.formattedAddress);
             $scope.addressSearch(location.formattedAddress)
                 .then(function (apiCallResult) {
                     var result = apiCallResult[0],
                         address = result.address,
                         point = result.point;
                     $scope.addLocation(isLast);
-                    console.log("This is the promise object result in setLocation: %O", apiCallResult[0]);
 
                     // Parses API call result
                     location.address_line = isDef(address.addressLine) ? address.addressLine : '';
@@ -84,9 +79,6 @@
                     location.country_code = isDef(address.countryRegionIso2) ? address.countryRegionIso2 : '';
                     location.coordinates = isDef(point.coordinates) ? point.coordinates : null;
                     location.postal_code = isDef(address.postalCode) ? address.postalCode : null;
-
-                    console.log(location);
-
                 });
         };
 
@@ -111,7 +103,6 @@
         };
 
         $scope.addFundingConnection = function (funding) {
-            console.log(funding);
             if (!_.some(funding, {'entity': ''})) {
                 // Maybe set amount to 0 instead of null?
                 funding.push({'entity': '', 'amount': null, 'year': null, 'id': null});
@@ -142,18 +133,13 @@
             $scope.isSaving = true;
             $http.post('api/save', {'entity': $scope.editEntity.generateDBModel()})
                 .success(function (response) {
-                    console.log('Test');
                     $scope.isSaving = false;
-                    // $scope.setEntities(response.nodes);
-                    // $scope.setEntityID($scope.editEntity.id);
-                    // $rootScope.$broadcast('entitiesLoaded');
                     $scope.$emit("editEntitySuccess", response);
                     // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
                     $scope.cancelEdit();
                 })
                 .error(function () {
                     $scope.isError = true;
-                    console.log('ERROR');
                     $timeout(function () {
                         $scope.isError = false;
                     }, 2000);
@@ -168,9 +154,7 @@
             if (angular.equals(newVal, oldVal)) {
                 return;
             }
-            console.log("Current Entity: %O", newVal);
             $scope.editEntity = entityService.getEntityModel(newVal);
-            console.log("Edit Entity: %O", $scope.editEntity);
             $scope.categories = angular.copy(categoryBackup);
 
             initCategoryArray();

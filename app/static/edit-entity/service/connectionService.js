@@ -6,6 +6,12 @@
     'use strict';
 
     var connectionService = [Connections];
+    var connectionTypes = {
+        'Funding': true,
+        'Data': true,
+        'Employment': true,
+        'Collaboration': true
+    };
 
     function isDef(o) {
         return o !== undefined && o !== null;
@@ -22,6 +28,10 @@
 
         this.getConnectionModel = function (obj) {
             return new Connection(obj);
+        };
+
+        this.getConnectionTypes = function () {
+            return connectionTypes;
         };
     }
 

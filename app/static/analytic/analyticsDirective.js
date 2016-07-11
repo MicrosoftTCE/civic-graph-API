@@ -11,7 +11,7 @@
 
     function analyticsDirective(){
         return {
-            templateUrl: 'analytics.html',
+            templateUrl: '/analytic/analytics.html',
             restrict   : 'E',
             scope      : {},
             controller   : 'analyticsCtrl'
