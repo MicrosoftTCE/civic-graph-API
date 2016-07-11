@@ -10,7 +10,7 @@
 
     function editEntityDirective(){
          return {
-             templateUrl: '../../partials/edit.html',
+             templateUrl: '/edit-entity/edit.html',
              restrict   : 'E',
              scope      : {
                  'entity' : "=",

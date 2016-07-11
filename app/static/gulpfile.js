@@ -7,26 +7,25 @@
         cleanCss = require('gulp-clean-css'),
         concat = require('gulp-concat'),
         notify = require('gulp-notify'),
-        build = 'build/',
-        jsSrc = 'js/**/*.js',
+        config = require('./gulpConfig.json'),
         minifiedFile = 'app.min.js',
         concatConfig = {newLine: '\n;'},
-        cssSrc = 'css/**/*.css',
         minifiedCss = 'app.min.css';
-    
+
     gulp.task('js', function () {
-        return gulp.src(jsSrc)
+        console.log(config.dev);    
+        return gulp.src(config.dev.src.js)
             // .pipe(uglify())
             // .on('error', notify.onError("Error: <%= error.message %>"))
             .pipe(concat(minifiedFile), concatConfig)
-            .pipe(gulp.dest(build));
+            .pipe(gulp.dest(config.dev.folder));
     });
 
     gulp.task('css', function () {
-        return gulp.src(cssSrc)
+        return gulp.src(config.dev.src.css)
             .pipe(concat(minifiedCss))
             .pipe(cleanCss())
-            .pipe(gulp.dest(build));
+            .pipe(gulp.dest(config.dev.folder));
     });
 
     gulp.task('default', ['js', 'css'], function () {
