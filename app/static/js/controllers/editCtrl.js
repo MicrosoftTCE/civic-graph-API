@@ -17,11 +17,8 @@
     }
 
     function editCtrl($scope, $http, $timeout, _, entityService, locationService) {
-        console.log($scope.entity);
-        $scope.updating = false;
-        $scope.error = false;
+        $scope.isEditing = false;
         $scope.editEntity = entityService.getEntityModel($scope.entity);
-        console.log($scope.editEntity.locations);
         $scope.entityTypes = entityService.getEntityTypes();
         $scope.influenceTypes = entityService.getInfluenceTypes();
 
@@ -35,7 +32,7 @@
                     query: search,
                     key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
                     'jsonp': 'JSON_CALLBACK',
-                    'incl': 'ciso2'
+                    'include': 'ciso2'
                 }
             })
                 .then(function (response) {
@@ -45,24 +42,32 @@
                 });
         };
 
-        $scope.toggleCategory = function (category, index) {
+        $scope.toggleCategory = function (category) {
             console.log($scope.editEntity.categories);
             console.log(category);
         };
 
-        $scope.changeType = function () {
-            if ($scope.editEntity.type === 'Individual') {
-                $scope.editEntity.locations = [];
-                $scope.addLocation($scope.editEntity.locations);
-            }
-        };
-
         $scope.setLocation = function (location, isLast) {
-            $scope.addressSearch(location.full_address)
+            console.log(location.formattedAddress);
+            $scope.addressSearch(location.formattedAddress)
                 .then(function (apiCallResult) {
+                    var result = apiCallResult[0],
+                        address = result.address,
+                        point = result.point;
                     $scope.addLocation(isLast);
                     console.log("This is the promise object result in setLocation: %O", apiCallResult[0]);
-                    // TODO: Parse apiCallResult[0]
+
+                    // Parses API call result
+                    location.address_line = isDef(address.addressLine) ? address.addressLine : '';
+                    location.locality = isDef(address.locality) ? address.locality : '';
+                    location.district = isDef(address.adminDistrict) ? address.adminDistrict : '';
+                    location.country = isDef(address.countryRegion) ? address.countryRegion : null;
+                    location.country_code = isDef(address.countryRegionIso2) ? address.countryRegionIso2 : '';
+                    location.coordinates = isDef(point.coordinates) ? point.coordinates : null;
+                    location.postal_code = isDef(address.postalCode) ? address.postalCode : null;
+
+                    console.log(location);
+
                 });
         };
 
@@ -114,66 +119,30 @@
             }
         };
 
-        $scope.isValid = function () {
-
-            // function entitySelected(arrayOfEntityArrays) {
-            //     var collaborationIsValid = true;
-            //     _.each(arrayOfEntityArrays, function (arrayOfEntities) {
-            //         _.each(arrayOfEntities, function (c) {
-            //             if (!c.entity && c.entity !== "") {
-            //                 collaborationIsValid = false;
-            //             }
-            //         });
-            //     });
-            //     return collaborationIsValid;
-            // }
-            //
-            // var arrayofentityarrays = [
-            //     $scope.editEntity.collaborations,
-            //     $scope.editEntity.employments,
-            //     $scope.editEntity.relations,
-            //     $scope.editEntity.data_received,
-            //     $scope.editEntity.data_given,
-            //     $scope.editEntity.grants_given,
-            //     $scope.editEntity.grants_received,
-            //     $scope.editEntity.investments_made,
-            //     $scope.editEntity.investments_received
-            // ];
-            // return $scope.editEntity.type !== null
-            //     && $scope.editEntity.name
-            //     && $scope.editEntity.name.length > 0
-            //     && entitySelected(arrayofentityarrays);
-        };
-
-        $scope.savetoDB = function () {
-            $scope.updating = true;
-            $http.post('api/save', {'entity': $scope.editEntity})
+        $scope.save = function () {
+            $scope.isSaving = true;
+            $http.post('api/save', {'entity': $scope.editEntity.generateDBModel()})
                 .success(function (response) {
-                    $scope.setEntities(response.nodes);
-                    $scope.setEntityID($scope.editEntity.id);
-                    $scope.$broadcast('entitiesLoaded');
+                    console.log('Test');
+                    $scope.isSaving = false;
+                    // $scope.setEntities(response.nodes);
+                    // $scope.setEntityID($scope.editEntity.id);
+                    // $rootScope.$broadcast('entitiesLoaded');
+                    $scope.$emit("editEntitySuccess", response);
                     // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
-                    $scope.updating = false;
+                    $scope.cancelEdit();
                 })
                 .error(function () {
+                    $scope.isError = true;
                     console.log('ERROR');
-                    $scope.error = true;
                     $timeout(function () {
-                        $scope.error = false;
-                        $scope.updating = false;
-                        $scope.addBlankFields();
+                        $scope.isError = false;
                     }, 2000);
                 });
         };
 
         $scope.cancelEdit = function () {
             $scope.isOpen = false;
-            //$scope.editEntity = entityService.getEntityModel();
-        };
-
-        $scope.save = function () {
-            // $scope.removeEmpty();
-            $scope.savetoDB();
         };
 
         $scope.$watch('entity', function (newVal, oldVal) {
@@ -186,6 +155,8 @@
             $scope.categories = angular.copy(categoryBackup);
 
             initCategoryArray();
+
+            $scope.isEditing = isDef($scope.editEntity.id);
         });
 
         /**

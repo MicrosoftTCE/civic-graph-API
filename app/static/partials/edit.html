@@ -2,13 +2,12 @@
    ng-click='cancelEdit()'
    class='glyphicon glyphicon-remove edit-marker f-right'>
 </i>
-<div ng-hide='updating'>
+<div ng-show='!(isSaving || isError)'>
     <div class='edit-title'>
-        <h3 ng-if='entity.id'>Edit Information</h3>
-        <h3 ng-if='!entity.id'>Add Information</h3>
+        <h3>{{isEditing ? 'Edit' : 'Add'}}Information</h3>
         <i title='Edit'
            ng-click='cancelEdit()'
-           ng-hide="updating && !error || !mobile"
+           ng-hide="!(isError && mobile)"
            class='glyphicon glyphicon-remove marker-mobile'></i>
     </div>
     <div class="form-ctr">
@@ -61,7 +60,6 @@
                        ng-class="{'unchecked': editEntity.type != type}"
                        ng-model='editEntity.type'
                        btn-radio='type'
-                       ng-change='changeType()'
                        ng-required='true'
                 ></label>
                 <span class='caption'>{{type}}</span>
@@ -319,10 +317,15 @@
         </form>
     </div>
     <div class='save'>
-        <button ng-disabled='!editEntityForm.$valid' ng-hide='updating' class='btn bluebtn' ng-click='save()'>Save</button>
+        <button ng-disabled='!editEntityForm.$valid || isSaving'
+                class='btn bluebtn'
+                ng-click='save()'
+        >
+            Save
+        </button>
     </div>
 </div>
-<div ng-show='updating && !error'>
+<div ng-show='isSaving'>
     <h2>Saving...</h2><br>
     <h3>Thank you for submitting data to Civic Graph!</h3>
     <div class="side-spinner">
@@ -330,7 +333,7 @@
         <div class="cube2"></div>
     </div>
 </div>
-<div ng-show='error' class='error'>
+<div ng-show='isError' class='error'>
     <i class='glyphicon glyphicon-remove-sign error-symbol'></i>
     <h3>Something went wrong.</h3>
     <h6>Please check your submission and try again.</h6>

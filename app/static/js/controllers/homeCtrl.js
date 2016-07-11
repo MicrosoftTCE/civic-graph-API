@@ -206,6 +206,12 @@
             $scope.$broadcast('toggleNode', {'name': type, 'enabled': $scope.entityTypes[type]});
         };
 
+        $scope.$on("editEntitySuccess", function(response) {
+            $scope.setEntities(response.nodes);
+            $scope.setEntityID($scope.currentEntity.id);
+            $scope.$broadcast('entitiesLoaded');
+        });
+
         $scope.animationsEnabled = true;
 
         $scope.showAbout = function () {

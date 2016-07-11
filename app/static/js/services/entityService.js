@@ -82,30 +82,50 @@
             this.url = (isDef(defObj.url) ? defObj.url : null);
             this.twitter_handle = (isDef(defObj.twitter_handle) ? defObj.twitter_handle : null);
             this.employees = (isDef(defObj.employees) ? defObj.employees : null);
+            this.relations = loopAndInit(defObj.relations, connectionService.getConnectionModel);
 
             this.generateDBModel = function() {
                 var dbModel = {};
-                dbModel.locations = self.locations.map(getLocation);
+                dbModel.locations = self.locations;
+                dbModel.locations.pop();
                 dbModel.influence = self.influence;
                 dbModel.grants_received = self.grants_received;
+                dbModel.grants_received.pop();
                 dbModel.investments_received = self.investments_received;
+                dbModel.investments_received.pop();
                 dbModel.grants_given = self.grants_given;
+                dbModel.grants_given.pop();
                 dbModel.investments_made = self.investments_made;
+                dbModel.investments_made.pop();
                 dbModel.data_given = self.data_given;
+                dbModel.data_given.pop();
                 dbModel.data_received = self.data_received;
+                dbModel.data_received.pop();
                 dbModel.collaborations = self.collaborations;
+                dbModel.collaborations.pop();
                 dbModel.key_people = self.key_people;
+                dbModel.key_people.pop();
                 dbModel.employments = self.employments;
+                dbModel.employments.pop();
                 dbModel.revenues = self.revenues;
+                dbModel.revenues.pop();
                 dbModel.expenses = self.expenses;
+                dbModel.expenses.pop();
                 dbModel.categories = self.categories;
+                dbModel.categories.pop();
                 dbModel.type = self.type;
                 dbModel.description = '';
-            };
+                dbModel.url = self.url;
+                dbModel.twitter_handle = self.twitter_handle;
+                dbModel.employees = self.employees;
+                dbModel.id = self.id;
+                dbModel.name = self.name;
+                dbModel.nickname = self.nickname;
+                dbModel.relations = self.relations;
+                console.log(dbModel);
 
-            function getLocation(location) {
-                return self.type === 'Individual' ? location.getPartialAddress() : location.getFullAddress();
-            }
+                return dbModel;
+            };
 
         }
 
