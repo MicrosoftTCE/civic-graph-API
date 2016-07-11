@@ -43,6 +43,25 @@
         };
 
         $scope.toggleCategory = function (category) {
+            if ($scope.editEntity.categories.length === 0) {
+                $scope.editEntity.categories.push(category);
+            }
+            else {
+                var found = false;
+
+                for (var categoryIndex in $scope.editEntity.categories) {
+                    var entityCategory = $scope.editEntity.categories[categoryIndex];
+                    if (entityCategory.id === category.id) {
+                        found = true;
+                        entityCategory.enabled = category.enabled;
+                        break;
+                    }
+                }
+                if (!found) {
+                    $scope.editEntity.categories.push(category);
+                }
+            }
+
             console.log($scope.editEntity.categories);
             console.log(category);
         };
