@@ -13,11 +13,11 @@
         concatConfig = {newLine: '\n;'},
         cssSrc = 'css/**/*.css',
         minifiedCss = 'app.min.css';
-
+    
     gulp.task('js', function () {
         return gulp.src(jsSrc)
-            .pipe(uglify())
-            .on('error', notify.onError("Error: <%= error.message %>"))
+            // .pipe(uglify())
+            // .on('error', notify.onError("Error: <%= error.message %>"))
             .pipe(concat(minifiedFile), concatConfig)
             .pipe(gulp.dest(build));
     });

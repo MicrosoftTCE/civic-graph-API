@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function homeCtrl($scope, $http, $location, $modal, _) {
+    function homeCtrl($scope, $http, $location, $modal, _, entityService) {
         $scope.random = new Date().getTime();
         $scope.entities = [];
         $scope.searchItems = null;
@@ -16,6 +16,12 @@
         $scope.editing = false;
         $scope.actions = {'interacted': false};
         $scope.showsearchMB = false;
+        $scope.showAnalytics = false;
+        $scope.entityTypes = entityService.getEntityTypes();
+
+        $scope.toggleAnalytics = function(){
+            $scope.showAnalytics = !$scope.showAnalytics;
+        };
 
         $scope.hydePartials = function (except) {
             if (except === "search") {
@@ -47,21 +53,12 @@
         };
 
         $scope.startEdit = function (entity) {
-            var newEntity;
+            console.log(entity);
+            $scope.currentEntity = entity;
             if ($scope.mobile) {
                 $scope.hydePartials("edit");
             }
-            if (entity) {
-                $scope.editEntity = entity;
-            } else {
-                newEntity = {};
-                _.forEach($scope.entities[0], function (value, key) {
-                    newEntity[key] = _.isArray(value) ? [] : null;
-                });
-                $scope.editEntity = newEntity;
-            }
-            $scope.editing = $scope.editing ? false : true;
-            // $scope.editing = true;
+            $scope.editing = true;
         };
 
         $scope.switchView = function () {
@@ -93,6 +90,7 @@
             $http.get('api/entities')
                 .success(function (data) {
                     $scope.entities = data.nodes;
+                    console.log("Full entity array: %O", $scope.entities);
                     var locations = _.uniq(_.pluck(_.flatten(_.pluck($scope.entities, 'locations')), 'locality'));
 
                     var entitiesByLocation = _.map(locations, function (loc) {
@@ -120,13 +118,7 @@
                     $scope.$broadcast('entitiesLoaded');
                 });
         }, 100);
-        // Maybe get from database.
-        $scope.entityTypes = {
-            'Government': true,
-            'For-Profit': true,
-            'Non-Profit': true,
-            'Individual': true
-        };
+
         // Get from database.
         $scope.connectionTypes = {
             'Funding': true,
@@ -135,7 +127,7 @@
             'Collaboration': true
         };
 
-        $scope.influenceTypes = ['Local', 'National', 'Global'];
+
         $scope.sizeBys = [{'name': 'Employees', 'value': 'employees'}, {
             'name': 'Twitter Followers',
             'value': 'followers'
@@ -214,6 +206,12 @@
             $scope.$broadcast('toggleNode', {'name': type, 'enabled': $scope.entityTypes[type]});
         };
 
+        $scope.$on("editEntitySuccess", function(response) {
+            $scope.setEntities(response.nodes);
+            $scope.setEntityID($scope.currentEntity.id);
+            $scope.$broadcast('entitiesLoaded');
+        });
+
         $scope.animationsEnabled = true;
 
         $scope.showAbout = function () {
@@ -224,10 +222,7 @@
             });
         };
 
-        $http.get('api/categories')
-            .success(function (data) {
-                $scope.categories = data.categories;
-            });
+
         // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
         $scope.safeApply = function (fn) {
             var phase = this.$root.$$phase;
@@ -242,5 +237,5 @@
     }
 
     angular.module('civic-graph')
-        .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', '_', homeCtrl]);
+        .controller('homeCtrl', ['$scope', '$http', '$location', '$modal', '_', 'entityService', homeCtrl]);
 })(angular);

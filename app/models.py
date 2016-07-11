@@ -72,7 +72,7 @@ class Entity(Base):
                 'type': self.entitytype,
                 'categories': [category.json() for category in self.categories],
                 'influence': self.influence,
-                'employees': self.employees, 
+                'employees': self.employees,
                 'url': self.url,
                 'twitter_handle': self.twitter_handle,
                 'followers': self.followers,
@@ -235,7 +235,7 @@ class Keyperson(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100))
     entities = relationship('Entity', secondary=keypeople_table, backref='person')
-    
+
     def __repr__(self):
         return '<Keyperson %r>' % self.name
 
@@ -249,9 +249,9 @@ class Edit(Base):
     __tablename__ = 'edit'
     id = Column(Integer, primary_key=True)
     ip = Column(String(100))
-    entity_id = Column(Integer, ForeignKey('entity.id'))  
+    entity_id = Column(Integer, ForeignKey('entity.id'))
     edit_type = Column(String(100))
-    edit_time = Column(DateTime, default=datetime.utcnow())  
+    edit_time = Column(DateTime, default=datetime.utcnow())
     def __repr__(self):
         return '<Edit %r>' % self.ip
 
@@ -266,7 +266,6 @@ class Location(Base):
     id = Column(Integer, primary_key=True)
     entities = relationship('Entity', secondary=location_table,
                                backref=backref('location', lazy='dynamic'))
-    full_address = Column(String(200))
     address_line = Column(String(100))
     locality = Column(String(100))
     district = Column(String(100))
@@ -277,9 +276,9 @@ class Location(Base):
     longitude = Column(Float)
 
     def __repr__(self):
-        return '<Location %r>' % self.full_address
+        return '<Location %r>' % self.id
 
     def json(self):
-        return {'id': self.id, 'full_address': self.full_address, 'address_line': self.address_line, 
+        return {'id': self.id, 'address_line': self.address_line,
         'locality': self.locality, 'district': self.district, 'postal_code': self.postal_code,
         'country': self.country, 'country_code': self.country_code, 'coordinates': [self.latitude, self.longitude]}
