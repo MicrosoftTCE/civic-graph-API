@@ -2,15 +2,22 @@
 
     'use strict';
 
+    var dependencies = [
+        '$scope',
+        '$http',
+        '_',
+        networkCtrl
+    ];
+
+    function isDef(obj) {
+        obj !== undefined && obj !== null;
+    }
+
     function networkCtrl($scope, $http, _) {
         // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
         // See http://stackoverflow.com/q/16824308
-        $scope.loading = true;
-        $scope.showLicense = true;
-        $scope.$on('hideLicense', function () {
-            $scope.showLicense = false;
-        });
-
+        $scope.isLoading = true;
+        $scope.connections = {};
         $scope.$on('entitiesLoaded', function () {
             $http.get('api/connections').success(function (data) {
                 _.forEach(_.keys(data.connections), function (type) {
@@ -309,13 +316,13 @@
             });
         };
         var drawNetwork = function () {
-            $scope.loading = false;
+            $scope.isLoading = false;
             var svg = d3.select('#network');
             var bounds = svg.node().getBoundingClientRect();
             var height = bounds.height;
             var width = bounds.width;
             var offsetScale = 6;
-            var defaultnodesize = 7;
+            var defaultNodeSize = 7;
             var offsets = {
                 'Individual': {'x': 1, 'y': 1},
                 'For-Profit': {'x': 1, 'y': -1},
@@ -350,6 +357,9 @@
                     .data(connections)
                     .enter().append('line')
                     .attr('class', function (d) {
+                        if(!isDef(d.source) || !isDef(d.target)) {
+                            return "";
+                        }
                         d.type = type;
                         return 'link ' + type + '-link ' + d.source.type + '-link ' + d.target.type + '-link';
                     });
@@ -365,7 +375,7 @@
 
             node.append('circle')
                 .attr('r', function (d) {
-                    return d.employees ? scale['employees'](d.employees) : defaultnodesize;
+                    return d.employees ? scale['employees'](d.employees) : defaultNodeSize;
                 });
 
             node.append('text')
@@ -627,7 +637,7 @@
                     .transition()
                     .duration(250)
                     .attr('r', function (d) {
-                        return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultnodesize;
+                        return d[sizeBy] ? scale[sizeBy](d[sizeBy]) : defaultNodeSize;
                     });
             });
             $scope.$on('toggleLink', function (event, link) {
@@ -687,6 +697,6 @@
     }
 
     angular.module('civic-graph')
-        .controller('networkCtrl', ['$scope', '$http', networkCtrl]);
+        .controller('networkCtrl', dependencies);
 
 })(angular);

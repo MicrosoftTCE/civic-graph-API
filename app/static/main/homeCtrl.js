@@ -22,7 +22,6 @@
         $scope.clickedLocation.location = null;
         $scope.clickedEntity = {};
         $scope.clickedEntity.entity = null;
-        $scope.connections = {};
         $scope.editing = false;
         $scope.actions = {'interacted': false};
         $scope.showsearchMB = false;
@@ -30,7 +29,9 @@
         $scope.entityTypes = entityService.getEntityTypes();
         $scope.connectionTypes = connectionService.getConnectionTypes();
         $scope.status = {
-            "isNetworkShown": true
+            "isNetworkShown": true,
+            "license": true,
+            "networkLoading": true
         };
 
         $scope.toggleAnalytics = function(){
@@ -58,7 +59,8 @@
         $scope.showSearch = function () {
             $scope.hydePartials("search");
             $scope.showsearchMB = $scope.showsearchMB ? false : true;
-            $scope.$broadcast('hideLicense');
+            // $scope.$broadcast('hideLicense');
+            $scope.status.license = false;
         };
 
         $scope.toggleSettings = function () {

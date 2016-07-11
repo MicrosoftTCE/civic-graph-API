@@ -60,10 +60,12 @@
              ng-hide="showAnalytics"
              ng-include="'control/controlsmobile.html?i='+random">
         </div>
-        <div ng-hide="((editing && mobile || showView.Map) || (showAnalytics)) || !status.isNetworkShown"
-             ng-class="mobile ? 'display-panelMb' : 'display-panel'"
-             ng-include="'network/network.html?i='+random">
-        </div>
+        <network ng-if="status.isNetworkShown"
+                 ng-hide="((editing && mobile || showView.Map) || (showAnalytics))"
+                 ng-class="mobile ? 'display-panelMb' : 'display-panel'"
+                 show-licence="status.license"
+                 is-loading="status.networkLoading">
+        </network>
         <div ng-if='!mobile || showsearchMB'
              ng-class="mobile ? 'searchMB bottomPopUpMb animateUp' : 'search'"
              class="form-group has-feedback"
