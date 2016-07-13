@@ -13,10 +13,6 @@
     function directive() {
         return {
             "restrict": "E",
-            "scope": {
-                "showLicence": "=",
-                "isLoading": "="
-            },
             "templateUrl": "/network/network.html",
             "controller": "networkCtrl"
         };

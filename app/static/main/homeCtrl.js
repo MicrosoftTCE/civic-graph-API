@@ -94,13 +94,13 @@
         $scope.mobile = window.mobilecheck();
         $scope.settingsEnabled = !$scope.mobile;
 
-        $scope.getURLID = function () {
-            var entityID = $location.search().entityID;
-            if (entityID) {
-                entityID = parseInt(entityID);
-            }
-            return entityID;
-        };
+        // $scope.getURLID = function () {
+        //     var entityID = $location.search().entityID;
+        //     if (entityID) {
+        //         entityID = parseInt(entityID);
+        //     }
+        //     return entityID;
+        // };
         setTimeout(function () {
             $http.get('api/entities')
                 .success(function (data) {
@@ -124,10 +124,10 @@
                     $scope.searchItems = entitiesByLocation.concat($scope.entities);
 
 
-                    if ($scope.getURLID()) {
-                        // Set the entity to the ID in the URL if it exists.
-                        $scope.setEntityID($scope.getURLID());
-                    }
+                    // if ($scope.getURLID()) {
+                    //     // Set the entity to the ID in the URL if it exists.
+                    //     $scope.setEntityID($scope.getURLID());
+                    // }
                     $scope.overviewUrl = 'overview/overview.html?i=' + $scope.random;
                     $scope.$broadcast('entitiesLoaded');
                 });
@@ -190,18 +190,6 @@
         });
 
         $scope.animationsEnabled = true;
-
-        // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
-        $scope.safeApply = function (fn) {
-            var phase = this.$root.$$phase;
-            if (phase === '$apply' || phase === '$digest') {
-                if (fn && (typeof(fn) === 'function')) {
-                    fn();
-                }
-            } else {
-                this.$apply(fn);
-            }
-        };
     }
 
     angular.module('civic-graph')

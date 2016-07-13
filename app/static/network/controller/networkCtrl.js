@@ -9,15 +9,26 @@
         networkCtrl
     ];
 
-    function isDef(obj) {
-        obj !== undefined && obj !== null;
-    }
+    function isDef(o) { return o !== undefined && o !== null; }
 
     function networkCtrl($scope, $http, _) {
         // TODO: Make a hashmap on the backend of id -> position, then use source: entities[map[sourceid]] to get nodes.
         // See http://stackoverflow.com/q/16824308
         $scope.isLoading = true;
         $scope.connections = {};
+
+        // See https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+        $scope.safeApply = function (fn) {
+            var phase = this.$root.$$phase;
+            if (phase === '$apply' || phase === '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        };
+
         $scope.$on('entitiesLoaded', function () {
             $http.get('api/connections').success(function (data) {
                 _.forEach(_.keys(data.connections), function (type) {
@@ -571,18 +582,21 @@
             var click = function (entity) {
                 $scope.showLicense = false;
 
-                if ($scope.clickedLocation.location) {
-                    unfocusLocation($scope.clickedLocation.entity);
-                    $scope.clickedLocation.location = null;
-                }
-                //  If the previous node is equal to the new node, do nothing.
-                if ($scope.clickedEntity.entity === entity) {
-                    $scope.clickedEntity.entity = null;
-                } else {
-                    //  Unfocus on previous node and focus on new node.
-                    if ($scope.clickedEntity.entity) unfocus($scope.clickedEntity.entity);
-                    $scope.clickedEntity.entity = entity;
-                    focus(entity);
+                if(isDef($scope.clickedLocation)) {
+                    if (isDef($scope.clickedLocation.location)) {
+                        unfocusLocation($scope.clickedLocation.entity);
+                        $scope.clickedLocation.location = null;
+                    }
+                    //  If the previous node is equal to the new node, do nothing.
+                    if (isDef($scope.clickedEntity.entity === entity)) {
+                        $scope.clickedEntity.entity = null;
+                    }
+                    else {
+                        //  Unfocus on previous node and focus on new node.
+                        if ($scope.clickedEntity.entity) unfocus($scope.clickedEntity.entity);
+                        $scope.clickedEntity.entity = entity;
+                        focus(entity);
+                    }
                 }
 
                 // Stop event so we don't detect a click on the background.
@@ -595,13 +609,15 @@
             };
 
             var backgroundclick = function () {
-                if ($scope.clickedLocation.location) {
-                    unfocus($scope.clickedLocation.location);
-                    $scope.clickedLocation.location = null;
-                }
-                if ($scope.clickedEntity.entity) {
-                    unfocus($scope.clickedEntity.entity);
-                    $scope.clickedEntity.entity = null;
+                if(isDef($scope.clickedLocation)) {
+                    if (isDef($scope.clickedLocation.location)) {
+                        unfocus($scope.clickedLocation.location);
+                        $scope.clickedLocation.location = null;
+                    }
+                    if (isDef($scope.clickedEntity.entity)) {
+                        unfocus($scope.clickedEntity.entity);
+                        $scope.clickedEntity.entity = null;
+                    }
                 }
                 $scope.safeApply();
                 //TODO: Show generic details and not individual entity details.
@@ -688,11 +704,11 @@
                 }
             });
             // Focus the entity if it's in URL params.
-            if ($scope.getURLID()) {
-                click($scope.currentEntity);
-                //Clear entityID from URL if you want... Maybe don't do this here.
-                //$location.search('entityID', null);
-            }
+            // if ($scope.getURLID()) {
+            //     click($scope.currentEntity);
+            //     //Clear entityID from URL if you want... Maybe don't do this here.
+            //     //$location.search('entityID', null);
+            // }
         };
     }
 
