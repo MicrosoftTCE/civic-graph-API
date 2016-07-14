@@ -35,7 +35,7 @@
             $http.get('api/connections').success(function (data) {
                 var filteredEntities = $filter('filter')($scope.entities,
                     function(entity) {
-                        return entity.collaborations.length >= targetScope.minConnections;
+                        return entity.collaborations.length >= $scope.minConnections;
                     }
                 );
                 var filteredConnections = {};
