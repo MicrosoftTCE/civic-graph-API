@@ -1,0 +1,340 @@
+<i title='Edit'
+   ng-click='cancelEdit()'
+   class='glyphicon glyphicon-remove edit-marker f-right'>
+</i>
+<div ng-show='!(isSaving || isError)'>
+    <div class='edit-title'>
+        <h3>{{isEditing ? 'Edit' : 'Add'}}Information</h3>
+        <i title='Edit'
+           ng-click='cancelEdit()'
+           ng-hide="!(isError && mobile)"
+           class='glyphicon glyphicon-remove marker-mobile'></i>
+    </div>
+    <div class="form-ctr">
+        <form class='edit-form' id="editEntityForm" name="editEntityForm">
+
+            <!-- Entity Name/Nickname -->
+            <div>
+                <h5>
+                    Entity Name
+                    <span>
+                        *
+                    </span>
+                </h5>
+                <!-- Entity Name -->
+                <input type='text'
+                       class='form-control'
+                       id="editEntityName"
+                       ng-model='editEntity.name'
+                       placeholder=''
+                       required
+                >
+                <!-- Entity Nickname -->
+                <h5>Nickname</h5>
+                <input type='text' class='form-control' ng-model='editEntity.nickname' placeholder=''>
+            </div>
+
+            <div>
+                <!-- Entity Location -->
+                <h5>
+                    Location(s)
+                    <span> * </span>
+                </h5>
+                <input type='text' class='form-control'
+                       ng-repeat='location in editEntity.locations'
+                       ng-model='location.formattedAddress'
+                       ng-change='addLocation($last)'
+                       placeholder=''
+                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                       typeahead-on-select='setLocation(location, $last, $viewValue)'
+                       typeahead-editable=""
+                >
+            </div>
+            <!-- Entity Type -->
+            <h5>
+                Type of entity <span> * </span>
+            </h5>
+
+            <div ng-repeat='(type, enabled) in entityTypes'>
+                <label class="checkbox radio {{type+'-checkbox'}}"
+                       ng-class="{'unchecked': editEntity.type != type}"
+                       ng-model='editEntity.type'
+                       btn-radio='type'
+                       ng-required='true'
+                ></label>
+                <span class='caption'>{{type}}</span>
+            </div>
+
+            <!-- Entity Work Category -->
+            <h5>
+                Type of work
+            </h5>
+
+            <div ng-repeat='category in categories'>
+                <label class='checkbox' ng-class="{'unchecked': !category.enabled}">
+                    <input type='checkbox' ng-model='category.enabled' ng-change="toggleCategory(category, $index)"/>
+                </label>
+                <span class='caption'>{{category.name}}</span>
+            </div>
+
+            <!-- Entity Influence -->
+            <h5>
+                Circle of Influence
+            </h5>
+            <div ng-repeat='influenceType in influenceTypes'>
+                <label class='checkbox radio'
+                       ng-class="{'unchecked': editEntity.influence != influenceType}"
+                       ng-model='editEntity.influence'
+                       btn-radio='influenceType'
+                ></label>
+                <span class='caption'>{{influenceType}}</span>
+            </div>
+
+            <!-- Entity Website -->
+            <h5>
+                Website
+            </h5>
+            <input type='text' class='form-control' ng-model='editEntity.url' placeholder='Website.com'>
+
+            <!-- Entity Twitter -->
+            <h5>
+                Twitter
+            </h5>
+            <input type='text' class='form-control' ng-model='editEntity.twitter_handle' placeholder='@Twitter'>
+
+            <hr>
+
+            <!-- Entity Employment -->
+            <h5>
+                Employment
+            </h5>
+
+            <div ng-show="editEntity.type==='Individual'">
+
+                <!-- Entity Employment -->
+                <h6>
+                    Works or has worked for
+                </h6>
+                <input type='text' class='form-control' ng-repeat='employment in editEntity.employments'
+                       ng-model='employment.entity'
+                       typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                       typeahead-on-select='setConnection($item, employment)'
+                       ng-change='addConnection(editEntity.employments)' typeahead-editable='false'
+                       placeholder='Entity'>
+            </div>
+
+            <div ng-hide="editEntity.type === 'Individual'">
+                <h6>
+                    Key Civic People
+                </h6>
+                <input type='text' class='form-control' ng-repeat='person in editEntity.key_people'
+                       ng-model='person.name' placeholder='Name' ng-change='addKeyPerson()'>
+            </div>
+
+            <div ng-hide="editEntity.type=='Individual'">
+
+                <!--Entity Number of Employees-->
+                <h6>Number of Employees</h6>
+                <input type='text' class='form-control' ng-model='editEntity.employees' placeholder='Employees'>
+            </div>
+
+            <hr>
+
+            <!-- Entity Collaborations -->
+            <h5>
+                Collaborations
+            </h5>
+
+            <div><h6>Collaboration</h6>
+                <div ng-repeat='collaboration in editEntity.collaborations'>
+                    <input type='text' class='form-control stacked' ng-model='collaboration.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setConnection($item, collaboration)'
+                           ng-change='addConnection(editEntity.collaborations)' typeahead-editable='false'
+                           placeholder='Collaborator'>
+                    <input type='text' class='form-control details-field' ng-model='collaboration.details'
+                           placeholder='Collaboration details'>
+                </div>
+            </div>
+
+            <!--     <div><h6>Related to</h6>
+                    <div ng-repeat='relation in editEntity.relations'>
+                        <input type='text' class='form-control' ng-model='relation.entity' typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8' typeahead-on-select='setConnection($item, relation)' ng-change='addConnection(editEntity.relations)' typeahead-editable='false' placeholder='Related entity'>
+                        <input type='text' class='form-control details-field' ng-model='relation.details' placeholder='Relation details'>
+                    </div>
+                </div>
+             -->
+            <hr>
+
+            <!-- Entity Data Exchanges: Received -->
+            <h5>
+                Data
+            </h5>
+            <div>
+                <h6>
+                    Gets data from
+                </h6>
+                <div ng-repeat='data in editEntity.data_received'>
+                    <input type='text' class='form-control stacked' ng-model='data.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setConnection($item, data)'
+                           ng-change='addConnection(editEntity.data_received)' typeahead-editable='false'
+                           placeholder='Data Resource'>
+                    <input type='text' class='form-control details-field' ng-model='data.details'
+                           placeholder='Link to data'>
+                </div>
+            </div>
+            <div>
+
+                <!-- Entity Data Exchanges: Given -->
+                <h6>
+                    Gives data to
+                </h6>
+                <div ng-repeat='data in editEntity.data_given'>
+                    <input type='text' class='form-control stacked' ng-model='data.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setConnection($item, data)'
+                           ng-change='addConnection(editEntity.data_given)' typeahead-editable='false'
+                           placeholder='Data Resource'>
+                    <input type='text' class='form-control details-field' ng-model='data.details'
+                           placeholder='Link to data'>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Entity Funding -->
+            <h5>
+                Funding
+            </h5>
+            <div>
+                <!-- Grants Received -->
+                <h6>
+                    Gets grants from
+                </h6>
+                <div ng-repeat='grant in editEntity.grants_received'>
+                    <input type='text' ng-model='grant.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setFundingConnection($item, grant)'
+                           ng-change='addFundingConnection(editEntity.grants_received)' typeahead-editable='false'
+                           placeholder='Grantor' class='form-control stacked'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='grant.amount'
+                               placeholder='Amount'>
+                        <input type='text' class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="editEntity.type=='Individual'">
+
+                <!-- Investments Received -->
+                <h6>
+                    Gets investments from
+                </h6>
+                <div ng-repeat='investment in editEntity.investments_received'>
+                    <input type='text' ng-model='investment.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setFundingConnection($item, investment)'
+                           ng-change='addFundingConnection(editEntity.investments_received)' typeahead-editable='false'
+                           placeholder='Investor' class='form-control stacked'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='investment.amount'
+                               placeholder='Amount'>
+                        <input type='text' class='finance-year form-control' ng-model='investment.year'
+                               placeholder='Year'>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="editEntity.type=='Individual'">
+
+                <!-- Grants Given -->
+                <h6>
+                    Gives grants to
+                </h6>
+                <div ng-repeat='grant in editEntity.grants_given'>
+                    <input type='text' ng-model='grant.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setFundingConnection($item, grant)'
+                           ng-change='addFundingConnection(editEntity.grants_given)' typeahead-editable='false'
+                           placeholder='Grantee' class='form-control stacked'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='grant.amount'
+                               placeholder='Amount'>
+                        <input type='text' class='finance-year form-control' ng-model='grant.year' placeholder='Year'>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <!-- Investments Given -->
+                <h6>
+                    Invests in
+                </h6>
+                <div ng-repeat='investment in editEntity.investments_made'>
+                    <input type='text' ng-model='investment.entity'
+                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                           typeahead-on-select='setFundingConnection($item, investment)'
+                           ng-change='addFundingConnection(editEntity.investments_made)' typeahead-editable='false'
+                           placeholder='Investee' class='form-control stacked'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='investment.amount'
+                               placeholder='Amount'>
+                        <input type='text' class='finance-year form-control' ng-model='investment.year'
+                               placeholder='Year'>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="editEntity.type=='Individual'">
+
+                <!-- Revenue -->
+                <h6>
+                    Revenue
+                </h6>
+                <div ng-repeat='revenue in editEntity.revenues'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='revenue.amount'
+                               placeholder='Amount' ng-change='addFinance(editEntity.revenues)'>
+                        <input type='text' class='finance-year form-control' ng-model='revenue.year' placeholder='Year'
+                               ng-change='addFinance(editEntity.revenues)'>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="editEntity.type=='Individual'">
+
+                <!-- Expenses -->
+                <h6>
+                    Expenses
+                </h6>
+                <div ng-repeat='expense in editEntity.expenses'>
+                    <div class='input-group'>
+                        <input type='text' class='finance-amount form-control' ng-model='expense.amount'
+                               placeholder='Amount' ng-change='addFinance(editEntity.expenses)'>
+                        <input type='text' class='finance-year form-control' ng-model='expense.year' placeholder='Year'
+                               ng-change='addFinance(editEntity.expenses)'>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class='save'>
+        <button ng-disabled='!editEntityForm.$valid || isSaving'
+                class='btn bluebtn'
+                ng-click='save()'
+        >
+            Save
+        </button>
+    </div>
+</div>
+<div ng-show='isSaving'>
+    <h2>Saving...</h2><br>
+    <h3>Thank you for submitting data to Civic Graph!</h3>
+    <div class="side-spinner">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+    </div>
+</div>
+<div ng-show='isError' class='error'>
+    <i class='glyphicon glyphicon-remove-sign error-symbol'></i>
+    <h3>Something went wrong.</h3>
+    <h6>Please check your submission and try again.</h6>
+</div>

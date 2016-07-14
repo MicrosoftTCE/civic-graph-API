@@ -1,0 +1,21 @@
+{
+  "dev": {
+    "folder": "build/",
+    "src": {
+      "js":[
+        "main/**/*.js",
+        "analytic/**/*.js",
+        "control/**/*.js",
+        "detail/**/*.js",
+        "edit-entity/**/*.js",
+        "extra/**/*.js",
+        "map/**/*.js",
+        "network/**/*.js",
+        "overview/**/*.js"
+      ],
+      "css":[
+        "css/**/*.css"
+      ]
+    }
+  }
+}

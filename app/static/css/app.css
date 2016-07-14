@@ -81,6 +81,13 @@ p {
     width: 60%;
 }
 
+.display-analytics {
+    position: relative;
+    margin-left: 0;
+    overflow: hidden;
+
+}
+
 .display-panelMb {
     /*border: 1px solid green;*/
     height: 100vh;

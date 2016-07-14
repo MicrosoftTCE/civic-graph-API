@@ -12,8 +12,8 @@ def update(entity, data):
         entity.name = data['name']
     if entity.nickname != data['nickname']:
         entity.nickname = data['nickname']
-    if entity.description != data['description']:
-        entity.description = data['description']
+    #if entity.description != data['description']:
+        #entity.description = data['description']
     if entity.entitytype != data['type']:
         entity.entitytype = data['type']
     if entity.influence != data['influence']:
@@ -259,7 +259,7 @@ def update(entity, data):
 
     def update_locations(locations):
         # Delete old locations.
-        # TODO: See if this acutally deletes them from db or just removes them from entity.locations.
+        # TODO: See if this actually deletes them from db or just removes them from entity.locations.
         # See: cascade='delete-orphan'
         new_locations = [location['id'] for location in locations if location['id']]
         entity.locations = [location for location in entity.locations if location.id in new_locations]
@@ -268,7 +268,6 @@ def update(entity, data):
         db.commit()
 
         def update_location(location, json):
-            location.full_address = json['full_address'] if 'full_address' in json else None
             location.address_line = json['address_line'] if 'address_line' in json else None
             location.locality = json['locality'] if 'locality' in json else None
             location.district = json['district'] if 'district' in json else None
@@ -277,24 +276,35 @@ def update(entity, data):
             location.country_code = json['country_code'] if 'country_code' in json else None
             location.latitude = json['coordinates'][0] if 'coordinates' in json else None
             location.longitude = json['coordinates'][1] if 'coordinates' in json else None
-            if entity.entitytype is 'Individual':
-                location.full_address = location.locality + ', ' + location.district if location.locality and location.district else location.locality if location.locality else location.country
+            app.logger.debug("********************\nHaving an existential crisis\n%s\n********************", entity.entitytype)
+            if entity.entitytype == 'Individual':
+                location.address_line = None
+                location.postal_code = None
+                location.latitude = None
+                location.longitude = None
+                app.logger.debug("********************\n%s\n********************", location)
+            db.commit()
+
 
         for location in locations:
             if location['id']:
+                app.logger.debug("********************\nThis should happen\n%s\n********************", location)
                 # Location exists, update.
                 oldlocation = Location.query.get(location['id'])
-                if oldlocation.full_address != location['full_address']:
-                    # If the full address has changed, everything has changed.
-                    update_location(oldlocation, location)
+                update_location(oldlocation, location)
+                app.logger.debug("********************\nFINISHED SAVING\n********************")
             else:
+                app.logger.debug("********************\nThis should not happen\n********************")
                 # Create new location.
                 newlocation = Location()
                 update_location(newlocation, location)
                 entity.locations.append(newlocation)
-                app.logger.debug('ADDED NEW LOCATION', newlocation)
+                app.logger.debug('ADDED NEW LOCATION %s', newlocation)
+
         db.commit()
 
+    app.logger.debug("********************\nStarting dis shiz\n********************")
     update_locations(data['locations'])
+    app.logger.debug("********************\nEnding dis shiz\n********************")
 
     db.commit()

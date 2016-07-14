@@ -40,25 +40,6 @@
     <link rel='icon' type='image/png' href='img/cgraphico.ico'>
 
     <link rel='apple-touch-icon' href='img/apple-touch-icon.png'>
-    <script type="text/javascript">
-        window.heap = window.heap || [];
-        heap.load = function (e, t) {
-            window.heap.appid = e;
-            window.heap.config = t = t || {};
-            var n = t.forceSSL || "https:" === document.location.protocol, a = document.createElement("script");
-            a.type = "text/javascript";
-            a.async = !0;
-            a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
-            var o = document.getElementsByTagName("script")[0];
-            o.parentNode.insertBefore(a, o);
-            for (var r = function (e) {
-                return function () {
-                    heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-                }
-            }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++)heap[p[c]] = r(p[c])
-        };
-        heap.load("4041692328");
-    </script>
 </head>
 <body ng-controller='homeCtrl'>
 <div ng-show="mobile" class="navLogoMobile">
@@ -69,17 +50,17 @@
         <div id='settings'
              ng-show='settingsEnabled'
              class='col-sm-2 control-panel-ctr hidden-xs'
-             ng-include="'partials/controls.html?i='+random">
+             ng-include="'control/controls.html?i='+random">
         </div>
         <div ng-if='settingsEnabled && !editing'
              class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up bottomPopUpMb'
              ng-class="{'mapView': template.name =='Map'}"
-             ng-include="'partials/controlsmobile.html?i='+random">
+             ng-include="'control/controlsmobile.html?i='+random">
         </div>
         <div ng-show='showView.Network'
              ng-hide="editing && mobile || showView.Map"
              ng-class="mobile ? 'display-panelMb' : 'display-panel'"
-             ng-include="'partials/network.html?i='+random">
+             ng-include="'network/network.html?i='+random">
         </div>
         <div ng-if='!mobile || showsearchMB'
              ng-class="mobile ? 'searchMB bottomPopUpMb animateUp' : 'search'"
@@ -96,15 +77,17 @@
         <div ng-if='showView.Map'
              ng-class="mobile ? 'display-panelMb' : 'display-panel', settingsEnabled ? 'col-sm-8' : 'col-sm-10' "
              ng-hide="editing && mobile"
-             ng-include="'partials/map.html?i='+random"
+             ng-include="'map/map.html?i='+random"
         ></div>
         <div id='details-panel' add-mobile-events class='details-panel'
              ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-class="{'details-panelMb bottomPopUpMb': mobile}"
              ng-show='!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))'
-             ng-controller='detailsCtrl' ng-include="'partials/details.html?i='+random"></div>
-
-        <div class="fadeIt" ng-animate="'animate'" ng-class="mobile ? 'edit-panelMb' : 'edit-panel'" ng-if='editing'
-             ng-controller='editCtrl' ng-include="'partials/edit.html?i='+random"></div>
+             ng-controller='detailsCtrl' ng-include="'detail/details.html?i='+random"></div>
+        <edit-entity entity="currentEntity"
+                     ng-class="mobile ? 'edit-panelMb' : 'edit-panel'"
+                     ng-show="editing"
+                     is-open="editing"
+        ></edit-entity>
         <div ng-show='mobile' class='bottomNavMb'>
             <table>
                 <tr>
