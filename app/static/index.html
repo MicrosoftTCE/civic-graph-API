@@ -90,43 +90,41 @@
         ></edit-entity>
         <analytics ng-hide="!showAnalytics" ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
         <div ng-hide="(!mobile) ||(showAnalytics)" class='bottomNavMb'>
-            <table>
-                <tr>
-                    <td ng-class="{'clickedButtonMb': showsearchMB}" ng-click='showSearch()'>
+            <div class="row">
+                <div class="col-xs-1"></div>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': showsearchMB}" ng-click='showSearch()'>
+                    <p>
+                        <i class="fa fa-search"></i>Search
+                    </p>
+                </div>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': settingsEnabled}" ng-click='toggleSettings()'>
+                    <p>
+                        <i class="fa fa-filter"></i>Filter
+                    </p>
+                </div>
+                <div class="col-xs-2 bottomNavMbRow" ng-click='switchView()'>
+                    <p ng-if="showView.Network">
+                        <i class="fa fa-globe"></i>Map
+                    </p>
+                    <p ng-if="showView.Map">
+                        <i class="icon-clustergrey"></i>
+                        Network
+                    </p>
+                </div>
+                <div class="col-xs-2 bottomNavMbRow">
+                    <a target="_blank" href="/analytic/analytics.html">
                         <p>
-                            <i class="fa fa-search">
-                                Search
-                            </i>
+                            <i class="fa fa-bar-chart"></i>Analytics
                         </p>
-                    </td>
-                    <td ng-class="{'clickedButtonMb': settingsEnabled}" ng-click='toggleSettings()'>
-                        <p>
-                            <i class="fa fa-filter">
-                                Filter
-                            </i>
-                        </p>
-                    </td>
-                    <td ng-click='switchView()'>
-                        <p ng-if="showView.Network">
-                            <i class="fa fa-globe">
-                                Map
-                            </i>
-                        </p>
-                    </td>
-                    <td>
-                        <span ng-if="showView.Map">
-                                <img src="img/clustergrey.png" style="margin-top:7px;" width="20px" height="20px"
-                                     alt="">
-                            </span>
-                        <p ng-if="showView.Map" style="transform:translateY(2)">Network</p>
-                    </td>
-                    <td ng-class="{'clickedButtonMb': editing}" ng-click='startEdit(null)'>
-                        <p>
-                            <i class="fa fa-plus-circle">Add</i>
-                        </p>
-                    </td>
-                </tr>
-            </table>
+                    </a>
+                </div>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': editing}" ng-click='startEdit(null)'>
+                    <p>
+                        <i class="fa fa-plus-circle"></i>Add
+                    </p>
+                </div>
+                <div class="col-xs-1"></div>
+            </div>
         </div>
     </div>
 </div>
