@@ -588,7 +588,7 @@
                         $scope.clickedLocation.location = null;
                     }
                     //  If the previous node is equal to the new node, do nothing.
-                    if (isDef($scope.clickedEntity.entity === entity)) {
+                    if ($scope.clickedEntity.entity === entity) {
                         $scope.clickedEntity.entity = null;
                     }
                     else {
