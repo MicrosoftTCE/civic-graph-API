@@ -53,6 +53,9 @@
             $rootScope.$broadcast('changeSizeBy', vm.sizeBy);
         };
 
+        this.connectionChange = function() {
+            console.log(vm.minConnections);
+        }
     }
 
     angular.module('civic-graph')

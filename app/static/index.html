@@ -52,6 +52,7 @@
                 ng-show='settingsEnabled'
                 id='settings'
                 toggle-network="status.isNetworkShown"
+                min-connections="minConnections"
         ></control>
 
         <div ng-if='settingsEnabled && !editing'
@@ -68,12 +69,7 @@
              ng-class="mobile ? 'searchMB bottomPopUpMb animateUp' : 'search'"
              class="form-group has-feedback"
              ng-hide="showAnalytics">
-            <input type="range"
-                   title="Minimum Number of Connections"
-                   ng-model="homeCtrl.minConnections"
-                   ng-change="connectionChange()"
-                   min="0"
-                   max="30">
+
             <input type='text' ng-model='currentEntity'
                    typeahead='item as item.name for item in searchItems | filter:{name: $viewValue} | limitTo:8'
                    typeahead-on-select='selectItem($item)'

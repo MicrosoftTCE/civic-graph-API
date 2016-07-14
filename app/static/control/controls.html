@@ -3,7 +3,14 @@
         <img src="../../img/civicgraph.png" width="100%">
     </div>
     <div class="control-panel-content">
-
+        <h3>Number of Connections</h3>
+        <input type="range"
+               title="Minimum Number of Connections"
+               ng-model="control.minConnections"
+               ng-change="control.connectionChange()"
+               min="0"
+               max="30">
+        <hr>
         <h3>Types</h3>
         <div class='control-input' ng-repeat='(type, enabled) in control.entityTypes'>
             <label class="checkbox {{type+'-checkbox'}}" ng-class="{'unchecked': !enabled}">

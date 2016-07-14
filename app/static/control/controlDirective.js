@@ -13,10 +13,13 @@
             templateUrl: '/control/controls.html',
             restrict   : 'E',
             scope      : {
-                toggleNetwork : '='
+                toggleNetwork : '=',
             },
             controller   : 'controlCtrl',
-            controllerAs : 'control'
+            controllerAs : 'control',
+            bindToController : {
+                minConnections : "="
+            }
         };
     }
 

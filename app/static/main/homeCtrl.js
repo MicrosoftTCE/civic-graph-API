@@ -41,6 +41,11 @@
         this.minConnections = $scope.minConnections = 5;
         var self = this;
 
+        $scope.$watch('minConnections', function() {
+            $scope.$broadcast('entitiesLoaded');
+        });
+
+
         $scope.connectionChange = function () {
             console.log(self.minConnections);
             $scope.minConnections = self.minConnections;
