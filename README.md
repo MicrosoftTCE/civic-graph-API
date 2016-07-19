@@ -15,7 +15,7 @@ You'll also need Redis (http://redis.io/download) and Nginx (http://nginx.org/en
 
 Clone the git project:
 ```
-Git clone https://github.com/MicrosoftTCE/civic-graph.git 
+git clone https://github.com/MicrosoftTCE/civic-graph.git 
 ```
 Copy contents from /sampleconfig into project root:
 ```
