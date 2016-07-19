@@ -11,7 +11,6 @@
             require: '?ngModel',
             link: function(scope, element, attrs, ngModel) {
                 if ( 'type' in attrs && attrs.type.toLowerCase() === 'range' ) {
-                    console.log('fuckthis');
                     ngModel.$parsers.push(parseFloat);
                 }
             }

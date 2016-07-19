@@ -24,3 +24,5 @@
         .directive('editEntity', editEntityDependencies);
 
 })(angular);
+
+

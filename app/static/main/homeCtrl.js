@@ -38,7 +38,7 @@
             $scope.showAnalytics = !$scope.showAnalytics;
         };
 
-        this.minConnections = $scope.minConnections = 5;
+        this.minConnections = $scope.minConnections = 2;
         var self = this;
 
         $scope.$watch('minConnections', function() {
@@ -115,6 +115,7 @@
         //     }
         //     return entityID;
         // };
+
         setTimeout(function () {
             $http.get('api/entities')
                 .success(function (data) {

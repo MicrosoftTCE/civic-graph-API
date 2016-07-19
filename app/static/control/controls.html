@@ -3,13 +3,14 @@
         <img src="../../img/civicgraph.png" width="100%">
     </div>
     <div class="control-panel-content">
-        <h3>Number of Connections</h3>
-        <input type="range"
+        <h3>Number of Connections: {{ control.minConnections }}</h3>
+        <input class = "slider"
+               type="range"
                title="Minimum Number of Connections"
                ng-model="control.minConnections"
                ng-change="control.connectionChange()"
                min="0"
-               max="30">
+               max="60">
         <hr>
         <h3>Types</h3>
         <div class='control-input' ng-repeat='(type, enabled) in control.entityTypes'>
@@ -50,7 +51,7 @@
         <hr>
 
         <div ng-if='!mobile' class='analyticsDesktopContainer'>
-            <a target="_blank" href="/analytic/analytics.html"><button class='analyticsButton'>PowerBI Analytics</button></a>
+            <a target="_blank" href="/analytic/analytics.html"><button class='analyticsButton'>Power BI Analytics</button></a>
         </div>
 
     </div>
