@@ -38,7 +38,7 @@
     gulp.task('js', function () {
         compileJs(config.dev);
     });
-    
+
     gulp.task('css', function () {
         compileCss(config.dev);
     });
