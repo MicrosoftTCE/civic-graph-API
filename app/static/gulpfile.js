@@ -38,14 +38,11 @@
     gulp.task('js', function () {
         compileJs(config.dev);
     });
-
+    
     gulp.task('css', function () {
         compileCss(config.dev);
     });
 
-    // gulp.task('watch', function() {
-    //     gulp.watch([config.dev.src.js, config.dev.src.css]);
-    // });
 
     gulp.task('default', ['js', 'css'], function () {
 
