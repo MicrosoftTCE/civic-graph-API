@@ -1,0 +1,25 @@
+{
+  "globals"   : {
+    "angular" : true,
+    "browser" : true,
+    "devel"   : true,
+    "jquery"  : true,
+    "$"       : true,
+    "require" : true
+  },
+  "trailing"  : true,
+  "white"     : true,
+  "strict"    : true,
+  "laxbreak"  : true,
+  "noempty"   : true,
+  "noarg"     : true,
+  "sub"       : true,
+  "eqeqeq"    : true,
+  "devel"     : true,
+  "browser"   : true,
+  "bitwise"   : true,
+  "curly"     : false,
+  "undef"     : true,
+  "nonew"     : false,
+  "validthis" : true
+}

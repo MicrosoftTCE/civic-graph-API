@@ -11,18 +11,20 @@
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.2/lodash.min.js'></script>
-    <script src='app/static/lib/angular-leaflet-directive.min.js'></script>
-    <script src='js/checkin.js'></script>
+    <script src='lib/angular-leaflet-directive.min.js'></script>
+    <script src='build/app.min.js'></script>
 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='css/checkin.css'>
-    <link rel='icon' type='image/png' href='app/static/img/microsoft.ico'>
-    <link rel='apple-touch-icon' href='app/static/img/apple-touch-icon.png'>
+    <link rel='stylesheet' href='build/app.min.css'>
+    <link rel='icon' type='image/png' href='img/microsoft.ico'>
+    <link rel='apple-touch-icon' href='img/apple-touch-icon.png'>
 
 </head>
 <body ng-controller='homeCtrl'>
-<!-- <div class='row'> -->
-<div ng-controller='editCtrl' ng-if="ready" ng-include="'partials/checkinform.html?i='+random"></div>
-<!-- </div> -->
+<div ng-controller='editCtrl'
+     ng-if="ready"
+     ng-include="'js/edit/checkinform.html?i='+random"
+>
+</div>
 </body>
 </html>

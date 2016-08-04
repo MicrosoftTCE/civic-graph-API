@@ -5,8 +5,15 @@
 /config.py
 /secrets.py
 
+# Civic Graph UI
 /app/static/node_modules
 /app/static/build
+
+# Civic Graph Check In
+/checkin/node_modules
+/checkin/build
+
+# IDE files
 .idea
 
 # UWSGI related files
