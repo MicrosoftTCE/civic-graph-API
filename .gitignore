@@ -1,9 +1,5 @@
 *~
-*.pyc
 .DS_Store
-civicenv
-/backups
-dump.rdb
 
 # Config files
 /config.py
@@ -19,4 +15,5 @@ dump.rdb
 # Log files
 /log
 
-# Compiled python files
+# Compile Python files from uWSGI
+*.pyc

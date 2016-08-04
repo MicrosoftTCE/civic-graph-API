@@ -1,23 +1,26 @@
 from datetime import datetime
+
 from sqlalchemy import Table, Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, backref
+
 from database import Base
 
 category_table = Table('category_table', Base.metadata,
-    Column('category_id', Integer, ForeignKey('category.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
+                       Column('category_id', Integer, ForeignKey('category.id')),
+                       Column('entity_id', Integer, ForeignKey('entity.id'))
+                       )
 
 # Make this a connection to entities rather than a 'Key Person'.
 keypeople_table = Table('keypeople_table', Base.metadata,
-    Column('keyperson_id', Integer, ForeignKey('keyperson.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
+                        Column('keyperson_id', Integer, ForeignKey('keyperson.id')),
+                        Column('entity_id', Integer, ForeignKey('entity.id'))
+                        )
 
 location_table = Table('location_table', Base.metadata,
-    Column('location_id', Integer, ForeignKey('location.id')),
-    Column('entity_id', Integer, ForeignKey('entity.id'))
-)
+                       Column('location_id', Integer, ForeignKey('location.id')),
+                       Column('entity_id', Integer, ForeignKey('entity.id'))
+                       )
+
 
 class Entity(Base):
     __tablename__ = 'entity'
@@ -25,37 +28,51 @@ class Entity(Base):
     name = Column(String(100))
     nickname = Column(String(100))
     description = Column(String(160))
-    locations = relationship('Location', secondary=location_table, backref='entity', lazy='dynamic', cascade='all, delete, delete-orphan', single_parent=True)
+    locations = relationship('Location', secondary=location_table, backref='entity', lazy='dynamic',
+                             cascade='all, delete, delete-orphan', single_parent=True)
     entitytype = Column(String(100))
-    categories = relationship('Category', secondary=category_table, backref='entity', lazy='dynamic')
+    categories = relationship('Category', secondary=category_table, backref='entity',
+                              lazy='dynamic')
     influence = Column(String(100))
     employees = Column(Integer)
     url = Column(String(100))
     twitter_handle = Column(String(100))
     followers = Column(Integer)
-    revenues = relationship('Revenue', backref='entity', lazy='dynamic', cascade='all, delete, delete-orphan')
-    expenses = relationship('Expense', backref='entity', lazy='dynamic', cascade='all, delete, delete-orphan')
+    revenues = relationship('Revenue', backref='entity', lazy='dynamic',
+                            cascade='all, delete, delete-orphan')
+    expenses = relationship('Expense', backref='entity', lazy='dynamic',
+                            cascade='all, delete, delete-orphan')
     # Try lazy='select'
     grants_given = relationship('Grant', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Grant.giver_id)', cascade='all, delete, delete-orphan')
+                                primaryjoin='(Entity.id==Grant.giver_id)',
+                                cascade='all, delete, delete-orphan')
     grants_received = relationship('Grant', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Grant.receiver_id)', cascade='all, delete, delete-orphan')
+                                   primaryjoin='(Entity.id==Grant.receiver_id)',
+                                   cascade='all, delete, delete-orphan')
     investments_made = relationship('Investment', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Investment.giver_id)', cascade='all, delete, delete-orphan')
+                                    primaryjoin='(Entity.id==Investment.giver_id)',
+                                    cascade='all, delete, delete-orphan')
     investments_received = relationship('Investment', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Investment.receiver_id)', cascade='all, delete, delete-orphan')
+                                        primaryjoin='(Entity.id==Investment.receiver_id)',
+                                        cascade='all, delete, delete-orphan')
     collaborations = relationship('Collaboration', backref='collaborators', lazy='dynamic',
-                        primaryjoin='or_(Entity.id==Collaboration.entity_id1,Entity.id==Collaboration.entity_id2)', cascade='all, delete, delete-orphan')
+                                  primaryjoin='or_(Entity.id==Collaboration.entity_id1,Entity.id==Collaboration.entity_id2)',
+                                  cascade='all, delete, delete-orphan')
     employments = relationship('Employment', backref='employers', lazy='dynamic',
-                        primaryjoin='or_(Entity.id==Employment.entity_id1,Entity.id==Employment.entity_id2)', cascade='all, delete, delete-orphan')
+                               primaryjoin='or_(Entity.id==Employment.entity_id1,Entity.id==Employment.entity_id2)',
+                               cascade='all, delete, delete-orphan')
     relations = relationship('Relation', backref='relationships', lazy='dynamic',
-                        primaryjoin='or_(Entity.id==Relation.entity_id1,Entity.id==Relation.entity_id2)', cascade='all, delete, delete-orphan')
+                             primaryjoin='or_(Entity.id==Relation.entity_id1,Entity.id==Relation.entity_id2)',
+                             cascade='all, delete, delete-orphan')
     data_given = relationship('Dataconnection', backref='giver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Dataconnection.giver_id)', cascade='all, delete, delete-orphan')
+                              primaryjoin='(Entity.id==Dataconnection.giver_id)',
+                              cascade='all, delete, delete-orphan')
     data_received = relationship('Dataconnection', backref='receiver', lazy='dynamic',
-                        primaryjoin='(Entity.id==Dataconnection.receiver_id)', cascade='all, delete, delete-orphan')
+                                 primaryjoin='(Entity.id==Dataconnection.receiver_id)',
+                                 cascade='all, delete, delete-orphan')
     # Make this a connection to entities rather than a 'Key Person'.
-    key_people = relationship('Keyperson', secondary=keypeople_table, backref='entity', lazy='dynamic')
+    key_people = relationship('Keyperson', secondary=keypeople_table, backref='entity',
+                              lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
@@ -80,22 +97,26 @@ class Entity(Base):
                 'expenses': [expense.json() for expense in self.expenses],
                 'grants_given': [grant.json('given') for grant in self.grants_given],
                 'grants_received': [grant.json('received') for grant in self.grants_received],
-                'investments_made': [investment.json('given') for investment in self.investments_made],
-                'investments_received': [investment.json('received') for investment in self.investments_received],
-                'collaborations': [collaboration.json(self.id) for collaboration in self.collaborations],
+                'investments_made': [investment.json('given') for investment in
+                                     self.investments_made],
+                'investments_received': [investment.json('received') for investment in
+                                         self.investments_received],
+                'collaborations': [collaboration.json(self.id) for collaboration in
+                                   self.collaborations],
                 'employments': [employment.json(self.id) for employment in self.employments],
                 'relations': [relation.json(self.id) for relation in self.relations],
                 'data_given': [data.json('given') for data in self.data_given],
                 'data_received': [data.json('received') for data in self.data_received],
                 'key_people': [person.json() for person in self.key_people]
-            }
+                }
+
 
 class Category(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     entities = relationship('Entity', secondary=category_table,
-                               backref=backref('category', lazy='dynamic'))
+                            backref=backref('category', lazy='dynamic'))
 
     def __init__(self, name):
         self.name = name
@@ -108,6 +129,7 @@ class Category(Base):
 
     def json_all(self):
         return {'name': self.name, 'entities': [entity.json() for entity in entities]}
+
 
 class Finance(Base):
     __tablename__ = 'finance'
@@ -129,11 +151,14 @@ class Finance(Base):
     def json(self):
         return {'amount': self.amount, 'year': self.year, 'id': self.id}
 
+
 class Revenue(Finance):
     __mapper_args__ = {'polymorphic_identity': 'revenue'}
 
+
 class Expense(Finance):
     __mapper_args__ = {'polymorphic_identity': 'expense'}
+
 
 class Fundingconnection(Base):
     __tablename__ = 'fundingconnection'
@@ -153,7 +178,8 @@ class Fundingconnection(Base):
     def json(self, direction):
         name = self.receiver.name if direction == 'given' else self.giver.name
         funding_id = self.receiver_id if direction == 'given' else self.giver_id
-        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': funding_id, 'id': self.id}
+        return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': funding_id,
+                'id': self.id}
 
     def json_connection(self):
         # TODO: Remove connectiontype = Given/Received
@@ -162,11 +188,14 @@ class Fundingconnection(Base):
         return {'amount': self.amount, 'year': self.year,
                 'source': giver_id, 'target': receiver_id, 'type': connectiontype}
 
+
 class Grant(Fundingconnection):
     __mapper_args__ = {'polymorphic_identity': 'grant'}
 
+
 class Investment(Fundingconnection):
     __mapper_args__ = {'polymorphic_identity': 'investment'}
+
 
 # TODO: Revenue, expense, Grant, Investment should all subclass a single Finance class.
 # Possible to subclass a subclass?
@@ -189,8 +218,10 @@ class Directionalconnection(Base):
     def json_connection(self):
         return {'details': self.details, 'source': giver_id, 'target': receiver_id}
 
+
 class Dataconnection(Directionalconnection):
     __mapper_args__ = {'polymorphic_identity': 'data'}
+
 
 class Connection(Base):
     __tablename__ = 'connection'
@@ -215,19 +246,24 @@ class Connection(Base):
 
     def json(self, entityid):
         otherentity = self.entity_1 if entityid == self.entity_id2 else self.entity_2
-        return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id, 'id': self.id}
+        return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id,
+                'id': self.id}
 
     def getOther(self, entityid):
         return self.entity_1 if entityid == self.entity_id2 else self.entity_2
 
+
 class Collaboration(Connection):
     __mapper_args__ = {'polymorphic_identity': 'collaboration'}
+
 
 class Employment(Connection):
     __mapper_args__ = {'polymorphic_identity': 'employment'}
 
+
 class Relation(Connection):
     __mapper_args__ = {'polymorphic_identity': 'relation'}
+
 
 # Make this a connection to entities rather than a 'Key Person'.
 class Keyperson(Base):
@@ -245,6 +281,7 @@ class Keyperson(Base):
     def json(self):
         return {'name': self.name, 'id': self.id}
 
+
 class Edit(Base):
     __tablename__ = 'edit'
     id = Column(Integer, primary_key=True)
@@ -252,6 +289,7 @@ class Edit(Base):
     entity_id = Column(Integer, ForeignKey('entity.id'))
     edit_type = Column(String(100))
     edit_time = Column(DateTime, default=datetime.utcnow())
+
     def __repr__(self):
         return '<Edit %r>' % self.ip
 
@@ -259,13 +297,15 @@ class Edit(Base):
         self.ip = ip
 
     def json(self):
-        return {'id': self.id, 'ip': self.ip, 'entity_id': self.entity_id, 'edit_type': self.edit_type, 'edit_time': self.edit_time}
+        return {'id': self.id, 'ip': self.ip, 'entity_id': self.entity_id,
+                'edit_type': self.edit_type, 'edit_time': self.edit_time}
+
 
 class Location(Base):
     __tablename__ = 'location'
     id = Column(Integer, primary_key=True)
     entities = relationship('Entity', secondary=location_table,
-                               backref=backref('location', lazy='dynamic'))
+                            backref=backref('location', lazy='dynamic'))
     address_line = Column(String(100))
     locality = Column(String(100))
     district = Column(String(100))
@@ -280,5 +320,7 @@ class Location(Base):
 
     def json(self):
         return {'id': self.id, 'address_line': self.address_line,
-        'locality': self.locality, 'district': self.district, 'postal_code': self.postal_code,
-        'country': self.country, 'country_code': self.country_code, 'coordinates': [self.latitude, self.longitude]}
+                'locality': self.locality, 'district': self.district,
+                'postal_code': self.postal_code,
+                'country': self.country, 'country_code': self.country_code,
+                'coordinates': [self.latitude, self.longitude]}

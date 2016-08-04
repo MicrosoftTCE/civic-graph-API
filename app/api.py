@@ -1,8 +1,11 @@
 # Check if Entity exists.
 from datetime import datetime
-from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Relation, Finance, Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, Edit
-from database import db
+
 from app import app
+from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Investment, Finance, \
+    Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, \
+    Edit
+from database import db
 
 
 def update(entity, data):
@@ -12,8 +15,8 @@ def update(entity, data):
         entity.name = data['name']
     if entity.nickname != data['nickname']:
         entity.nickname = data['nickname']
-    #if entity.description != data['description']:
-        #entity.description = data['description']
+    # if entity.description != data['description']:
+    #     entity.description = data['description']
     if entity.entitytype != data['type']:
         entity.entitytype = data['type']
     if entity.influence != data['influence']:
@@ -22,7 +25,7 @@ def update(entity, data):
         entity.employees = data['employees']
     if entity.url != data['url']:
         if 'http' not in data['url']:
-            data['url'] = 'http://'+data['url']
+            data['url'] = 'http://' + data['url']
         entity.url = data['url']
     if entity.twitter_handle != data['twitter_handle']:
         entity.twitter_handle = data['twitter_handle']
@@ -54,11 +57,13 @@ def update(entity, data):
                 if ftype is 'revenues':
                     revenue = Revenue(finance['amount'], finance['year'])
                     entity.revenues.append(revenue)
-                    app.logger.debug('NEW REVENUE -- ' + str(revenue.year) + ': ' + str(revenue.amount))
+                    app.logger.debug(
+                        'NEW REVENUE -- ' + str(revenue.year) + ': ' + str(revenue.amount))
                 elif ftype is 'expenses':
                     expense = Expense(finance['amount'], finance['year'])
                     entity.expenses.append(expense)
-                    app.logger.debug('NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount))
+                    app.logger.debug(
+                        'NEW EXPENSE -- ' + str(expense.year) + ': ' + str(expense.amount))
         db.commit()
 
     update_finance(data['revenues'], 'revenues')
@@ -69,7 +74,8 @@ def update(entity, data):
         # TODO: Check for names too, in case you're getting an id from an old cleared form field.
         # TODO: Make sure they're deleted from the db and not just removed from entity.key_people.
         new_keypeople = [key_person['id'] for key_person in key_people if key_person['id']]
-        entity.key_people = [key_person for key_person in entity.key_people if key_person.id in new_keypeople]
+        entity.key_people = [key_person for key_person in entity.key_people if
+                             key_person.id in new_keypeople]
 
         # Do this or else list comprehensions don't work as expected.
         db.commit()
@@ -262,7 +268,8 @@ def update(entity, data):
         # TODO: See if this actually deletes them from db or just removes them from entity.locations.
         # See: cascade='delete-orphan'
         new_locations = [location['id'] for location in locations if location['id']]
-        entity.locations = [location for location in entity.locations if location.id in new_locations]
+        entity.locations = [location for location in entity.locations if
+                            location.id in new_locations]
 
         # Do this or else list comprehensions don't work as expected.
         db.commit()
@@ -276,7 +283,9 @@ def update(entity, data):
             location.country_code = json['country_code'] if 'country_code' in json else None
             location.latitude = json['coordinates'][0] if 'coordinates' in json else None
             location.longitude = json['coordinates'][1] if 'coordinates' in json else None
-            app.logger.debug("********************\nHaving an existential crisis\n%s\n********************", entity.entitytype)
+            app.logger.debug(
+                "********************\nHaving an existential crisis\n%s\n********************",
+                entity.entitytype)
             if entity.entitytype == 'Individual':
                 location.address_line = None
                 location.postal_code = None
@@ -285,16 +294,17 @@ def update(entity, data):
                 app.logger.debug("********************\n%s\n********************", location)
             db.commit()
 
-
         for location in locations:
             if location['id']:
-                app.logger.debug("********************\nThis should happen\n%s\n********************", location)
+                app.logger.debug(
+                    "********************\nThis should happen\n%s\n********************", location)
                 # Location exists, update.
                 oldlocation = Location.query.get(location['id'])
                 update_location(oldlocation, location)
                 app.logger.debug("********************\nFINISHED SAVING\n********************")
             else:
-                app.logger.debug("********************\nThis should not happen\n********************")
+                app.logger.debug(
+                    "********************\nThis should not happen\n********************")
                 # Create new location.
                 newlocation = Location()
                 update_location(newlocation, location)
