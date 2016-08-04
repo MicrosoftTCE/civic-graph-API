@@ -11,7 +11,7 @@
 
     function editEntityDirective() {
         return {
-            templateUrl: '/edit-entity/edit.html',
+            templateUrl: '/js/edit-entity/edit.html',
             restrict   : 'E',
             scope      : {
                 'entity'  : "=",

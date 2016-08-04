@@ -60,7 +60,7 @@
              class='col-sm-2 control-panel visible-xs-block settingsmobile scroll-up bottomPopUpMb'
              ng-class="{'mapView': template.name =='Map'}"
              ng-hide="showAnalytics"
-             ng-include="'control/controlsmobile.html?i='+random">
+             ng-include="'js/control/controlsmobile.html?i='+random">
         </div>
         <network ng-if="status.isNetworkShown"
                  ng-hide="((editing && mobile || showView.Map) || (showAnalytics))"
@@ -82,13 +82,13 @@
         <div ng-if='!(status.isNetworkShown)'
              ng-class="mobile ? 'display-panelMb' : 'display-panel', settingsEnabled ? 'col-sm-8' : 'col-sm-10' "
              ng-hide="(editing && mobile) || (showAnalytics)"
-             ng-include="'map/map.html?i='+random">
+             ng-include="'js/map/map.html?i='+random">
         </div>
         <div id='details-panel' add-mobile-events class='details-panel'
              ng-if='!editing && (clickedEntity.entity ||!mobile)'
              ng-class="{'details-panelMb bottomPopUpMb': mobile}"
              ng-show='(!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))) || (!showAnalytics)'
-             ng-controller='detailsCtrl' ng-include="'detail/details.html?i='+random"></div>
+             ng-controller='detailsCtrl' ng-include="'js/detail/details.html?i='+random"></div>
 
         <edit-entity entity="currentEntity"
                      entities="entities"
@@ -123,7 +123,7 @@
                     </p>
                 </div>
                 <div class="col-xs-2 bottomNavMbRow">
-                    <a target="_blank" href="/analytic/analytics.html">
+                    <a target="_blank" href="/js/analytic/analytics.html">
                         <p>
                             <i class="fa fa-bar-chart"></i>Analytics
                         </p>

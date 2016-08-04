@@ -3,28 +3,44 @@
     'use strict';
 
     var gulp = require('gulp'),
-        uglify = require('gulp-uglify'),
+        minify = require('gulp-uglify'),
         cleanCss = require('gulp-clean-css'),
+        jshint = require('gulp-jshint'),
         concat = require('gulp-concat'),
         notify = require('gulp-notify'),
+        sourceMaps = require('gulp-sourcemaps'),
         config = require('./gulpConfig.json'),
         minifiedFile = 'app.min.js',
         concatConfig = {newLine: '\n;'},
         minifiedCss = 'app.min.css';
 
-    gulp.task('js', function () {
-        return gulp.src(config.dev.src.js)
-            // .pipe(uglify())
-            // .on('error', notify.onError("Error: <%= error.message %>"))
+    function compileJs(cfg) {
+        return gulp.src(cfg.src.js)
+            .pipe(jshint())
+            .pipe(jshint.reporter('fail'))
+            .on('error', notify.onError("JSHint Error: <%= error.message %>"))
+            .pipe(sourceMaps.init())
+            .pipe(minify())
+            .on('error', notify.onError("Error: <%= error.message %>"))
             .pipe(concat(minifiedFile), concatConfig)
-            .pipe(gulp.dest(config.dev.folder));
+            .pipe(sourceMaps.write())
+            .pipe(gulp.dest(cfg.folder))
+            .on('finish', function() { console.log("Safe to refresh"); });
+    }
+
+    function compileCss(cfg) {
+        return gulp.src(cfg.src.css)
+            .pipe(concat(minifiedCss))
+            .pipe(cleanCss())
+            .pipe(gulp.dest(cfg.folder));
+    }
+
+    gulp.task('js', function () {
+        compileJs(config.dev);
     });
 
     gulp.task('css', function () {
-        return gulp.src(config.dev.src.css)
-            .pipe(concat(minifiedCss))
-            .pipe(cleanCss())
-            .pipe(gulp.dest(config.dev.folder));
+        compileCss(config.dev);
     });
 
     // gulp.task('watch', function() {

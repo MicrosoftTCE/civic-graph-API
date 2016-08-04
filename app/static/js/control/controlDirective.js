@@ -10,7 +10,7 @@
 
     function controlDirective() {
         return {
-            templateUrl: '/control/controls.html',
+            templateUrl: '/js/control/controls.html',
             restrict   : 'E',
             scope      : {
                 toggleNetwork : '=',

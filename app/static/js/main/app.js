@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('civic-graph', ['ui.bootstrap', 'leaflet-directive', 'ngAnimate'])
+    angular.module('civic-graph')
         .constant('_', window._)
         .config(['$locationProvider', '$httpProvider', '$compileProvider',
             function ($locationProvider, $httpProvider, $compileProvider) {
