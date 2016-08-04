@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "folder": "build/",
+    "src": {
+      "js":[
+        "check-in.module.js",
+        "js/**/*.js"
+      ],
+      "css":[
+        "css/**/*.css"
+      ]
+    }
+  }
+}

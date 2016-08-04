@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app='civic-graph-kiosk'>
+<head>
+    <title>Civic Graph Kiosk</title>
+    <base href='/'>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.2/lodash.min.js'></script>
+    <script src='lib/angular-leaflet-directive.min.js'></script>
+    <script src='build/app.min.js'></script>
+
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='build/app.min.css'>
+    <link rel='icon' type='image/png' href='img/microsoft.ico'>
+    <link rel='apple-touch-icon' href='img/apple-touch-icon.png'>
+
+</head>
+<body ng-controller='homeCtrl'>
+<div ng-controller='editCtrl'
+     ng-if="ready"
+     ng-include="'js/edit/checkinform.html?i='+random"
+>
+</div>
+</body>
+</html>
