@@ -17,9 +17,9 @@
     }
 
     function editCtrl($scope, $http, $timeout, _, entityService, locationService) {
-        $scope.isEditing = false;
-        $scope.editEntity = entityService.getEntityModel($scope.entity);
-        $scope.entityTypes = entityService.getEntityTypes();
+        $scope.isEditing      = false;
+        $scope.editEntity     = entityService.getEntityModel($scope.entity);
+        $scope.entityTypes    = entityService.getEntityTypes();
         $scope.influenceTypes = entityService.getInfluenceTypes();
 
         var categoryBackup;
@@ -28,15 +28,16 @@
 
         $scope.addressSearch = function (search) {
             return $http.jsonp('https://dev.virtualearth.net/REST/v1/Locations', {
-                params: {
-                    query: search,
-                    key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
-                    'jsonp': 'JSON_CALLBACK',
-                    'include': 'ciso2'
-                }
-            })
+                    params: {
+                        query    : search,
+                        key      : 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
+                        'jsonp'  : 'JSON_CALLBACK',
+                        'include': 'ciso2'
+                    }
+                })
                 .then(function (response) {
-                    if (isDef(response.data.resourceSets) && response.data.resourceSets.length > 0) {
+                    if (isDef(response.data.resourceSets) && response.data.resourceSets.length
+                                                             > 0) {
                         return response.data.resourceSets[0].resources;
                     }
                 });
@@ -50,9 +51,12 @@
                 var found = false;
 
                 for (var categoryIndex in $scope.editEntity.categories) {
+                    if (!$scope.editEntity.categories.hasOwnProperty(categoryIndex)) {
+                        continue;
+                    }
                     var entityCategory = $scope.editEntity.categories[categoryIndex];
                     if (entityCategory.id === category.id) {
-                        found = true;
+                        found                  = true;
                         entityCategory.enabled = category.enabled;
                         break;
                     }
@@ -66,19 +70,22 @@
         $scope.setLocation = function (location, isLast) {
             $scope.addressSearch(location.formattedAddress)
                 .then(function (apiCallResult) {
-                    var result = apiCallResult[0],
+                    var result  = apiCallResult[0],
                         address = result.address,
-                        point = result.point;
+                        point   = result.point;
                     $scope.addLocation(isLast);
 
                     // Parses API call result
                     location.address_line = isDef(address.addressLine) ? address.addressLine : '';
-                    location.locality = isDef(address.locality) ? address.locality : '';
-                    location.district = isDef(address.adminDistrict) ? address.adminDistrict : '';
-                    location.country = isDef(address.countryRegion) ? address.countryRegion : null;
-                    location.country_code = isDef(address.countryRegionIso2) ? address.countryRegionIso2 : '';
-                    location.coordinates = isDef(point.coordinates) ? point.coordinates : null;
-                    location.postal_code = isDef(address.postalCode) ? address.postalCode : null;
+                    location.locality     = isDef(address.locality) ? address.locality : '';
+                    location.district     =
+                        isDef(address.adminDistrict) ? address.adminDistrict : '';
+                    location.country      =
+                        isDef(address.countryRegion) ? address.countryRegion : null;
+                    location.country_code =
+                        isDef(address.countryRegionIso2) ? address.countryRegionIso2 : '';
+                    location.coordinates  = isDef(point.coordinates) ? point.coordinates : null;
+                    location.postal_code  = isDef(address.postalCode) ? address.postalCode : null;
                 });
         };
 
@@ -135,7 +142,8 @@
                 .success(function (response) {
                     $scope.isSaving = false;
                     $scope.$emit("editEntitySuccess", response);
-                    // Call to homeCtrl's parent stopEdit() to change view back and any other high-level changes.
+                    // Call to homeCtrl's parent stopEdit() to change view back and any other
+                    // high-level changes.
                     $scope.cancelEdit();
                 })
                 .error(function () {
@@ -165,9 +173,9 @@
         /**
          * Initializes category fields with entity values.
          *
-         * Loops through category in categories and loops through category in entity. Identifies categories enabled in
-         * the entity and sets local display data. This is because we created a backup of entity data so that the api
-         * data is not tampered with directly.
+         * Loops through category in categories and loops through category in entity. Identifies
+         * categories enabled in the entity and sets local display data. This is because we created
+         * a backup of entity data so that the api data is not tampered with directly.
          *
          * TODO: replace with better data structure for categories.
          */
@@ -178,8 +186,14 @@
                 entityCategory;
 
             for (categoryIndex in $scope.categories) {
+                if(!$scope.categories.hasOwnProperty(categoryIndex)) {
+                    continue;
+                }
                 category = $scope.categories[categoryIndex];
                 for (entityCategoryIndex in $scope.editEntity.categories) {
+                    if(!$scope.editEntity.categories.hasOwnProperty(entityCategoryIndex)) {
+                        continue;
+                    }
                     entityCategory = $scope.editEntity.categories[entityCategoryIndex];
                     if (category.id === entityCategory.id) {
                         category.enabled = entityCategory.enabled;
@@ -188,12 +202,12 @@
             }
         }
 
-
         // Retrieve Categories from DB
         $http.get('api/categories')
             .success(function (data) {
-                categoryBackup = data.categories;
-                // Creates backup of data using Angular to prevent api data from being tampered directly
+                categoryBackup    = data.categories;
+                // Creates backup of data using Angular to prevent api data from being tampered
+                // directly
                 $scope.categories = angular.copy(categoryBackup);
                 // $scope.categories = data.categories;
             });

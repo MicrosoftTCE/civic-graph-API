@@ -27,6 +27,10 @@
             .pipe(gulp.dest(config.dev.folder));
     });
 
+    // gulp.task('watch', function() {
+    //     gulp.watch([config.dev.src.js, config.dev.src.css]);
+    // });
+
     gulp.task('default', ['js', 'css'], function () {
 
     });

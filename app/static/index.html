@@ -8,7 +8,8 @@
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <meta content="The Civic Graph" name="application-name">
     <meta content="Civic Graph" property="og:title">
-    <meta content="Learn who is who in civic tech with The Civic Graph by Microsoft" property="og:description">
+    <meta content="Learn who is who in civic tech with The Civic Graph by Microsoft"
+          property="og:description">
     <meta content='img/CivicgraphImg.png' property="og:image">
     <meta content="The Civic Graph" property="og:site_name">
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
@@ -25,7 +26,8 @@
     <script src='build/app.min.js'></script>
 
 
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet'
+          href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
     <link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css'>
     <link rel='stylesheet'
           href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'>
@@ -47,12 +49,11 @@
 </div>
 <div class='container-fluid main-container'>
     <div class='row'>
-        <control
-                class='col-sm-2 control-panel-ctr hidden-xs'
-                ng-show='settingsEnabled'
-                id='settings'
-                toggle-network="status.isNetworkShown"
-                min-connections="minConnections"
+        <control class='col-sm-2 control-panel-ctr hidden-xs'
+                 ng-show='settingsEnabled'
+                 id='settings'
+                 toggle-network="status.isNetworkShown"
+                 min-connections="minConnections"
         ></control>
 
         <div ng-if='settingsEnabled && !editing'
@@ -84,25 +85,30 @@
              ng-include="'map/map.html?i='+random">
         </div>
         <div id='details-panel' add-mobile-events class='details-panel'
-             ng-if='!editing && (clickedEntity.entity ||!mobile)' ng-class="{'details-panelMb bottomPopUpMb': mobile}"
+             ng-if='!editing && (clickedEntity.entity ||!mobile)'
+             ng-class="{'details-panelMb bottomPopUpMb': mobile}"
              ng-show='(!mobile || (clickedEntity.entity && (!editing && !settingsEnabled && !showsearchMB))) || (!showAnalytics)'
              ng-controller='detailsCtrl' ng-include="'detail/details.html?i='+random"></div>
 
         <edit-entity entity="currentEntity"
+                     entities="entities"
                      ng-class="mobile ? 'edit-panelMb' : 'edit-panel'"
                      ng-show="editing && !showAnalytics"
                      is-open="editing"
         ></edit-entity>
-        <analytics ng-hide="!showAnalytics" ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
+        <analytics ng-hide="!showAnalytics"
+                   ng-class="mobile ? 'display-panelMb' : 'display-analytics'"></analytics>
         <div ng-hide="(!mobile) ||(showAnalytics)" class='bottomNavMb'>
             <div class="row">
                 <div class="col-xs-1"></div>
-                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': showsearchMB}" ng-click='showSearch()'>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': showsearchMB}"
+                     ng-click='showSearch()'>
                     <p>
                         <i class="fa fa-search"></i>Search
                     </p>
                 </div>
-                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': settingsEnabled}" ng-click='toggleSettings()'>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': settingsEnabled}"
+                     ng-click='toggleSettings()'>
                     <p>
                         <i class="fa fa-filter"></i>Filter
                     </p>
@@ -123,7 +129,8 @@
                         </p>
                     </a>
                 </div>
-                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': editing}" ng-click='startEdit(null)'>
+                <div class="col-xs-2 bottomNavMbRow" ng-class="{'clickedButtonMb': editing}"
+                     ng-click='startEdit(null)'>
                     <p>
                         <i class="fa fa-plus-circle"></i>Add
                     </p>

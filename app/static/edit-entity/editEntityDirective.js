@@ -1,4 +1,5 @@
 /**
+ *
  * Created by brianavecchione on 6/27/16.
  */
 
@@ -8,16 +9,17 @@
 
     var editEntityDependencies = [editEntityDirective];
 
-    function editEntityDirective(){
-         return {
-             templateUrl: '/edit-entity/edit.html',
-             restrict   : 'E',
-             scope      : {
-                 'entity' : "=",
-                 'isOpen' : "="
-             },
-             controller   : 'editCtrl'
-         };
+    function editEntityDirective() {
+        return {
+            templateUrl: '/edit-entity/edit.html',
+            restrict   : 'E',
+            scope      : {
+                'entity'  : "=",
+                'entities': "=",
+                'isOpen'  : "="
+            },
+            controller : 'editCtrl'
+        };
     }
 
     angular.module('civic-graph')
