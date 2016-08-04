@@ -6,6 +6,7 @@
         '$scope',
         '$http',
         '_',
+        '$filter',
         networkCtrl
     ];
 
@@ -13,7 +14,7 @@
         return o !== undefined && o !== null;
     }
 
-    function networkCtrl($scope, $http, _) {
+    function networkCtrl($scope, $http, _, $filter) {
         // TODO: Make a hashmap on the backend of id -> position, then use source:
         // entities[map[sourceid]] to get nodes. See http://stackoverflow.com/q/16824308
         $scope.isLoading   = true;

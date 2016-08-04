@@ -17,45 +17,41 @@
 
     function controlCtrl(entityService, connectionService, $rootScope, _, $modal) {
         var vm = this;
-        this.entityTypes = entityService.getEntityTypes();
-        this.connectionTypes = connectionService.getConnectionTypes();
-        this.sizeByList = [
+        vm.entityTypes = entityService.getEntityTypes();
+        vm.connectionTypes = connectionService.getConnectionTypes();
+        vm.sizeByList = [
             {'name': 'Employees', 'value': 'employees'},
             {'name': 'Twitter Followers', 'value': 'followers'}
         ];
-        this.sizeBy = 'employees';
-        this.showView = {
+        vm.sizeBy = 'employees';
+        vm.showView = {
             'Network': true,
             'Map': false
         };
-        this.changeView = function (view) {
+        vm.changeView = function (view) {
             _.forEach(_.keys(vm.showView), function (name) {
                 vm.showView[name] = view === name;
             });
             $rootScope.$broadcast('viewChange');
         };
-        this.showAbout = function () {
+        vm.showAbout = function () {
             $modal.open({
                 animation: false,
                 templateUrl: 'control/about.html',
                 controller: 'modalCtrl'
             });
         };
-        this.toggleNode = function (type) {
+        vm.toggleNode = function (type) {
             $rootScope.$broadcast('toggleNode', {'name': type, 'enabled': vm.entityTypes[type]
             });
         };
-        this.toggleLink = function (type) {
+        vm.toggleLink = function (type) {
             $rootScope.$broadcast('toggleLink', {'name': type, 'enabled': vm.connectionTypes[type]
             });
         };
-        this.changeSizeBy = function () {
+        vm.changeSizeBy = function () {
             $rootScope.$broadcast('changeSizeBy', vm.sizeBy);
         };
-
-        this.connectionChange = function() {
-            console.log(vm.minConnections);
-        }
     }
 
     angular.module('civic-graph')
