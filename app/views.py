@@ -48,6 +48,9 @@ def get_connections():
 
 
 def connections():
+    app.logger.debug(request.headers.get("Event-Name"))
+    app.logger.debug('DEBUG')
+    app.logger.error('ERROR')
     return {
         'Funding': funding_connections(),
         'Data': data_connections(),
@@ -59,7 +62,12 @@ def connections():
 
 @app.route('/api/categories')
 @cache.memoize(timeout=None)
+
 def categories():
+    app.logger.debug(request.headers.get("Event-Name"))
+    app.logger.debug('DEBUG')
+    app.logger.error('ERROR')
+    print request.headers.get("Event-Name")
     return jsonify(categories=[category.json() for category in Category.query.all()])
 
 
