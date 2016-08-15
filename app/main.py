@@ -1,9 +1,11 @@
 import logging
 from flask import Flask
 from flask.ext.cache import Cache
+from flask.ext.redis import FlaskRedis
 
 from database import db
 
+redis_store = FlaskRedis()
 
 def create_app():
     app = Flask(__name__)
@@ -17,8 +19,8 @@ def create_app():
     filehandler.setLevel(logging.DEBUG)
     app.logger.setLevel(logging.DEBUG)
     app.logger.addHandler(filehandler)
+    redis_store.init_app(app)
     return app
-
 
 app = create_app()
 

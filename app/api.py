@@ -6,6 +6,36 @@ from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Inv
     Fundingconnection, Dataconnection, Connection, Collaboration, Employment, Relation, Location, \
     Edit
 from database import db
+from app import redis_store
+
+#I'M SORRY
+redisID = 0
+
+def getEventData(eventName):
+    return redis_store.get('potato')
+
+def setEventData(eventName, entity):
+    global redisID
+    entity['id']=redisID
+    redisID += 1
+    connections=collaborationConversion(entity)+fundingConversion(entity)+dataConversion(entity)+employmentConversion(entity)
+    return connections
+
+def collaborationConversion(data):
+    return [{'source': data['id'], 'target': f['entity_id']} for f in data['collaborations']]
+
+def fundingConversion(data):
+    return [{'source': data['id'], 'target': f['entity_id']} for f in data['investments_received']]
+
+def dataConversion(data):
+    return [{'source': data['id'], 'target': f['entity_id']} for f in data['data_received']]
+
+def employmentConversion(data):
+    return [{'source': data['id'], 'target': f['entity_id']} for f in data['employments']]
+
+
+
+
 
 
 def update(entity, data):

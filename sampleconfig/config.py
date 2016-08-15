@@ -10,3 +10,6 @@ PROPAGATE_EXCEPTIONS = True
 
 # Minify all API requests.
 JSONIFY_PRETTYPRINT_REGULAR = False
+
+# Setup redis server cache for event.
+REDIS_URL = "redis://:password@localhost:6379/0"

@@ -4,3 +4,4 @@ SQLAlchemy==0.9.9
 uWSGI==2.0.12
 redis==2.10.5
 MySQL-python==1.2.5
+flask-redis==0.3.0
