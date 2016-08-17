@@ -1,3 +1,4 @@
+import json
 # Check if Entity exists.
 from datetime import datetime
 
@@ -11,15 +12,22 @@ from app import redis_store
 #I'M SORRY
 redisID = 0
 
-def getEventData(eventName):
-    return redis_store.get('potato')
+def getEventEntities(eventName):
+    return [json.loads(x) for x in redis_store.smembers(eventName + '.entity')]
+
+def getEventConnections(eventName):
+    return [json.loads(x) for x in redis_store.smembers(eventName + '.connections')]
 
 def setEventData(eventName, entity):
     global redisID
     entity['id']=redisID
     redisID += 1
     connections=collaborationConversion(entity)+fundingConversion(entity)+dataConversion(entity)+employmentConversion(entity)
-    return connections
+    for f in connections:
+        redis_store.sadd(eventName + '.connection', json.dumps(f))
+    redis_store.sadd(eventName + '.entity', json.dumps(entity))
+    #http://redis-py.readthedocs.io/en/latest/s#redis.StrictRedis.hset
+    return getEventEntities(eventName)
 
 def collaborationConversion(data):
     return [{'source': data['id'], 'target': f['entity_id']} for f in data['collaborations']]
@@ -32,10 +40,6 @@ def dataConversion(data):
 
 def employmentConversion(data):
     return [{'source': data['id'], 'target': f['entity_id']} for f in data['employments']]
-
-
-
-
 
 
 def update(entity, data):

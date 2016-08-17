@@ -5,7 +5,7 @@ from sqlalchemy import or_
 from werkzeug.security import check_password_hash
 
 from app import app, cache
-from app.api import update, getEventData, setEventData
+from app.api import update, getEventEntities, setEventData
 from app.models import Entity, Edit, Category, Revenue, Expense, Fundingconnection, Dataconnection, \
     Collaboration, Employment, Relation
 from database import db
@@ -35,23 +35,26 @@ def requires_auth(f):
     return decorated
 
 
-@app.route('/api/entities')
+@app.route('/api/entities', methods  =['GET'])
 @cache.memoize(timeout=None)
+
 def get_entities():
     return jsonify(nodes=nodes())
-
+# if eventname in request headers, return getevententitites
 
 @app.route('/api/connections')
 @cache.memoize(timeout=None)
+
 def get_connections():
     return jsonify(connections=connections())
+# if eventname in request headers, return  geteventconnections
 
-@app.route('/api/test',  methods=['POST'])
-def get_event_data():
+def get_event_data(request):
+    eventName = request.headers['Event-Name']
+   # app.logger.debug(request.data, 'utf-8')
     data = json.loads(request.data)['entity']
     app.logger.debug(data)
-    app.logger.debug(setEventData('eventName', data))
-    return jsonify(data=getEventData('EventName'))
+    return jsonify(data=setEventData(eventName, data))
 
 def connections():
     app.logger.debug(request.headers.get("Event-Name"))
@@ -111,6 +114,8 @@ def relation_connections():
 
 @app.route('/api/save', methods=['POST'])
 def save():
+    if 'Event-Name' in request.headers:
+        return get_event_data(request)
     entity = None
     data = json.loads(request.data)['entity']
     data["ip"] = request.remote_addr
