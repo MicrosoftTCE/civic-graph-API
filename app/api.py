@@ -9,7 +9,7 @@ from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Inv
 from database import db
 from app import redis_store
 
-#I'M SORRY
+#Find a better way to do this
 redisID = 0
 
 def getEventEntities(eventName):
@@ -26,7 +26,6 @@ def setEventData(eventName, entity):
     for f in connections:
         redis_store.sadd(eventName + '.connection', json.dumps(f))
     redis_store.sadd(eventName + '.entity', json.dumps(entity))
-    #http://redis-py.readthedocs.io/en/latest/s#redis.StrictRedis.hset
     return getEventEntities(eventName)
 
 def collaborationConversion(data):

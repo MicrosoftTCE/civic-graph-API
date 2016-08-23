@@ -5,7 +5,7 @@ from sqlalchemy import or_
 from werkzeug.security import check_password_hash
 
 from app import app, cache
-from app.api import update, getEventEntities, setEventData
+from app.api import update, getEventEntities, setEventData, getEventConnections
 from app.models import Entity, Edit, Category, Revenue, Expense, Fundingconnection, Dataconnection, \
     Collaboration, Employment, Relation
 from database import db
@@ -35,26 +35,36 @@ def requires_auth(f):
     return decorated
 
 
-@app.route('/api/entities', methods  =['GET'])
-@cache.memoize(timeout=None)
+@app.route('/api/entities', methods=['GET'])
+#@cache.memoize(timeout=None)
 
 def get_entities():
-    return jsonify(nodes=nodes())
-# if eventname in request headers, return getevententitites
+    data = nodes()
+    if 'Event-Name' in request.headers:
+        data += getEventEntities(request.headers['Event-Name'])
+    return jsonify(nodes=data)
 
 @app.route('/api/connections')
-@cache.memoize(timeout=None)
+#@cache.memoize(timeout=None)
 
 def get_connections():
-    return jsonify(connections=connections())
-# if eventname in request headers, return  geteventconnections
+    if 'Event-Name' in request.headers:
+        x = getEventConnections(request.headers['Event-Name'])
+    else:
+        x = connections()
+    return jsonify(connections=x)
 
 def get_event_data(request):
     eventName = request.headers['Event-Name']
    # app.logger.debug(request.data, 'utf-8')
     data = json.loads(request.data)['entity']
     app.logger.debug(data)
-    return jsonify(data=setEventData(eventName, data))
+    x=setEventData(eventName, data)
+    cache.clear()
+    data = nodes()
+    if 'Event-Name' in request.headers:
+        data += getEventEntities(request.headers['Event-Name'])
+    return jsonify(nodes=data)
 
 def connections():
     app.logger.debug(request.headers.get("Event-Name"))
@@ -111,8 +121,8 @@ def employment_connections():
 def relation_connections():
     return [{'source': r.entity_id1, 'target': r.entity_id2} for r in Relation.query.all()]
 
-
 @app.route('/api/save', methods=['POST'])
+
 def save():
     if 'Event-Name' in request.headers:
         return get_event_data(request)
