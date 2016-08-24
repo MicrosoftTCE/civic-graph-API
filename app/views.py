@@ -41,18 +41,23 @@ def requires_auth(f):
 def get_entities():
     data = nodes()
     if 'Event-Name' in request.headers:
-        data += getEventEntities(request.headers['Event-Name'])
+        if 'Event-Data-Only' in request.headers:
+            return jsonify(nodes=getEventEntities(request.headers['Event-Name']))
+        else:
+            data += getEventEntities(request.headers['Event-Name'])
     return jsonify(nodes=data)
 
 @app.route('/api/connections')
-#@cache.memoize(timeout=None)
+@cache.memoize(timeout=None)
 
 def get_connections():
+    data = connections()
     if 'Event-Name' in request.headers:
-        x = getEventConnections(request.headers['Event-Name'])
-    else:
-        x = connections()
-    return jsonify(connections=x)
+        if 'Event-Data-Only' in request.headers:
+            return jsonify(connections=getEventConnections(request.headers['Event-Name']))
+        else:
+            data += getEventConnections(request.headers['Event-Name'])
+    return jsonify(connections=data)
 
 def get_event_data(request):
     eventName = request.headers['Event-Name']
