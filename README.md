@@ -54,9 +54,9 @@ GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 ```
-Import schema.sql into a database named civicgraph
+Import schema.sql into a database named civicgraph 
 ```
-mysql -u root -p civicgraph < schema.sql
+mysql -u root -p civicgraph < sql/schema.sql
 ```
 Run redis-server:
 ```
