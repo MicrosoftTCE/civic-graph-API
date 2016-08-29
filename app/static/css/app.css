@@ -763,16 +763,16 @@ hr {
 .analyticsButton {
     transition: opacity 0.1s linear;
     /*margin-top: 35px;*/
-    background-color: #800080;
-    text-align: center;
-    vertical-align: middle;
+    background-color: #f2c811;
+    text-align: left;
+    vertical-align:center;
     width: 100%;
     z-index: 3;
-    height: 5.8vh;
-    border: 2px solid #800080;
-    font-size: 11pt;
-    font-weight: 600;
-    color: white;
+    height: 7vh;
+    border: 2px solid #f2c811;
+    font-size: 10pt;
+    font-weight: 300;
+    color: black;
 }
 
 .addInfoDesktop:hover {
@@ -1138,6 +1138,10 @@ hr {
 
 .mViewSwitch img {
     vertical-align: middle;
+}
+
+img {
+    margin-right:.5em;
 }
 
 .searchMobile {

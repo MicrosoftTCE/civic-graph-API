@@ -36,7 +36,7 @@ def requires_auth(f):
 
 
 @app.route('/api/entities', methods=['GET'])
-#@cache.memoize(timeout=None)
+@cache.memoize(timeout=None)
 
 def get_entities():
     data = nodes()
@@ -48,7 +48,7 @@ def get_entities():
     return jsonify(nodes=data)
 
 @app.route('/api/connections')
-@cache.memoize(timeout=None)
+#@cache.memoize(timeout=None)
 
 def get_connections():
     data = connections()
