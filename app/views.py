@@ -59,17 +59,12 @@ def get_connections():
             data += getEventConnections(request.headers['Event-Name'])
     return jsonify(connections=data)
 
-def get_event_data(request):
+def save_event_data(request):
     eventName = request.headers['Event-Name']
-   # app.logger.debug(request.data, 'utf-8')
     data = json.loads(request.data)['entity']
     app.logger.debug(data)
-    x=setEventData(eventName, data)
+    setEventData(eventName, data)
     cache.clear()
-    data = nodes()
-    if 'Event-Name' in request.headers:
-        data += getEventEntities(request.headers['Event-Name'])
-    return jsonify(nodes=data)
 
 def connections():
     app.logger.debug(request.headers.get("Event-Name"))
@@ -129,10 +124,14 @@ def relation_connections():
 @app.route('/api/save', methods=['POST'])
 
 def save():
+    jsonData = json.loads(request.data)
+    app.logger.debug(jsonData)
     if 'Event-Name' in request.headers:
-        return get_event_data(request)
+        save_event_data(request)
+        if 'optOut' in jsonData and jsonData['optOut']:
+            return get_entities(request)
     entity = None
-    data = json.loads(request.data)['entity']
+    data = jsonData['entity']
     data["ip"] = request.remote_addr
     data["edit_type"] = None
     if data['id']:
