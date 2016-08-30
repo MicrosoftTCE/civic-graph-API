@@ -1,8 +1,0 @@
-<div class='overview' ng-controller='overviewCtrl'>
-<h2>Overview</h2>
-<div ng-repeat='(type, typeEntities) in categorizedEntities' class='overview-type'>
-    <h3 class="{{type}}">{{type}} ({{typeEntities.length}})</h3>
-    <a ng-repeat='entity in typeEntities track by $index' ng-click='selectItem(entity)'>{{entity.nickname ? entity.nickname : entity.name}}{{!$last ? ', ' : ''}}
-    </a>
-</div>
-</div>
