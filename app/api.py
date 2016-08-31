@@ -9,36 +9,52 @@ from app.models import Entity, Category, Keyperson, Revenue, Expense, Grant, Inv
 from database import db
 from app import redis_store
 
-#Find a better way to do this
-redisID = 0
 
 def getEventEntities(eventName):
     return [json.loads(x) for x in redis_store.smembers(eventName + '.entity')]
 
 def getEventConnections(eventName):
-    return [json.loads(x) for x in redis_store.smembers(eventName + '.connections')]
+    return {key: json.loads(value) for key, value in redis_store.hgetall(eventName + '.connection').iteritems()}
 
 def setEventData(eventName, entity):
-    global redisID
-    entity['id']=redisID
-    redisID += 1
-    connections=collaborationConversion(entity)+fundingConversion(entity)+dataConversion(entity)+employmentConversion(entity)
-    for f in connections:
-        redis_store.sadd(eventName + '.connection', json.dumps(f))
+    entityID = getIncEntityID(eventName)
+    entity['id'] = entityID
+    oldConnections = getEventConnections(eventName)
+    # app.logger.debug(oldConnections)
+    oldConnections['Funding'] = ([] if 'Funding' not in oldConnections else oldConnections['Funding'])
+    oldConnections['Data'] = ([] if 'Data' not in oldConnections else oldConnections['Data'])
+    oldConnections['Collaboration'] = ([] if 'Collaboration' not in oldConnections else oldConnections['Collaboration'])
+    oldConnections['Employment'] = ([] if 'Employment' not in oldConnections else oldConnections['Employment'])
+    connections = {
+        "Funding": json.dumps(fundingConversion(entity) + oldConnections['Funding']),
+        "Data": json.dumps(dataConversion(entity) + oldConnections['Data']),
+        "Collaboration": json.dumps(collaborationConversion(entity) + oldConnections['Collaboration']),
+        "Employment": json.dumps(employmentConversion(entity) + oldConnections['Employment'])
+    }
+    app.logger.debug(connections)
+    redis_store.hmset(eventName + '.connection', connections)
     redis_store.sadd(eventName + '.entity', json.dumps(entity))
     return getEventEntities(eventName)
 
+def getIncEntityID(eventName):
+    ID = redis_store.get(eventName + '.entityID')
+    if ID is None:
+        redis_store.set(eventName + '.entityID', 1)
+        ID = 1
+    redis_store.incr(eventName + '.entityID')
+    return int(ID)
+
 def collaborationConversion(data):
-    return [{'source': data['id'], 'target': f['entity_id']} for f in data['collaborations']]
+    return [{"source": data['id'], "target": f['entity_id']} for f in data['collaborations']]
 
 def fundingConversion(data):
-    return [{'source': data['id'], 'target': f['entity_id']} for f in data['investments_received']]
+    return [{"source": data['id'], "target": f['entity_id']} for f in data['investments_received']]
 
 def dataConversion(data):
-    return [{'source': data['id'], 'target': f['entity_id']} for f in data['data_received']]
+    return [{"source": data['id'], "target": f['entity_id']} for f in data['data_received']]
 
 def employmentConversion(data):
-    return [{'source': data['id'], 'target': f['entity_id']} for f in data['employments']]
+    return [{"source": data['id'], "target": f['entity_id']} for f in data['employments']]
 
 
 def update(entity, data):
@@ -300,7 +316,10 @@ def update(entity, data):
         # Delete old locations.
         # TODO: See if this actually deletes them from db or just removes them from entity.locations.
         # See: cascade='delete-orphan'
-        new_locations = [location['id'] for location in locations if location['id']]
+
+        # Check to see if location has an id, then check to see if id is null
+        # If ID not null, add to list
+        new_locations = [location['id'] for location in locations if ('id' in location and location['id'])]
         entity.locations = [location for location in entity.locations if
                             location.id in new_locations]
 
@@ -328,13 +347,10 @@ def update(entity, data):
             db.commit()
 
         for location in locations:
-            if location['id']:
-                app.logger.debug(
-                    "********************\nThis should happen\n%s\n********************", location)
+            if 'id' in location and location['id']:
                 # Location exists, update.
                 oldlocation = Location.query.get(location['id'])
                 update_location(oldlocation, location)
-                app.logger.debug("********************\nFINISHED SAVING\n********************")
             else:
                 app.logger.debug(
                     "********************\nThis should not happen\n********************")
@@ -346,8 +362,6 @@ def update(entity, data):
 
         db.commit()
 
-    app.logger.debug("********************\nStarting dis shiz\n********************")
     update_locations(data['locations'])
-    app.logger.debug("********************\nEnding dis shiz\n********************")
 
     db.commit()

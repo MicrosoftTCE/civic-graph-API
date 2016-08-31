@@ -36,16 +36,15 @@ def requires_auth(f):
 
 
 @app.route('/api/entities', methods=['GET'])
-@cache.memoize(timeout=None)
+# @cache.memoize(timeout=None)
 
 def get_entities():
-    data = nodes()
     if 'Event-Name' in request.headers:
         if 'Event-Data-Only' in request.headers:
             return jsonify(nodes=getEventEntities(request.headers['Event-Name']))
         else:
-            data += getEventEntities(request.headers['Event-Name'])
-    return jsonify(nodes=data)
+            return jsonify(nodes=(nodes() + getEventEntities(request.headers['Event-Name'])))
+    return jsonify(nodes=nodes())
 
 @app.route('/api/connections')
 #@cache.memoize(timeout=None)
@@ -54,22 +53,29 @@ def get_connections():
     data = connections()
     if 'Event-Name' in request.headers:
         if 'Event-Data-Only' in request.headers:
-            return jsonify(connections=getEventConnections(request.headers['Event-Name']))
+            # app.logger.debug('event-data-ran')
+            data = getEventConnections(request.headers['Event-Name'])
+            # app.logger.debug(data)
+            return jsonify(connections=data)
         else:
-            data += getEventConnections(request.headers['Event-Name'])
+            event = getEventConnections(request.headers['Event-Name'])
+            returnData = {}
+            for key, value in data.iteritems():
+                if key not in event:
+                    returnData[key] = value
+                else:
+                    returnData[key] = value + event[key]
+            return jsonify(connections = returnData)
     return jsonify(connections=data)
 
 def save_event_data(request):
     eventName = request.headers['Event-Name']
     data = json.loads(request.data)['entity']
-    app.logger.debug(data)
+    # app.logger.debug(data)
     setEventData(eventName, data)
     cache.clear()
 
 def connections():
-    app.logger.debug(request.headers.get("Event-Name"))
-    app.logger.debug('DEBUG')
-    app.logger.error('ERROR')
     return {
         'Funding': funding_connections(),
         'Data': data_connections(),
@@ -83,10 +89,6 @@ def connections():
 @cache.memoize(timeout=None)
 
 def categories():
-    app.logger.debug(request.headers.get("Event-Name"))
-    app.logger.debug('DEBUG')
-    app.logger.error('ERROR')
-    print request.headers.get("Event-Name")
     return jsonify(categories=[category.json() for category in Category.query.all()])
 
 
@@ -124,8 +126,8 @@ def relation_connections():
 @app.route('/api/save', methods=['POST'])
 
 def save():
+    # app.logger.debug(request.data)
     jsonData = json.loads(request.data)
-    app.logger.debug(jsonData)
     if 'Event-Name' in request.headers:
         save_event_data(request)
         if 'optOut' in jsonData and jsonData['optOut']:
