@@ -1,5 +1,7 @@
 # Civic Graph
 
+#### * All API documentation can be found in the developer portal under ```/doc``` 
+
 ## Development Environment Setup
 
 These instructions walk you through setting up a local development environment for civicgraph UI and API.
