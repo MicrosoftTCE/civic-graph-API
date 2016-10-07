@@ -105,7 +105,7 @@ Schema associating civic tech categories with corresponding integer ID.
 ----
 **Get Entities**
 ----
-  Returns all entity data.
+  Returns all entity data. Asterisks indicate required fields.
 
 #### URL: 
   `/api/entities`
@@ -128,12 +128,12 @@ Schema associating civic tech categories with corresponding integer ID.
 | investments_made     | investments funded                                               |
 | investments_received | investments received                                                    |
 | key_people           | key people associated with the entity (employees, frequent collaborators, etc.                                 |
-| locations            | locations where the entity exists                                               |
-| name                 | entity name                                               |
+| locations\*          | locations where the entity exists                                               |
+| name\*               | entity name                                               |
 | nickname             | entity nickname (if applicable)                                                    |
 | revenues             | known revenues                                               |
 | twitter_handle       | entity Twitter handle                                               |
-| type                 | entity type (For-Profit, Non-Profit, Individual, Gov.                                                   |
+| type\*               | entity type (For-Profit, Non-Profit, Individual, Gov.                                                   |
 | url                  | associated URL                                           |
   
 * **Response:**
