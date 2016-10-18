@@ -282,10 +282,10 @@ def update(entity, data):
             for connection in entity.employments:
                 if connection.id not in new_connections:
                     db.delete(connection)
-        elif ctype is 'relations':
-            for connection in entity.relations:
-                if connection.id not in new_connections:
-                    db.delete(connection)
+        # elif ctype is 'relations':
+        #     for connection in entity.relations:
+        #         if connection.id not in new_connections:
+        #             db.delete(connection)
         db.commit()
 
         for connection in connections:
@@ -310,7 +310,7 @@ def update(entity, data):
 
     update_connections(data['collaborations'], 'collaborations')
     update_connections(data['employments'], 'employments')
-    update_connections(data['relations'], 'relations')
+    # update_connections(data['relations'], 'relations')
 
     def update_locations(locations):
         # Delete old locations.
@@ -333,11 +333,13 @@ def update(entity, data):
             location.postal_code = json['postal_code'] if 'postal_code' in json else None
             location.country = json['country'] if 'country' in json else None
             location.country_code = json['country_code'] if 'country_code' in json else None
-            location.latitude = json['coordinates'][0] if 'coordinates' in json else None
-            location.longitude = json['coordinates'][1] if 'coordinates' in json else None
-            app.logger.debug(
-                "********************\nHaving an existential crisis\n%s\n********************",
-                entity.entitytype)
+            if 'coordinates' in json and not json['coordinates'] is None:
+                location.latitude = json['coordinates'][0]
+                location.longitude = json['coordinates'][1]
+            else:
+                location.latitude = None
+                location.longitude = None
+
             if entity.entitytype == 'Individual':
                 location.address_line = None
                 location.postal_code = None
