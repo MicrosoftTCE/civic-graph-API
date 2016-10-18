@@ -142,7 +142,6 @@ def update(entity, data):
                 # Key person doesn't exist, create them.
                 keyperson = Keyperson(key_person['name'])
                 entity.key_people.append(keyperson)
-                app.logger.debug('NEW KEY PERSON ' + keyperson.name)
         db.commit()
 
     update_key_people(data['key_people'])
@@ -303,10 +302,10 @@ def update(entity, data):
                     # app.logger.debug('CREATED NEW COLLABORATION ', collaboration.details)
                 elif ctype is 'employments':
                     employment = Employment(entity, otherentity, connection['details'])
-                    # app.logger.debug('CREATED NEW EMPLOYMENT ', employment.details)
-                elif ctype is 'relations':
-                    relation = Relation(entity, otherentity, connection['details'])
-                    # app.logger.debug('CREATED NEW RELATION ', relation.details)
+                    app.logger.debug('CREATED NEW EMPLOYMENT ', employment.details)
+                # elif ctype is 'relations':
+                #     relation = Relation(entity, otherentity, connection['details'])
+                #     app.logger.debug('CREATED NEW RELATION ', relation.details)
         db.commit()
 
     update_connections(data['collaborations'], 'collaborations')
@@ -318,17 +317,25 @@ def update(entity, data):
         # TODO: See if this actually deletes them from db or just removes them from entity.locations.
         # See: cascade='delete-orphan'
 
+        app.logger.debug(locations)
+
         # Check to see if location has an id, then check to see if id is null
         # If ID not null, add to list
         new_locations = [location['id'] for location in locations if ('id' in location and location['id'])]
+
+        app.logger.debug(entity.locations)
+        app.logger.debug(new_locations)
+
         entity.locations = [location for location in entity.locations if
                             location.id in new_locations]
+
 
         # Do this or else list comprehensions don't work as expected.
         db.commit()
 
+
         def update_location(location, json):
-            location.address_line = json['address_line'] if 'address_line' in json else None
+            location.address_line = json['address_linde'] if 'address_line' in json else None
             location.locality = json['locality'] if 'locality' in json else None
             location.district = json['district'] if 'district' in json else None
             location.postal_code = json['postal_code'] if 'postal_code' in json else None
@@ -340,7 +347,6 @@ def update(entity, data):
             else:
                 location.latitude = None
                 location.longitude = None
-
             if entity.entitytype == 'Individual':
                 location.address_line = None
                 location.postal_code = None
@@ -354,6 +360,10 @@ def update(entity, data):
                 oldlocation = Location.query.get(location['id'])
                 update_location(oldlocation, location)
             else:
-                update_locations(data['locations'])
+                # Create new location.
+                newlocation = Location()
+                update_location(newlocation, location)
+                entity.locations.append(newlocation)
+                app.logger.debug('ADDED NEW LOCATION %s', newlocation)
 
     db.commit()

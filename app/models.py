@@ -80,6 +80,15 @@ class Entity(Base):
     def __repr__(self):
         return '<Entity %r>' % (self.name)
 
+    def __hash__(self):
+        return hash((self.name, self.location, self.entitytype))
+
+    def __eq__(self, other):
+        return (self.name, self.location, self.entitytype) == (other.name, other.location, other.entitytype)
+
+    def __ne__(self, other):
+        return not (self == other)
+
     def json(self):
         return {'id': self.id,
                 'name': self.name,

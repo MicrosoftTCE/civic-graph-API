@@ -4,7 +4,7 @@ from functools import wraps
 from sqlalchemy import or_
 from werkzeug.security import check_password_hash
 
-from app import app, cache
+from app import app, cache, data_import
 from app.api import update, getEventEntities, setEventData, getEventConnections
 from app.models import Entity, Edit, Category, Revenue, Expense, Fundingconnection, Dataconnection, \
     Collaboration, Employment, Relation
@@ -131,14 +131,20 @@ def save():
     if 'Event-Name' in request.headers:
         save_event_data(request)
         if 'optOut' in jsonData and jsonData['optOut']:
-            return get_entities()
+            app.logger.debug('THIS IS A LOGGER ')
+            return get_entities(request)
     entity = None
     data = jsonData['entity']
     data["ip"] = request.remote_addr
     data["edit_type"] = None
+
+    app.logger.debug("HELLO")
+    app.logger.debug(data['id'])
+
     if data['id']:
         entity = Entity.query.get(data['id'])
     elif data['name']:
+        app.logger.debug("this happened.")
         data["edit_type"] = "create"
         entity = Entity(data['name'])
         db.add(entity)
@@ -206,3 +212,8 @@ def admin_login():
         'edits': edits()
     }
     return render_template('admin.html', data=data)
+
+@app.route('/api/test', methods=['GET'])
+def test():
+    data_import.data_import()
+    return ''
