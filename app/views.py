@@ -86,7 +86,7 @@ def connections():
 
 
 @app.route('/api/categories')
-@cache.memoize(timeout=None)
+# @cache.memoize(timeout=None)
 
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
@@ -131,7 +131,7 @@ def save():
     if 'Event-Name' in request.headers:
         save_event_data(request)
         if 'optOut' in jsonData and jsonData['optOut']:
-            return get_entities(request)
+            return get_entities()
     entity = None
     data = jsonData['entity']
     data["ip"] = request.remote_addr

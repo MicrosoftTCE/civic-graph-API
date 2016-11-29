@@ -2,6 +2,7 @@ import logging
 from flask import Flask
 from flask.ext.cache import Cache
 from flask.ext.redis import FlaskRedis
+from flask.ext.cors import CORS
 
 from database import db
 
@@ -23,6 +24,8 @@ def create_app():
     return app
 
 app = create_app()
+
+cors = CORS(app,resources={r'/*': {'origins':'*'}})
 
 cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_DEFAULT_TIMEOUT': 1000000000})
 

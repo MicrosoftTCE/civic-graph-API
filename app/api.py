@@ -32,6 +32,7 @@ def setEventData(eventName, entity):
         "Employment": json.dumps(employmentConversion(entity) + oldConnections['Employment'])
     }
     app.logger.debug(connections)
+    entity['timestamp'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     redis_store.hmset(eventName + '.connection', connections)
     redis_store.sadd(eventName + '.entity', json.dumps(entity))
     return getEventEntities(eventName)
@@ -294,18 +295,18 @@ def update(entity, data):
                 oldconnection = Connection.query.get(connection['id'])
                 if oldconnection.details != connection['details']:
                     oldconnection.details = connection['details']
-                    app.logger.debug('UPDATING CONNECTION DETAILS', oldconnection.details)
+                    # app.logger.debug('UPDATING CONNECTION DETAILS', oldconnection.details)
             elif 'entity_id' in connection:
                 otherentity = Entity.query.get(connection['entity_id'])
                 if ctype is 'collaborations':
                     collaboration = Collaboration(entity, otherentity, connection['details'])
-                    app.logger.debug('CREATED NEW COLLABORATION ', collaboration.details)
+                    # app.logger.debug('CREATED NEW COLLABORATION ', collaboration.details)
                 elif ctype is 'employments':
                     employment = Employment(entity, otherentity, connection['details'])
-                    app.logger.debug('CREATED NEW EMPLOYMENT ', employment.details)
+                    # app.logger.debug('CREATED NEW EMPLOYMENT ', employment.details)
                 elif ctype is 'relations':
                     relation = Relation(entity, otherentity, connection['details'])
-                    app.logger.debug('CREATED NEW RELATION ', relation.details)
+                    # app.logger.debug('CREATED NEW RELATION ', relation.details)
         db.commit()
 
     update_connections(data['collaborations'], 'collaborations')
@@ -345,7 +346,6 @@ def update(entity, data):
                 location.postal_code = None
                 location.latitude = None
                 location.longitude = None
-                app.logger.debug("********************\n%s\n********************", location)
             db.commit()
 
         for location in locations:
@@ -354,16 +354,6 @@ def update(entity, data):
                 oldlocation = Location.query.get(location['id'])
                 update_location(oldlocation, location)
             else:
-                app.logger.debug(
-                    "********************\nThis should not happen\n********************")
-                # Create new location.
-                newlocation = Location()
-                update_location(newlocation, location)
-                entity.locations.append(newlocation)
-                app.logger.debug('ADDED NEW LOCATION %s', newlocation)
-
-        db.commit()
-
-    update_locations(data['locations'])
+                update_locations(data['locations'])
 
     db.commit()

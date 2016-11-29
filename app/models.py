@@ -176,8 +176,12 @@ class Fundingconnection(Base):
         self.year = year
 
     def json(self, direction):
-        name = self.receiver.name if direction == 'given' else self.giver.name
-        funding_id = self.receiver_id if direction == 'given' else self.giver_id
+        if self.receiver is None:
+            name = self.giver.name
+            funding_id = self.giver_id
+        else:
+            name = self.receiver.name
+            funding_id = self.receiver_id
         return {'amount': self.amount, 'year': self.year, 'entity': name, 'entity_id': funding_id,
                 'id': self.id}
 
