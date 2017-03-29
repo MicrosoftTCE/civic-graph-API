@@ -1,0 +1,8 @@
+azure
+flask
+Flask-Cache
+SQLAlchemy
+redis
+PyMySQL
+flask-redis
+flask-cors

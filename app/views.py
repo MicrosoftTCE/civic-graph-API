@@ -9,11 +9,11 @@ from app.api import update, getEventEntities, setEventData, getEventConnections
 from app.models import Entity, Edit, Category, Revenue, Expense, Fundingconnection, Dataconnection, \
     Collaboration, Employment, Relation
 from database import db
-from secrets import admin_name, admin_pass, flask_session_secret_key
+from config import ADMIN_NAME, ADMIN_HASH, FLASK_SESSION_SECRET_KEY
 
 
 def check_auth(username, password):
-    return username == admin_name and check_password_hash(admin_pass, password)
+    return username == ADMIN_NAME and check_password_hash(ADMIN_HASH, password)
 
 
 def authenticate():
@@ -36,7 +36,7 @@ def requires_auth(f):
 
 
 @app.route('/api/entities', methods=['GET'])
-# @cache.memoize(timeout=None)
+@cache.memoize(timeout=None)
 
 def get_entities():
     if 'Event-Name' in request.headers:
@@ -47,7 +47,7 @@ def get_entities():
     return jsonify(nodes=nodes())
 
 @app.route('/api/connections')
-#@cache.memoize(timeout=None)
+@cache.memoize(timeout=None)
 
 def get_connections():
     data = connections()
@@ -86,7 +86,7 @@ def connections():
 
 
 @app.route('/api/categories')
-# @cache.memoize(timeout=None)
+@cache.memoize(timeout=None)
 
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
@@ -155,7 +155,7 @@ def save():
 @requires_auth
 @cache.memoize(timeout=None)
 def delete():
-    app.secret_key = flask_session_secret_key
+    app.secret_key = FLASK_SESSION_SECRET_KEY
     method = request.form.get('_method')
     id = request.args.get('id')
     if method == 'DELETE':

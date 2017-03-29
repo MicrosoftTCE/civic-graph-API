@@ -1,22 +1,17 @@
 *~
 .DS_Store
 
-# Config files
-/config.py
-/secrets.py
-
-# Civic Graph UI
-/app/static/node_modules
-/app/static/build
-
 # IDE files
 .idea
 
-# UWSGI related files
-/uwsgi
-
 # Log files
-/log
+log
 
 # Compile Python files from uWSGI
 *.pyc
+
+# config
+.env
+
+# virtualenv
+env/

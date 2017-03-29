@@ -1,8 +1,7 @@
-import logging
 from flask import Flask
-from flask.ext.cache import Cache
-from flask.ext.redis import FlaskRedis
-from flask.ext.cors import CORS
+from flask_cache import Cache
+from flask_redis import FlaskRedis
+from flask_cors import CORS
 
 from database import db
 
@@ -11,15 +10,6 @@ redis_store = FlaskRedis()
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('../config.py')
-    wfilehandler = logging.FileHandler('log/werkzeug.log')
-    wfilehandler.setLevel(logging.DEBUG)
-    wlog = logging.getLogger('werkzeug')
-    wlog.setLevel(logging.DEBUG)
-    wlog.addHandler(wfilehandler)
-    filehandler = logging.FileHandler('log/flask.log')
-    filehandler.setLevel(logging.DEBUG)
-    app.logger.setLevel(logging.DEBUG)
-    app.logger.addHandler(filehandler)
     redis_store.init_app(app)
     return app
 
@@ -27,7 +17,12 @@ app = create_app()
 
 cors = CORS(app,resources={r'/*': {'origins':'*'}})
 
-cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_DEFAULT_TIMEOUT': 1000000000})
+cache = Cache(app, config={
+    'CACHE_TYPE': 'redis',
+    'CACHE_DEFAULT_TIMEOUT': 1000000000,
+    'CACHE_KEY_PREFIX': 'CG_',
+    'CACHE_REDIS_URL': app.config['REDIS_URL']
+})
 
 
 @app.teardown_appcontext

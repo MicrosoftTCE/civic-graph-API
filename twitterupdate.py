@@ -2,15 +2,14 @@ import time
 import twitter
 from app.models import Entity
 from database import db
-from secrets import consumer_key, consumer_secret, access_token, access_token_secret
+from config import environ_get
 
 entities = Entity.query.filter(Entity.twitter_handle!=None).all()
 
-
-api = twitter.Api(consumer_key=consumer_key,
-                    consumer_secret=consumer_secret,
-                    access_token_key=access_token,
-                    access_token_secret=access_token_secret)
+api = twitter.Api(environ_get('TWITTER_CONSUMER_KEY'),
+                  environ_get('TWITTER_CONSUMER_SECRET'),
+                  environ_get('TWITTER_ACCESS_TOKEN'),
+                  environ_get('TWITTER_ACCESS_TOKEN_SECRET'))
 
 for entity in entities:
     twitter_handle = entity.twitter_handle.strip('@ ')
