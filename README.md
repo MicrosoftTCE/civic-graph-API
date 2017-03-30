@@ -37,12 +37,12 @@ pip install -U virtualenv
 ```
 Create a virtual environment in the civic-graph folder:
 ```
-virtualenv civicenv
+virtualenv env
 ```
 Activate the virtual environment with:
 ```
-.\civicenv\Scripts\activate      # (Windows)
-source civicenv/bin/activate     # (Mac/Linux)
+.\env\Scripts\activate      # (Windows)
+source env/bin/activate     # (Mac/Linux)
 ```
 Then you can install the required packages with:
 ```
