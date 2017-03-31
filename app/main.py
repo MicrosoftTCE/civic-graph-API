@@ -17,7 +17,7 @@ app = create_app()
 cache = Cache(app, config={
     'CACHE_TYPE': 'redis',
     'CACHE_DEFAULT_TIMEOUT': 1000000000,
-    'CACHE_KEY_PREFIX': 'CG_',
+    'CACHE_KEY_PREFIX': 'CG-API:' + app.config['APP_POOL_ID'] + ':',
     'CACHE_REDIS_URL': app.config['REDIS_URL']
 })
 

@@ -1,4 +1,4 @@
-import os
+import os, socket
 from pprint import pformat
 
 def environ_get(key, default=None):
@@ -35,3 +35,10 @@ ADMIN_HASH = environ_get('ADMIN_HASH')
 
 # import base64, os; base64.b64encode(os.urandom(24)).decode('utf-8')
 FLASK_SESSION_SECRET_KEY = environ_get('FLASK_SESSION_SECRET_KEY')
+
+# Special env variable that exists within Azure to distinguish between
+# application pools (i.e. "Deployment slots" within a Web App service plan).
+# This is useful for allowing different deployment slots to do unique
+# things, like have their own Redis namespace. Default to local host name
+# in dev (to distinguish laptops apart when accessing shared resources).
+APP_POOL_ID = os.environ.get('APP_POOL_ID', socket.gethostname())
