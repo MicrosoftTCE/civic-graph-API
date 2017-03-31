@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_cache import Cache
 from flask_redis import FlaskRedis
-from flask_cors import CORS
 
 from database import db
 
@@ -14,8 +13,6 @@ def create_app():
     return app
 
 app = create_app()
-
-cors = CORS(app,resources={r'/*': {'origins':'*'}})
 
 cache = Cache(app, config={
     'CACHE_TYPE': 'redis',

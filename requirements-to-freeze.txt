@@ -5,4 +5,3 @@ SQLAlchemy
 redis
 PyMySQL
 flask-redis
-flask-cors
