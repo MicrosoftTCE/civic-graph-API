@@ -1,5 +1,4 @@
 azure
-applicationinsights
 flask
 Flask-Cache
 SQLAlchemy
