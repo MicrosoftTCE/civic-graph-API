@@ -11,7 +11,7 @@ These instructions walk you through setting up a local development environment f
 To set up your development environment, you need `pip` (included with `Python>=2.7.9`).
 If you don't have python, you can download it here: https://www.python.org/downloads/ 
 
-You'll also need Redis (http://redis.io/download) and Nginx (http://nginx.org/en/download.html)
+You'll also need Redis (http://redis.io/download) and MySQL.
 
 ## Instructions
 
@@ -19,10 +19,12 @@ Clone the git project:
 ```
 git clone https://github.com/MicrosoftTCE/civic-graph.git 
 ```
+
 Copy contents from /sampleconfig into project root:
 ```
 cp sampleconfig/* .
 ```
+
 Navigate to app/static and install npm:
 ```
 npm install
@@ -77,3 +79,7 @@ Finally, you can run the application on `http://localhost:5000`:
 ```
 python run.py
 ```
+
+
+New stuff:
+```source .env && python run.py```
