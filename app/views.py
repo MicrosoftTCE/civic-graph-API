@@ -36,19 +36,16 @@ def requires_auth(f):
 
 
 @app.route('/api/entities', methods=['GET'])
-@cache.memoize(timeout=None)
-
 def get_entities():
     if 'Event-Name' in request.headers:
         if 'Event-Data-Only' in request.headers:
             return jsonify(nodes=getEventEntities(request.headers['Event-Name']))
         else:
             return jsonify(nodes=(nodes() + getEventEntities(request.headers['Event-Name'])))
+
     return jsonify(nodes=nodes())
 
 @app.route('/api/connections')
-@cache.memoize(timeout=None)
-
 def get_connections():
     data = connections()
     if 'Event-Name' in request.headers:
@@ -73,7 +70,6 @@ def save_event_data(request):
     data = json.loads(request.data)['entity']
     # app.logger.debug(data)
     setEventData(eventName, data)
-    cache.clear()
 
 def connections():
     return {
@@ -87,7 +83,6 @@ def connections():
 
 @app.route('/api/categories')
 @cache.memoize(timeout=None)
-
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
 
@@ -124,18 +119,20 @@ def relation_connections():
     return [{'source': r.entity_id1, 'target': r.entity_id2} for r in Relation.query.all()]
 
 @app.route('/api/save', methods=['POST'])
-
 def save():
     # app.logger.debug(request.data)
     jsonData = json.loads(request.data)
+
     if 'Event-Name' in request.headers:
         save_event_data(request)
         if 'optOut' in jsonData and jsonData['optOut']:
             return get_entities()
+
     entity = None
     data = jsonData['entity']
     data["ip"] = request.remote_addr
     data["edit_type"] = None
+
     if data['id']:
         entity = Entity.query.get(data['id'])
     elif data['name']:
@@ -143,17 +140,16 @@ def save():
         entity = Entity(data['name'])
         db.add(entity)
         db.commit()
+
     if entity:
         if not data["edit_type"]:
             data["edit_type"] = "update"
         update(entity, data)
-        cache.clear()
-    return get_entities()
 
+    return get_entities()
 
 @app.route('/api/delete', methods=['POST'])
 @requires_auth
-@cache.memoize(timeout=None)
 def delete():
     app.secret_key = FLASK_SESSION_SECRET_KEY
     method = request.form.get('_method')
@@ -192,14 +188,12 @@ def delete():
         db.query(Entity).filter(Entity.id == id).delete(synchronize_session='evaluate')
 
         db.commit()
-        cache.clear()
         flash("Delete was successful")
     return redirect('/admin')
 
 
 @app.route('/admin', methods=['GET'])
 @requires_auth
-@cache.memoize(timeout=None)
 def admin_login():
     data = {
         'nodes': reversed(nodes()),

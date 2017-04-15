@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from sqlalchemy import Table, Column, Integer, Float, String, ForeignKey, DateTime
+from sqlalchemy import Table, Column, Integer, Float, String, ForeignKey, DateTime, event
 from sqlalchemy.orm import relationship, backref
 
 from database import Base
+from app import cache
 
 category_table = Table('category_table', Base.metadata,
                        Column('category_id', Integer, ForeignKey('category.id')),
@@ -78,8 +79,13 @@ class Entity(Base):
         self.name = name
 
     def __repr__(self):
-        return '<Entity %r>' % (self.name)
+        return '<Entity %r>' % (self.id)
 
+    def delete_memoized_json(self):
+        print("delete_memoized_json for Entity %(id)s" % { 'id': self.id })
+        cache.delete_memoized(self.json)
+
+    @cache.memoize(timeout=None)
     def json(self):
         return {'id': self.id,
                 'name': self.name,
@@ -110,6 +116,11 @@ class Entity(Base):
                 'key_people': [person.json() for person in self.key_people]
                 }
 
+@event.listens_for(Entity, 'after_update')
+def receive_after_update(mapper, connection, target):
+    """Listen for the 'after_update' event"""
+    print("receive_after_update for Entity %(id)s" % { 'id': target.id })
+    target.delete_memoized_json()
 
 class Category(Base):
     __tablename__ = 'category'
