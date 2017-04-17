@@ -88,7 +88,7 @@ def categories():
 
 
 def nodes():
-    return [entity.json() for entity in Entity.query.all()]
+    return Entity.all_as_json()
 
 
 def edits():

@@ -81,6 +81,16 @@ class Entity(Base):
     def __repr__(self):
         return "%s %s" % (self.__class__.__name__, self.id)
 
+    @classmethod
+    def delete_memoized_all_as_json(cls):
+        print("delete_memoized_all_as_json for %(cls)s" % { 'cls': cls })
+        cache.delete_memoized(cls.all_as_json)
+
+    @classmethod
+    @cache.memoize(timeout=None)
+    def all_as_json(cls):
+        return [entity.json() for entity in cls.query.all()]
+
     def delete_memoized_json(self):
         print("delete_memoized_json for %(self)s" % { 'self': self })
         cache.delete_memoized(self.json)
@@ -120,6 +130,13 @@ class Entity(Base):
 def receive_after_update(mapper, connection, target):
     print("receive_after_update for %(target)s" % { 'target': target })
     target.delete_memoized_json()
+
+@event.listens_for(Entity, 'after_insert')
+@event.listens_for(Entity, 'after_update')
+@event.listens_for(Entity, 'after_delete')
+def receive_after_event(mapper, connection, target):
+    print("receive_after_event for %(target)s" % { 'target': target })
+    target.__class__.delete_memoized_all_as_json()
 
 class Category(Base):
     __tablename__ = 'category'
