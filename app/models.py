@@ -79,10 +79,10 @@ class Entity(Base):
         self.name = name
 
     def __repr__(self):
-        return '<Entity %r>' % (self.id)
+        return "%s %s" % (self.__class__.__name__, self.id)
 
     def delete_memoized_json(self):
-        print("delete_memoized_json for Entity %(id)s" % { 'id': self.id })
+        print("delete_memoized_json for %(self)s" % { 'self': self })
         cache.delete_memoized(self.json)
 
     @cache.memoize(timeout=None)
@@ -118,8 +118,7 @@ class Entity(Base):
 
 @event.listens_for(Entity, 'after_update')
 def receive_after_update(mapper, connection, target):
-    """Listen for the 'after_update' event"""
-    print("receive_after_update for Entity %(id)s" % { 'id': target.id })
+    print("receive_after_update for %(target)s" % { 'target': target })
     target.delete_memoized_json()
 
 class Category(Base):
