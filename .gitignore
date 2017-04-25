@@ -15,3 +15,6 @@ log
 
 # virtualenv
 env/
+
+# Redis persistence
+dump.rdb
