@@ -1,7 +1,7 @@
 import json
 from flask import jsonify, request, Response, redirect, flash, render_template
 from functools import wraps
-from sqlalchemy import or_
+from sqlalchemy import or_, event
 from werkzeug.security import check_password_hash
 
 from app import app, cache
@@ -17,6 +17,16 @@ GET_ENTITIES_PATH = '/api/entities'
 SAVE_PATH = '/api/save'
 DELETE_PATH = '/api/delete'
 
+def cache_key_prefix(path):
+    return 'view/' + path
+
+@event.listens_for(Entity, 'after_insert')
+@event.listens_for(Entity, 'after_update')
+@event.listens_for(Entity, 'after_delete')
+def receive_after_entity_event(mapper, connection, target):
+    print("receive_after_entity_event for %(target)s" % { 'target': target })
+    cache.delete(cache_key_prefix(GET_CONNECTIONS_PATH))
+    cache.delete(cache_key_prefix(GET_ENTITIES_PATH))
 
 def check_auth(username, password):
     return username == ADMIN_NAME and check_password_hash(ADMIN_HASH, password)
@@ -42,6 +52,7 @@ def requires_auth(f):
 
 
 @app.route(GET_ENTITIES_PATH, methods=['GET'])
+@cache.cached(key_prefix=cache_key_prefix(GET_ENTITIES_PATH))
 def get_entities():
     if 'Event-Name' in request.headers:
         if 'Event-Data-Only' in request.headers:
@@ -52,6 +63,7 @@ def get_entities():
     return jsonify(nodes=nodes())
 
 @app.route(GET_CONNECTIONS_PATH)
+@cache.cached(key_prefix=cache_key_prefix(GET_CONNECTIONS_PATH))
 def get_connections():
     data = connections()
     if 'Event-Name' in request.headers:
