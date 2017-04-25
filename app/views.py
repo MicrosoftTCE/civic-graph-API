@@ -20,6 +20,15 @@ DELETE_PATH = '/api/delete'
 def cache_key_prefix(path):
     return 'view/' + path
 
+@event.listens_for(Category, 'after_insert')
+@event.listens_for(Category, 'after_update')
+@event.listens_for(Category, 'after_delete')
+def receive_after_category_event(mapper, category, target):
+    print("receive_after_category_event for %(target)s" % { 'target': target })
+    cache.delete(cache_key_prefix(GET_CATEGORIES_PATH))
+    cache.delete(cache_key_prefix(GET_CONNECTIONS_PATH))
+    cache.delete(cache_key_prefix(GET_ENTITIES_PATH))
+
 @event.listens_for(Entity, 'after_insert')
 @event.listens_for(Entity, 'after_update')
 @event.listens_for(Entity, 'after_delete')
@@ -100,7 +109,7 @@ def connections():
 
 
 @app.route(GET_CATEGORIES_PATH)
-@cache.memoize(timeout=None)
+@cache.cached(key_prefix=cache_key_prefix(GET_CATEGORIES_PATH))
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
 
