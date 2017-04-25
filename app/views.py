@@ -11,6 +11,12 @@ from app.models import Entity, Edit, Category, Revenue, Expense, Fundingconnecti
 from database import db
 from config import ADMIN_NAME, ADMIN_HASH, FLASK_SESSION_SECRET_KEY
 
+GET_CATEGORIES_PATH = '/api/categories'
+GET_CONNECTIONS_PATH = '/api/connections'
+GET_ENTITIES_PATH = '/api/entities'
+SAVE_PATH = '/api/save'
+DELETE_PATH = '/api/delete'
+
 
 def check_auth(username, password):
     return username == ADMIN_NAME and check_password_hash(ADMIN_HASH, password)
@@ -35,7 +41,7 @@ def requires_auth(f):
     return decorated
 
 
-@app.route('/api/entities', methods=['GET'])
+@app.route(GET_ENTITIES_PATH, methods=['GET'])
 def get_entities():
     if 'Event-Name' in request.headers:
         if 'Event-Data-Only' in request.headers:
@@ -45,7 +51,7 @@ def get_entities():
 
     return jsonify(nodes=nodes())
 
-@app.route('/api/connections')
+@app.route(GET_CONNECTIONS_PATH)
 def get_connections():
     data = connections()
     if 'Event-Name' in request.headers:
@@ -81,7 +87,7 @@ def connections():
     }
 
 
-@app.route('/api/categories')
+@app.route(GET_CATEGORIES_PATH)
 @cache.memoize(timeout=None)
 def categories():
     return jsonify(categories=[category.json() for category in Category.query.all()])
@@ -118,7 +124,7 @@ def employment_connections():
 def relation_connections():
     return [{'source': r.entity_id1, 'target': r.entity_id2} for r in Relation.query.all()]
 
-@app.route('/api/save', methods=['POST'])
+@app.route(SAVE_PATH, methods=['POST'])
 def save():
     # app.logger.debug(request.data)
     jsonData = json.loads(request.data)
@@ -148,7 +154,7 @@ def save():
 
     return get_entities()
 
-@app.route('/api/delete', methods=['POST'])
+@app.route(DELETE_PATH, methods=['POST'])
 @requires_auth
 def delete():
     app.secret_key = FLASK_SESSION_SECRET_KEY
