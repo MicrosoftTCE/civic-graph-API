@@ -24,11 +24,15 @@ git clone https://github.com/MicrosoftTCE/civic-graph-API.git
 pip install -U virtualenv
 ```
 
-
 - Create a virtual environment in the civic-graph folder:
 ```
 virtualenv env
 ```
+NOTE: if the above command didn't work, install virtualenv again this way:
+
+``
+sudo /usr/bin/easy_install virtualenv
+``
 
 - Activate the virtual environment with:
 ```
@@ -40,7 +44,7 @@ source env/bin/activate     # (Mac/Linux)
 ```
 pip install -r requirements-to-freeze.txt
 ```
-Set up mySQL with a username/password (and copy those into secrets.py)
+- Set up mySQL with a username/password (and copy those into secrets.py):
 ```
 mysql -u [user] -p << EOF
 CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
@@ -48,7 +52,7 @@ GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 ```
-Import schema.sql into a database named civicgraph
+- Import schema.sql into a database named civicgraph
 ```
 mysql -u root -p civicgraph < sql/schema.sql
 ```
@@ -61,11 +65,11 @@ brew services start redis		    # (Homebrew)
 ```
 brew services start nginx
 ```
-Create .env (and update vars for local mysql setup):
+- Create .env (and update vars for local mysql setup):
 ```
 cp .env_EXAMPLE .env
 ```
-Source .env 
+- Source .env:
 ```
 source .env
 ```
