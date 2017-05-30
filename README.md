@@ -17,21 +17,7 @@ You'll also need Redis (http://redis.io/download) and MySQL.
 
 Clone the git project:
 ```
-git clone https://github.com/MicrosoftTCE/civic-graph.git
-```
-
-Copy contents from /sampleconfig into project root:
-```
-cp sampleconfig/* .
-```
-
-Navigate to app/static and install npm:
-```
-npm install
-```
-Build minification files:
-```
-gulp
+git clone https://github.com/MicrosoftTCE/civic-graph-API.git
 ```
 Install virtualenv:
 ```
@@ -48,7 +34,7 @@ source env/bin/activate     # (Mac/Linux)
 ```
 Then you can install the required packages with:
 ```
-pip install -r requirements.txt
+pip install -r requirements-to-freeze.txt
 ```
 Set up mySQL with a username/password (and copy those into secrets.py)
 ```
@@ -71,17 +57,21 @@ Run nginx:
 ```
 brew services start nginx
 ```
+Create .env (and update vars for local mysql setup):
+```
+cp .env_EXAMPLE .env
+```
+Source .env 
+```
+source .env
+```
 Run uwsgi:
 ```
 uwsgi --ini uwsgi.ini
 ```
-Finally, you can run the application on `http://localhost:5000`:
-```
-python run.py
-```
 
 
-New stuff:
+If you'd like to run without uwsgi, see below:
 
 Server:
 ```source env/bin/activate && source .env && python run.py```
