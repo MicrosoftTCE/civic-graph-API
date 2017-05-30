@@ -15,24 +15,28 @@ You'll also need Redis (http://redis.io/download) and MySQL.
 
 ## Instructions
 
-Clone the git project:
+- Clone the git project:
 ```
 git clone https://github.com/MicrosoftTCE/civic-graph-API.git
 ```
-Install virtualenv:
+- Install virtualenv:
 ```
 pip install -U virtualenv
 ```
-Create a virtual environment in the civic-graph folder:
+
+
+- Create a virtual environment in the civic-graph folder:
 ```
 virtualenv env
 ```
-Activate the virtual environment with:
+
+- Activate the virtual environment with:
 ```
 .\env\Scripts\activate      # (Windows)
 source env/bin/activate     # (Mac/Linux)
 ```
-Then you can install the required packages with:
+
+- Then you can install the required packages with:
 ```
 pip install -r requirements-to-freeze.txt
 ```
@@ -48,12 +52,12 @@ Import schema.sql into a database named civicgraph
 ```
 mysql -u root -p civicgraph < sql/schema.sql
 ```
-Run redis-server:
+- Run redis-server:
 ```
 redis-server /PATH/TO/redis.conf
 brew services start redis		    # (Homebrew)
 ```
-Run nginx:
+- Run nginx:
 ```
 brew services start nginx
 ```
@@ -65,7 +69,7 @@ Source .env
 ```
 source .env
 ```
-Run uwsgi:
+- Run uwsgi:
 ```
 uwsgi --ini uwsgi.ini
 ```
