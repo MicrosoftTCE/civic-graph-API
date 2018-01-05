@@ -277,8 +277,11 @@ class Connection(Base):
 
     def json(self, entityid):
         otherentity = self.entity_1 if entityid == self.entity_id2 else self.entity_2
-        return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id,
+        if otherentity:
+            return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id,
                 'id': self.id}
+        else:
+            return {'entity': 'NONE', 'details': self.details, 'entity_id': 0, 'id': self.id}
 
     def getOther(self, entityid):
         return self.entity_1 if entityid == self.entity_id2 else self.entity_2
