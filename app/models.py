@@ -243,7 +243,7 @@ class Directionalconnection(Base):
 
     def json(self, direction):
         name = self.receiver.name if direction == 'given' else self.giver.name
-        #adding clause for name
+        #adding clause for name attribute
         if name:
             return {'details': self.details, 'entity': name, 'entity_id': entity_id, 'id': self.id}
         else:
