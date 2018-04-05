@@ -242,9 +242,24 @@ class Directionalconnection(Base):
     __mapper_args__ = {'polymorphic_on': discriminator}
 
     def json(self, direction):
-        name = self.receiver.name if direction == 'given' else self.giver.name
-        entity_id = self.receiver_id if direction == 'given' else self.giver_id
+        if self.receiver is None:
+            name = self.giver.name
+            entity_id = self.giver.id
+        else:
+            name = self.receiver.name if direction == 'given' else self.giver.name
+            entity_id = self.receiver_id if direction == 'given' else self.giver_id
         return {'details': self.details, 'entity': name, 'entity_id': entity_id, 'id': self.id}
+
+        # name = self.receiver.name if direction == 'given' else self.giver.name
+        # entity_id = self.receiver_id if direction == 'given' else self.giver_id
+        # return {'details': self.details, 'entity': name, 'entity_id': entity_id, 'id': self.id}
+
+        # otherentity = self.entity_1 if entityid == self.entity_id2 else self.entity_2
+        # if otherentity:
+        #     return {'entity': otherentity.name, 'details': self.details, 'entity_id': otherentity.id,
+        #         'id': self.id}
+        # else:
+        #     return {'entity': 'NONE', 'details': self.details, 'entity_id': 0, 'id': self.id}
 
     def json_connection(self):
         return {'details': self.details, 'source': giver_id, 'target': receiver_id}
