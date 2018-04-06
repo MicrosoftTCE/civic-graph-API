@@ -246,8 +246,8 @@ class Directionalconnection(Base):
             name = self.giver.name
             entity_id = self.giver_id
         else:
-            name = self.receiver.name
-            entity_id = self.receiver_id
+            name = self.receiver.name if direction == 'Given' else self.giver.name
+            entity_id = self.receiver_id if direction == 'Given' else self.giver.name
         return {'details': self.details, 'entity': name, 'entity_id': entity_id, 'id': self.id}
 
         # name = self.receiver.name if direction == 'given' else self.giver.name
