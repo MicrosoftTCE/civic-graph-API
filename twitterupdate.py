@@ -6,13 +6,13 @@ from config import environ_get
 
 entities = Entity.query.filter(Entity.twitter_handle!=None).all()
 
-api = twitter.Api(environ_get('TWITTER_CONSUMER_KEY'),
-                  environ_get('TWITTER_CONSUMER_SECRET'),
-                  environ_get('TWITTER_ACCESS_TOKEN'),
-                  environ_get('TWITTER_ACCESS_TOKEN_SECRET'))
+api = twitter.Api(environ_get('consumer_key'),
+                  environ_get('consumer_secret'),
+                  environ_get('access_token_key'),
+                  environ_get('access_token_secret'))
 
 for entity in entities:
-    twitter_handle = entity.twitter_handle.strip('@ ')
+    twitter_handle = entity.twitter_handle.strip('@')
     if len(twitter_handle) > 0:
         try:
             time.sleep(6)
