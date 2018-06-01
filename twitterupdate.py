@@ -1,5 +1,5 @@
 import time
-import python-twitter
+import twitter
 from app.models import Entity
 from database import db
 from config import environ_get
