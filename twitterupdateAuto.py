@@ -1,4 +1,10 @@
-#Note, this file doesn't actually get used for anything. It's just the base template. You can use it to test inside the Kudu console in the virtual environment of Azure. The other file, twitterupdateAuto.py, is what is being run on a schedule inside Azure.
+import sys
+
+sitepackage = "D:\home\site\wwwroot\env\Lib\site-packages"
+appstuff = "D:\home\site\wwwroot"
+sys.path.append(sitepackage)
+sys.path.append(appstuff)
+
 import time
 import twitter
 from app.models import Entity
@@ -22,7 +28,7 @@ for entity in entities:
             description = user.description
             if followers:
                 #print entity.name, '; Actual: ', followers, '; Stored: ', entity.followers
-                entity.followers = followers
+				entity.followers = followers
             if description:
                 entity.description = description
         except:
@@ -32,3 +38,5 @@ for entity in entities:
         db.commit()
 db.commit()
 redis_store.flushdb()
+
+#This file should be added as a "webjob" to Azure with a scheduled time to run. I have it scheduled to run daily at 3am, Eastern
