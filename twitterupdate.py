@@ -4,7 +4,8 @@ from app.models import Entity
 from database import db
 from config import environ_get
 from app import cache
-
+from app import app
+from app import redis_store
 entities = Entity.query.filter(Entity.twitter_handle!=None).all()
 api = twitter.Api(environ_get('consumer_key'),
                   environ_get('consumer_secret'),
@@ -20,7 +21,7 @@ for entity in entities:
             description = user.description
             if followers:
                 #print entity.name, '; Actual: ', followers, '; Stored: ', entity.followers
-                entity.followers = followers
+            #    entity.followers = followers
             if description:
                 entity.description = description
         except:
@@ -29,3 +30,4 @@ for entity in entities:
     if (x % 100 == 0):
         db.commit()
 db.commit()
+redis_store.flushdb()
