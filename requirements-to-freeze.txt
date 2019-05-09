@@ -1,6 +1,6 @@
 azure
 flask
-Flask-Cache
+Flask-Caching
 SQLAlchemy
 redis
 PyMySQL

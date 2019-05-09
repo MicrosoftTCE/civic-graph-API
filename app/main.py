@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_cache import Cache
+from flask_caching import Cache
 from flask_redis import FlaskRedis
 
 from database import db
